@@ -1,0 +1,131 @@
+/* Default styles */
+
+@font-face {
+    font-family: "Poppins";
+    src: url("https://fonts.googleapis.com/css?family=Poppins");
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  :root {
+    --white: #ffffff;
+    --black: #000000;
+    --dark-blue: #141b47;
+    --mid-blue: #3542b8;
+    --high-gray: #9396aa;
+    --mid-gray: #e9e7f8;
+    --low-gray: #f5f5f5;
+    --dark-black-blue: #141721;
+    --dark-blue-gray: #1c202d;
+    --dark-light-blue: #4d5eff;
+    --red-status: #db0000;
+    --orange-status: #ea9000;
+    --green-status: #00ba2c;
+    --light-green-status: rgba(0, 195, 46, 0.15);
+    --light-red-status: rgba(243, 40, 40, 0.15);
+    --light-orange-status: rgba(255, 164, 18, 0.15);
+  }
+  
+  @tailwind base;
+  
+  @tailwind components;
+  
+  @tailwind utilities;
+  
+  * {
+    color: var(--font-color);
+  }
+  
+  body {
+    background-color: var(--bg-color);
+    width: 100%;
+  }
+  
+  .light-theme {
+    --box-shadow-card: 0px 7px 29px rgba(100, 100, 111, 0.2);
+  
+    /* General body colors */
+    --bg-color: var(--white);
+    --font-color: var(--dark-blue);
+  
+    /* Containers  */
+    --bg-container: var(--low-gray);
+  
+    /* Main menu */
+    --menu-icon: var(--black);
+    --bg-options-header-filters: var(--white);
+    --menu-box-shadow: 0px 10px 15px rgba(100, 100, 111, 0.16);
+    --bottom-line-separate-logo: var(--mid-gray);
+    --side-menu-border-color: var(--mid-gray);
+  
+    /* -> search bar in menu */
+    --menu-search-bar-icon-color: var(--black);
+    --menu-search-bar-font-color: var(--high-gray);
+    --menu-search-bar-bg-color: var(--low-gray);
+  
+    /* -> panel menu */
+    --menu-panel-icon-color: var(--mid-blue);
+    --menu-panel-bg-target: var(--mid-blue);
+    /* -> sub menu */
+    --menu-sub-fot-target-color: var(--mid-blue);
+  
+    --background-rows-hover: var(--mid-blue);
+  
+    --font-color-list-activate: var(--mid-blue);
+    --backgorund-color-list-activate: var(--mid-gray);
+  
+    --input-select-activate: var(--dark-black-blue);
+  }
+  
+  .dark-theme {
+    --box-shadow-card: 0px 7px 29px rgba(0, 0, 0, 0.3);
+  
+    /* General body colors */
+    --bg-color: var(--dark-black-blue);
+    --font-color: var(--white);
+  
+    /* Containers  */
+    --bg-container: var(--dark-blue-gray);
+  
+    /* Main menu */
+    --menu-icon: var(--white);
+    --bg-options-header-filters: var(--dark-blue-gray);
+    --menu-box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.08);
+    --bottom-line-separate-logo: var
+  }
+
+    .box.shadow.card.dark {
+        background: #d9d9d9;
+        box-shadow: 0px 7px 29px rgba(0, 0, 0, 0.3);
+      }
+    
+      /* Styles to change color icons*/
+      .back-to-white path {
+        fill: var(--menu-icon);
+      }
+      
+      /* preguntar por estos contenedores */
+      .box-shadow-card {
+        background: #d9d9d9;
+        box-shadow: 0px 7px 29px rgba(100, 100, 111, 0.2);
+      }
+      
+      .box-shadow-card-conte {
+        background: #d9d9d9;
+        box-shadow: 0px 6px 25px rgba(100, 100, 111, 0.08);
+      }
+      
+      .box-shadow-menu {
+        background: #d9d9d9;
+        box-shadow: 0px 10px 15px rgba(100, 100, 111, 0.16);
+      }
+      
+      .box.shadow.card.dark {
+        background: #d9d9d9;
+        box-shadow: 0px 7px 29px rgba(0, 0, 0, 0.3);
+      }
+      

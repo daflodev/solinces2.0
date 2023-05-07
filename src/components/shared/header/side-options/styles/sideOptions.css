@@ -1,0 +1,25 @@
+.side-options-container {
+    position: absolute;
+    z-index: 9999;
+    margin-left: calc(100vw - 56px);
+    margin-top: calc(100vh - calc(8.2rem + 126px));
+    padding: 0 10px 14px 0;
+}
+
+.side-options-element{
+    background-color: var(--bg-color);
+    width: 42px;
+    height: 106px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 5px 0 5px 0;
+    box-shadow: var(--menu-box-shadow);
+    border: 1px solid var(--side-menu-border-color);
+}
+
+.side-option-icon:hover{
+    cursor: pointer;
+}
