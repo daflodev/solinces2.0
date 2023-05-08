@@ -6,7 +6,7 @@ import { useJwtTool } from './utils/utils';
 
 function App() {
   
-  let intercep = interceptor();
+ const intercep = interceptor();
 
   console.log(intercep);
   

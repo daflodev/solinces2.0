@@ -4,23 +4,12 @@ import { EditableCellsHooks } from "./hooks/editableCellsHooks";
 import { FC, useEffect, useContext, useRef } from "react";
 import { EditableContext } from "./inputCells";
 
-//interface de tipado para pasar por props los datos editado
-interface EditableCellProps {
-  title: any;
-  editable: boolean;
-  children: React.ReactNode;
-  //dataIndex: keyof Item;
-  dataIndex: any;
-  //record: Item;
-  record: any;
-  //save: (record: Item) => void;
-  save: (record: any) => void;
-}
+
 
 import moment from 'moment-timezone';
 
 import 'moment/locale/es';
-import { DatePicker, Input, InputNumber, InputRef, Select } from "antd";
+import { DatePicker, Input, InputNumber, InputRef, Select, Form, } from "antd";
 
 const columnConditionsExtractor = (allColumnInformation:any, columnName:any) => {
 
