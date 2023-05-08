@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 
-// @ts-ignore
 // import { Link } from "@reach/router";
 import { Link, useHistory } from "react-router-dom";
-
-
-
 
 import { 
   footerMenuImage,

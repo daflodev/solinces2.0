@@ -1,5 +1,3 @@
-// @ts-ignore
-
 import { Select } from "antd";
 
 
@@ -16,8 +14,8 @@ const MultiSelect = ({
         <Select
             options={options}
             name={field.name}
-            value={options ? options.find(option => option.value === field.value) : ''}
-            onChange={(option) => {
+            value={options ? options.find((option: any) => option.value === field.value) : ''}
+            onChange={(option: any) => {
                 form.setFieldValue(field.name, option)
             }}
             onBlur={field.onBlur}

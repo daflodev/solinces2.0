@@ -1,5 +1,3 @@
-// @ts-ignore
-
 import { Dropdown } from "antd";
 
 import "./styles/menu-styles.css";

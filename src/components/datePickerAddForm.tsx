@@ -9,7 +9,7 @@ const DatePickerAddForm = ({
     placeholder = 'Select Date'
 }) => {
 
-    function formatDateISO8601(date) {
+    function formatDateISO8601(date: any) {
         const year = date.getUTCFullYear();
         const month = ('0' + (date.getUTCMonth() + 1)).slice(-2);
         const day = ('0' + date.getUTCDate()).slice(-2);
@@ -20,7 +20,7 @@ const DatePickerAddForm = ({
         return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
     }
 
-    const onChange = (value) =>{
+    const onChange = (value: any) =>{
 
         const date = new Date(value);
 

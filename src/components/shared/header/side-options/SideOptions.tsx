@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-// @ts-ignore
-
 import {
   youtubeIcon,
   moonIcon,

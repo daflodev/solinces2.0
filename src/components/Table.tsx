@@ -6,7 +6,7 @@ interface CompressTableProps {
   columns: any;
   items: any[];
   title?: any;
-  change_page?: (page: number, pageSize?: number) => void;
+  change_page?: (page: number, pageSize?: number) => void | null;
   loading?: boolean;
   with_pagination?: boolean;
   count?: number;

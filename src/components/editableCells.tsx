@@ -20,7 +20,7 @@ interface EditableCellProps {
 import moment from 'moment-timezone';
 
 import 'moment/locale/es';
-import { DatePicker, Input, InputNumber, InputRef, Select } from "antd";
+import { Form, DatePicker, Input, InputNumber, InputRef, Select } from "antd";
 
 const columnConditionsExtractor = (allColumnInformation:any, columnName:any) => {
 
@@ -113,7 +113,7 @@ export const EditableCell= ({
       renderValue = (
         <InputNumber
             ref={inputRef}
-            formatter={(value) => formattingNumberFunction(value, dataInformation,'.')}
+            formatter={(value: any) => formattingNumberFunction(value, dataInformation,'.')}
             onBlur={()=> {
               save(form, record, toggleEdit, children)
             }}
@@ -123,7 +123,7 @@ export const EditableCell= ({
             step="1"
             min="1" //TODO: se debe ajustar a ser parametrizado, lo mismo para la propiedad max
             precision={2}
-            onChange={(value)=>{
+            onChange={(value: any)=>{
               const formattedValue = formattingNumberFunction(value, dataInformation,'.')
 
               form.setFieldValue(title?.props?.name, formattedValue)

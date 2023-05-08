@@ -7,7 +7,7 @@ const InputAddNumber = ({
     placeholder
 }) => {
 
-    const insertSeparator = (number, maxLength, separatorCharacter = '', scale = 0) => {
+    const insertSeparator = (number: any, maxLength: any, separatorCharacter = '', scale = 0) => {
 
         let invertNumber = number?.split('')?.reverse()?.join('');
 
@@ -19,7 +19,7 @@ const InputAddNumber = ({
             invertNumber = validLengthValue
         }
 
-        const formateNumber = (n, maxStringLengthValue, scaleValue, s) => {
+        const formateNumber = (n: any, maxStringLengthValue: any, scaleValue: any, s: any) => {
 
             const preScaleValue = maxStringLengthValue - invertNumber?.length
 
@@ -51,7 +51,7 @@ const InputAddNumber = ({
         }
     }
 
-    const formattingValueWithPoint = (number, maxLength, separatorCharacter = '', scale = 0)=>{
+    const formattingValueWithPoint = (number: any, maxLength: any, separatorCharacter = '', scale = 0)=>{
 
         const splitByPoint = number.split('.');
 
@@ -79,14 +79,14 @@ const InputAddNumber = ({
         }
     }
 
-    const onChange = (value) => {
+    const onChange = (value: any) => {
 
         const processedValue = formattingNumberFunction(value, InputConditions, '.')
 
         form.setFieldValue(field.name, processedValue)
     };
 
-    const formattingNumberFunction = (value, baseConditions, separator) => {
+    const formattingNumberFunction = (value: any, baseConditions: any, separator: any) => {
 
         const stringValue = value?.toString()?.trim();
 
@@ -107,7 +107,7 @@ const InputAddNumber = ({
             <InputNumber
                 style={{'width': '75%'}}
                 name={field.name}
-                formatter={(value) => formattingNumberFunction(value, InputConditions, '.')}
+                formatter={(value: any) => formattingNumberFunction(value, InputConditions, '.')}
                 onChange={onChange}
                 onBlur={field.onBlur}
                 step="1"

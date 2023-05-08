@@ -5,8 +5,8 @@ import MultiSelect from "./selectedForm";
 import InputAddNumber from "./inputAddNumber";
 import DatePickerAddForm from "./datePickerAddForm";
 import { Yup } from '../utils/utils';
-import { Col, Form, Row } from 'antd';
-import { ErrorMessage, Field, Formik } from 'formik';
+import { Col, Row } from 'antd';
+import { ErrorMessage, Field, Formik, Form } from 'formik';
 
 const FormAdd = ({ setTitleState, keyValues, selectItem, FKGroupData, handleSubmit, itemsInformation }: { setTitleState:any, keyValues:any, selectItem:any, FKGroupData:any, handleSubmit:any, itemsInformation:any }) => {
 
@@ -45,7 +45,11 @@ const FormAdd = ({ setTitleState, keyValues, selectItem, FKGroupData, handleSubm
       reBuildName = reBuildName.replace('_PADRE', '');
     }
 
-    const options = data?.map((item:any) => {
+    if(reBuildName.includes('PK_TLV_') || reBuildName.includes('PK_TLISTA_VALOR_')){
+      reBuildName = 'PK_TLISTA_VALOR'
+    }
+
+    const options = data?.map((item) => {
       return({
         value: item[reBuildName], label: item.NOMBRE
       })
@@ -245,7 +249,10 @@ const FormAdd = ({ setTitleState, keyValues, selectItem, FKGroupData, handleSubm
         enableReinitialize
         initialValues={initialValuesPrimary}
         validationSchema = {validationForm}
-        onSubmit={(values, { resetForm }) => {
+        onSubmit={(values: any, { resetForm }) => {
+
+          console.log("submit")
+
           handleSubmit(values, setTitleState, selectItem);
           resetForm();
         }}

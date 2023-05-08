@@ -1,5 +1,3 @@
-// @ts-ignore
-
 import { searchIcon } from "../assets/icon/iconManager";
 import { useState } from "react";
 import { SelectableSearchHook } from "./hooks/selectableSearchHook";
@@ -49,7 +47,7 @@ const SelectableSearch = ({
                 options={options}
                 name={name}
                 value={options ? options.find((option:any) => option.value === optionSelected) : ''}
-                onChange={(option)=>{
+                onChange={(option: any)=>{
                     setOptionSelected(option)
                     onChange({
                         target: {

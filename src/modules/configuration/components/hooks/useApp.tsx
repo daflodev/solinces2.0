@@ -9,7 +9,6 @@ export const UseSettigns = () => {
 
   const params: any = useParams<{ type: any }>();
 
-  console.log('param', params)
   const [messageApi, contextHolder] = message.useMessage();
 
   // Estado para el cambio de idioma
@@ -27,7 +26,7 @@ export const UseSettigns = () => {
   const [visibleForm, setVisibleForm] = useState(false);
   // Provee el texto controlado por el ghestor de idiomas
 
-  const [dataTable, setDataTable] = useState<any[]>();
+  const [dataTable, setDataTable] = useState<any>();
 
   const [itemsColumnsInformation, setItemsColumnsInformation] = useState([]);
 
@@ -172,7 +171,7 @@ export const UseSettigns = () => {
   };
 
   const handleSelect = (item: any) => {
-    setDataTable([])
+    setDataTable(null)
     setSelectedItem(item);
     apiGet(item.key_table, setDataTable);
     handleOcultarForm();
@@ -308,7 +307,7 @@ export const UseSettigns = () => {
   //funcion para eliminar datos de la tabla y envio de mensjae de exitoso
   const handleDelete = async (key: React.Key) => {
     
-    const newData = data.filter((item) => item.key !== key);
+    const newData = data.filter((item: any) => item.key !== key);
     let keyPosicion = parseInt(key.toString());
 
     let whereUpdate = {
@@ -423,6 +422,59 @@ export const UseSettigns = () => {
       return getDataTable
       };
 
+     //data table for items list FK_TLV
+    const apiGetFKTLV = async (nameTable: any) => {
+
+      const formatedName = nameTable.toUpperCase()
+
+      const prevData = {
+        base: "",
+        schema: "ACADEMICO_TESTV1",
+        where: { "lista_valor.CATEGORIA": `'${formatedName}'` }
+      };
+
+      const getdata = changeKey(prevData, "base", 'lista_valor');
+
+      const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
+        const { getdata } = response
+
+        const res = getdata
+        return res
+      });
+      return getDataTable
+      };
+
+      const apiGetFKTFunsionario = async (nameTable: any) => {
+
+        const formatedName = nameTable.toUpperCase()
+  
+        const prevData = {  
+            funcionario: "",
+            schema:"ACADEMICO_TESTV1",
+            where: { "lista_valor.VALOR": `'${formatedName}'` },
+            concat: [["usuario.'PRIMER_NOMBRE'",
+                       "usuario.'SEGUNDO_NOMBRE'",
+                       "usuario.'PRIMER_APELLIDO'",
+                       "usuario.'SEGUNDO_APELLIDO'"], ["AS 'NOMBRE'"]],
+            join: [{ "table": "lista_valor",
+                       "columns": "",
+                       "on": ["PK_TLISTA_VALOR", "funcionario.FK_TLV_CLASE_FUNCIONARIO"] },
+                    {"table":"usuario",
+                             "columns": ["PK_TUSUARIO"],
+                             "on": ["PK_TUSUARIO", "funcionario.FK_TUSUARIO"] }]
+         };
+  
+        const getdata = changeKey(prevData, "base", 'lista_valor');
+  
+        const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
+          const { getdata } = response
+  
+          const res = getdata
+          return res
+        });
+        return getDataTable
+        };
+
   //funcion que va capturando los caracteres uno a uno en el input filter
   const handleFilterChange = ({ target }) => {
     const { name, value } = target;
@@ -519,15 +571,15 @@ export const UseSettigns = () => {
 
       // console.log("FK guardadas: ", fkGroup)
 
-      FKNameList.map((name:any) => {
+      FKNameList.map((name) => {
 
         let tableName = name.replace("FK_T", "");
 
-        if(tableName.includes('_PADRE')){
-          tableName = tableName.replace('_PADRE', '')
-        }
+        if(tableName.startsWith('LV_') || tableName.startsWith('LISTA_VALOR_')){
 
-          const prueba = apiGetFK(tableName.toLowerCase()).then((response) => {
+          const parserTablename = tableName.startsWith('LV_') ? tableName.replace('LV_', '') : tableName.replace('LISTA_VALOR_', '');
+
+          const prueba = apiGetFKTLV(parserTablename.toLowerCase()).then((response) => {
             const res = response
   
             answer = {
@@ -556,6 +608,76 @@ export const UseSettigns = () => {
             console.log(` error en ${name}: `, e)
 
           })
+
+        } else if(tableName.startsWith('FUNCIONARIO_')){
+
+            const parserTablename = tableName.replace('FUNCIONARIO_', '');
+
+            const prueba = apiGetFKTFunsionario(parserTablename.toLowerCase()).then((response) => {
+              const res = response
+    
+              answer = {
+                ... answer,
+                [name]: res
+              }
+    
+              }).then(()=>{
+    
+                setFkGroup({
+                  ... fkGroup,
+                  ...answer
+              })
+            }).catch((e) => {
+              // const pre = {
+              //   [name]: []
+              // }
+  
+              // console.log("el pre: ", pre)
+  
+              // setFkGroup({
+              //   ... fkGroup,
+              //   ...pre
+              // })
+  
+              console.log(` error en ${name}: `, e)
+  
+            })
+
+        }else {
+          if(tableName.includes('_PADRE')){
+            tableName = tableName.replace('_PADRE', '')
+          }
+  
+            const prueba = apiGetFK(tableName.toLowerCase()).then((response) => {
+              const res = response
+    
+              answer = {
+                ... answer,
+                [name]: res
+              }
+    
+              }).then(()=>{
+    
+                setFkGroup({
+                  ... fkGroup,
+                  ...answer
+              })
+            }).catch((e) => {
+              // const pre = {
+              //   [name]: []
+              // }
+  
+              // console.log("el pre: ", pre)
+  
+              // setFkGroup({
+              //   ... fkGroup,
+              //   ...pre
+              // })
+  
+              console.log(` error en ${name}: `, e)
+  
+            })
+        }
     })
   }
 
@@ -593,7 +715,7 @@ export const UseSettigns = () => {
         url: fatherOption
       }
 
-      const getDataTable = await apiGetThunksMenuItemsOptionsAsync(testOptionSelected).then((response) => {
+      const getDataTable = await apiGetThunksMenuItemsOptionsAsync(testOptionSelected).then((response: any) => {
 
         const theResponseOptions = response?.getdata
 

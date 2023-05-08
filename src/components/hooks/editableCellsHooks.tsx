@@ -11,7 +11,7 @@ export const EditableCellsHooks = (fkGroup, title) => {
     const [editingValueDate, setEditingValueDate] = useState({editingDate: false, value: null});
 
 
-    const determinateIfIsSelected = (titleSelected) => {
+    const determinateIfIsSelected = (titleSelected: any) => {
 
       let answer = false;
   
@@ -25,29 +25,41 @@ export const EditableCellsHooks = (fkGroup, title) => {
 
     const ifSelect = determinateIfIsSelected(title)
 
-    const optionsManager = (data, columnName) => {
+    const optionsManager = (data: any, columnName: any) => {
 
       let reBuilName = columnName?.replace("FK_T", "PK_T");
 
       if(reBuilName.includes('_PADRE')){
         reBuilName = reBuilName.replace('_PADRE', '')
       }
+
+      if(reBuilName.includes('PK_TLV_') || reBuilName.includes('PK_TLISTA_VALOR_')){
+        reBuilName = 'PK_TLISTA_VALOR'
+      }
+
+      console.log("rebuild name: ", reBuilName)
   
       const options = data.map((item) => {
         return({
           value: item[reBuilName], label: item.NOMBRE
         })
       }) 
-  
+
+      console.log("options: ", options)
+
       return options;
     };
 
-    const getDefaultValue = (key, columnName) => {
+    const getDefaultValue = (key: any, columnName: any) => {
 
       let reBuildName = columnName?.replace("FK_T", "PK_T");
 
       if(reBuildName.includes('_PADRE')){
         reBuildName = reBuildName.replace('_PADRE', '')
+      }
+
+      if(reBuildName.includes('PK_TLV_') || reBuildName.includes('PK_TLISTA_VALOR_')){
+        reBuildName = 'PK_TLISTA_VALOR'
       }
   
       const result = dataToSelect.filter((item)=>{
@@ -63,7 +75,7 @@ export const EditableCellsHooks = (fkGroup, title) => {
       }
     };
 
-    const insertSeparator = (number, maxLength, separatorCharacter = '', scale = 0) => {
+    const insertSeparator = (number: any, maxLength: any, separatorCharacter = '', scale = 0) => {
       let invertNumber = number?.split('')?.reverse()?.join('');
 
       if(invertNumber?.length > maxLength){
@@ -74,7 +86,7 @@ export const EditableCellsHooks = (fkGroup, title) => {
           invertNumber = validLengthValue
       }
 
-      const formateNumber = (n, maxStringLengthValue, scaleValue, s) => {
+      const formateNumber = (n: any, maxStringLengthValue: any, scaleValue: any, s: any) => {
 
           const preScaleValue = maxStringLengthValue - invertNumber?.length
 
@@ -106,7 +118,7 @@ export const EditableCellsHooks = (fkGroup, title) => {
       }
     }
 
-    const formattingValueWithPoint = (number, maxLength, separatorCharacter = '', scale = 0)=>{
+    const formattingValueWithPoint = (number: any, maxLength: any, separatorCharacter = '', scale = 0)=>{
 
       const splitByPoint = number.split('.');
 
@@ -134,7 +146,7 @@ export const EditableCellsHooks = (fkGroup, title) => {
       }
   }
 
-    const formattingNumberFunction = (value, baseConditions, separator) => {
+    const formattingNumberFunction = (value: any, baseConditions: any, separator: any) => {
 
       const stringValue = value?.toString()?.trim();
 
@@ -152,7 +164,7 @@ export const EditableCellsHooks = (fkGroup, title) => {
 
     const getTimeZone = () => Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    const buildDefaultValue = (date)=>{
+    const buildDefaultValue = (date: any)=>{
 
       if(date.includes('T00:00:00.000Z')){
 
