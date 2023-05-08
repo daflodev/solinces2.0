@@ -2,9 +2,20 @@ import { Button } from "antd";
 import { DropdownHeaderFilter } from "./DropdownHeaderFilter";
 import { MainMenu } from "./menu/menu";
 import { SideOptions } from "./side-options/SideOptions";
+import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie';
+import { logout } from "../../../services/helper/auth-helper";
 
   
 const HeaderComponent = () => {
+
+  const navigate = useNavigate();
+
+  // const Logout = () => {
+  //   navigate("/layout/configuracion");
+  //   localStorage.clear();
+
+  // }
 
     const itemsToTestHeaderFilter = [
         {
@@ -156,7 +167,7 @@ const HeaderComponent = () => {
             </div>
             <Button
               onClick={() => {
-                console.log('cerrar sesion')
+                logout()
               }}
             >
               Logout

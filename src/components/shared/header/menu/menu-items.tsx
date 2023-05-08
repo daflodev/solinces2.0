@@ -32,7 +32,6 @@ function dataSourceDigestor(dataSource:any) {
 
     dataSource.map((data:any) =>{
 
-      
       const icon:any = getIcon(data.ICONO);
       
       if(data.VISIBLE && data.VISIBLE === "S"){

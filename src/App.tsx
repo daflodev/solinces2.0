@@ -9,22 +9,6 @@ function App() {
   let intercep = interceptor();
 
   console.log(intercep);
-
-  getUser().then(user => {
-    if (user && user.access_token) {
-  
-        const { myDecodedToken, isMyTokenExpired } = useJwtTool(user.access_token);
-  
-        localStorage.setItem("user_token_information", JSON.stringify(myDecodedToken))
-  
-        console.log('decode Token:', myDecodedToken);
-        console.log('is expired token?:', isMyTokenExpired)
-        
-    } else {
-      login()
-    }
-  });
-
   
   return (
     <>

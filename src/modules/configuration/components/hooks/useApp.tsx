@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { UrlParamHook } from "./urlParamHook";
-
 import "../../testing.css";
 import { message } from "antd";
 import { apiGetThunksAsync, apiGetThunksMenuItemsOptionsAsync, apiPostThunksAsync } from "../../../../services/api/thunks";
+import { useParams } from "react-router-dom";
 
 export const UseSettigns = () => {
 
-  const { params } = UrlParamHook()
+  const params: any = useParams<{ type: any }>();
+
   console.log('param', params)
   const [messageApi, contextHolder] = message.useMessage();
 

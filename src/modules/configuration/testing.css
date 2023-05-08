@@ -1,6 +1,6 @@
 .card-container {
     background-color: var(--bg-container) !important;
-    height: calc(100vh - 8.2rem);
+    height: calc(100vh - 6.2rem);
     left: 14px;
     border-radius: 8px;
     width: calc(100vw - 2.5rem);
@@ -13,7 +13,7 @@
 
 .card-body {
     background-color: var(--bg-color);
-    height: calc(86vh - 4.2rem);
+    /* height: calc(86vh - 4.2rem); */
     width: calc(100vw - 275);
     border: none;
 }
