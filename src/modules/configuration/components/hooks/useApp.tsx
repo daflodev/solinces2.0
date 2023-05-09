@@ -112,7 +112,7 @@ export const UseSettigns = () => {
   const select_type = (params: any) => {
     const type: any = {
         'establecimiento': {
-           table:["CODIGO", "NOMBRE", "NIT", "FK_TMUNICIPIO", "FK_TLISTA_VALOR_ZONA", "FK_TPROPIEDAD_JURIDICA", "FK_TLV_CALENDARIO", "FK_TLV_ESTADO_ESTABLECIMIENTO"],
+           table:["PK_TESTABLECIMIENTO","CODIGO", "NOMBRE", "NIT", "FK_TMUNICIPIO", "FK_TLISTA_VALOR_ZONA", "FK_TPROPIEDAD_JURIDICA", "FK_TLV_CALENDARIO", "FK_TLV_ESTADO_ESTABLECIMIENTO"],
           //  table:["NOMBRE","CODIGO"],
         },
         'defauld': {
@@ -309,7 +309,6 @@ export const UseSettigns = () => {
     
     const newData = data.filter((item: any) => item.key !== key);
     let keyPosicion = parseInt(key.toString());
-
     let whereUpdate = {
       where: data[keyPosicion][`PK_T${selectedItem?.key_table.toUpperCase()}`],
     };
@@ -538,9 +537,7 @@ export const UseSettigns = () => {
             `update_${selectedItem?.key_table}`
           );
           (getdata["where"] = newWhere), (getdata["schema"] = "ACADEMICO_TESTV1");
-
-          console.log("enviando: ", getdata)
-    
+          
           await apiPostThunksAsync(getdata).then((response) => {
             if (response.success == "OK") {
               handleSave({ ...record, ...values });
