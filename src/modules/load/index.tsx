@@ -1,6 +1,6 @@
 import { Spin } from 'antd';
 import "./index.css"
-import { getUser, login } from '../../services/helper/auth-helper';
+import { getUser, login } from '../../utils/services/helper/auth-helper';
 import { useJwtTool } from '../../utils/utils';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';

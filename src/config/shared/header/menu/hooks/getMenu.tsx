@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { apiGetThunksMainMenuAsync } from "../../../../../services/api/thunks";
-import { login } from "../../../../../services/helper/auth-helper";
+import { apiGetThunksMainMenuAsync } from "../../../../../utils/services/api/thunks";
+import { login } from "../../../../../utils/services/helper/auth-helper";
 
 export const GetMenu = () => {
   const getItem : any =  localStorage.getItem("user_token_information") ?? null;

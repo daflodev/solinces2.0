@@ -2,19 +2,17 @@ import { Button } from "antd";
 import { DropdownHeaderFilter } from "./DropdownHeaderFilter";
 import { MainMenu } from "./menu/menu";
 import { SideOptions } from "./side-options/SideOptions";
-import { useNavigate } from "react-router-dom";
-import Cookies from 'js-cookie';
-import { logout } from "../../../services/helper/auth-helper";
-import { apiGetThunksAsync } from "../../../services/api/thunks";
 
-import default_cede_image from "../../../assets/nav/images/rectangle-25-XRi.png";
+import default_cede_image from "../../../utils/assets/nav/images/rectangle-25-XRi.png";
 
-import icon_one from "../../../assets/nav/images/rectangle-26-HCC.png";
-import icon_two from "../../../assets/nav/images/rectangle-27-r3z.png";
-import icon_three from "../../../assets/nav/images/bell.png";
-import icon_four from "../../../assets/nav/images/rectangle-25.png";
+import icon_one from "../../../utils/assets/nav/images/rectangle-26-HCC.png";
+import icon_two from "../../../utils/assets/nav/images/rectangle-27-r3z.png";
+import icon_three from "../../../utils/assets/nav/images/bell.png";
+import icon_four from "../../../utils/assets/nav/images/rectangle-25.png";
 
 import { Link } from "react-router-dom";
+import { apiGetThunksAsync } from "../../../utils/services/api/thunks";
+import { logout } from "../../../utils/services/helper/auth-helper";
 
 
 const itemsToTestHeaderFilter = [
@@ -87,7 +85,9 @@ const HeaderComponent = () => {
       };
 
       const getDataTable = await apiGetThunksAsync(prevData).then((response) => {
-        const { getdata } = response
+        const { getdata }: any = response
+
+        console.log("response heared options: ", getdata)
 
         const res = getdata
         return res
@@ -169,7 +169,7 @@ const HeaderComponent = () => {
                     src="./assets/nav/images/frame-58.png"
                   />
                 </div>
-                  {/* {generatorUnderFilterOptions()} */}
+                  {generatorUnderFilterOptions()}
                 </div>
             </div>
           </div>

@@ -6,7 +6,7 @@ import { DatePicker } from "antd";
 const DatePickerAddForm = ({
     field,
     form,
-    placeholder = 'Select Date'
+    placeholder = "select Date"
 }) => {
 
     function formatDateISO8601(date: any) {
@@ -31,7 +31,7 @@ const DatePickerAddForm = ({
 
     return (
         <DatePicker 
-            label={placeholder} 
+            placeholder={placeholder}
             format="DD/MM/YYYY"
             onChange={onChange}
             onBlur={field.onBlur}

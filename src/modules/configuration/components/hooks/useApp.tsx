@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 
-import "../../testing.css";
+import "../../../../utils/assets/styles/testing.css";
 import { message } from "antd";
-import { apiGetThunksAsync, apiGetThunksMenuItemsOptionsAsync, apiPostThunksAsync } from "../../../../services/api/thunks";
+import { apiGetThunksAsync, apiGetThunksMenuItemsOptionsAsync, apiPostThunksAsync } from "../../../../utils/services/api/thunks";
 import { useParams } from "react-router-dom";
 
 export const UseSettigns = () => {

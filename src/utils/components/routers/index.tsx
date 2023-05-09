@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Settings from "../../modules/configuration";
-import LoadPages from "../../modules/load";
+import Settings from "../../../modules/configuration";
+import LoadPages from "../../../modules/load";
 
 
 const AppRouter = () => {
