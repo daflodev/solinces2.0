@@ -7,6 +7,13 @@ import Cookies from 'js-cookie';
 import { logout } from "../../../services/helper/auth-helper";
 import { apiGetThunksAsync } from "../../../services/api/thunks";
 
+import default_cede_image from "../../../assets/nav/images/rectangle-25-XRi.png";
+
+import icon_one from "../../../assets/nav/images/rectangle-26-HCC.png";
+import icon_two from "../../../assets/nav/images/rectangle-27-r3z.png";
+import icon_three from "../../../assets/nav/images/bell.png";
+import icon_four from "../../../assets/nav/images/rectangle-25.png";
+
 import { Link } from "react-router-dom";
 
 
@@ -150,10 +157,10 @@ const HeaderComponent = () => {
           <div className="frame-61-Lnk">
             <div className="frame-54-Utx">
               {/* TODO: remplazar el asset que viene a continuacion por uno default */}
-              {/* <img
-                className="rectangle-25-dWx"
-                // src={managerAssetsRoots("nav/images/rectangle-25-XRi.png")}
-              /> */}
+              <img
+                className= "rectangle-25-dWx"
+                src= {default_cede_image}
+              />
               <div className="frame-56-wGk">
                 <div className="frame-68-69e">
                   <div className="frame-53-pbS">IE SOLEDAD ACOSTA</div>
@@ -170,26 +177,26 @@ const HeaderComponent = () => {
           <div className="frame-61-Lnk">
             <div className="frame-59-WKA">
               <div className="auto-group-ukst-F1r">
-                {/* <img
+                <img
                   className="rectangle-26-BAQ"
-                  src="/home/lsv/Escritorio/Solinces_2/solinces_2.5/src/assets/nav/images/rectangle-26-HCC.png"
-                /> */}
-                {/* <img
+                  src={icon_one}
+                />
+                <img
                   className="rectangle-27-WCg"
-                  src={managerAssetsRoots("nav/images/rectangle-27-r3z.png")}
-                /> */}
-                {/* <Link key="/base/caracter" to="/base/caracter">
+                  src={icon_two}
+                />
+                <Link key="/base/caracter" to="/base/caracter">
                   <img
                     className="bell-qEx"
-                    src={managerAssetsRoots("nav/images/bell.png")}
+                    src={icon_three}
                   />
-                </Link> */}
+                </Link>
               </div>
               {/* TODO: remplazar el asset que viene a continuacion por uno default */}
-              {/* <img
+              <img
                 className="rectangle-25-yrx"
-                src={managerAssetsRoots("nav/images/rectangle-25.png")}
-              /> */}
+                src={icon_four}
+              />
             </div>
           </div>
           <Button
