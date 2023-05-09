@@ -1,5 +1,5 @@
 import React from "react";
-import HeaderComponent from "./shared/header/header";
+import HeaderComponent from "../../../config/shared/header";
 
 
 const ContentComponents = ({ children }: {children: any}) => {

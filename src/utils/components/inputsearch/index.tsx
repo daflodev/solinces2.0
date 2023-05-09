@@ -1,11 +1,11 @@
 // @ts-ignore
-import ".././modules/configuration/testing.css";
+import "../../assets/styles/testing.css";
 import { FC } from "react";
-import { InputSearchHooks } from "./hooks/inputSearchHooks";
 
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { Input, Space } from "antd";
-import { searchIcon } from "../assets/icon/iconManager";
+import { InputSearchHooks } from "../../../config/hooks/inputSearchHooks";
+import { searchIcon } from "../../assets/icon/iconManager";
 
 interface inputSearch {
   SearchFilter?: string;

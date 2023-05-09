@@ -1,6 +1,6 @@
+import { Empty, Table, TablePaginationConfig } from "antd";
 import React, { FC } from "react";
 // @ts-ignore
-import { antDesign, TablePaginationConfig } from "@LSV/ut-react-libraries";
 
 interface CompressTableProps {
   columns: any;
@@ -15,7 +15,6 @@ interface CompressTableProps {
   className?: any;
 }
 
-const { Table, Empty } = antDesign;
 
 const getPaginator = (
   total: any,

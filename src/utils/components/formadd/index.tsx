@@ -1,12 +1,11 @@
 import { SaveOutlined } from '@ant-design/icons';
 
-
-import MultiSelect from "./selectedForm";
-import InputAddNumber from "./inputAddNumber";
-import DatePickerAddForm from "./datePickerAddForm";
-import { Yup } from '../utils/utils';
 import { Col, Row } from 'antd';
 import { ErrorMessage, Field, Formik, Form } from 'formik';
+import { Yup } from '../../utils';
+import MultiSelect from '../selectedform';
+import InputAddNumber from '../inputaddnumber';
+import DatePickerAddForm from '../datepickeraddform';
 
 const FormAdd = ({ setTitleState, keyValues, selectItem, FKGroupData, handleSubmit, itemsInformation }: { setTitleState:any, keyValues:any, selectItem:any, FKGroupData:any, handleSubmit:any, itemsInformation:any }) => {
 
@@ -49,7 +48,7 @@ const FormAdd = ({ setTitleState, keyValues, selectItem, FKGroupData, handleSubm
       reBuildName = 'PK_TLISTA_VALOR'
     }
 
-    const options = data?.map((item) => {
+    const options = data?.map((item:any) => {
       return({
         value: item[reBuildName], label: item.NOMBRE
       })

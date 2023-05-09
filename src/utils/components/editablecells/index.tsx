@@ -1,8 +1,6 @@
 import React from "react";
-import "../modules/configuration/testing.css";
-import { EditableCellsHooks } from "./hooks/editableCellsHooks";
+import "../../assets/styles/testing.css";
 import { FC, useEffect, useContext, useRef } from "react";
-import { EditableContext } from "./inputCells";
 
 //interface de tipado para pasar por props los datos editado
 interface EditableCellProps {
@@ -20,7 +18,9 @@ interface EditableCellProps {
 import moment from 'moment-timezone';
 
 import 'moment/locale/es';
-import { Form, DatePicker, Input, InputNumber, InputRef, Select } from "antd";
+import { DatePicker, Form, Input, InputNumber, InputRef, Select } from "antd";
+import { EditableCellsHooks } from "../../../config/hooks/editableCellsHooks";
+import { EditableContext } from "../inputcells";
 
 const columnConditionsExtractor = (allColumnInformation:any, columnName:any) => {
 
@@ -70,6 +70,7 @@ export const EditableCell= ({
 
   // setea los datos del campo de edicion
   const toggleEdit = () => {
+    console.log('aqui')
     setEditing(!editing);
     form.setFieldsValue({ [dataIndex]: record[dataIndex] });
   };
@@ -113,7 +114,7 @@ export const EditableCell= ({
       renderValue = (
         <InputNumber
             ref={inputRef}
-            formatter={(value: any) => formattingNumberFunction(value, dataInformation,'.')}
+            formatter={(value) => formattingNumberFunction(value, dataInformation,'.')}
             onBlur={()=> {
               save(form, record, toggleEdit, children)
             }}
@@ -123,7 +124,7 @@ export const EditableCell= ({
             step="1"
             min="1" //TODO: se debe ajustar a ser parametrizado, lo mismo para la propiedad max
             precision={2}
-            onChange={(value: any)=>{
+            onChange={(value)=>{
               const formattedValue = formattingNumberFunction(value, dataInformation,'.')
 
               form.setFieldValue(title?.props?.name, formattedValue)

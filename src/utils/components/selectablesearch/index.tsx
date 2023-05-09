@@ -1,9 +1,9 @@
-import { searchIcon } from "../assets/icon/iconManager";
+import { searchIcon } from "../../assets/icon/iconManager";
 import { useState } from "react";
-import { SelectableSearchHook } from "./hooks/selectableSearchHook";
 
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { Button, Select, Space } from "antd";
+import { SelectableSearchHook } from "../../../config/hooks/selectableSearchHook";
 
 const SelectableSearch = ({
     onChange,
