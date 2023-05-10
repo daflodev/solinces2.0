@@ -141,6 +141,7 @@ const Settings: React.FC = () => {
       // fixed: 'right',
       render: (_, record: { key: React.Key }) => (
         <>
+        {/* @ts-ignore */}
           {settingOptions?.length >= 1 ? (
             <Popconfirm
               title="seguro desea eliminar?"
@@ -229,6 +230,7 @@ const Settings: React.FC = () => {
                     <Col span={24}>
                       {settingOptions ? 
                       <ul id="mi-lista">
+                        {/* @ts-ignore */}
                         {settingOptions?.map((item: any) => (
                           // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
                           <li
@@ -253,16 +255,19 @@ const Settings: React.FC = () => {
                             selectedRowKeys,
                             onChange: onSelectChange,
                           }}
+                          // @ts-ignore
                           rowKey={`PK_T${selectedItem.key_table?.toUpperCase()}`}
                           rowClassName={() => "editable-row"}
                           dataSource={data}
                           loading={
                             {
                               indicator: <Spin tip="" size="large"/>,
+                              // @ts-ignore
                               spinning: (!dataTable || settingOptions?.length === 0) ? true : false
                             }
                           }
                           scroll={{ x: 500 }}
+                          // @ts-ignore
                           columns={columnS as ColumnTypes}
                           title={() => {
                             return (
@@ -285,6 +290,7 @@ const Settings: React.FC = () => {
                                     <>
                                       <Popconfirm
                                         title="seguro desea eliminar?"
+                                        // @ts-ignore
                                         onConfirm={handleDeleteGroup}
                                         style={{ visibility: "hidden" }}
                                       >

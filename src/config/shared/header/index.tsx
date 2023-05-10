@@ -86,9 +86,8 @@ const HeaderComponent = () => {
 
   const generatorUnderFilterOptions = () => {
 
-    const currentRol = localStorage.getItem('current_rol');
-
-    const parserCurrentRol: string | null = currentRol ? JSON.parse(currentRol) : null;
+    const currentRol = localStorage.getItem('user_token_information');
+    const parserCurrentRol: any | null = currentRol ? JSON.parse(currentRol) : null;
 
     console.log("rol: ", parserCurrentRol)
 
@@ -111,9 +110,8 @@ const HeaderComponent = () => {
       };
 
     apiGetFK()
-
     //TODO: regresar condicion != "SUPER_ADMINISTRADOR" cuando se considere listo el filtrado de opciones relaiconadas con cede
-    if(parserCurrentRol){
+    if(parserCurrentRol?.rol[0] !== "SUPER_ADMINISTRADOR"){
 
       return(
         <div className="frame-67-s3v">

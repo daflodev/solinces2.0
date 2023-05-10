@@ -1,5 +1,5 @@
 import { Empty, Table, TablePaginationConfig } from "antd";
-import React, { FC } from "react";
+import { FC } from "react";
 // @ts-ignore
 
 interface CompressTableProps {
@@ -32,6 +32,7 @@ const getPaginator = (
           showQuickJumper: true,
         }
       : {}),
+      // @ts-ignore
     showTotal: (total /*, current*/) => {
       return (
         <div>
@@ -60,6 +61,7 @@ const CompressTable: FC<CompressTableProps> = ({
   with_pagination,
   scroll,
   description,
+  // @ts-ignore
   className,
 }) => {
   items = Array.isArray(items) ? items : [];
@@ -102,6 +104,7 @@ const CompressTable: FC<CompressTableProps> = ({
 
 CompressTable.defaultProps = {
   items: [],
+  // @ts-ignore
   change_page: null,
   loading: false,
   with_pagination: true,

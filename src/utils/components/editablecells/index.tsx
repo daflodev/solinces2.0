@@ -1,8 +1,9 @@
 import React from "react";
 import "../../assets/styles/testing.css";
-import { FC, useEffect, useContext, useRef } from "react";
+import { useEffect, useContext, useRef } from "react";
 
 //interface de tipado para pasar por props los datos editado
+// @ts-ignore
 interface EditableCellProps {
   title: any;
   editable: boolean;
@@ -83,6 +84,7 @@ export const EditableCell= ({
       renderValue = (
         dataToSelect ? (
           <Select
+          // @ts-ignore
             ref={inputRef}
             onPressEnter={()=>save(form, record, toggleEdit, children)}
             onBlur={()=>save(form, record, toggleEdit, children)}
@@ -113,6 +115,7 @@ export const EditableCell= ({
 
       renderValue = (
         <InputNumber
+        // @ts-ignore
             ref={inputRef}
             formatter={(value) => formattingNumberFunction(value, dataInformation,'.')}
             onBlur={()=> {
@@ -143,7 +146,7 @@ export const EditableCell= ({
   const switchBetweenDatePickerAndFormItem = ()=>{
 
     if(columnInformation?.data_type === "date"){
-
+// @ts-ignore
       const defaultDateValue = buildDefaultValue(children[1]);
 
       return (
@@ -153,7 +156,7 @@ export const EditableCell= ({
               const date = new Date(value);
 
               const newDate = moment(date).tz('America/Bogota').format();
-
+// @ts-ignore
               setEditingValueDate({editingDate: true, value:{[title?.props?.name]: newDate}})
             }}
             onBlur={()=> {
@@ -162,6 +165,7 @@ export const EditableCell= ({
             onPressEnter={()=>{
               save(editingValueDate, record, toggleEdit, children)
             }}
+            // @ts-ignore
             locale={moment.locale('es')}
         />
       )
