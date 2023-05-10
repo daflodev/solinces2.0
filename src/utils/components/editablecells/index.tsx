@@ -188,7 +188,7 @@ export const EditableCell= ({
           'height': "100%",
           'opacity': 0,
           'pointerEvents': "auto"
-        } : {paddingRight: 24}}
+        } : {}}
         onClick={toggleEdit}
         onKeyDown={toggleEdit}
       >

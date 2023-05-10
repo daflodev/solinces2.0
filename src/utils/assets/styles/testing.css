@@ -29,17 +29,40 @@ table {
     border-top: none !important;
 }
 
-.ant-table-wrapper .ant-table-thead >tr>th{
-    font-weight: 400 !important;
+.ant-table-wrapper .ant-table-thead>tr>th {
+    font-weight: 400;
+    padding: 6px !important;
+    font-size: 14px !important;
+    height: 50px;
+    width: 50px;
+    color: var(--high-gray) !important;
+    
 }
 
+th.ant-table-cell .ant-space-item{
+    color: var(--high-gray) !important;
+    
+}
+
+.ant-space .ant-input {
+    padding-top: 0px;
+    padding-left: 12px;
+    padding-bottom: 0px;
+    background-color: var(--bg-color) !important;
+}
+.ant-space-item .ant-input::placeholder {
+    color: var(--high-gray);
+}
 
 tr.editable-row:hover td.ant-table-cell {
     background-color: var(--background-rows-hover) !important;
 }
 
-
-
+.ant-table-wrapper .ant-table-tbody>tr>td{
+    padding: 6px !important;
+    font-size: 14px !important;
+    height: 50px;
+}
 
 .editable-cell {
     position: relative;
@@ -47,20 +70,40 @@ tr.editable-row:hover td.ant-table-cell {
 
 .editable-cell-value-wrap {
     cursor: pointer;
-    width: max-content; 
-    padding: 5px 12px;
+    width: 210px;
+    padding-left:6px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
 }
 
-.editable-row:hover .editable-cell-value-wrap {
+.editable-cell-value-wrap:hover {
     border: 1px solid #d9d9d9;
-    border-radius: 2px;
+    border-radius: 4px;
     color: white;
-    padding: 4px 11px;
 }
 
-.ant-select-selection-search ::placeholder {
-    color: var(--input-select-activate) !important;
+.ant-form-item {
+    width: 210px;
+   
+
 }
+
+
+
+.ant-form-item .ant-input {
+    height: 18px;
+    padding-left: 5px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color: var(--bg-color) !important;
+    color: white;
+}
+
+
+
+
 
 .ant-table-container {
     border-left: none !important;
@@ -73,18 +116,12 @@ thead .ant-table-cell {
     background-color: var(--bg-color) !important;
 }
 
-.ant-table-placeholder {
-    background-color: var(--bg-color) !important;
-}
-
 tr.ant-table-row-selected.editable-row {
     background-color: var(--background-rows-hover) !important;
 }
 
 
-.ant-space-item .ant-input::placeholder {
-    color: var(--high-gray);
-}
+
 
 .ant-select-item-option {
     background-color: var(--bg-color) !important;
@@ -94,6 +131,8 @@ tr.ant-table-row-selected.editable-row {
 .ant-select-item-option:hover {
     background-color: var(--background-rows-hover) !important;
 }
+
+
 .ant-select-selector {
     font-family: 'Roboto';
     font-style: normal;
@@ -101,7 +140,9 @@ tr.ant-table-row-selected.editable-row {
     font-size: 14px;
     align-items: center;
     background-color: var(--bg-color) !important;
-    color: var(--font-color) !important;
+}
+.ant-select-selection-placeholder{
+    color: var(--high-gray) !important;
 }
 
 .mostrarOcultar {
@@ -110,10 +151,10 @@ tr.ant-table-row-selected.editable-row {
     background-color: var(--bg-color) !important;
     color: var(--input-select-activate) !important;
     max-width: max-content;
-    align-items: center !important;  
+    align-items: center !important;
 }
 
-.mostrarOcultar:hover{
+.mostrarOcultar:hover {
     border: 1px solid var(--background-rows-hover) !important;
 }
 
@@ -131,7 +172,8 @@ tr.ant-table-row-selected.editable-row {
 
 
 }
-.ant-pagination-item.ant-pagination-item-active{
+
+.ant-pagination-item.ant-pagination-item-active {
     background-color: var(--bg-color);
 }
 
@@ -184,6 +226,7 @@ tr.ant-table-row-selected.editable-row {
 .closeCardForm .ant-btn {
     border: none !important;
 }
+
 .ant-table-row.ant-table-row-level-0:hover>td .iconDelete {
     visibility: visible !important;
 }
@@ -230,5 +273,4 @@ tr.ant-table-row-selected.editable-row {
 .changes-color {
     color: var(--font-color-list-activate) !important;
     background-color: var(--backgorund-color-list-activate) !important;
-} 
-
+}
