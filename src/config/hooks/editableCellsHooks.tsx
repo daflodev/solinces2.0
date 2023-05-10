@@ -62,14 +62,14 @@ export const EditableCellsHooks = (fkGroup, title) => {
         reBuildName = 'PK_TLISTA_VALOR'
       }
   
-      const result = dataToSelect.filter((item)=>{
+      const result : any = dataToSelect.filter((item:any)=>{
         if (item[reBuildName] == key) {
           return item.NOMBRE;
         }
       })
   
       if (result.length > 0) {
-        return result[0].NOMBRE;
+        return result[0]?.NOMBRE;
       } else {
         return "Cargando...";
       }

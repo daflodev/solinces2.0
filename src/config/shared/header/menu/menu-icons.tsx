@@ -132,5 +132,11 @@ export {
     footerMenuImage,
     searchIcon,
     downDirectionVector,
-    getIcon
+    getIcon,
+    editIcon,
+    bookIcon,
+    checkSquareIcon,
+    calendarIcon,
+    trelloIcon,
+    videoIcon,
     }

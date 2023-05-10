@@ -31,6 +31,7 @@ const DatePickerAddForm = ({
 
     return (
         <DatePicker 
+        // @ts-ignore
             label={placeholder} 
             format="DD/MM/YYYY"
             onChange={onChange}

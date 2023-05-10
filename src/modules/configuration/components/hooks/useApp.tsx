@@ -309,13 +309,14 @@ export const UseSettigns = () => {
     
     const newData = data.filter((item: any) => item.key !== key);
     let keyPosicion = parseInt(key.toString());
+    const selecteditem: any = selectedItem;
     let whereUpdate = {
-      where: data[keyPosicion][`PK_T${selectedItem?.key_table.toUpperCase()}`],
+      where: data[keyPosicion][`PK_T${selecteditem?.key_table.toUpperCase()}`],
     };
     const newWhere = changeKey(
       whereUpdate,
       "where",
-      `PK_T${selectedItem?.key_table.toUpperCase()}`
+      `PK_T${selecteditem?.key_table.toUpperCase()}`
     );
 
     const sendData = {
@@ -357,9 +358,13 @@ export const UseSettigns = () => {
     setSelectedRowKeys(newSelectedRowKeys)
   };
 
+  // @ts-ignore
   const handleDeleteGroup = async (key: React.Key) => {
-    const newData = data.filter((item:any) => !selectedRowKeys.includes(item.key));
     
+    // @ts-ignore
+    const newData = data.filter((item: any) => !selectedRowKeys.includes(item.key));
+    
+    const selecteditem: any = selectedItem;
 
     let whereUpdate = {
       where: selectedRowKeys,
@@ -367,7 +372,7 @@ export const UseSettigns = () => {
     const newWhere = changeKey(
       whereUpdate,
       "where",
-      `PK_T${selectedItem.key_table.toUpperCase()}`
+      `PK_T${selecteditem?.key_table.toUpperCase()}`
     );
 
     const sendData = {
@@ -413,7 +418,7 @@ export const UseSettigns = () => {
       const getdata = changeKey(prevData, "base", nameTable);
 
       const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
-        const { getdata } = response
+        const { getdata }: any = response
 
         const res = getdata
         return res
@@ -435,7 +440,7 @@ export const UseSettigns = () => {
       const getdata = changeKey(prevData, "base", 'lista_valor');
 
       const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
-        const { getdata } = response
+        const { getdata }: any = response
 
         const res = getdata
         return res
@@ -466,7 +471,7 @@ export const UseSettigns = () => {
         const getdata = changeKey(prevData, "base", 'lista_valor');
   
         const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
-          const { getdata } = response
+          const { getdata }: any = response
   
           const res = getdata
           return res
@@ -503,7 +508,8 @@ export const UseSettigns = () => {
     // envio de datos de la edicion (necesita integracion a DB)
     const save = async (form:any, record:any, toggleEdit:any, oldValue:any) => {
       try {
-        const primaryKey = `PK_T${selectedItem.key_table.toUpperCase()}`;
+        const selecteditem: any = selectedItem;
+        const primaryKey = `PK_T${selecteditem?.key_table.toUpperCase()}`;
 
         let whereUpdate = {
           where: record[primaryKey],
@@ -511,7 +517,7 @@ export const UseSettigns = () => {
         const newWhere = changeKey(
           whereUpdate,
           "where",
-          `PK_T${selectedItem.key_table.toUpperCase()}`
+          `PK_T${selecteditem.key_table.toUpperCase()}`
         );
 
         let values = {}
@@ -559,7 +565,7 @@ export const UseSettigns = () => {
         toggleEdit();
 
       } catch (errInfo) {
-        message("Save failed:", errInfo);
+        // message("Save failed:", errInfo);
       }
     };
 
@@ -575,7 +581,7 @@ export const UseSettigns = () => {
         if(tableName.startsWith('LV_') || tableName.startsWith('LISTA_VALOR_')){
 
           const parserTablename = tableName.startsWith('LV_') ? tableName.replace('LV_', '') : tableName.replace('LISTA_VALOR_', '');
-
+          // @ts-ignore
           const prueba = apiGetFKTLV(parserTablename.toLowerCase()).then((response) => {
             const res = response
   
@@ -609,7 +615,7 @@ export const UseSettigns = () => {
         } else if(tableName.startsWith('FUNCIONARIO_')){
 
             const parserTablename = tableName.replace('FUNCIONARIO_', '');
-
+            // @ts-ignore
             const prueba = apiGetFKTFunsionario(parserTablename.toLowerCase()).then((response) => {
               const res = response
     
@@ -645,35 +651,7 @@ export const UseSettigns = () => {
             tableName = tableName.replace('_PADRE', '')
           }
   
-            const prueba = apiGetFK(tableName.toLowerCase()).then((response) => {
-              const res = response
-    
-              answer = {
-                ... answer,
-                [name]: res
-              }
-    
-              }).then(()=>{
-    
-                setFkGroup({
-                  ... fkGroup,
-                  ...answer
-              })
-            }).catch((e) => {
-              // const pre = {
-              //   [name]: []
-              // }
-  
-              // console.log("el pre: ", pre)
-  
-              // setFkGroup({
-              //   ... fkGroup,
-              //   ...pre
-              // })
-  
-              console.log(` error en ${name}: `, e)
-  
-            })
+           
         }
     })
   }
@@ -711,7 +689,7 @@ export const UseSettigns = () => {
       const testOptionSelected = {
         url: fatherOption
       }
-
+      // @ts-ignore
       const getDataTable = await apiGetThunksMenuItemsOptionsAsync(testOptionSelected).then((response: any) => {
 
         const theResponseOptions = response?.getdata
@@ -813,6 +791,8 @@ export const UseSettigns = () => {
     save,
     fkGroup,
     itemsColumnsInformation,
-    params
+    params,
+    messageApi,
+    setLanguage,
   };
 };

@@ -5,6 +5,7 @@ const MultiSelect = ({
     field,
     form,
     options,
+    // @ts-ignore
     isMulti = false,
     placeholder = 'Select',
     filterOption
@@ -13,6 +14,7 @@ const MultiSelect = ({
     return (
         <Select
             options={options}
+            // @ts-ignore
             name={field.name}
             value={options ? options.find((option: any) => option.value === field.value) : ''}
             onChange={(option: any) => {

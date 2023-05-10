@@ -257,6 +257,7 @@ const FormAdd = ({ setTitleState, keyValues, selectItem, FKGroupData, handleSubm
         }}
         
       >
+        {/* @ts-ignore */}
         {({ setFieldValue, errors, touched, values }) => (
           <Form className="formulario">
             <div className="col-12">

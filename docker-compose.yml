@@ -1,0 +1,17 @@
+version: '3.4'
+services:
+    solinces-frontend:
+      image: solinces-frontend
+      container_name: solinces-frontend
+      stdin_open: true
+      build:
+        context: .
+        dockerfile: Dockerfile
+      expose:
+        - 8080
+      ports:
+        - 9000:80
+      # environment:
+      #     - CHOKIDAR_USEPOLLING=true
+      #     - REACT_APP_TEST=http://201.219.216.217:4002
+      #     - REACT_APP_API_VERSION=/api/v1
