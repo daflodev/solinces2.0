@@ -1,20 +1,21 @@
 import React from "react";
 
-import "./testing.css";
+import "../../utils/assets/styles/testing.css";
 
 import { useEffect } from "react";
 
-import { withPrincipal } from "../../components/content";
 import { Card, Col, Popconfirm, Row, Spin, Table } from "antd";
 import { SettingOutlined, CloseOutlined } from '@ant-design/icons';
 
 import { UseSettigns } from "./components/hooks/useApp";
-import SelectableSearch from "../../components/selectableSearch";
-import { InputSearch } from "../../components/inputSearch";
-import { MinusOutlined, PlusOutlined, deleteIcon, downloadIcon } from "../../assets/icon/iconManager";
-import { EditableRow } from "../../components/inputCells";
-import { EditableCell } from "../../components/editableCells";
-import FormAdd from "../../components/formAdd";
+import { MinusOutlined, PlusOutlined, deleteIcon, downloadIcon } from "../../utils/assets/icon/iconManager";
+import FormAdd from "../../utils/components/formadd";
+import SelectableSearch from "../../utils/components/selectablesearch";
+import { InputSearch } from "../../utils/components/inputsearch";
+import { EditableRow } from "../../utils/components/inputcells";
+import { EditableCell } from "../../utils/components/editablecells";
+import { withPrincipal } from "../../utils/components/content";
+
 
 
 type EditableTableProps = Parameters<typeof Table>[0];
