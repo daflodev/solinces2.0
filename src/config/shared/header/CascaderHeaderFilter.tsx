@@ -21,7 +21,7 @@ const CascaderHeaderFilter: React.FC<CampusOptions[]> = (options) => (
     displayRender={displayRender}
     onChange={onChange}
     //TODO: debe tomar el valor del primero con el que va a cargar
-    defaultValue="hola"
+    //defaultValue=""
   />
 );
 

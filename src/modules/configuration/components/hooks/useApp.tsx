@@ -14,7 +14,7 @@ export const UseSettigns = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   // Estado para el cambio de idioma
-  const [language, setLanguage] = useState(null);
+  //const [language, setLanguage] = useState(null);
 
   // TODO: Maneja la data que se renderizara en la lista
   const [settingOptions, setSettingOptions] = useState(null);
@@ -312,11 +312,13 @@ export const UseSettigns = () => {
     const newData = data.filter((item: any) => item.key !== key);
     let keyPosicion = parseInt(key.toString());
     let whereUpdate = {
-      where: data[keyPosicion][`PK_T${selectedItem?.key_table.toUpperCase()}`],
+      //@ts-ignore
+      where: data[keyPosicion][`PK_T${selectedItem.key_table.toUpperCase()}`],
     };
     const newWhere = changeKey(
       whereUpdate,
       "where",
+      //@ts-ignore
       `PK_T${selectedItem?.key_table.toUpperCase()}`
     );
 
@@ -359,7 +361,9 @@ export const UseSettigns = () => {
     setSelectedRowKeys(newSelectedRowKeys)
   };
 
-  const handleDeleteGroup = async (key: React.Key) => {
+  const handleDeleteGroup = async () => {
+
+    //@ts-ignore
     const newData = data.filter((item:any) => !selectedRowKeys.includes(item.key));
     
 
@@ -369,6 +373,7 @@ export const UseSettigns = () => {
     const newWhere = changeKey(
       whereUpdate,
       "where",
+      //@ts-ignore
       `PK_T${selectedItem?.key_table.toUpperCase()}`
     );
 
@@ -415,6 +420,7 @@ export const UseSettigns = () => {
       const getdata = changeKey(prevData, "base", nameTable);
 
       const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
+        //@ts-ignore
         const { getdata } = response
 
         const res = getdata
@@ -437,6 +443,7 @@ export const UseSettigns = () => {
       const getdata = changeKey(prevData, "base", 'lista_valor');
 
       const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
+        //@ts-ignore
         const { getdata } = response
 
         const res = getdata
@@ -468,6 +475,7 @@ export const UseSettigns = () => {
         const getdata = changeKey(prevData, "base", 'lista_valor');
   
         const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
+          //@ts-ignore
           const { getdata } = response
   
           const res = getdata
@@ -505,6 +513,7 @@ export const UseSettigns = () => {
     // envio de datos de la edicion (necesita integracion a DB)
     const save = async (form:any, record:any, toggleEdit:any, oldValue:any) => {
       try {
+        //@ts-ignore
         const primaryKey = `PK_T${selectedItem.key_table.toUpperCase()}`;
 
         let whereUpdate = {
@@ -513,6 +522,7 @@ export const UseSettigns = () => {
         const newWhere = changeKey(
           whereUpdate,
           "where",
+          //@ts-ignore
           `PK_T${selectedItem.key_table.toUpperCase()}`
         );
 
@@ -561,7 +571,8 @@ export const UseSettigns = () => {
         toggleEdit();
 
       } catch (errInfo) {
-        message("Save failed:", errInfo);
+        console.log("save error: ", errInfo)
+        messageApi.info("Save failed");
       }
     };
 
@@ -578,7 +589,7 @@ export const UseSettigns = () => {
 
           const parserTablename = tableName.startsWith('LV_') ? tableName.replace('LV_', '') : tableName.replace('LISTA_VALOR_', '');
 
-          const prueba = apiGetFKTLV(parserTablename.toLowerCase()).then((response) => {
+          apiGetFKTLV(parserTablename.toLowerCase()).then((response) => {
             const res = response
   
             answer = {
@@ -612,7 +623,7 @@ export const UseSettigns = () => {
 
             const parserTablename = tableName.replace('FUNCIONARIO_', '');
 
-            const prueba = apiGetFKTFunsionario(parserTablename.toLowerCase()).then((response) => {
+            apiGetFKTFunsionario(parserTablename.toLowerCase()).then((response) => {
               const res = response
     
               answer = {
@@ -647,7 +658,7 @@ export const UseSettigns = () => {
             tableName = tableName.replace('_PADRE', '')
           }
   
-            const prueba = apiGetFK(tableName.toLowerCase()).then((response) => {
+            apiGetFK(tableName.toLowerCase()).then((response) => {
               const res = response
     
               answer = {
@@ -715,7 +726,7 @@ export const UseSettigns = () => {
       }
 
 
-      const getDataTable = await apiGetThunksMenuItemsOptionsAsync(testOptionSelected).then((response: any) => {
+      await apiGetThunksMenuItemsOptionsAsync(testOptionSelected).then((response: any) => {
 
         const theResponseOptions = response?.getdata
 
@@ -783,8 +794,7 @@ export const UseSettigns = () => {
 
   return {
     contextHolder,
-
-    language,
+    messageApi,
     visibleForm,
     setVisibleForm,
     handleMostrarForm,
