@@ -3,11 +3,13 @@ import { useEffect, useMemo, useState } from "react";
 import "../../../../utils/assets/styles/testing.css";
 import { message } from "antd";
 import { apiGetThunksAsync, apiGetThunksMenuItemsOptionsAsync, apiPostThunksAsync } from "../../../../utils/services/api/thunks";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 export const UseSettigns = () => {
 
   const params: any = useParams<{ type: any }>();
+
+  const navigate = useNavigate();
 
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -367,7 +369,7 @@ export const UseSettigns = () => {
     const newWhere = changeKey(
       whereUpdate,
       "where",
-      `PK_T${selectedItem.key_table.toUpperCase()}`
+      `PK_T${selectedItem?.key_table.toUpperCase()}`
     );
 
     const sendData = {
@@ -712,6 +714,7 @@ export const UseSettigns = () => {
         url: fatherOption
       }
 
+
       const getDataTable = await apiGetThunksMenuItemsOptionsAsync(testOptionSelected).then((response: any) => {
 
         const theResponseOptions = response?.getdata
@@ -727,27 +730,26 @@ export const UseSettigns = () => {
             handleSelect(formatedOptions[0]);
 
           }else {
-            //TODO: realizar accion en caso que ninguna opcion sea visible
-
             console.log("por algun motivo ninguna opcion es visible")
+            navigate('/no_permission')
           }
 
         }else{
-          //Todo: redireccionar en caso de no permisos
           console.log("las opciones estan vacias")
+          navigate('/no_permission')
         }
 
       }).catch((error)=>{
 
-        //Todo: redireccionar en caso de error
+        //TODO: redireccionar en caso de error
 
         console.log("catch response: ", error)
+        navigate('/no_permission')
       });
 
     }
 
     useEffect(() => {
-      // TODO: agregar consulta que trae las opciones y funsion que formatea
 
       setSettingOptions(null)
 

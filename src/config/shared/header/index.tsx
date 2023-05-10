@@ -1,5 +1,6 @@
 import { Button } from "antd";
 import { DropdownHeaderFilter } from "./DropdownHeaderFilter";
+import { CascaderHeaderFilter } from "./CascaderHeaderFilter";
 import { MainMenu } from "./menu/menu";
 import { SideOptions } from "./side-options/SideOptions";
 
@@ -13,22 +14,6 @@ import icon_four from "../../../utils/assets/nav/images/rectangle-25.png";
 import { Link } from "react-router-dom";
 import { apiGetThunksAsync } from "../../../utils/services/api/thunks";
 import { logout } from "../../../utils/services/helper/auth-helper";
-
-
-const itemsToTestHeaderFilter = [
-  {
-    key: "1",
-    label: "Sede Principal",
-  },
-  {
-    key: "2",
-    label: "Sede Gestor",
-  },
-  {
-    key: "3",
-    label: "Sede Recursos",
-  },
-];
 
 const itemsToTestHeaderFilterB = [
   {
@@ -68,7 +53,35 @@ const itemsToTestHeaderFilterC = [
   },
 ];
 
-  
+interface CampusOptions {
+  value: string;
+  label: string;
+  children?: CampusOptions[];
+}
+
+const options: CampusOptions[] = [
+  {
+    value: '1',
+    label: 'Zhejiang',
+    children: [
+      {
+        value: '22',
+        label: 'Hangzhou',
+      },
+    ],
+  },
+  {
+    value: '2',
+    label: 'Jiangsu',
+    children: [
+      {
+        value: '15',
+        label: 'Nanjing',
+      },
+    ],
+  },
+];
+
 const HeaderComponent = () => {
 
   const generatorUnderFilterOptions = () => {
@@ -76,6 +89,8 @@ const HeaderComponent = () => {
     const currentRol = localStorage.getItem('current_rol');
 
     const parserCurrentRol: string | null = currentRol ? JSON.parse(currentRol) : null;
+
+    console.log("rol: ", parserCurrentRol)
 
     const apiGetFK = async () => {
       const prevData = {
@@ -103,7 +118,7 @@ const HeaderComponent = () => {
       return(
         <div className="frame-67-s3v">
           <div className="auto-group-u1rg-P2G">
-            {DropdownHeaderFilter(itemsToTestHeaderFilter)}
+            {CascaderHeaderFilter(options)}
             {DropdownHeaderFilter(itemsToTestHeaderFilterB)}
             {DropdownHeaderFilter(itemsToTestHeaderFilterC)}
           </div>
