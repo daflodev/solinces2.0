@@ -28,7 +28,7 @@ const SelectableSearch = ({
     return (
         <Space>
             {mostrarInput ? (
-                <Button
+                <div
                     className="mostrarOcultar"
                     onClick={() => {
                         setOptionSelected(null)
@@ -37,11 +37,11 @@ const SelectableSearch = ({
                     }}
                 >
                     <CloseCircleOutlined />
-                </Button>
+                </div>
             ) : (
-                <Button className="mostrarOcultar" onClick={handleMostrarInput}>
+                <div className="mostrarOcultar" onClick={handleMostrarInput}>
                     {searchIcon}
-                </Button>
+                </div>
             )}
     
             {mostrarInput ? (
@@ -58,11 +58,11 @@ const SelectableSearch = ({
                     })
                     
                 }}
-                placeholder={name}
+                placeholder={name.toLocaleLowerCase()}
                 filterOption={filterOption}
                 />
             ) : (
-                <>{name || ""}</>
+                <>{name.toLocaleLowerCase() || ""}</>
             )}
         </Space>
     );

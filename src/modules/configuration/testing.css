@@ -13,7 +13,7 @@
 
 .card-body {
     background-color: var(--bg-color);
-    /* height: calc(86vh - 4.2rem); */
+    height: calc(86vh - 4.2rem);
     width: calc(100vw - 275);
     border: none;
 }
@@ -25,32 +25,12 @@
 
 }
 
-
-.ant-table-thead {
-    justify-content: center ;
-    align-items: center ;
-    width: 500px ;
-}
-
-.ant-space{
-    min-width: 270px !important;
-}
-
-.ant-table-row {
-    height: 3rem !important;
-   
-}
-
 table {
     border-top: none !important;
 }
 
-.ant-table-cell {
-    border-top: none !important;
-    border-left: none !important;
-    border-right: none !important;
-    padding: 6px !important;
-    background-color: transparent !important;
+.ant-table-wrapper .ant-table-thead >tr>th{
+    font-weight: 400 !important;
 }
 
 
@@ -58,68 +38,25 @@ tr.editable-row:hover td.ant-table-cell {
     background-color: var(--background-rows-hover) !important;
 }
 
-th.ant-table-cell {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 16px;
-    height: 1rem;
 
+
+
+.editable-cell {
+    position: relative;
 }
-
 
 .editable-cell-value-wrap {
     cursor: pointer;
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 16px;
-    max-width: 200PX; 
-    max-height: 2em;
-    padding-left: 12px;
+    width: max-content; 
+    padding: 5px 12px;
 }
-
-.editable-cell-value-wrap:hover {
-    border: 1px solid #d9d9d9 ;
-    border-radius: 4px;
-}
-
-
 
 .editable-row:hover .editable-cell-value-wrap {
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
     color: white;
+    padding: 4px 11px;
 }
-
-.ant-input::placeholder {
-    color: var(--high-gray);
-}
-
-
-
-.ant-select-item-option {
-    background-color: var(--bg-color) !important;
-}
-
-.ant-select-item-option:hover {
-    background-color: var(--background-rows-hover) !important;
-}
-
-
-.ant-select-selector {
-    max-height: 25px;
-
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    align-items: center;
-    background-color: var(--bg-color) !important;
-    color: var(--font-color) !important;
-}
-
-
 
 .ant-select-selection-search ::placeholder {
     color: var(--input-select-activate) !important;
@@ -129,21 +66,42 @@ th.ant-table-cell {
     border-left: none !important;
     border-right: none !important;
     background-color: var(--bg-color) !important;
-
 }
+
 
 thead .ant-table-cell {
     background-color: var(--bg-color) !important;
-    max-width: max-content;
-
 }
 
 .ant-table-placeholder {
     background-color: var(--bg-color) !important;
 }
 
-tr.ant-table-row-selected.editable-row{
+tr.ant-table-row-selected.editable-row {
     background-color: var(--background-rows-hover) !important;
+}
+
+
+.ant-space-item .ant-input::placeholder {
+    color: var(--high-gray);
+}
+
+.ant-select-item-option {
+    background-color: var(--bg-color) !important;
+}
+
+
+.ant-select-item-option:hover {
+    background-color: var(--background-rows-hover) !important;
+}
+.ant-select-selector {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    align-items: center;
+    background-color: var(--bg-color) !important;
+    color: var(--font-color) !important;
 }
 
 .mostrarOcultar {
@@ -159,19 +117,6 @@ tr.ant-table-row-selected.editable-row{
     border: 1px solid var(--background-rows-hover) !important;
 }
 
-
-
-
-
-.ant-space-item {
-    color: var(--high-gray) !important;
-    font-weight: 400 !important;
-    line-height: 16, 41;
-    font-family: 'Roboto';
-}
-
-
-
 #mi-lista>li {
     display: flex;
     flex-direction: row;
@@ -186,11 +131,10 @@ tr.ant-table-row-selected.editable-row{
 
 
 }
-
-
 .ant-pagination-item.ant-pagination-item-active{
     background-color: var(--bg-color);
 }
+
 
 .configuration {
     width: 104px;
@@ -240,14 +184,14 @@ tr.ant-table-row-selected.editable-row{
 .closeCardForm .ant-btn {
     border: none !important;
 }
-
-.ant-card .ant-card-head {
-    padding: 0px !important;
-}
-
 .ant-table-row.ant-table-row-level-0:hover>td .iconDelete {
     visibility: visible !important;
 }
+
+
+
+
+
 
 
 .render-message-delete {
@@ -286,4 +230,5 @@ tr.ant-table-row-selected.editable-row{
 .changes-color {
     color: var(--font-color-list-activate) !important;
     background-color: var(--backgorund-color-list-activate) !important;
-}
+} 
+
