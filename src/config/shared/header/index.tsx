@@ -89,8 +89,6 @@ const HeaderComponent = () => {
     const currentRol = localStorage.getItem('user_token_information');
     const parserCurrentRol: any | null = currentRol ? JSON.parse(currentRol) : null;
 
-    console.log("rol: ", parserCurrentRol)
-
     const apiGetFK = async () => {
       const prevData = {
         sede_usuario: "",
