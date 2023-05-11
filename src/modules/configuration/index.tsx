@@ -110,6 +110,7 @@ const Settings: React.FC = () => {
           ),
           dataIndex: item,
           editable: true,
+         
         };
   
         return preColumn;
