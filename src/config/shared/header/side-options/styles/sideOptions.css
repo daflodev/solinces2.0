@@ -9,13 +9,13 @@
 .side-options-element{
     background-color: var(--bg-color);
     width: 42px;
-    height: 106px;
+    height: 116px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    padding: 5px 0 5px 0;
+    padding: 20px 0 20px 0;
     box-shadow: var(--menu-box-shadow);
     border: 1px solid var(--side-menu-border-color);
 }

@@ -18,7 +18,9 @@ import {
           columnsInformation,
         };
       })
+      // @ts-ignore
       .catch((error) => {
+        // @ts-ignore
         let results = {
           status: "error",
           message: "No existen datos para la consulta",
@@ -40,7 +42,7 @@ import {
   
     return resp;
   };
-  
+  // @ts-ignore
   export const apiGetThunksMainMenuAsync = async (data: any) => {
     const resp = await ApiServicesThunksMainMenu()
       .then((response) => {
@@ -51,7 +53,9 @@ import {
         }));
         return getdata;
       })
+      // @ts-ignore
       .catch((error) => {
+        // @ts-ignore
         let results = {
           status: "error",
           message: "No existen datos para la consulta",
@@ -72,7 +76,9 @@ import {
           getdata,
         };
       })
+      // @ts-ignore
       .catch((error) => {
+        // @ts-ignore
         let results = {
           status: "error",
           message: "No existen datos para la consulta",

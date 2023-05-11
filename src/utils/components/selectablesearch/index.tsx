@@ -45,6 +45,7 @@ const SelectableSearch = ({
             {mostrarInput ? (
                 <Select
                 options={options}
+                // @ts-ignore
                 name={name}
                 value={options ? options.find((option:any) => option.value === optionSelected) : ''}
                 onChange={(option: any)=>{

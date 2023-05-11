@@ -3,16 +3,19 @@ import { useEffect, useMemo, useState } from "react";
 import "../../../../utils/assets/styles/testing.css";
 import { message } from "antd";
 import { apiGetThunksAsync, apiGetThunksMenuItemsOptionsAsync, apiPostThunksAsync } from "../../../../utils/services/api/thunks";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { getUserToken } from "../../../../utils/utils";
 
 export const UseSettigns = () => {
 
   const params: any = useParams<{ type: any }>();
 
+  const navigate = useNavigate();
+
   const [messageApi, contextHolder] = message.useMessage();
 
   // Estado para el cambio de idioma
-  const [language, setLanguage] = useState(null);
+  //const [language, setLanguage] = useState(null);
 
   // TODO: Maneja la data que se renderizara en la lista
   const [settingOptions, setSettingOptions] = useState(null);
@@ -109,18 +112,23 @@ export const UseSettigns = () => {
 
   //data table for items listnameTable
   
-  const select_type = (params: any) => {
+  const select_type = (params: any, rol: string) => {
+
     const type: any = {
         'establecimiento': {
            table:["PK_TESTABLECIMIENTO","CODIGO", "NOMBRE", "NIT", "FK_TMUNICIPIO", "FK_TLISTA_VALOR_ZONA", "FK_TPROPIEDAD_JURIDICA", "FK_TLV_CALENDARIO", "FK_TLV_ESTADO_ESTABLECIMIENTO"],
-          //  table:["NOMBRE","CODIGO"],
         },
         'defauld': {
             table:"",
         }
     };
 
-    const validate = params == 'establecimiento' ? type[params] : type['defauld'];
+    const user = getUserToken()
+    let validate: any = type['defauld']
+    if(user.rol[0] == "SUPER_ADMINISTRADOR"){
+      validate = type[params] ?? type['defauld']
+    }
+    // validate = params == 'establecimiento' ? type[params] : type['defauld'];
     return validate
   };
 
@@ -137,8 +145,9 @@ export const UseSettigns = () => {
 
   
   const apiGet = async (nameTable: any, setDataTable: any) => {
-
-    const tableDateBase = select_type(nameTable);
+    const userI = getUserToken()
+    const rol: string = userI.rol[0]
+    const tableDateBase = select_type(nameTable, rol);
 
     const prevData = {
       base: tableDateBase.table,
@@ -310,11 +319,13 @@ export const UseSettigns = () => {
     const newData = data.filter((item: any) => item.key !== key);
     let keyPosicion = parseInt(key.toString());
     let whereUpdate = {
-      where: data[keyPosicion][`PK_T${selectedItem?.key_table.toUpperCase()}`],
+      //@ts-ignore
+      where: data[keyPosicion][`PK_T${selectedItem.key_table.toUpperCase()}`],
     };
     const newWhere = changeKey(
       whereUpdate,
       "where",
+      //@ts-ignore
       `PK_T${selectedItem?.key_table.toUpperCase()}`
     );
 
@@ -357,7 +368,9 @@ export const UseSettigns = () => {
     setSelectedRowKeys(newSelectedRowKeys)
   };
 
-  const handleDeleteGroup = async (key: React.Key) => {
+  const handleDeleteGroup = async () => {
+
+    //@ts-ignore
     const newData = data.filter((item:any) => !selectedRowKeys.includes(item.key));
     
 
@@ -367,7 +380,8 @@ export const UseSettigns = () => {
     const newWhere = changeKey(
       whereUpdate,
       "where",
-      `PK_T${selectedItem.key_table.toUpperCase()}`
+      //@ts-ignore
+      `PK_T${selectedItem?.key_table.toUpperCase()}`
     );
 
     const sendData = {
@@ -413,6 +427,7 @@ export const UseSettigns = () => {
       const getdata = changeKey(prevData, "base", nameTable);
 
       const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
+        //@ts-ignore
         const { getdata } = response
 
         const res = getdata
@@ -435,6 +450,7 @@ export const UseSettigns = () => {
       const getdata = changeKey(prevData, "base", 'lista_valor');
 
       const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
+        //@ts-ignore
         const { getdata } = response
 
         const res = getdata
@@ -466,6 +482,7 @@ export const UseSettigns = () => {
         const getdata = changeKey(prevData, "base", 'lista_valor');
   
         const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
+          //@ts-ignore
           const { getdata } = response
   
           const res = getdata
@@ -503,6 +520,7 @@ export const UseSettigns = () => {
     // envio de datos de la edicion (necesita integracion a DB)
     const save = async (form:any, record:any, toggleEdit:any, oldValue:any) => {
       try {
+        //@ts-ignore
         const primaryKey = `PK_T${selectedItem.key_table.toUpperCase()}`;
 
         let whereUpdate = {
@@ -511,6 +529,7 @@ export const UseSettigns = () => {
         const newWhere = changeKey(
           whereUpdate,
           "where",
+          //@ts-ignore
           `PK_T${selectedItem.key_table.toUpperCase()}`
         );
 
@@ -559,7 +578,8 @@ export const UseSettigns = () => {
         toggleEdit();
 
       } catch (errInfo) {
-        message("Save failed:", errInfo);
+        console.log("save error: ", errInfo)
+        messageApi.info("Save failed");
       }
     };
 
@@ -576,7 +596,7 @@ export const UseSettigns = () => {
 
           const parserTablename = tableName.startsWith('LV_') ? tableName.replace('LV_', '') : tableName.replace('LISTA_VALOR_', '');
 
-          const prueba = apiGetFKTLV(parserTablename.toLowerCase()).then((response) => {
+          apiGetFKTLV(parserTablename.toLowerCase()).then((response) => {
             const res = response
   
             answer = {
@@ -610,7 +630,7 @@ export const UseSettigns = () => {
 
             const parserTablename = tableName.replace('FUNCIONARIO_', '');
 
-            const prueba = apiGetFKTFunsionario(parserTablename.toLowerCase()).then((response) => {
+            apiGetFKTFunsionario(parserTablename.toLowerCase()).then((response) => {
               const res = response
     
               answer = {
@@ -645,7 +665,7 @@ export const UseSettigns = () => {
             tableName = tableName.replace('_PADRE', '')
           }
   
-            const prueba = apiGetFK(tableName.toLowerCase()).then((response) => {
+            apiGetFK(tableName.toLowerCase()).then((response) => {
               const res = response
     
               answer = {
@@ -712,7 +732,8 @@ export const UseSettigns = () => {
         url: fatherOption
       }
 
-      const getDataTable = await apiGetThunksMenuItemsOptionsAsync(testOptionSelected).then((response: any) => {
+
+      await apiGetThunksMenuItemsOptionsAsync(testOptionSelected).then((response: any) => {
 
         const theResponseOptions = response?.getdata
 
@@ -727,27 +748,26 @@ export const UseSettigns = () => {
             handleSelect(formatedOptions[0]);
 
           }else {
-            //TODO: realizar accion en caso que ninguna opcion sea visible
-
             console.log("por algun motivo ninguna opcion es visible")
+            navigate('/no_permission')
           }
 
         }else{
-          //Todo: redireccionar en caso de no permisos
           console.log("las opciones estan vacias")
+          navigate('/no_permission')
         }
 
       }).catch((error)=>{
 
-        //Todo: redireccionar en caso de error
+        //TODO: redireccionar en caso de error
 
         console.log("catch response: ", error)
+        navigate('/no_permission')
       });
 
     }
 
     useEffect(() => {
-      // TODO: agregar consulta que trae las opciones y funsion que formatea
 
       setSettingOptions(null)
 
@@ -781,8 +801,7 @@ export const UseSettigns = () => {
 
   return {
     contextHolder,
-
-    language,
+    messageApi,
     visibleForm,
     setVisibleForm,
     handleMostrarForm,

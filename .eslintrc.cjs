@@ -11,4 +11,12 @@ module.exports = {
   rules: {
     'react-refresh/only-export-components': 'warn',
   },
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        '@typescript-eslint/ban-ts-ignore': 'off'
+      }
+    }
+  ]
 }

@@ -160,6 +160,16 @@ input {
   align-items: flex-start;
   flex-shrink: 0;
 }
+
+.plataforma-zYY .auto-group-x9vx-Rdr .frame-61-Lnk .frame-54-Utx .frame-56-wGk .frame-67-s3v .auto-group-u1rg-P2G .ant-select-selector{
+  border: none;
+  color: var(--high-gray);
+}
+
+.plataforma-zYY .auto-group-x9vx-Rdr .frame-61-Lnk .frame-54-Utx .frame-56-wGk .frame-67-s3v .auto-group-u1rg-P2G .ant-select-selector .ant-select-selection-item{
+  color: var(--high-gray);
+}
+
 .plataforma-zYY .auto-group-x9vx-Rdr .frame-61-Lnk .frame-54-Utx .frame-56-wGk .frame-67-s3v .auto-group-u1rg-P2G .btn3-j68 {
   margin: 0rem 0.5rem 0.4rem 0rem;
   box-sizing: border-box;

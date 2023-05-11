@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 // import { Link } from "@reach/router";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { 
   footerMenuImage,
