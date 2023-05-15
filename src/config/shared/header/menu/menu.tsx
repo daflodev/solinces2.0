@@ -1,7 +1,7 @@
 import { Dropdown } from "antd";
 
-import "./styles/menu-styles.css";
 import MenuItems from "./menu-items";
+import "./styles/menu-styles.css";
 
 
 const MainMenu = (componentInnerDropdown: any)=>{
@@ -10,6 +10,7 @@ const MainMenu = (componentInnerDropdown: any)=>{
         <Dropdown 
             overlayClassName = "main-menu"
             placement="bottom"
+            trigger={['click']}
             dropdownRender = {() => <MenuItems/>}
         >
             {componentInnerDropdown}
@@ -19,4 +20,4 @@ const MainMenu = (componentInnerDropdown: any)=>{
 
 export {
     MainMenu
-}
+};

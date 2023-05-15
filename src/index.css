@@ -90,6 +90,12 @@
   
     /* Containers  */
     --bg-container: var(--dark-blue-gray);
+
+    /* search bar in  menu */
+    --menu-search-bar-bg-color: var(--dark-blue-gray);
+    --menu-search-bar-icon-color: var(--high-gray);
+    --menu-search-bar-font-color: var(--high-gray);
+
   
     /* Main menu */
     --menu-icon: var(--white);
