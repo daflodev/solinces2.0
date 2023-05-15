@@ -10,7 +10,6 @@ const MainMenu = (componentInnerDropdown: any)=>{
         <Dropdown 
             overlayClassName = "main-menu"
             placement="bottom"
-            trigger={['click']}
             dropdownRender = {() => <MenuItems/>}
         >
             {componentInnerDropdown}
