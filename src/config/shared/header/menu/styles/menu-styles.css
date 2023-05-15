@@ -2,9 +2,9 @@
 .main-menu {
     background-color: var(--bg-color);
     width: 270px;
-    height: calc(100vh - 8.2rem);
+    height: calc(100vh - 5.2rem);
     box-shadow: var(--menu-box-shadow);
 
-    top: 8.2rem !important;
+    top: 5.2rem !important;
     left: auto !important;
 }
