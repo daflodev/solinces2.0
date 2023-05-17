@@ -1,29 +1,33 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import "../../utils/assets/styles/testing.css";
 
 import { useEffect } from "react";
 
 import { Card, Col, Popconfirm, Row, Spin, Table } from "antd";
-import { SettingOutlined, CloseOutlined } from '@ant-design/icons';
+import { SettingOutlined, CloseOutlined } from "@ant-design/icons";
 
 import { UseSettigns } from "./components/hooks/useApp";
-import { MinusOutlined, PlusOutlined, deleteIcon, downloadIcon } from "../../utils/assets/icon/iconManager";
+import {
+  MinusOutlined,
+  PlusOutlined,
+  deleteIcon,
+  downloadIcon,
+} from "../../utils/assets/icon/iconManager";
 import FormAdd from "../../utils/components/formadd";
 import SelectableSearch from "../../utils/components/selectablesearch";
 import { InputSearch } from "../../utils/components/inputsearch";
 import { EditableRow } from "../../utils/components/inputcells";
 import { EditableCell } from "../../utils/components/editablecells";
 import { withPrincipal } from "../../utils/components/content";
-
-
+import PerfectScrollbar from "react-perfect-scrollbar";
+import "react-perfect-scrollbar/dist/css/styles.css";
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
 type ColumnTypes = Exclude<EditableTableProps[], undefined>;
 
 const Settings: React.FC = () => {
-
   //funciones y estado del custom hooks personalizado
   const {
     contextHolder,
@@ -47,75 +51,83 @@ const Settings: React.FC = () => {
     handleSubmit,
     save,
     itemsColumnsInformation,
-    params
+    params,
   } = UseSettigns();
 
   //Funcion para generar la data de los filtros select
-  const filterSelectOnColumnGenerator = ( fkName: any, fkValues: any, data: any)=>{
+  const filterSelectOnColumnGenerator = (
+    fkName: any,
+    fkValues: any,
+    data: any
+  ) => {
     let reBuildName = fkName?.replace("FK_T", "PK_T");
 
-    if(reBuildName.includes('_PADRE')){
-      reBuildName = reBuildName.replace('_PADRE', '');
+    if (reBuildName.includes("_PADRE")) {
+      reBuildName = reBuildName.replace("_PADRE", "");
     }
 
-    const options: any = []
+    const options: any = [];
 
     for (let i = 0; i < data?.length; i++) {
-
       const item = data[i];
-      
-      const itsFkValue = fkValues?.filter((fkItem: any) => fkItem[reBuildName] == item[fkName]);
 
-      if(itsFkValue?.length > 0){
+      const itsFkValue = fkValues?.filter(
+        (fkItem: any) => fkItem[reBuildName] == item[fkName]
+      );
 
-        const coincidentalValue = itsFkValue[0]
+      if (itsFkValue?.length > 0) {
+        const coincidentalValue = itsFkValue[0];
 
-        const isFkValueAlreadyExist = options.some((option: any) => option.value == coincidentalValue[reBuildName])
+        const isFkValueAlreadyExist = options.some(
+          (option: any) => option.value == coincidentalValue[reBuildName]
+        );
 
-        if(!isFkValueAlreadyExist){
+        if (!isFkValueAlreadyExist) {
           options.push({
-            value: coincidentalValue[reBuildName], label: coincidentalValue.NOMBRE
-          })
+            value: coincidentalValue[reBuildName],
+            label: coincidentalValue.NOMBRE,
+          });
         }
-        
       }
     }
 
-    return options
-  }
+    return options;
+  };
 
   //funcion de selecion lista para renderizar tabla
   const columnsGenerator = (filterObjet: any) => {
     const keys = Object.keys(filterObjet);
 
     const result: any[] = keys.map((item) => {
+      const ifSelected = item.startsWith("FK_");
 
-      const ifSelected = (item.startsWith("FK_"));
-
-      if(ifSelected){
-
-        const options = filterSelectOnColumnGenerator(item, fkGroup[item], dataTable)
+      if (ifSelected) {
+        const options = filterSelectOnColumnGenerator(
+          item,
+          fkGroup[item],
+          dataTable
+        );
 
         const preColumn = {
           title: (
-            <SelectableSearch 
-            options={options} 
-            onChange={handleFilterChange}
-            filterOption={(input: any, option: any) =>
-              (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-            }
-            name={item}
-            onClear={onClear}
+            <SelectableSearch
+              options={options}
+              onChange={handleFilterChange}
+              filterOption={(input: any, option: any) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              name={item}
+              onClear={onClear}
             />
           ),
           dataIndex: item,
           editable: true,
-         
         };
-  
-        return preColumn;
 
-      }else{
+        return preColumn;
+      } else {
         const preColumn = {
           title: (
             <InputSearch
@@ -130,19 +142,17 @@ const Settings: React.FC = () => {
           dataIndex: item,
           editable: true,
         };
-  
+
         return preColumn;
       }
-
     });
 
     result.push({
       title: "",
       dataIndex: "operation",
-      // fixed: 'right',
       render: (_, record: { key: React.Key }) => (
         <>
-        {/* @ts-ignore */}
+          {/* @ts-ignore */}
           {settingOptions?.length >= 1 ? (
             <Popconfirm
               title="seguro desea eliminar?"
@@ -168,7 +178,7 @@ const Settings: React.FC = () => {
     title: any;
     render?: any;
     width?: number;
-    fixed?: string;
+
   })[] = columnsGenerator(inputFilter);
 
   //propiedades que se le pasan a la tabla para establecer el comportamiento de filas y celda
@@ -186,7 +196,7 @@ const Settings: React.FC = () => {
     }
     return {
       ...col,
-        onCell: (record:any) => ({
+      onCell: (record: any) => ({
         record,
         editable: col.editable,
         dataIndex: col.dataIndex,
@@ -194,19 +204,31 @@ const Settings: React.FC = () => {
         render: col.render,
         save,
         fkGroup,
-        itemsColumnsInformation
+        itemsColumnsInformation,
       }),
     };
   });
 
-  
-
   useEffect(() => {
-    setDataTable([])
+    setDataTable([]);
 
     //apiGet(selectedItem?.key_table, setDataTable);
     // initLanguage();
   }, [settingOptions]);
+
+
+  const tableRef = useRef(null);
+
+  useEffect(() => {
+    // Calcula la altura de la tabla y actualiza la altura de la Card
+    if (tableRef.current) {
+      const tableHeight = tableRef.current.clientHeight;
+      const card = tableRef.current.closest('.card-body');
+      if (card) {
+        card.style.height = `${tableHeight}px - 100px`;
+      }
+    }
+  }, []);
 
   return (
     <>
@@ -224,25 +246,29 @@ const Settings: React.FC = () => {
                       </div>
                     </Col>
                     <Col xs={24} md={22}>
-                      <div className="configuration">{params?.option ? (params?.option).toUpperCase() : null}</div>
+                      <div className="configuration">
+                        {params?.option ? (params?.option).toUpperCase() : null}
+                      </div>
                     </Col>
                   </Row>
                   <Row gutter={[16, 16]}>
                     <Col span={24}>
-                      {settingOptions ? 
-                      <ul id="mi-lista">
-                        {/* @ts-ignore */}
-                        {settingOptions?.map((item: any) => (
-                          // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-                          <li
-                            key={`${item.nombre}_${item.key}`}
-                            onClick={() => handleSelect(item)}
-                          >
-                            {item.nombre}
-                          </li>
-                        ))}
-                      </ul>
-                      : <Spin tip="" size="large"/>}
+                      {settingOptions ? (
+                        <ul id="mi-lista">
+                          {/* @ts-ignore */}
+                          {settingOptions?.map((item: any) => (
+                            // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+                            <li
+                              key={`${item.nombre}_${item.key}`}
+                              onClick={() => handleSelect(item)}
+                            >
+                              {item.nombre}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <Spin tip="" size="large" />
+                      )}
                     </Col>
                   </Row>
                 </Col>
@@ -250,65 +276,71 @@ const Settings: React.FC = () => {
                   <Card className="card-body">
                     {selectedItem && (
                       <>
-                        <Table
-                          components={components}
-                          rowSelection={{
-                            selectedRowKeys,
-                            onChange: onSelectChange,
-                          }}
-                          // @ts-ignore
-                          rowKey={`PK_T${selectedItem.key_table?.toUpperCase()}`}
-                          rowClassName={() => "editable-row"}
-                          dataSource={data}
-                          loading={
-                            {
-                              indicator: <Spin tip="" size="large"/>,
+                        <div className="cointainer-table">
+                          <PerfectScrollbar>
+                            <Table
+                              components={components}
+                              //scroll={{x:300}}
+                              rowSelection={{
+                                selectedRowKeys,
+                                onChange: onSelectChange,
+                              }}
                               // @ts-ignore
-                              spinning: (!dataTable || settingOptions?.length === 0) ? true : false
-                            }
-                          }
-                          scroll={{ x: 500 }}
-                          // @ts-ignore
-                          columns={columnS as ColumnTypes}
-                          title={() => {
-                            return (
-                              <>
-                                <Row>{selectedItem.nombre}</Row>
-                               
-                                  <Row gutter={[16, 16]}>
+                              rowKey={`PK_T${selectedItem.key_table?.toUpperCase()}`}
+                              rowClassName={() => "editable-row"}
+                              dataSource={data}
+                              loading={{
+                                indicator: <Spin tip="" size="large" />,
+                                // @ts-ignore
+                                spinning:
+                                  !dataTable || settingOptions?.length === 0
+                                    ? true
+                                    : false,
+                              }}
+                              // @ts-ignore
+                              columns={columnS as ColumnTypes}
+                              title={() => {
+                                return (
+                                  <>
+                                    <Row>{selectedItem.nombre}</Row>
+
+                                    <Row gutter={[16, 16]}>
                                       {selectedItem ? (
                                         <div
                                           className="mostrarOcultarForm"
                                           onClick={handleMostrarForm}
                                         >
-                                          {visibleForm ? MinusOutlined : PlusOutlined}
+                                          {visibleForm
+                                            ? MinusOutlined
+                                            : PlusOutlined}
                                         </div>
                                       ) : (
                                         ""
                                       )}
-                                    {downloadIcon}
-                                  {selectedRowKeys.length > 0 && (
-                                    <>
-                                      <Popconfirm
-                                        title="seguro desea eliminar?"
-                                        // @ts-ignore
-                                        onConfirm={handleDeleteGroup}
-                                        style={{ visibility: "hidden" }}
-                                      >
-                                        <div className="iconDelete">
-                                          {deleteIcon}
-                                        </div>
-                                      </Popconfirm>
-                                    </>
-                                  )}
-                                  </Row>
-                               
-                                
-                                <Row>{renderMessage()}</Row>
-                              </>
-                            );
-                          }}
-                        />
+                                      {downloadIcon}
+                                      {selectedRowKeys.length > 0 && (
+                                        <>
+                                          <Popconfirm
+                                            title="seguro desea eliminar?"
+                                            // @ts-ignore
+                                            onConfirm={handleDeleteGroup}
+                                            style={{ visibility: "hidden" }}
+                                          >
+                                            <div className="iconDelete">
+                                              {deleteIcon}
+                                            </div>
+                                          </Popconfirm>
+                                        </>
+                                      )}
+                                    </Row>
+
+                                    <Row>{renderMessage()}</Row>
+                                  </>
+                                );
+                              }}
+                            />
+                          </PerfectScrollbar>
+                        </div>
                       </>
                     )}
                   </Card>
@@ -346,9 +378,7 @@ const Settings: React.FC = () => {
                       />
                     </Card>
                   </Col>
-                ) : (
-                  null
-                )}
+                ) : null}
               </Row>
             </div>
           </div>

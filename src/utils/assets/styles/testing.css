@@ -1,6 +1,6 @@
 .card-container {
     background-color: var(--bg-container) !important;
-    height: calc(100vh - 6.2rem);
+    min-height: calc(100vh - 5.2rem);
     left: 14px;
     border-radius: 8px;
     width: calc(100vw - 2.5rem);
@@ -13,9 +13,12 @@
 
 .card-body {
     background-color: var(--bg-color);
-    height: calc(86vh - 4.2rem);
-    width: calc(100vw - 275);
     border: none;
+    min-height: calc(93vh - 5.2rem) !important;    
+}
+
+.card-body .ant-card-body{
+    padding-top: 0px !important;
 }
 
 .ant-table-title {
@@ -25,31 +28,36 @@
 
 }
 
-table {
-    border-top: none !important;
-}
+
 
 .ant-table-wrapper .ant-table-thead>tr>th {
     font-weight: 400;
     padding: 6px !important;
     font-size: 14px !important;
-    height: 50px;
-    width: 50px;
     color: var(--high-gray) !important;
-    
+    min-width: 210px !important;
 }
 
-th.ant-table-cell .ant-space-item{
+.ant-table-wrapper .ant-table-thead>tr>th.ant-table-selection-column{
+    min-width: 20% !important;
+}
+
+
+
+
+th.ant-table-cell .ant-space-item {
     color: var(--high-gray) !important;
-    
 }
 
 .ant-space .ant-input {
     padding-top: 0px;
-    padding-left: 12px;
+    padding-left: 5px;
     padding-bottom: 0px;
     background-color: var(--bg-color) !important;
 }
+
+
+
 .ant-space-item .ant-input::placeholder {
     color: var(--high-gray);
 }
@@ -58,20 +66,16 @@ tr.editable-row:hover td.ant-table-cell {
     background-color: var(--background-rows-hover) !important;
 }
 
-.ant-table-wrapper .ant-table-tbody>tr>td{
+.ant-table-wrapper .ant-table-tbody>tr>td {
     padding: 6px !important;
     font-size: 14px !important;
-    height: 50px;
-}
-
-.editable-cell {
-    position: relative;
+    height: 45px;
 }
 
 .editable-cell-value-wrap {
     cursor: pointer;
     width: 210px;
-    padding-left:6px;
+    padding-left: 6px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -81,7 +85,6 @@ tr.editable-row:hover td.ant-table-cell {
 .editable-cell-value-wrap:hover {
     border: 1px solid #d9d9d9;
     border-radius: 6px;
-    color: white;
     height: 20px;
     padding-bottom: 22px;
 }
@@ -140,22 +143,24 @@ tr.ant-table-row-selected.editable-row {
     font-size: 14px;
     align-items: center;
     background-color: var(--bg-color) !important;
+    padding-left: 2px !important;
+    height: 22px !important;
 }
-.ant-select-selection-placeholder{
+
+.ant-select-selection-placeholder {
     color: var(--high-gray) !important;
 }
+.ant-select{
+    min-width: 170px;
+}
+
+
 
 .mostrarOcultar {
     border: 1px solid transparent !important;
     cursor: pointer !important;
     background-color: var(--bg-color) !important;
     color: var(--input-select-activate) !important;
-    max-width: max-content;
-    align-items: center !important;
-}
-
-.mostrarOcultar:hover {
-    border: 1px solid var(--background-rows-hover) !important;
 }
 
 #mi-lista>li {
@@ -175,6 +180,11 @@ tr.ant-table-row-selected.editable-row {
 
 .ant-pagination-item.ant-pagination-item-active {
     background-color: var(--bg-color);
+}
+
+.ant-pagination {
+    position: fixed;
+    right: 4%;
 }
 
 

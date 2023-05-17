@@ -2,7 +2,7 @@
 import "../../assets/styles/testing.css";
 import { FC } from "react";
 
-import { CloseCircleOutlined } from '@ant-design/icons';
+import { CloseCircleOutlined } from "@ant-design/icons";
 import { Input, Space } from "antd";
 import { InputSearchHooks } from "../../../config/hooks/inputSearchHooks";
 import { searchIcon } from "../../assets/icon/iconManager";
@@ -11,7 +11,7 @@ interface inputSearch {
   SearchFilter?: string;
   name: string;
   value: string;
-  placeholder:string;
+  placeholder: string;
   // rome-ignore lint/suspicious/noExplicitAny: <explanation>
   onChange: (e: any) => void;
   onClear: (nameInput: string) => void;
@@ -25,43 +25,44 @@ const InputSearch: FC<inputSearch> = ({
   onClear,
   placeholder,
 }) => {
-  const {
-    mostrarInput,
-    handleMostrarInput,
-    handleOcultarInput,
-  } = InputSearchHooks();
+  const { mostrarInput, handleMostrarInput, handleOcultarInput } =
+    InputSearchHooks();
 
   return (
-    <Space>
+    <>
       {mostrarInput ? (
-        <div
-          className="mostrarOcultar"
-          onClick={() => {
-            handleOcultarInput();
-            onClear(name);
-          }}
-        >
-          <CloseCircleOutlined />
-        </div>
+        <>
+          <Space>
+            <div
+              className="mostrarOcultar"
+              onClick={() => {
+                handleOcultarInput();
+                onClear(name);
+              }}
+            >
+              <CloseCircleOutlined />
+            </div>
+
+            <Input
+              placeholder={placeholder}
+              name={name}
+              value={value}
+              onChange={onChange}
+            />
+          </Space>
+        </>
       ) : (
-        <div className="mostrarOcultar" onClick={handleMostrarInput}>
-         {searchIcon}
-        </div>
+        <>
+          <Space>
+            <div className="mostrarOcultar" onClick={handleMostrarInput}>
+              {searchIcon}
+            </div>
+
+            {SearchFilter?.toLocaleLowerCase() || ""}
+          </Space>
+        </>
       )}
- 
- {mostrarInput ?<Input
-          placeholder={placeholder}
-          name={name}
-          value={value}
-          onChange={onChange}
-        /> :(
-      <> { SearchFilter!!.toLocaleLowerCase()  || ""}</>
-        ) }
-      
-       
-        
-    
-    </Space>
+    </>
   );
 };
 
