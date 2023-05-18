@@ -4,7 +4,7 @@ import "../../utils/assets/styles/testing.css";
 
 import { useEffect } from "react";
 
-import { Card, Col, Popconfirm, Row, Spin, Table } from "antd";
+import { Card, Col, Popconfirm, Row, Spin, Table, Tooltip } from "antd";
 import { SettingOutlined, CloseOutlined } from "@ant-design/icons";
 
 import { UseSettigns } from "./components/hooks/useApp";
@@ -124,6 +124,8 @@ const Settings: React.FC = () => {
           ),
           dataIndex: item,
           editable: true,
+          width: 250,
+          ellipsis: true,
         };
 
         return preColumn;
@@ -141,6 +143,8 @@ const Settings: React.FC = () => {
           ),
           dataIndex: item,
           editable: true,
+          width: 250,
+          ellipsis: true,
         };
 
         return preColumn;

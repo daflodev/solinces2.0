@@ -10,12 +10,15 @@
     border: none;
 }
 
-
+.ant-table-cell.icons{
+    width: 250px !important;
+}
 .card-body {
     background-color: var(--bg-color);
     border: none;
     min-height: calc(93vh - 5.2rem) !important;    
 }
+
 
 .card-body .ant-card-body{
     padding-top: 0px !important;
@@ -32,14 +35,11 @@
 
 .ant-table-wrapper .ant-table-thead>tr>th {
     font-weight: 400;
-    padding: 6px !important;
     font-size: 14px !important;
     color: var(--high-gray) !important;
-    min-width: 210px !important;
 }
 
 .ant-table-wrapper .ant-table-thead>tr>th.ant-table-selection-column{
-    min-width: 20% !important;
 }
 
 
@@ -50,9 +50,6 @@ th.ant-table-cell .ant-space-item {
 }
 
 .ant-space .ant-input {
-    padding-top: 0px;
-    padding-left: 5px;
-    padding-bottom: 0px;
     background-color: var(--bg-color) !important;
 }
 
@@ -67,31 +64,22 @@ tr.editable-row:hover td.ant-table-cell {
 }
 
 .ant-table-wrapper .ant-table-tbody>tr>td {
-    padding: 6px !important;
-    font-size: 14px !important;
-    height: 45px;
+
 }
 
 .editable-cell-value-wrap {
     cursor: pointer;
-    width: 210px;
-    padding-left: 6px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-
 }
 
 .editable-cell-value-wrap:hover {
     border: 1px solid #d9d9d9;
     border-radius: 6px;
-    height: 20px;
-    padding-bottom: 22px;
+    
 }
 
-.ant-form-item {
-    width: 210px;
-}
 
 
 
@@ -150,11 +138,6 @@ tr.ant-table-row-selected.editable-row {
 .ant-select-selection-placeholder {
     color: var(--high-gray) !important;
 }
-.ant-select{
-    min-width: 170px;
-}
-
-
 
 .mostrarOcultar {
     border: 1px solid transparent !important;
