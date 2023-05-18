@@ -4,6 +4,10 @@ import { CascaderHeaderFilter } from "./CascaderHeaderFilter";
 import { MainMenu } from "./menu/menu";
 import { SideOptions } from "./side-options/SideOptions";
 
+import { HeaderHook } from "./hooks/headerHook";
+
+import { mainDrawerStore } from "../../../store/mainDrawerStore";
+
 import default_cede_image from "../../../utils/assets/nav/images/rectangle-25-XRi.png";
 
 import icon_one from "../../../utils/assets/nav/images/rectangle-26-HCC.png";
@@ -14,6 +18,8 @@ import icon_four from "../../../utils/assets/nav/images/rectangle-25.png";
 import { Link } from "react-router-dom";
 import { apiGetThunksAsync } from "../../../utils/services/api/thunks";
 import { logout } from "../../../utils/services/helper/auth-helper";
+
+import { useEffect } from "react";
 
 const itemsToTestHeaderFilterB = [
   {
@@ -53,70 +59,127 @@ const itemsToTestHeaderFilterC = [
   },
 ];
 
-interface CampusOptions {
-  value: string;
-  label: string;
-  children?: CampusOptions[];
-}
-
-const options: CampusOptions[] = [
-  {
-    value: '1',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: '22',
-        label: 'Hangzhou',
-      },
-    ],
-  },
-  {
-    value: '2',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: '15',
-        label: 'Nanjing',
-      },
-    ],
-  },
-];
-
 const HeaderComponent = () => {
+
+  const {
+    institutionsAndCampusOptions,
+    setInstitutionsAndCampusOptions,
+    currentRol,
+    currentInstitution,
+    currentCampus,
+    onChangeCascaderHeaderFilter,
+    institutionAndCampusCaracterizationResponse,
+    updateValue,
+  } = HeaderHook()
+
+  const { open } = mainDrawerStore();
 
   const generatorUnderFilterOptions = () => {
 
-    const currentRol = localStorage.getItem('user_token_information');
-    const parserCurrentRol: any | null = currentRol ? JSON.parse(currentRol) : null;
+    const tokenInformation = localStorage.getItem('user_token_information');
+    const parserTokenInformation: any | null = tokenInformation ? JSON.parse(tokenInformation) : null;
 
-    console.log("rol: ", parserCurrentRol)
-
-    const apiGetFK = async () => {
+    const apiGetInstitutionsAndCampus = async () => {
       const prevData = {
-        sede_usuario: "",
-        schema: "ACADEMICO_TESTV1",
-        where: { "sede_usuario.FK_TUSUARIO": 4 },
+        sede: ["PK_TSEDE", "NOMBRE AS NOMBRE_SEDE"],
+        schema: parserTokenInformation?.dataSchema[0],
+        where: {"usuario.CUENTA": `'${parserTokenInformation?.preferred_username}'`},
+        join: [{ "table": "sede_usuario",
+              "columns": "",
+              "on": ["FK_TSEDE", "sede.PK_TSEDE"]},
+                {  "table": "usuario",
+              "columns": "",
+              "on": ["PK_TUSUARIO", "sede_usuario.FK_TUSUARIO"]},
+                {  "table": "establecimiento",
+              "columns": ["PK_TESTABLECIMIENTO", "NOMBRE"],
+              "on": ["PK_TESTABLECIMIENTO", "sede.FK_TESTABLECIMIENTO"]}
+        ]
       };
 
       const getDataTable = await apiGetThunksAsync(prevData).then((response) => {
-        const { getdata }: any = response
+        const { getdata }: any = response;
 
-        console.log("response heared options: ", getdata)
+        const res = institutionAndCampusCaracterizationResponse(getdata);
 
-        const res = getdata
+        const firstInstitution = {
+          label: res[0]?.label,
+          value: res[0]?.value.toString()
+        }
+
+        const firstCampus = res[0]?.children ? {
+          value: res[0]?.children[0].value.toString(),
+          label: res[0]?.children[0].label
+        } : null
+
+        updateValue([
+          {
+            element: "currentInstitution",
+            value: firstInstitution
+          },
+          {
+            element: "currentCampus",
+            value: firstCampus
+          }
+        ])
+
+        setInstitutionsAndCampusOptions(res)
+
         return res
       });
       return getDataTable
-      };
+    };
 
-    apiGetFK()
+    const apiGetAcademicPeriod = async (currentPKSede) => {
+      const prevData = {
+        sede: ["PK_TSEDE", "NOMBRE AS NOMBRE_SEDE"],
+        schema:parserTokenInformation?.dataSchema[0],
+        where: {"usuario.CUENTA": `'${parserTokenInformation?.preferred_username}'`, "sede.PK_TSEDE": currentPKSede},
+                "join": [{ "table": "sede_usuario",
+                       "columns": "",
+                       "on": ["FK_TSEDE", "sede.PK_TSEDE"]},
+                        {  "table": "usuario",
+                       "columns": "",
+                       "on": ["PK_TUSUARIO", "sede_usuario.FK_TUSUARIO"]},
+                        {  "table": "establecimiento",
+                       "columns": ["PK_TESTABLECIMIENTO", "NOMBRE"],
+                       "on": ["PK_TESTABLECIMIENTO", "sede.FK_TESTABLECIMIENTO"]}
+                ],
+                "left_join": [{ "table": "periodo_academico",
+                       "columns": ["NOMBRE", "PK_TPERIODO_ACADEMICO"],
+                       "on": ["FK_TSEDE", "sede.PK_TSEDE"]}]
+    
+    };
+
+      const getDataTable = await apiGetThunksAsync(prevData).then((response) => {
+        const { getdata }: any = response;
+
+        console.log("apiGetAcademicPeriod response: ", getdata)
+
+        return getdata
+      });
+      return getDataTable
+    };
+
+    useEffect(() => {
+
+      if(parserTokenInformation.preferred_username){
+        apiGetInstitutionsAndCampus()
+      }
+    }, [])
+
+    useEffect(() => {
+
+      apiGetAcademicPeriod(currentCampus?.value)
+
+    }, [currentCampus])
+
     //TODO: regresar condicion != "SUPER_ADMINISTRADOR" cuando se considere listo el filtrado de opciones relaiconadas con cede
-    if(parserCurrentRol?.rol[0] !== "SUPER_ADMINISTRADOR"){
+    if(parserTokenInformation?.rol[0]){
 
       return(
         <div className="frame-67-s3v">
           <div className="auto-group-u1rg-P2G">
-            {CascaderHeaderFilter(options)}
+            {CascaderHeaderFilter(institutionsAndCampusOptions, onChangeCascaderHeaderFilter)}
             {DropdownHeaderFilter(itemsToTestHeaderFilterB)}
             {DropdownHeaderFilter(itemsToTestHeaderFilterC)}
           </div>
@@ -176,7 +239,7 @@ const HeaderComponent = () => {
               />
               <div className="frame-56-wGk">
                 <div className="frame-68-69e">
-                  <div className="frame-53-pbS">IE SOLEDAD ACOSTA</div>
+                  <div className="frame-53-pbS">{currentInstitution?.label}</div>
                   <img
                     className="frame-58-XVr"
                     src="./assets/nav/images/frame-58.png"
@@ -205,11 +268,14 @@ const HeaderComponent = () => {
                   />
                 </Link>
               </div>
+
               {/* TODO: remplazar el asset que viene a continuacion por uno default */}
               <img
                 className="rectangle-25-yrx"
                 src={icon_four}
+                onClick={()=> open()}
               />
+
             </div>
           </div>
           <Button

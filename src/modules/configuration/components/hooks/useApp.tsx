@@ -455,10 +455,15 @@ export const UseSettigns = () => {
       const apiGetFKTFunsionario = async (nameTable: any) => {
 
         const formatedName = nameTable.toUpperCase()
+
+        const tokenInformation = localStorage.getItem('user_token_information');
+        const parserTokenInformation: any | null = tokenInformation ? JSON.parse(tokenInformation) : null;
+    
+        console.log("parser token info 2: ", parserTokenInformation?.dataSchema[0])
   
         const prevData = {  
             funcionario: "",
-            schema:"ACADEMICO_TESTV1",
+            schema: parserTokenInformation?.dataSchema[0],
             where: { "lista_valor.VALOR": `'${formatedName}'` },
             concat: [["usuario.'PRIMER_NOMBRE'",
                        "usuario.'SEGUNDO_NOMBRE'",
