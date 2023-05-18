@@ -52,7 +52,7 @@ const Settings: React.FC = () => {
     save,
     itemsColumnsInformation,
     params,
-  } = UseSettigns();
+  }: any = UseSettigns();
 
   //Funcion para generar la data de los filtros select
   const filterSelectOnColumnGenerator = (
@@ -217,7 +217,7 @@ const Settings: React.FC = () => {
   }, [settingOptions]);
 
 
-  const tableRef = useRef(null);
+  const tableRef: any = useRef(null);
 
   useEffect(() => {
     // Calcula la altura de la tabla y actualiza la altura de la Card
