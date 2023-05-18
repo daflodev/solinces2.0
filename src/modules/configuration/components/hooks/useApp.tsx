@@ -50,6 +50,9 @@ export const UseSettigns = () => {
 
   const [visibleMessage, setVisibleMessage] = useState(<></>)
 
+  const tokenInformation = localStorage.getItem('user_token_information');
+  const parserTokenInformation: any | null = tokenInformation ? JSON.parse(tokenInformation) : null;
+
   const clearAlertMessage = () =>{
     const time = setTimeout(() => {
       setVisibleMessage(<></>)
@@ -151,7 +154,7 @@ export const UseSettigns = () => {
 
     const prevData = {
       base: tableDateBase.table,
-      schema: "ACADEMICO_TESTV1",
+      schema: parserTokenInformation?.dataSchema[0],
     };
 
     
@@ -275,7 +278,7 @@ export const UseSettigns = () => {
       "data",
       `insert_${selectedItem?.key_table}`
     );
-    getdata["schema"] = "ACADEMICO_TESTV1";
+    getdata["schema"] = parserTokenInformation?.dataSchema[0];
 
     await apiPostThunksAsync(getdata)
       .then((response) => {
@@ -337,7 +340,7 @@ export const UseSettigns = () => {
       "data",
       `delete_${selectedItem?.key_table}`
     );
-    getdata["schema"] = "ACADEMICO_TESTV1";
+    getdata["schema"] = parserTokenInformation?.dataSchema[0];
 
     await apiPostThunksAsync(getdata).then((response) => {
       if (response.success == "OK") {
@@ -392,7 +395,7 @@ export const UseSettigns = () => {
       "data",
       `delete_${selectedItem?.key_table}`
     );
-    getdata["schema"] = "ACADEMICO_TESTV1";
+    getdata["schema"] = parserTokenInformation?.dataSchema[0];
 
     await apiPostThunksAsync(getdata).then((response) => {
       if (response.success == "OK") {
@@ -421,7 +424,7 @@ export const UseSettigns = () => {
     const apiGetFK = async (nameTable:any) => {
       const prevData = {
         base: "",
-        schema: "ACADEMICO_TESTV1",
+        schema: parserTokenInformation?.dataSchema[0],
       };
 
       const getdata = changeKey(prevData, "base", nameTable);
@@ -443,7 +446,7 @@ export const UseSettigns = () => {
 
       const prevData = {
         base: "",
-        schema: "ACADEMICO_TESTV1",
+        schema: parserTokenInformation?.dataSchema[0],
         where: { "lista_valor.CATEGORIA": `'${formatedName}'` }
       };
 
@@ -560,7 +563,7 @@ export const UseSettigns = () => {
             "data",
             `update_${selectedItem?.key_table}`
           );
-          (getdata["where"] = newWhere), (getdata["schema"] = "ACADEMICO_TESTV1");
+          (getdata["where"] = newWhere), (getdata["schema"] = parserTokenInformation?.dataSchema[0]);
           
           await apiPostThunksAsync(getdata).then((response) => {
             if (response.success == "OK") {
