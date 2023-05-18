@@ -73,7 +73,7 @@
     /* -> sub menu */
     --menu-sub-fot-target-color: var(--mid-blue);
   
-    --background-rows-hover: var(--mid-blue);
+    --background-rows-hover: var(--low-gray);
   
     --font-color-list-activate: var(--mid-blue);
     --backgorund-color-list-activate: var(--mid-gray);
@@ -90,12 +90,18 @@
   
     /* Containers  */
     --bg-container: var(--dark-blue-gray);
+
+    /* search bar in  menu */
+    --menu-search-bar-bg-color: var(--dark-blue-gray);
+    --menu-search-bar-icon-color: var(--high-gray);
+    --menu-search-bar-font-color: var(--high-gray);
+
   
     /* Main menu */
     --menu-icon: var(--white);
     --bg-options-header-filters: var(--dark-blue-gray);
     --menu-box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.08);
-    --bottom-line-separate-logo: var
+    --background-rows-hover: var(--mid-blue);
   }
 
     .box.shadow.card.dark {

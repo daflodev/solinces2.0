@@ -8,7 +8,7 @@ export const EditableCellsHooks = (fkGroup, title) => {
 
     const [editing, setEditing] = useState(false);
 
-    const [editingValueDate, setEditingValueDate] = useState({editingDate: false, value: null});
+    const [editingValueDate, setEditingValueDate] = useState({editingDate: false, value: {}});
 
 
     const determinateIfIsSelected = (titleSelected: any) => {

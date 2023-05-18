@@ -2,6 +2,7 @@ import React from "react";
 import "../../assets/styles/testing.css";
 import { useEffect, useContext, useRef } from "react";
 
+
 //interface de tipado para pasar por props los datos editado
 // @ts-ignore
 interface EditableCellProps {
@@ -15,6 +16,7 @@ interface EditableCellProps {
   //save: (record: Item) => void;
   save: (record: any) => void;
 }
+
 
 import moment from 'moment-timezone';
 
@@ -114,7 +116,7 @@ export const EditableCell= ({
 
       renderValue = (
         <InputNumber
-        // @ts-ignore
+            // @ts-ignore
             ref={inputRef}
             formatter={(value) => formattingNumberFunction(value, dataInformation,'.')}
             onBlur={()=> {
@@ -202,7 +204,7 @@ export const EditableCell= ({
           'height': "100%",
           'opacity': 0,
           'pointerEvents': "auto"
-        } : { paddingRight: 24 }}
+        } : {}}
         onClick={toggleEdit}
         onKeyDown={toggleEdit}
       >

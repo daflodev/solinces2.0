@@ -4,6 +4,7 @@ import "../../../../utils/assets/styles/testing.css";
 import { message } from "antd";
 import { apiGetThunksAsync, apiGetThunksMenuItemsOptionsAsync, apiPostThunksAsync } from "../../../../utils/services/api/thunks";
 import { useParams, useNavigate } from "react-router-dom";
+import { getUserToken } from "../../../../utils/utils";
 
 export const UseSettigns = () => {
 
@@ -111,18 +112,23 @@ export const UseSettigns = () => {
 
   //data table for items listnameTable
   
-  const select_type = (params: any) => {
+  const select_type = (params: any, rol: string) => {
+
     const type: any = {
         'establecimiento': {
            table:["PK_TESTABLECIMIENTO","CODIGO", "NOMBRE", "NIT", "FK_TMUNICIPIO", "FK_TLISTA_VALOR_ZONA", "FK_TPROPIEDAD_JURIDICA", "FK_TLV_CALENDARIO", "FK_TLV_ESTADO_ESTABLECIMIENTO"],
-          //  table:["NOMBRE","CODIGO"],
         },
         'defauld': {
             table:"",
         }
     };
 
-    const validate = params == 'establecimiento' ? type[params] : type['defauld'];
+    const user = getUserToken()
+    let validate: any = type['defauld']
+    if(user.rol[0] == "SUPER_ADMINISTRADOR"){
+      validate = type[params] ?? type['defauld']
+    }
+    // validate = params == 'establecimiento' ? type[params] : type['defauld'];
     return validate
   };
 
@@ -139,8 +145,9 @@ export const UseSettigns = () => {
 
   
   const apiGet = async (nameTable: any, setDataTable: any) => {
-
-    const tableDateBase = select_type(nameTable);
+    const userI = getUserToken()
+    const rol: string = userI.rol[0]
+    const tableDateBase = select_type(nameTable, rol);
 
     const prevData = {
       base: tableDateBase.table,

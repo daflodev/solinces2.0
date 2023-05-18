@@ -18,6 +18,12 @@ function useJwtTool(token: any) {
   return { myDecodedToken, isMyTokenExpired };
 }
 
+const getUserToken = () => {
+  const getUser: string = localStorage.getItem('user_token_information')!!;
+  const user : any =  JSON.parse(getUser) ?? null;
+  return user;
+}
+
 export {
   alterSwal,
   formik,
@@ -25,4 +31,5 @@ export {
   InputRef,
   FormInstance,
   Yup,
+  getUserToken,
 };
