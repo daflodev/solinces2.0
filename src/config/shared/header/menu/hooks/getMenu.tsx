@@ -10,10 +10,14 @@ export const GetMenu = () => {
   const [dataSource, setDataSource] = useState([]);
 
   const apiGet = async () => {
+
+    const tokenInformation = localStorage.getItem('user_token_information');
+    const parserTokenInformation: any | null = tokenInformation ? JSON.parse(tokenInformation) : null;
+
     if (dataKCToken) {
       const getdata = {
         menu: ["NOMBRE", "ICONO", "URL", "VISIBLE", "ESTADO", "CODIGO"],
-        schema: "ACADEMICO_TESTV1",
+        schema: parserTokenInformation?.dataSchema[0],
         where: { "rol.CODIGO": `'${dataKCToken.rol[0]}'` },
         join: [
           {
