@@ -5,21 +5,29 @@ import { useJwtTool } from '../../utils/utils';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { sessionInformationStore } from "../../store/userInformationStore";
 
 const LoadPages = () => {
   const navigate = useNavigate();
+
+  const { updateValue } = sessionInformationStore();
 
   const validationUser = () => {
     getUser().then(user => {
       if (user && user.access_token) {
     
           const { myDecodedToken } = useJwtTool(user.access_token);
-    
+
+          updateValue({
+            element: "currentRol",
+            value: myDecodedToken?.rol[0]
+          })
+
           localStorage.setItem("user_token_information", JSON.stringify(myDecodedToken))    
           navigate("/layout/configuracion");
       
       } else {
-        login()
+          login()
       }
     });
   }
