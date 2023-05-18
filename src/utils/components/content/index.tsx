@@ -1,9 +1,26 @@
 import React from "react";
+import { Drawer } from 'antd';
 import HeaderComponent from "../../../config/shared/header";
+
+import { DrawerRender } from "./drawerRender";
+
+import shallow from "zustand/shallow";
+import { mainDrawerStore } from "../../../store/mainDrawerStore";
 
 
 const ContentComponents = ({ children }: {children: any}) => {
 
+    const { isOpen } = mainDrawerStore(
+        (state) => ({
+            isOpen: state.isOpen,
+        }),
+        shallow
+    );
+
+    const containerStyle: React.CSSProperties = {
+        position: 'relative',
+        overflow: 'auto',
+    };
 
     return (
         <>
@@ -12,7 +29,18 @@ const ContentComponents = ({ children }: {children: any}) => {
             </nav>
 
             <main>
-                {children}
+                <div style={containerStyle}>
+                    {children}
+                    <Drawer
+                        title="Basic Drawer"
+                        placement="right"
+                        closable={true}
+                        open={isOpen}
+                        getContainer={false}
+                    >
+                        {DrawerRender()}
+                    </Drawer>
+                </div>
             </main>
         </>
     );

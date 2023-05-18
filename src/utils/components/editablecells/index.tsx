@@ -77,7 +77,6 @@ export const EditableCell= ({
 
   // setea los datos del campo de edicion
   const toggleEdit = () => {
-    console.log('aqui')
     setEditing(!editing);
     form.setFieldsValue({ [dataIndex]: record[dataIndex] });
   };
