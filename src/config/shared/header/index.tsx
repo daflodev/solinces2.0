@@ -70,6 +70,8 @@ const HeaderComponent = () => {
     onChangeCascaderHeaderFilter,
     institutionAndCampusCaracterizationResponse,
     updateValue,
+    addToArray,
+    clearArray,
   } = HeaderHook()
 
   const { open } = mainDrawerStore();
@@ -160,6 +162,37 @@ const HeaderComponent = () => {
       return getDataTable
     };
 
+    const apiGetRols = async (campusId: any) => {
+      const user = parserTokenInformation.email;
+      const prevData = {
+        sede_usuario: "",
+        schema:parserTokenInformation?.dataSchema[0],
+        where: { "usuario.CUENTA": `'${user}'`, "sede_usuario.FK_TSEDE":campusId },
+        join: [
+          { "table": "usuario",  "on": ["PK_TUSUARIO", "sede_usuario.FK_TUSUARIO"] },
+          { "table": "rol","columns": ["CODIGO"], "on": ["PK_TROL", "sede_usuario.FK_TROL"] }
+      ]
+    
+    };
+
+      const getDataTable = await apiGetThunksAsync(prevData).then((response) => {
+        const { getdata }: any = response;
+        clearArray()
+        getdata.map((item) => {
+          addToArray(item.CODIGO.toString())
+        })
+
+        updateValue({
+          element: "currentRol",
+          value: getdata[0].CODIGO
+        })
+
+        return getdata
+      });
+      return getDataTable
+
+    };
+
     useEffect(() => {
 
       if(parserTokenInformation.preferred_username){
@@ -170,6 +203,8 @@ const HeaderComponent = () => {
     useEffect(() => {
 
       apiGetAcademicPeriod(currentCampus?.value)
+      apiGetRols(currentCampus?.value)
+
 
     }, [currentCampus])
 

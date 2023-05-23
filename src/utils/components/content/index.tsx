@@ -17,6 +17,8 @@ const ContentComponents = ({ children }: {children: any}) => {
         shallow
     );
 
+    const { close } = mainDrawerStore()
+
     const containerStyle: React.CSSProperties = {
         position: 'relative',
         overflow: 'auto',
@@ -35,6 +37,7 @@ const ContentComponents = ({ children }: {children: any}) => {
                         title="Basic Drawer"
                         placement="right"
                         closable={true}
+                        onClose={close}
                         open={isOpen}
                         getContainer={false}
                     >

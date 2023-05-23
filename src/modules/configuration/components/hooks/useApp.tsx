@@ -115,7 +115,7 @@ export const UseSettigns = () => {
 
   //data table for items listnameTable
   
-  const select_type = (params: any, rol: string) => {
+  const select_type = (params: any) => {
 
     const type: any = {
         'establecimiento': {
@@ -148,9 +148,7 @@ export const UseSettigns = () => {
 
   
   const apiGet = async (nameTable: any, setDataTable: any) => {
-    const userI = getUserToken()
-    const rol: string = userI.rol[0]
-    const tableDateBase = select_type(nameTable, rol);
+    const tableDateBase = select_type(nameTable);
 
     const prevData = {
       base: tableDateBase.table,

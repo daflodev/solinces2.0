@@ -1,0 +1,7 @@
+.listRoles{
+  cursor: pointer;
+}
+
+.listRoles:hover {
+  background-color: #ccc;
+}
