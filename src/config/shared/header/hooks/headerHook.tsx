@@ -6,8 +6,6 @@ import shallow from "zustand/shallow";
 import { sessionInformationStore } from "../../../../store/userInformationStore";
 
 export const HeaderHook = () => {
-    const getItem : any =  localStorage.getItem("user_token_information") ?? null;
-    const dataKCToken : any =  JSON.parse(getItem) ?? null;
 
     const [institutionsAndCampusOptions, setInstitutionsAndCampusOptions] = useState<CampusOptions[]>([])
 
@@ -20,7 +18,7 @@ export const HeaderHook = () => {
         shallow
     );
 
-    const { updateValue } = sessionInformationStore();
+    const { updateValue, addToArray, clearArray } = sessionInformationStore();
 
     const onChangeCascaderHeaderFilter = (value: any, selectedOptions: any)=>{
         console.log("on the hook: ", value);
@@ -93,6 +91,8 @@ export const HeaderHook = () => {
         currentCampus,
         onChangeCascaderHeaderFilter,
         institutionAndCampusCaracterizationResponse,
-        updateValue
+        updateValue,
+        addToArray,
+        clearArray,
     };
 };

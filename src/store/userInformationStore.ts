@@ -16,8 +16,11 @@ interface SessionInformationInterface {
     currentInstitution: CompositeInformation | null,
     currentAcademicPeriod: string | null,
     currentAcademicYear: string | null,
+    currentRoles: string[],
 
     updateValue: (newValue: UpdateValueObject | UpdateValueObject[]) => void;
+    addToArray: (element: string) => void; 
+    clearArray: () => void;
 };
 
 export const sessionInformationStore = create<SessionInformationInterface>((set, get) => ({
@@ -26,6 +29,7 @@ export const sessionInformationStore = create<SessionInformationInterface>((set,
     currentInstitution: null,
     currentAcademicPeriod: null,
     currentAcademicYear: null,
+    currentRoles: [],
 
     updateValue: (newValue: UpdateValueObject | UpdateValueObject[]) =>{
 
@@ -48,5 +52,15 @@ export const sessionInformationStore = create<SessionInformationInterface>((set,
 
             set((state) => ({ ...state, [element]: value}));
         }
-    }
+    },
+
+    addToArray: (element: string) => {
+        set((state) => ({ currentRoles: [...state.currentRoles, element] }));
+    },
+
+    clearArray: () => {
+        set({ currentRoles: [] });
+    },
+    
+
 }));
