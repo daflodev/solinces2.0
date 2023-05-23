@@ -6,8 +6,6 @@ import { shallow } from "zustand/shallow";
 import { sessionInformationStore } from "../../../../store/userInformationStore";
 
 export const HeaderHook = () => {
-    const getItem : any =  localStorage.getItem("user_token_information") ?? null;
-    const dataKCToken : any =  JSON.parse(getItem) ?? null;
 
     const [institutionsAndCampusOptions, setInstitutionsAndCampusOptions] = useState<CampusOptions[]>([])
 
@@ -28,7 +26,7 @@ export const HeaderHook = () => {
         shallow
     );
 
-    const { updateValue } = sessionInformationStore();
+    const { updateValue, addToArray, clearArray } = sessionInformationStore();
 
     const capitalizeWords = (str) => {
         return str
@@ -176,6 +174,8 @@ export const HeaderHook = () => {
         isLoadingAcademicPeriodOptions,
         setIsLoadingAcademicPeriodOptions,
         isLoadingEvaluatePeriodOptions,
-        setIsIsLoadingEvaluatePeriodOptions
+        setIsIsLoadingEvaluatePeriodOptions,
+        addToArray,
+        clearArray,
     };
 };
