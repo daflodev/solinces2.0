@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { Spin } from 'react';
 import { Cascader } from 'antd';
 
 import shallow from "zustand/shallow";
+import { downDirectionVector } from "./menu/menu-icons";
+
 import { sessionInformationStore } from "../../../store/userInformationStore";
 
 interface CampusOptions {
@@ -21,13 +23,18 @@ const CascaderHeaderFilter: React.FC<CampusOptions[]> = (options, onChange) => {
     }), shallow);
 
   return(
-    <Cascader
-      options={options}
-      expandTrigger="hover"
-      displayRender={displayRender}
-      onChange={onChange}
-      value={currentCampus?.label}
-    />
+    <div className="btn3-j68">
+      <div>
+        <Cascader
+          options={options}
+          expandTrigger="hover"
+          displayRender={displayRender}
+          onChange={onChange}
+          value={currentCampus?.label}
+          suffixIcon={downDirectionVector}
+        />
+      </div>
+    </div>
   )
 };
 
