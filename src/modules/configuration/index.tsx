@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 import "../../utils/assets/styles/testing.css";
 
 import { useEffect } from "react";
 
-import { Card, Col, Popconfirm, Row, Spin, Table, Tooltip } from "antd";
+import { Card, Col, Popconfirm, Row, Space, Spin, Table, Tooltip } from "antd";
 import { SettingOutlined, CloseOutlined } from "@ant-design/icons";
 
 import { UseSettigns } from "./components/hooks/useApp";
@@ -53,13 +53,15 @@ const Settings: React.FC = () => {
     itemsColumnsInformation,
     params,
   } = UseSettigns();
-
+  const [isLeftScroll, setIsLeftScroll] = useState(false);
   //Funcion para generar la data de los filtros select
   const filterSelectOnColumnGenerator = (
     fkName: any,
     fkValues: any,
     data: any
   ) => {
+
+
     let reBuildName = fkName?.replace("FK_T", "PK_T");
 
     if (reBuildName.includes("_PADRE")) {
@@ -94,6 +96,21 @@ const Settings: React.FC = () => {
     return options;
   };
 
+
+  const [scrollPos, setScrollPos] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      setScrollPos(currentScrollPos);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   //funcion de selecion lista para renderizar tabla
   const columnsGenerator = (filterObjet: any) => {
     const keys = Object.keys(filterObjet);
@@ -124,7 +141,7 @@ const Settings: React.FC = () => {
           ),
           dataIndex: item,
           editable: true,
-          width: 250,
+          width:250,
           ellipsis: true,
         };
 
@@ -143,7 +160,7 @@ const Settings: React.FC = () => {
           ),
           dataIndex: item,
           editable: true,
-          width: 250,
+          width:250,
           ellipsis: true,
         };
 
@@ -154,25 +171,74 @@ const Settings: React.FC = () => {
     result.push({
       title: "",
       dataIndex: "operation",
+      align: "center" as "center",
+      fixed: "right",
+      width:230,
       render: (_, record: { key: React.Key }) => (
-        <>
+        <Space>
           {/* @ts-ignore */}
           {settingOptions?.length >= 1 ? (
-            <Popconfirm
+           
+               <Popconfirm
               title="seguro desea eliminar?"
               onConfirm={() => handleDelete(record.key)}
             >
-              <div className="iconDelete" style={{ visibility: "hidden" }}>
+              <div className="iconDelete" style={{visibility:"hidden"}}>
                 {deleteIcon}
               </div>
             </Popconfirm>
+          
+           
           ) : null}
-        </>
+           {settingOptions?.length >= 1 ? (
+           
+           <Popconfirm
+          title="seguro desea eliminar?"
+          onConfirm={() => handleDelete(record.key)}
+        >
+          <div className="iconDelete" style={{visibility:"hidden"}}>
+            {deleteIcon}
+          </div>
+        </Popconfirm>
+      
+       
+      ) : null}
+       {settingOptions?.length >= 1 ? (
+           
+           <Popconfirm
+          title="seguro desea eliminar?"
+          onConfirm={() => handleDelete(record.key)}
+        >
+          <div className="iconDelete" style={{visibility:"hidden"}}>
+            {deleteIcon}
+          </div>
+        </Popconfirm>
+      
+       
+      ) : null}
+       {settingOptions?.length >= 1 ? (
+           
+           <Popconfirm
+          title="seguro desea eliminar?"
+          onConfirm={() => handleDelete(record.key)}
+        >
+          <div className="iconDelete" style={{visibility:"hidden"}}>
+            {deleteIcon}
+          </div>
+        </Popconfirm>
+      
+       
+      ) : null}
+        </Space>
       ),
     });
 
     return result;
   };
+
+  
+   
+  
 
   //columnas de la tabla
   // rome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -181,8 +247,7 @@ const Settings: React.FC = () => {
     dataIndex: string;
     title: any;
     render?: any;
-    width?: number;
-
+    fixed?: any;
   })[] = columnsGenerator(inputFilter);
 
   //propiedades que se le pasan a la tabla para establecer el comportamiento de filas y celda
@@ -234,6 +299,9 @@ const Settings: React.FC = () => {
     }
   }, []);
 
+
+ 
+
   return (
     <>
       {contextHolder}
@@ -284,14 +352,13 @@ const Settings: React.FC = () => {
                           <PerfectScrollbar>
                             <Table
                               components={components}
-                              //scroll={{x:300}}
                               rowSelection={{
                                 selectedRowKeys,
                                 onChange: onSelectChange,
                               }}
+                              size="small"
                               // @ts-ignore
-                              rowKey={`PK_T${selectedItem.key_table?.toUpperCase()}`}
-                              rowClassName={() => "editable-row"}
+                              rowKey={`PK_T${selectedItem.key_table?.toUpperCase()}`}                            
                               dataSource={data}
                               loading={{
                                 indicator: <Spin tip="" size="large" />,

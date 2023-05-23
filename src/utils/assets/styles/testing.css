@@ -10,9 +10,7 @@
     border: none;
 }
 
-.ant-table-cell.icons{
-    width: 250px !important;
-}
+
 .card-body {
     background-color: var(--bg-color);
     border: none;
@@ -37,16 +35,22 @@
     font-weight: 400;
     font-size: 14px !important;
     color: var(--high-gray) !important;
+    
 }
 
 .ant-table-wrapper .ant-table-thead>tr>th.ant-table-selection-column{
 }
 
 
+.ant-table-cell.ant-table-cell-fix-right.ant-table-cell-fix-right-first{
+     width: 20px !important;
+     
+}
 
 
 th.ant-table-cell .ant-space-item {
     color: var(--high-gray) !important;
+    width: max-content !important;
 }
 
 .ant-space .ant-input {
