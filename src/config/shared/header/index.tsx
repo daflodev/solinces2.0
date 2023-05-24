@@ -155,7 +155,6 @@ const HeaderComponent = () => {
       const getDataTable = await apiGetThunksAsync(prevData).then((response) => {
         const { getdata }: any = response;
 
-        console.log("apiGetAcademicPeriod response: ", getdata)
 
         return getdata
       });

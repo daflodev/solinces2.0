@@ -42,11 +42,12 @@
 }
 
 
-.ant-table-cell.ant-table-cell-fix-right.ant-table-cell-fix-right-first{
-     width: 20px !important;
-     
-}
-
+/* .ant-table-wrapper .ant-table .ant-table-title+.ant-table-container table>thead>tr:first-child td:last-child {
+    color: transparent; /* Hace el texto transparente */
+  text-shadow: none; /* Elimina cualquier sombra de texto */
+  background-color: transparent; /* Hace el fondo de la celda transparente */
+  border-color: transparent; /* 
+} */
 
 th.ant-table-cell .ant-space-item {
     color: var(--high-gray) !important;
