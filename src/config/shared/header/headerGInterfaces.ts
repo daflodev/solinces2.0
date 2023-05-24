@@ -3,3 +3,9 @@ export interface CampusOptions {
     label: string;
     children?: CampusOptions[];
 }
+
+export interface AcademicPeriodAndEvaluatePeriodOptions {
+
+    key: string;
+    label: string;
+}

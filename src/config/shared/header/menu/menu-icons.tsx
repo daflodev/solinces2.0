@@ -117,8 +117,6 @@ const getIcon = (iconReference: any) =>{
 
     const filterIcon = icons.filter(item => item.name == iconReference)
 
-    console.log("filter icon: ", filterIcon)
-
     if (filterIcon.length > 0) {
 
         return filterIcon[0]

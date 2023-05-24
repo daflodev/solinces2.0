@@ -1,5 +1,6 @@
-import { Button } from "antd";
-import { DropdownHeaderFilter } from "./DropdownHeaderFilter";
+import { Button, Spin } from "antd";
+import { DropdownHeaderFilterEvaluate } from "./DropdownHeaderFilterEvaluate";
+import { DropdownHeaderFilterAcademic } from "./DropdownHeaderFilterAcademic";
 import { CascaderHeaderFilter } from "./CascaderHeaderFilter";
 import { MainMenu } from "./menu/menu";
 import { SideOptions } from "./side-options/SideOptions";
@@ -21,57 +22,34 @@ import { logout } from "../../../utils/services/helper/auth-helper";
 
 import { useEffect } from "react";
 
-const itemsToTestHeaderFilterB = [
-  {
-    key: "1",
-    label: "2020",
-  },
-  {
-    key: "2",
-    label: "2021",
-  },
-  {
-    key: "3",
-    label: "2022",
-  },
-  {
-    key: "4",
-    label: "2023",
-  },
-];
-
-const itemsToTestHeaderFilterC = [
-  {
-    key: "1",
-    label: "periodo 1",
-  },
-  {
-    key: "2",
-    label: "periodo 2",
-  },
-  {
-    key: "3",
-    label: "periodo 3",
-  },
-  {
-    key: "4",
-    label: "periodo 4",
-  },
-];
-
 const HeaderComponent = () => {
 
   const {
     institutionsAndCampusOptions,
     setInstitutionsAndCampusOptions,
+    academicPeriodOptions, 
+    setAcademicPeriodOptions,
+    evaluatePeriodOptions, 
+    setEvaluatePeriodOptions,
     currentRol,
     currentInstitution,
     currentCampus,
+    currentAcademicPeriod,
+    currentAcademicYear,
     onChangeCascaderHeaderFilter,
     institutionAndCampusCaracterizationResponse,
+    academicPeriodResponseDigestor,
+    academicPeriodPeriodResponseDigestor,
     updateValue,
+    onChangeAcademicYear,
+    onChangeAcademicPeriod,
+    isLoadingAcademicPeriodOptions,
+    setIsLoadingAcademicPeriodOptions,
+    isLoadingEvaluatePeriodOptions,
+    setIsIsLoadingEvaluatePeriodOptions,
     addToArray,
     clearArray,
+
   } = HeaderHook()
 
   const { open } = mainDrawerStore();
@@ -106,12 +84,12 @@ const HeaderComponent = () => {
         const firstInstitution = {
           label: res[0]?.label,
           value: res[0]?.value.toString()
-        }
+        };
 
         const firstCampus = res[0]?.children ? {
           value: res[0]?.children[0].value.toString(),
           label: res[0]?.children[0].label
-        } : null
+        } : null;
 
         updateValue([
           {
@@ -131,10 +109,10 @@ const HeaderComponent = () => {
       return getDataTable
     };
 
-    const apiGetAcademicPeriod = async (currentPKSede) => {
+    const apiGetAcademicPeriod = async (setLoading, currentPKSede) => {
       const prevData = {
         sede: ["PK_TSEDE", "NOMBRE AS NOMBRE_SEDE"],
-        schema:parserTokenInformation?.dataSchema[0],
+        schema: parserTokenInformation?.dataSchema[0],
         where: {"usuario.CUENTA": `'${parserTokenInformation?.preferred_username}'`, "sede.PK_TSEDE": currentPKSede},
                 "join": [{ "table": "sede_usuario",
                        "columns": "",
@@ -153,8 +131,84 @@ const HeaderComponent = () => {
     };
 
       const getDataTable = await apiGetThunksAsync(prevData).then((response) => {
+
         const { getdata }: any = response;
 
+        const res = academicPeriodResponseDigestor(getdata);
+
+        updateValue({
+            element: "currentAcademicYear",
+            value: res[0]?.key
+        })
+
+        setLoading(false)
+
+        setAcademicPeriodOptions(res);
+
+        return getdata
+      });
+      return getDataTable
+    };
+
+    const showHeaderSelectorAcademicAndEvaluate = (isLoading, options, renderElement) => {
+
+      if(isLoading){
+        return(
+          <div className="header_filter_loading">
+            <Spin tip=""/>
+          </div>
+        )
+      }
+      
+      const nullElements = options.filter((element) => element.key == null)
+
+      const isNotOnlyNullValue = (options.length == nullElements.length) ? false : true
+
+      if(options.length > 0  && isNotOnlyNullValue){
+
+        return(
+          renderElement
+        );
+      }
+    }
+
+    const apiGetAcademicPeriodPeriod = async (setLoading, currentPKSede, currentPKAcademicPeriod) => {
+      const prevData = {
+        sede: ["PK_TSEDE", "NOMBRE AS NOMBRE_SEDE"],
+        schema: parserTokenInformation?.dataSchema[0],
+        where: {"usuario.CUENTA": `'${parserTokenInformation?.preferred_username}'`, "sede.PK_TSEDE": currentPKSede, "periodo_academico.PK_TPERIODO_ACADEMICO": currentPKAcademicPeriod},
+                "join": [{ "table": "sede_usuario",
+                       "columns": "",
+                       "on": ["FK_TSEDE", "sede.PK_TSEDE"]},
+                        {  "table": "usuario",
+                       "columns": "",
+                       "on": ["PK_TUSUARIO", "sede_usuario.FK_TUSUARIO"]},
+                        {  "table": "establecimiento",
+                       "columns": ["PK_TESTABLECIMIENTO", "NOMBRE AS NOMBRE_ESTABLECIMIENTO"],
+                       "on": ["PK_TESTABLECIMIENTO", "sede.FK_TESTABLECIMIENTO"]}
+                ],
+                "left_join": [{ "table": "periodo_academico",
+                                "columns": ["NOMBRE AS NOMBRE_PERIODO_ACADEMICO", "PK_TPERIODO_ACADEMICO"],
+                                "on": ["FK_TSEDE", "sede.PK_TSEDE"]},
+                              { "table": "periodo_evaluacion",
+                                "columns": ["PK_TPERIODO_EVALUACION", "CODIGO AS CODIGO_PERIODO_EVALUACION", "NOMBRE AS NOMBRE_PERIODO_EVALUACION"],
+                                "on": ["FK_TPERIODO_ACADEMICO", "periodo_academico.PK_TPERIODO_ACADEMICO"]}]
+      };
+
+      const getDataTable = await apiGetThunksAsync(prevData).then((response) => {
+
+        const { getdata }: any = response;
+
+        const res = academicPeriodPeriodResponseDigestor(getdata);
+
+        updateValue({
+            element: "currentAcademicPeriod",
+            value: res[0]?.key
+        })
+
+        setLoading(false)
+
+        setEvaluatePeriodOptions(res);
 
         return getdata
       });
@@ -201,11 +255,23 @@ const HeaderComponent = () => {
 
     useEffect(() => {
 
-      apiGetAcademicPeriod(currentCampus?.value)
+      setIsLoadingAcademicPeriodOptions(true)
+
+      setIsIsLoadingEvaluatePeriodOptions(true)
+
+      apiGetAcademicPeriod(setIsLoadingAcademicPeriodOptions, currentCampus?.value)
+
       apiGetRols(currentCampus?.value)
 
-
     }, [currentCampus])
+
+    useEffect(() => {
+
+      setIsIsLoadingEvaluatePeriodOptions(true)
+
+      apiGetAcademicPeriodPeriod(setIsIsLoadingEvaluatePeriodOptions, currentCampus?.value, currentAcademicYear)
+
+    }, [currentAcademicYear])
 
     //TODO: regresar condicion != "SUPER_ADMINISTRADOR" cuando se considere listo el filtrado de opciones relaiconadas con cede
     if(parserTokenInformation?.rol[0]){
@@ -214,8 +280,8 @@ const HeaderComponent = () => {
         <div className="frame-67-s3v">
           <div className="auto-group-u1rg-P2G">
             {CascaderHeaderFilter(institutionsAndCampusOptions, onChangeCascaderHeaderFilter)}
-            {DropdownHeaderFilter(itemsToTestHeaderFilterB)}
-            {DropdownHeaderFilter(itemsToTestHeaderFilterC)}
+            {showHeaderSelectorAcademicAndEvaluate(isLoadingAcademicPeriodOptions, academicPeriodOptions, DropdownHeaderFilterEvaluate(academicPeriodOptions, currentAcademicYear, onChangeAcademicYear))}
+            {showHeaderSelectorAcademicAndEvaluate(isLoadingEvaluatePeriodOptions, evaluatePeriodOptions, DropdownHeaderFilterAcademic(evaluatePeriodOptions, currentAcademicPeriod, onChangeAcademicPeriod))}
           </div>
         </div>
       )
@@ -273,7 +339,7 @@ const HeaderComponent = () => {
               />
               <div className="frame-56-wGk">
                 <div className="frame-68-69e">
-                  <div className="frame-53-pbS">{currentInstitution?.label}</div>
+                  <div className="frame-53-pbS">{currentInstitution ? currentInstitution?.label :  <Spin tip="" size="large"/>}</div>
                   <img
                     className="frame-58-XVr"
                     src="./assets/nav/images/frame-58.png"
