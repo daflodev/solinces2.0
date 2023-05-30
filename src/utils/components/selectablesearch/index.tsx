@@ -2,7 +2,7 @@ import { searchIcon } from "../../assets/icon/iconManager";
 import { useState } from "react";
 
 import { CloseCircleOutlined } from '@ant-design/icons';
-import { Button, Select, Space } from "antd";
+import { Select, Space } from "antd";
 import { SelectableSearchHook } from "../../../config/hooks/selectableSearchHook";
 
 const SelectableSearch = ({

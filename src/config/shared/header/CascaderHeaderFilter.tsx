@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { Spin } from 'react';
 import { Cascader } from 'antd';
+
+import shallow from "zustand/shallow";
+import { downDirectionVector } from "./menu/menu-icons";
+
+import { sessionInformationStore } from "../../../store/userInformationStore";
 
 interface CampusOptions {
     value: string;
@@ -7,22 +12,30 @@ interface CampusOptions {
     children?: CampusOptions[];
 }
 
-const onChange = (value: any) => {
-  console.log(value);
-};
-
 // Just show the latest item.
 const displayRender = (labels: string[]) => labels[labels.length - 1];
 
-const CascaderHeaderFilter: React.FC<CampusOptions[]> = (options) => (
-  <Cascader
-    options={options}
-    expandTrigger="hover"
-    displayRender={displayRender}
-    onChange={onChange}
-    //TODO: debe tomar el valor del primero con el que va a cargar
-    //defaultValue=""
-  />
-);
+const CascaderHeaderFilter: React.FC<CampusOptions[]> = (options, onChange) => {
+
+  const { currentCampus } = sessionInformationStore(
+    (state) => ({
+      currentCampus: state.currentCampus,
+    }), shallow);
+
+  return(
+    <div className="btn3-j68">
+      <div>
+        <Cascader
+          options={options}
+          expandTrigger="hover"
+          displayRender={displayRender}
+          onChange={onChange}
+          value={currentCampus?.label}
+          suffixIcon={downDirectionVector}
+        />
+      </div>
+    </div>
+  )
+};
 
 export{CascaderHeaderFilter};

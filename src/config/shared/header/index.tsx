@@ -1,8 +1,13 @@
-import { Button } from "antd";
-import { DropdownHeaderFilter } from "./DropdownHeaderFilter";
+import { Button, Spin } from "antd";
+import { DropdownHeaderFilterEvaluate } from "./DropdownHeaderFilterEvaluate";
+import { DropdownHeaderFilterAcademic } from "./DropdownHeaderFilterAcademic";
 import { CascaderHeaderFilter } from "./CascaderHeaderFilter";
 import { MainMenu } from "./menu/menu";
 import { SideOptions } from "./side-options/SideOptions";
+
+import { HeaderHook } from "./hooks/headerHook";
+
+import { mainDrawerStore } from "../../../store/mainDrawerStore";
 
 import default_cede_image from "../../../utils/assets/nav/images/rectangle-25-XRi.png";
 
@@ -15,108 +20,268 @@ import { Link } from "react-router-dom";
 import { apiGetThunksAsync } from "../../../utils/services/api/thunks";
 import { logout } from "../../../utils/services/helper/auth-helper";
 
-const itemsToTestHeaderFilterB = [
-  {
-    key: "1",
-    label: "2020",
-  },
-  {
-    key: "2",
-    label: "2021",
-  },
-  {
-    key: "3",
-    label: "2022",
-  },
-  {
-    key: "4",
-    label: "2023",
-  },
-];
-
-const itemsToTestHeaderFilterC = [
-  {
-    key: "1",
-    label: "periodo 1",
-  },
-  {
-    key: "2",
-    label: "periodo 2",
-  },
-  {
-    key: "3",
-    label: "periodo 3",
-  },
-  {
-    key: "4",
-    label: "periodo 4",
-  },
-];
-
-interface CampusOptions {
-  value: string;
-  label: string;
-  children?: CampusOptions[];
-}
-
-const options: CampusOptions[] = [
-  {
-    value: '1',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: '22',
-        label: 'Hangzhou',
-      },
-    ],
-  },
-  {
-    value: '2',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: '15',
-        label: 'Nanjing',
-      },
-    ],
-  },
-];
+import { useEffect } from "react";
 
 const HeaderComponent = () => {
 
+  const {
+    institutionsAndCampusOptions,
+    setInstitutionsAndCampusOptions,
+    academicPeriodOptions, 
+    setAcademicPeriodOptions,
+    evaluatePeriodOptions, 
+    setEvaluatePeriodOptions,
+    currentRol,
+    currentInstitution,
+    currentCampus,
+    currentAcademicPeriod,
+    currentAcademicYear,
+    onChangeCascaderHeaderFilter,
+    institutionAndCampusCaracterizationResponse,
+    academicPeriodResponseDigestor,
+    academicPeriodPeriodResponseDigestor,
+    updateValue,
+    onChangeAcademicYear,
+    onChangeAcademicPeriod,
+    isLoadingAcademicPeriodOptions,
+    setIsLoadingAcademicPeriodOptions,
+    isLoadingEvaluatePeriodOptions,
+    setIsIsLoadingEvaluatePeriodOptions,
+    addToArray,
+    clearArray,
+
+  } = HeaderHook()
+
+  const { open } = mainDrawerStore();
+
   const generatorUnderFilterOptions = () => {
 
-    const currentRol = localStorage.getItem('user_token_information');
-    const parserCurrentRol: any | null = currentRol ? JSON.parse(currentRol) : null;
+    const tokenInformation = localStorage.getItem('user_token_information');
+    const parserTokenInformation: any | null = tokenInformation ? JSON.parse(tokenInformation) : null;
 
-    const apiGetFK = async () => {
+    const apiGetInstitutionsAndCampus = async () => {
       const prevData = {
-        sede_usuario: "",
-        schema: "ACADEMICO_TESTV1",
-        where: { "sede_usuario.FK_TUSUARIO": 4 },
+        sede: ["PK_TSEDE", "NOMBRE AS NOMBRE_SEDE"],
+        schema: parserTokenInformation?.dataSchema[0],
+        where: {"usuario.CUENTA": `'${parserTokenInformation?.preferred_username}'`},
+        join: [{ "table": "sede_usuario",
+              "columns": "",
+              "on": ["FK_TSEDE", "sede.PK_TSEDE"]},
+                {  "table": "usuario",
+              "columns": "",
+              "on": ["PK_TUSUARIO", "sede_usuario.FK_TUSUARIO"]},
+                {  "table": "establecimiento",
+              "columns": ["PK_TESTABLECIMIENTO", "NOMBRE"],
+              "on": ["PK_TESTABLECIMIENTO", "sede.FK_TESTABLECIMIENTO"]}
+        ]
       };
 
       const getDataTable = await apiGetThunksAsync(prevData).then((response) => {
-        const { getdata }: any = response
+        const { getdata }: any = response;
 
-        console.log("response heared options: ", getdata)
+        const res = institutionAndCampusCaracterizationResponse(getdata);
 
-        const res = getdata
+        const firstInstitution = {
+          label: res[0]?.label,
+          value: res[0]?.value.toString()
+        };
+
+        const firstCampus = res[0]?.children ? {
+          value: res[0]?.children[0].value.toString(),
+          label: res[0]?.children[0].label
+        } : null;
+
+        updateValue([
+          {
+            element: "currentInstitution",
+            value: firstInstitution
+          },
+          {
+            element: "currentCampus",
+            value: firstCampus
+          }
+        ])
+
+        setInstitutionsAndCampusOptions(res)
+
         return res
       });
       return getDataTable
+    };
+
+    const apiGetAcademicPeriod = async (setLoading, currentPKSede) => {
+      const prevData = {
+        sede: ["PK_TSEDE", "NOMBRE AS NOMBRE_SEDE"],
+        schema: parserTokenInformation?.dataSchema[0],
+        where: {"usuario.CUENTA": `'${parserTokenInformation?.preferred_username}'`, "sede.PK_TSEDE": currentPKSede},
+                "join": [{ "table": "sede_usuario",
+                       "columns": "",
+                       "on": ["FK_TSEDE", "sede.PK_TSEDE"]},
+                        {  "table": "usuario",
+                       "columns": "",
+                       "on": ["PK_TUSUARIO", "sede_usuario.FK_TUSUARIO"]},
+                        {  "table": "establecimiento",
+                       "columns": ["PK_TESTABLECIMIENTO", "NOMBRE"],
+                       "on": ["PK_TESTABLECIMIENTO", "sede.FK_TESTABLECIMIENTO"]}
+                ],
+                "left_join": [{ "table": "periodo_academico",
+                       "columns": ["NOMBRE", "PK_TPERIODO_ACADEMICO"],
+                       "on": ["FK_TSEDE", "sede.PK_TSEDE"]}]
+    
+    };
+
+      const getDataTable = await apiGetThunksAsync(prevData).then((response) => {
+
+        const { getdata }: any = response;
+
+        const res = academicPeriodResponseDigestor(getdata);
+
+        updateValue({
+            element: "currentAcademicYear",
+            value: res[0]?.key
+        })
+
+        setLoading(false)
+
+        setAcademicPeriodOptions(res);
+
+        return getdata
+      });
+      return getDataTable
+    };
+
+    const showHeaderSelectorAcademicAndEvaluate = (isLoading, options, renderElement) => {
+
+      if(isLoading){
+        return(
+          <div className="header_filter_loading">
+            <Spin tip=""/>
+          </div>
+        )
+      }
+      
+      const nullElements = options.filter((element) => element.key == null)
+
+      const isNotOnlyNullValue = (options.length == nullElements.length) ? false : true
+
+      if(options.length > 0  && isNotOnlyNullValue){
+
+        return(
+          renderElement
+        );
+      }
+    }
+
+    const apiGetAcademicPeriodPeriod = async (setLoading, currentPKSede, currentPKAcademicPeriod) => {
+      const prevData = {
+        sede: ["PK_TSEDE", "NOMBRE AS NOMBRE_SEDE"],
+        schema: parserTokenInformation?.dataSchema[0],
+        where: {"usuario.CUENTA": `'${parserTokenInformation?.preferred_username}'`, "sede.PK_TSEDE": currentPKSede, "periodo_academico.PK_TPERIODO_ACADEMICO": currentPKAcademicPeriod},
+                "join": [{ "table": "sede_usuario",
+                       "columns": "",
+                       "on": ["FK_TSEDE", "sede.PK_TSEDE"]},
+                        {  "table": "usuario",
+                       "columns": "",
+                       "on": ["PK_TUSUARIO", "sede_usuario.FK_TUSUARIO"]},
+                        {  "table": "establecimiento",
+                       "columns": ["PK_TESTABLECIMIENTO", "NOMBRE AS NOMBRE_ESTABLECIMIENTO"],
+                       "on": ["PK_TESTABLECIMIENTO", "sede.FK_TESTABLECIMIENTO"]}
+                ],
+                "left_join": [{ "table": "periodo_academico",
+                                "columns": ["NOMBRE AS NOMBRE_PERIODO_ACADEMICO", "PK_TPERIODO_ACADEMICO"],
+                                "on": ["FK_TSEDE", "sede.PK_TSEDE"]},
+                              { "table": "periodo_evaluacion",
+                                "columns": ["PK_TPERIODO_EVALUACION", "CODIGO AS CODIGO_PERIODO_EVALUACION", "NOMBRE AS NOMBRE_PERIODO_EVALUACION"],
+                                "on": ["FK_TPERIODO_ACADEMICO", "periodo_academico.PK_TPERIODO_ACADEMICO"]}]
       };
 
-    apiGetFK()
+      const getDataTable = await apiGetThunksAsync(prevData).then((response) => {
+
+        const { getdata }: any = response;
+
+        const res = academicPeriodPeriodResponseDigestor(getdata);
+
+        updateValue({
+            element: "currentAcademicPeriod",
+            value: res[0]?.key
+        })
+
+        setLoading(false)
+
+        setEvaluatePeriodOptions(res);
+
+        return getdata
+      });
+      return getDataTable
+    };
+
+    const apiGetRols = async (campusId: any) => {
+      const user = parserTokenInformation.email;
+      const prevData = {
+        sede_usuario: "",
+        schema:parserTokenInformation?.dataSchema[0],
+        where: { "usuario.CUENTA": `'${user}'`, "sede_usuario.FK_TSEDE":campusId },
+        join: [
+          { "table": "usuario",  "on": ["PK_TUSUARIO", "sede_usuario.FK_TUSUARIO"] },
+          { "table": "rol","columns": ["CODIGO"], "on": ["PK_TROL", "sede_usuario.FK_TROL"] }
+      ]
+    
+    };
+
+      const getDataTable = await apiGetThunksAsync(prevData).then((response) => {
+        const { getdata }: any = response;
+        clearArray()
+        getdata.map((item) => {
+          addToArray(item.CODIGO.toString())
+        })
+
+        updateValue({
+          element: "currentRol",
+          value: getdata[0].CODIGO
+        })
+
+        return getdata
+      });
+      return getDataTable
+
+    };
+
+    useEffect(() => {
+
+      if(parserTokenInformation.preferred_username){
+        apiGetInstitutionsAndCampus()
+      }
+    }, [])
+
+    useEffect(() => {
+
+      setIsLoadingAcademicPeriodOptions(true)
+
+      setIsIsLoadingEvaluatePeriodOptions(true)
+
+      apiGetAcademicPeriod(setIsLoadingAcademicPeriodOptions, currentCampus?.value)
+
+      apiGetRols(currentCampus?.value)
+
+    }, [currentCampus])
+
+    useEffect(() => {
+
+      setIsIsLoadingEvaluatePeriodOptions(true)
+
+      apiGetAcademicPeriodPeriod(setIsIsLoadingEvaluatePeriodOptions, currentCampus?.value, currentAcademicYear)
+
+    }, [currentAcademicYear])
+
     //TODO: regresar condicion != "SUPER_ADMINISTRADOR" cuando se considere listo el filtrado de opciones relaiconadas con cede
-    if(parserCurrentRol?.rol[0] !== "SUPER_ADMINISTRADOR"){
+    if(parserTokenInformation?.rol[0]){
 
       return(
         <div className="frame-67-s3v">
           <div className="auto-group-u1rg-P2G">
-            {CascaderHeaderFilter(options)}
-            {DropdownHeaderFilter(itemsToTestHeaderFilterB)}
-            {DropdownHeaderFilter(itemsToTestHeaderFilterC)}
+            {CascaderHeaderFilter(institutionsAndCampusOptions, onChangeCascaderHeaderFilter)}
+            {showHeaderSelectorAcademicAndEvaluate(isLoadingAcademicPeriodOptions, academicPeriodOptions, DropdownHeaderFilterEvaluate(academicPeriodOptions, currentAcademicYear, onChangeAcademicYear))}
+            {showHeaderSelectorAcademicAndEvaluate(isLoadingEvaluatePeriodOptions, evaluatePeriodOptions, DropdownHeaderFilterAcademic(evaluatePeriodOptions, currentAcademicPeriod, onChangeAcademicPeriod))}
           </div>
         </div>
       )
@@ -174,7 +339,7 @@ const HeaderComponent = () => {
               />
               <div className="frame-56-wGk">
                 <div className="frame-68-69e">
-                  <div className="frame-53-pbS">IE SOLEDAD ACOSTA</div>
+                  <div className="frame-53-pbS">{currentInstitution ? currentInstitution?.label :  <Spin tip="" size="large"/>}</div>
                   <img
                     className="frame-58-XVr"
                     src="./assets/nav/images/frame-58.png"
@@ -203,11 +368,14 @@ const HeaderComponent = () => {
                   />
                 </Link>
               </div>
+
               {/* TODO: remplazar el asset que viene a continuacion por uno default */}
               <img
                 className="rectangle-25-yrx"
                 src={icon_four}
+                onClick={()=> open()}
               />
+
             </div>
           </div>
           <Button
