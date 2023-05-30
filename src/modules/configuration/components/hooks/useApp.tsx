@@ -316,7 +316,7 @@ export const UseSettigns = () => {
 
   //funcion para eliminar datos de la tabla y envio de mensjae de exitoso
   const handleDelete = async (key: React.Key) => {
-    
+    console.log(key, "funcion delete")
     const newData = data.filter((item: any) => item.key !== key);
     let keyPosicion = parseInt(key.toString());
     let whereUpdate = {
@@ -805,7 +805,20 @@ export const UseSettigns = () => {
 
     }, [inputFilter])
 
+    const [hovered, setHovered] = useState(false);
+
+    const handleMouseEnter = () => {
+      setHovered(true);
+    };
+  
+    const handleMouseLeave = () => {
+      setHovered(false);
+    };
+
   return {
+    hovered,
+    handleMouseEnter,
+    handleMouseLeave,
     contextHolder,
     messageApi,
     visibleForm,
