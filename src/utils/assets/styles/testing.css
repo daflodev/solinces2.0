@@ -14,13 +14,25 @@
 .card-body {
     background-color: var(--bg-color);
     border: none;
-    min-height: calc(93vh - 5.2rem) !important;    
+    min-height: calc(93vh - 5.2rem) !important;
 }
 
+.iconHover {
+    display: flex;
+    justify-content: end;
+    z-index: 3;
+    position: fixed;
+    padding-top: 10px;
+}
 
-.card-body .ant-card-body{
+.card-body .ant-card-body {
     padding-top: 0px !important;
 }
+
+.ant-table-cell .ant-table-cell-ellipsis {
+    padding: 0 !important;
+}
+
 
 .ant-table-title {
     font-weight: 600;
@@ -31,27 +43,17 @@
 
 
 
+
 .ant-table-wrapper .ant-table-thead>tr>th {
     font-weight: 400;
     font-size: 14px !important;
     color: var(--high-gray) !important;
-    
+
 }
 
-.ant-table-wrapper .ant-table-thead>tr>th.ant-table-selection-column{
-}
-
-
-/* .ant-table-wrapper .ant-table .ant-table-title+.ant-table-container table>thead>tr:first-child td:last-child {
-    color: transparent; /* Hace el texto transparente */
-  text-shadow: none; /* Elimina cualquier sombra de texto */
-  background-color: transparent; /* Hace el fondo de la celda transparente */
-  border-color: transparent; /* 
-} */
 
 th.ant-table-cell .ant-space-item {
     color: var(--high-gray) !important;
-    width: max-content !important;
 }
 
 .ant-space .ant-input {
@@ -68,9 +70,6 @@ tr.editable-row:hover td.ant-table-cell {
     background-color: var(--background-rows-hover) !important;
 }
 
-.ant-table-wrapper .ant-table-tbody>tr>td {
-
-}
 
 .editable-cell-value-wrap {
     cursor: pointer;
@@ -82,7 +81,7 @@ tr.editable-row:hover td.ant-table-cell {
 .editable-cell-value-wrap:hover {
     border: 1px solid #d9d9d9;
     border-radius: 6px;
-    
+
 }
 
 
@@ -106,6 +105,10 @@ tr.editable-row:hover td.ant-table-cell {
     border-right: none !important;
     background-color: var(--bg-color) !important;
 }
+
+
+
+
 
 
 thead .ant-table-cell {
@@ -272,3 +275,47 @@ tr.ant-table-row-selected.editable-row {
     color: var(--font-color-list-activate) !important;
     background-color: var(--backgorund-color-list-activate) !important;
 }
+
+
+
+
+.formulario {
+    min-height: calc(93vh - 5.2rem) !important;
+    padding: 20px;
+}
+
+.form-field {
+    position: relative;
+    z-index: 2;
+}
+
+.form-field input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: transparent;
+}
+
+.placeholder {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    background-color: transparent;
+    padding: 0 4px;
+    font-size: 12px;
+    transition: top 0.2s, left 0.2s;
+    z-index: -999;
+    color: #9396AA;
+}
+
+
+
+.form-field input[type="text"]:focus+.placeholder {
+    top: 0px;
+    left: 5px;
+    font-size: 10px;
+    background-color: white;
+    padding: 0 2px;
+    z-index: 999;
+}
+

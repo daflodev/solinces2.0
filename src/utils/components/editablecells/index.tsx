@@ -35,10 +35,6 @@ const columnConditionsExtractor = (allColumnInformation:any, columnName:any) => 
 
 }
 
-
-
-
-
 export const EditableCell= ({
   title,
   editable,
