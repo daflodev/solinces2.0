@@ -6,7 +6,6 @@ export const EditableContext = React.createContext<FormInstance<any> | null>(
   null
 );
 interface EditableRowProps {
-  index: number;
   record: { key: React.Key };
 }
 // funcion que crea el input de edicion en la misma celda
@@ -76,8 +75,7 @@ export const EditableRow: React.FC<EditableRowProps> = ({
             )}
           </>
         ) : null}  */}
-       <tr
-          {...props}
+       <tr {...props}
           // onMouseEnter={handleMouseEnter}
           // onMouseLeave={handleMouseLeave}
           // ref={trRef}

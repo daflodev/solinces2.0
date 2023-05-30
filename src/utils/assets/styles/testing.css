@@ -20,10 +20,48 @@
 .iconHover {
     display: flex;
     justify-content: end;
-    z-index: 3;
+    z-index: 99999;
     position: fixed;
     padding-top: 10px;
 }
+
+.rowf:hover  {
+    visibility: visible;
+    bottom: 60px;
+    z-index: -9999;
+  }
+
+  .boton:hover:before {
+    visibility: visible;
+    color: #000;
+  }
+  .boton::before {
+       content: "Imprimir Comprobante";
+    background: #ffd600;
+    border: 1px solid #ffd600;
+    position: fixed;
+   left: -140px;
+   padding: 0.5em;
+    visibility: hidden;
+  }
+  .boton {
+    position: fixed;
+     bottom: 0;
+    border: 1px solid #ffd600;
+    background: #ffd600;
+    color: #000;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    z-index: 90080;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    -webkit-transition: all 0.5s;
+    visibility: hidden;
+  }
 
 .card-body .ant-card-body {
     padding-top: 0px !important;
