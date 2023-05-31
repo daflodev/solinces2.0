@@ -69,6 +69,10 @@ const FormEstablecimiento = ({
       const columnQualitiesInformation = itemsInformation.filter(
         (itemColumn: any) => itemColumn.column_name == columnName
       );
+
+      
+
+
       return (
         <>
           {columnName.startsWith("FK_") ? (
@@ -100,26 +104,48 @@ const FormEstablecimiento = ({
             </Col>
           ) : columnQualitiesInformation[0]?.data_type ===
             "character varying" ? (
-            <Col span={6}>
-              <Field
-                style={{
-                  borderRadius: "5px",
-                  border: "2px solid #e2e2e2",
-                  padding: "5px",
-                }}
-                placeholder={columnName}
+              <>
+            
+            <Col span={6}>  
+            <div className="form-container">
+              {/* Primera columna */}
+              <div className="form-column">
+                <div className="form-field">
+                   <Field
+                
+                // placeholder={columnName}
                 id={columnName}
                 name={columnName}
                 autoComplete="off"
+              
                 maxLength={columnQualitiesInformation[0]?.longitud}
-              />
-
+                onFocus={() => handleFieldFocus(columnName)}
+                onBlur={handleFieldBlur}
+              /> 
               <ErrorMessage
                 name={columnName}
                 component={"div"}
                 className="text-danger"
               />
+                  <span
+                    className={`placeholder ${
+                     selectedField  === columnName ? "active" : ""
+                    }`}
+                  >
+                    {columnName}
+                  </span>
+                </div>
+    
+                {/* ...otros campos de la primera columna */}
+              </div>
+              
+            </div>
+              
+            
+
+             
             </Col>
+            </>
           ) : columnQualitiesInformation[0]?.data_type === "integer" ||
             columnQualitiesInformation[0]?.data_type === "numeric" ? (
             <Col span={6}>

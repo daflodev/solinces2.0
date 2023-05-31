@@ -13,6 +13,7 @@ import {
   PlusOutlined,
   deleteIcon,
   downloadIcon,
+  sedeJornada,
 } from "../../utils/assets/icon/iconManager";
 import FormAdd from "../../utils/components/formadd";
 import SelectableSearch from "../../utils/components/selectablesearch";
@@ -59,14 +60,26 @@ const Settings: React.FC = () => {
     params,
   }: any = UseSettigns();
 
-console.log(selectedItem)
+  console.log(selectedItem);
 
-const { currentRol } = sessionInformationStore(
-  (state) => ({
-    currentRol: state.currentRol,
-  }), shallow);
+  const { currentRol } = sessionInformationStore(
+    (state) => ({
+      currentRol: state.currentRol,
+    }),
+    shallow
+  );
 
-  console.log(currentRol)
+  const [hovered, setHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setHovered(false);
+  };
+
+  console.log(currentRol);
 
   //Funcion para generar la data de los filtros select
   const filterSelectOnColumnGenerator = (
@@ -108,19 +121,21 @@ const { currentRol } = sessionInformationStore(
     return options;
   };
 
-  const [scrollPos, setScrollPos] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.pageYOffset;
-      setScrollPos(currentScrollPos);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  const renderContentManager = () => {
+    if (currentRol == "RECTOR" && selectedItem?.nombre == "TESTABLECIMIENTO") {
+      return (
+        <FormEstablecimiento
+          setTitleState={setDataTable}
+          keyValues={inputFilter}
+          selectItem={selectedItem}
+          FKGroupData={fkGroup}
+          handleSubmit={handleSubmit}
+          itemsInformation={itemsColumnsInformation}
+        />
+      );
+    }
+    return vanillaTable;
+  };
 
   //funcion de selecion lista para renderizar tabla
   const columnsGenerator = (filterObjet: any) => {
@@ -180,25 +195,55 @@ const { currentRol } = sessionInformationStore(
     });
 
     result.push({
-      title: "",
+      title: "operacion",
       dataIndex: "operation",
       align: "center" as "center",
-      fixed: "right",
       width: 50,
       render: (_, record: { key: React.Key }) => (
-        <Space>
-          {/* @ts-ignore */}
+        <>
           {settingOptions?.length >= 1 ? (
-            <Popconfirm
-              title="seguro desea eliminar?"
-              onConfirm={() => handleDelete(record.key)}
-            >
-              <div className="iconDelete" style={{ visibility: "hidden" }}>
-                {deleteIcon}
-              </div>
-            </Popconfirm>
+            <>
+              {hovered && (
+                <Space size="middle" className="boton">
+                  {currentRol == "RECTOR" && selectedItem?.nombre == "TSEDE" ? (
+                    <>
+                      <div onClick={()=>console.log('hola mundo')} style={{cursor: 'pointer'}}>
+                        {sedeJornada}
+                        </div>
+
+                      <Popconfirm
+                        title="seguro desea eliminar?"
+                        onConfirm={() => handleDelete(record.key)}
+                      >
+                        <div
+                          className="iconDelete"
+                          style={{ visibility: "hidden" }}
+                        >
+                          {deleteIcon}
+                        </div>
+                      </Popconfirm>
+                    </>
+                  ) : (
+                    <>
+                      {" "}
+                      <Popconfirm
+                        title="seguro desea eliminar?"
+                        onConfirm={() => handleDelete(record.key)}
+                      >
+                        <div
+                          className="iconDelete"
+                          style={{ visibility: "hidden" }}
+                        >
+                          {deleteIcon}
+                        </div>
+                      </Popconfirm>
+                    </>
+                  )}
+                </Space>
+              )}
+            </>
           ) : null}
-        </Space>
+        </>
       ),
     });
 
@@ -250,105 +295,80 @@ const { currentRol } = sessionInformationStore(
     // initLanguage();
   }, [settingOptions]);
 
-  const tableRef: any = useRef(null);
-
-  useEffect(() => {
-    // Calcula la altura de la tabla y actualiza la altura de la Card
-    if (tableRef.current) {
-      const tableHeight = tableRef.current.clientHeight;
-      const card = tableRef.current.closest(".card-body");
-      if (card) {
-        card.style.height = `${tableHeight}px - 100px`;
-      }
-    }
-  }, []);
-
-
-
-const vanillaTable =(
-  <>
-    <div className="cointainer-table">
-      <PerfectScrollbar>
-        <Table
-          components={components}
-          rowSelection={{
-            selectedRowKeys,
-            onChange: onSelectChange,
-          }}
-          size="small"
-          // @ts-ignore
-          rowKey={`PK_T${selectedItem.key_table?.toUpperCase()}`}
-          dataSource={data}
-          loading={{
-            indicator: <Spin tip="" size="large" />,
+  const vanillaTable = (
+    <>
+      <div className="cointainer-table">
+        <PerfectScrollbar>
+          <Table
+            components={components}
+            rowSelection={{
+              selectedRowKeys,
+              onChange: onSelectChange,
+            }}
+            size="small"
             // @ts-ignore
-            spinning:
-              !dataTable || settingOptions?.length === 0
-                ? true
-                : false,
-          }}
-          // @ts-ignore
-          columns={columnS as ColumnTypes}
-          title={() => {
-            return (
-              <>
-                <Row>{selectedItem.nombre}</Row>
+            rowKey={`PK_T${selectedItem.key_table?.toUpperCase()}`}
+            dataSource={data}
+            rowClassName="rowf"
+            onRow={(record, rowIndex) => {
+              return {
+                onMouseEnter: () => {
+                  handleMouseEnter();
+                },
+                onMouseLeave: () => {
+                  handleMouseLeave();
+                },
+              };
+            }}
+            sticky
+            loading={{
+              indicator: <Spin tip="" size="large" />,
+              // @ts-ignore
+              spinning:
+                !dataTable || settingOptions?.length === 0 ? true : false,
+            }}
+            // @ts-ignore
+            columns={columnS as ColumnTypes}
+            title={() => {
+              return (
+                <>
+                  <Row>{selectedItem.nombre}</Row>
 
-                <Row gutter={[16, 16]}>
-                  {selectedItem ? (
-                    <div
-                      className="mostrarOcultarForm"
-                      onClick={handleMostrarForm}
-                    >
-                      {visibleForm
-                        ? MinusOutlined
-                        : PlusOutlined}
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                  {downloadIcon}
-                  {selectedRowKeys.length > 0 && (
-                    <>
-                      <Popconfirm
-                        title="seguro desea eliminar?"
-                        // @ts-ignore
-                        onConfirm={handleDeleteGroup}
-                        style={{ visibility: "hidden" }}
+                  <Row gutter={[16, 16]}>
+                    {selectedItem ? (
+                      <div
+                        className="mostrarOcultarForm"
+                        onClick={handleMostrarForm}
                       >
-                        <div className="iconDelete">
-                          {deleteIcon}
-                        </div>
-                      </Popconfirm>
-                    </>
-                  )}
-                </Row>
+                        {visibleForm ? MinusOutlined : PlusOutlined}
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                    {downloadIcon}
+                    {selectedRowKeys.length > 0 && (
+                      <>
+                        <Popconfirm
+                          title="seguro desea eliminar?"
+                          // @ts-ignore
+                          onConfirm={handleDeleteGroup}
+                          style={{ visibility: "hidden" }}
+                        >
+                          <div className="iconDelete">{deleteIcon}</div>
+                        </Popconfirm>
+                      </>
+                    )}
+                  </Row>
 
-                <Row>{renderMessage()}</Row>
-              </>
-            );
-          }}
-        />
-      </PerfectScrollbar>
-    </div>
-  </>
-)
-
-
-const renderContentManager = () =>{
-  if(currentRol == "RECTOR" && selectedItem?.nombre == "TESTABLECIMIENTO"){
-    return  <FormEstablecimiento   setTitleState={setDataTable}
-    keyValues={inputFilter}
-    selectItem={selectedItem}
-    FKGroupData={fkGroup}
-    handleSubmit={handleSubmit}
-    itemsInformation={itemsColumnsInformation}/>
-
-  }
-  return vanillaTable
-}
-
-
+                  <Row>{renderMessage()}</Row>
+                </>
+              );
+            }}
+          />
+        </PerfectScrollbar>
+      </div>
+    </>
+  );
 
   return (
     <>
@@ -404,7 +424,7 @@ const renderContentManager = () =>{
                       title={
                         <>
                           <Row gutter={[16, 16]}>
-                            <Col  xs={12} md={10}>
+                            <Col xs={12} md={10}>
                               <div className="titleForm">Agregar</div>
                             </Col>
                             <Col xs={12} md={12}>
