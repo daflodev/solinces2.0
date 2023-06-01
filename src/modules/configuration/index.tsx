@@ -28,6 +28,8 @@ import shallow from "zustand/shallow";
 
 import { renderCloseIcon } from "antd/es/modal/PurePanel";
 import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimiento/formEstablecimientoUsario";
+import YourTableComponent from "../../utils/components/tableCheckbox/tableChecBox";
+
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
@@ -198,12 +200,12 @@ const Settings: React.FC = () => {
       title: "operacion",
       dataIndex: "operation",
       align: "center" as "center",
-      width: 50,
+      width: 150,
       render: (_, record: { key: React.Key }) => (
         <>
           {settingOptions?.length >= 1 ? (
             <>
-              {hovered && (
+            
                 <Space size="middle" className="boton">
                   {currentRol == "RECTOR" && selectedItem?.nombre == "TSEDE" ? (
                     <>
@@ -217,7 +219,6 @@ const Settings: React.FC = () => {
                       >
                         <div
                           className="iconDelete"
-                          style={{ visibility: "hidden" }}
                         >
                           {deleteIcon}
                         </div>
@@ -232,7 +233,6 @@ const Settings: React.FC = () => {
                       >
                         <div
                           className="iconDelete"
-                          style={{ visibility: "hidden" }}
                         >
                           {deleteIcon}
                         </div>
@@ -240,7 +240,7 @@ const Settings: React.FC = () => {
                     </>
                   )}
                 </Space>
-              )}
+              
             </>
           ) : null}
         </>
@@ -310,16 +310,16 @@ const Settings: React.FC = () => {
             rowKey={`PK_T${selectedItem.key_table?.toUpperCase()}`}
             dataSource={data}
             rowClassName="rowf"
-            onRow={(record, rowIndex) => {
-              return {
-                onMouseEnter: () => {
-                  handleMouseEnter();
-                },
-                onMouseLeave: () => {
-                  handleMouseLeave();
-                },
-              };
-            }}
+            // onRow={(record, rowIndex) => {
+            //   return {
+            //     onMouseEnter: () => {
+            //       handleMouseEnter();
+            //     },
+            //     onMouseLeave: () => {
+            //       handleMouseLeave();
+            //     },
+            //   };
+            // }}
             sticky
             loading={{
               indicator: <Spin tip="" size="large" />,
@@ -342,6 +342,7 @@ const Settings: React.FC = () => {
                       >
                         {visibleForm ? MinusOutlined : PlusOutlined}
                       </div>
+                      
                     ) : (
                       ""
                     )}
@@ -365,6 +366,7 @@ const Settings: React.FC = () => {
               );
             }}
           />
+        
         </PerfectScrollbar>
       </div>
     </>
@@ -451,9 +453,16 @@ const Settings: React.FC = () => {
                     </Card>
                   </Col>
                 ) : null}
+
+               
               </Row>
             </div>
           </div>
+
+        
+        
+       <YourTableComponent/>
+         
         </Card>
       </div>
     </>

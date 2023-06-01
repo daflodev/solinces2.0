@@ -6,7 +6,7 @@ function App() {
   
  const intercep = interceptor();
 
-  console.log(intercep);
+  
   
   return (
     <>

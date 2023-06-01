@@ -73,7 +73,7 @@ const FormAdd = ({ setTitleState, keyValues, selectItem, FKGroupData, handleSubm
     return Yup.object().shape(validationObject);
   };
 
-  console.log("las fk group: ", FKGroupData)
+  // console.log("las fk group: ", FKGroupData)
 
   const inputsGenerator = (inputsOptions:any) => {
     const keys = Object.keys(inputsOptions);
@@ -250,7 +250,7 @@ const FormAdd = ({ setTitleState, keyValues, selectItem, FKGroupData, handleSubm
         validationSchema = {validationForm}
         onSubmit={(values: any, { resetForm }) => {
 
-          console.log("submit")
+          // console.log("submit")
 
           handleSubmit(values, setTitleState, selectItem);
           resetForm();

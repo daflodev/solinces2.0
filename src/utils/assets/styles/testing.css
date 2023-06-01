@@ -341,6 +341,7 @@ tr.ant-table-row-selected.editable-row {
 .boton {
     right: 10px;
     border: 1px solid #d3d3d3;
+    height: 0px;
     background: #e7e7e7;
     color: #fffdfd;
     z-index: 90080;

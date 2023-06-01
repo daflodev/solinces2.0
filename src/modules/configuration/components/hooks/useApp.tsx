@@ -467,7 +467,7 @@ export const UseSettigns = () => {
         const tokenInformation = localStorage.getItem('user_token_information');
         const parserTokenInformation: any | null = tokenInformation ? JSON.parse(tokenInformation) : null;
     
-        console.log("parser token info 2: ", parserTokenInformation?.dataSchema[0])
+        // console.log("parser token info 2: ", parserTokenInformation?.dataSchema[0])
   
         const prevData = {  
             funcionario: "",
