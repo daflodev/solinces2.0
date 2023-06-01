@@ -1,59 +1,77 @@
-import React from 'react';
-import { Table, Form, Button, Checkbox } from 'antd';
-import { useFormik } from 'formik';
+import React, { useEffect, useState } from "react";
+import { Table, Button } from "antd";
+import { Formik, Field, Form } from "formik";
 
-const YourTableComponent = () => {
-  const data = [
-    { id: 1, name: 'Elemento 1' },
-    { id: 2, name: 'Elemento 2' },
-    { id: 3, name: 'Elemento 3' },
-  ];
+// Datos de ejemplo para la tabla
+const data = [
+  {
+    id: 1,
+    name: "John Doe",
+    age: 25,
+  },
+  {
+    id: 2,
+    name: "Jane Smith",
+    age: 30,
+  },
+];
 
+interface FormValues {
+  selectedData: any[]; // Reemplaza "any" con el tipo correcto de tus datos
+}
+
+const ExampleComponent: React.FC = () => {
   const columns = [
     {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
     },
     {
-      title: 'Nombre',
-      dataIndex: 'name',
-      key: 'name',
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Age",
+      dataIndex: "age",
+      key: "age",
     },
   ];
 
-  const handleSubmit = (values) => {
-    // Lógica para enviar los datos
-    console.log(values);
-  };
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
-  const formik = useFormik({
-    initialValues: {
-      selectedRows: [],
-    },
-    onSubmit: handleSubmit,
-  });
-
-  const rowSelection = {
-    ...formik.getFieldProps('selectedRows'),
-    onChange: (selectedRowKeys, selectedRows) => {
-      formik.setFieldValue('selectedRows', selectedRows);
-    },
+  const onSelectChange = (newSelectedRowKeys: any) => {
+    setSelectedRowKeys(newSelectedRowKeys);
   };
 
   return (
-    <Form onSubmit={formik.handleSubmit}>
-      <Table
-        dataSource={data}
-        columns={columns}
-        rowSelection={rowSelection}
-      />
-
-      <Button type="primary" htmlType="submit" style={{ marginTop: 16 }}>
-        Enviar
-      </Button>
-    </Form>
+    <Formik
+      initialValues={{ selectedData: [] }}
+      onSubmit={(values: any) => {
+        // console.log("submit")
+      }}
+    >
+      {() => (
+        <Form>
+          <Table
+            rowSelection={{
+              selectedRowKeys,
+              onChange: onSelectChange,
+            }}
+            columns={columns}
+            dataSource={data}
+            rowKey="id"
+            size="small"
+            pagination={false}
+          />
+          <Button type="primary" htmlType="submit">
+            Enviar
+          </Button>
+        </Form>
+      )}
+    </Formik>
   );
 };
 
-export default YourTableComponent;
+export default ExampleComponent;

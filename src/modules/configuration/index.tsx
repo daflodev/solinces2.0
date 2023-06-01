@@ -29,7 +29,7 @@ import shallow from "zustand/shallow";
 import { renderCloseIcon } from "antd/es/modal/PurePanel";
 import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimiento/formEstablecimientoUsario";
 import YourTableComponent from "../../utils/components/tableCheckbox/tableChecBox";
-
+import ExampleComponent from "../../utils/components/tableCheckbox/tableChecBox";
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
@@ -62,7 +62,6 @@ const Settings: React.FC = () => {
     params,
   }: any = UseSettigns();
 
-  console.log(selectedItem);
 
   const { currentRol } = sessionInformationStore(
     (state) => ({
@@ -71,16 +70,7 @@ const Settings: React.FC = () => {
     shallow
   );
 
-  const [hovered, setHovered] = useState(false);
-
-  const handleMouseEnter = () => {
-    setHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setHovered(false);
-  };
-
+  console.log(fkGroup)
   console.log(currentRol);
 
   //Funcion para generar la data de los filtros select
@@ -131,12 +121,25 @@ const Settings: React.FC = () => {
           keyValues={inputFilter}
           selectItem={selectedItem}
           FKGroupData={fkGroup}
-          handleSubmit={handleSubmit}
+          
           itemsInformation={itemsColumnsInformation}
         />
       );
     }
     return vanillaTable;
+  };
+
+  const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
+
+
+
+
+
+  const handleOpenSecondaryTable = (values) => {
+    setIsSecondaryTableOpen(true);
+    setSelectedId(values.PK_TSEDE);
   };
 
   //funcion de selecion lista para renderizar tabla
@@ -205,42 +208,35 @@ const Settings: React.FC = () => {
         <>
           {settingOptions?.length >= 1 ? (
             <>
-            
-                <Space size="middle" className="boton">
-                  {currentRol == "RECTOR" && selectedItem?.nombre == "TSEDE" ? (
-                    <>
-                      <div onClick={()=>console.log('hola mundo')} style={{cursor: 'pointer'}}>
-                        {sedeJornada}
-                        </div>
+              <Space size="middle" className="boton">
+                {currentRol == "RECTOR" && selectedItem?.nombre == "TSEDE" ? (
+                  <>
+                    <div
+                      onClick={() => handleOpenSecondaryTable(record)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {sedeJornada}
+                    </div>
 
-                      <Popconfirm
-                        title="seguro desea eliminar?"
-                        onConfirm={() => handleDelete(record.key)}
-                      >
-                        <div
-                          className="iconDelete"
-                        >
-                          {deleteIcon}
-                        </div>
-                      </Popconfirm>
-                    </>
-                  ) : (
-                    <>
-                      {" "}
-                      <Popconfirm
-                        title="seguro desea eliminar?"
-                        onConfirm={() => handleDelete(record.key)}
-                      >
-                        <div
-                          className="iconDelete"
-                        >
-                          {deleteIcon}
-                        </div>
-                      </Popconfirm>
-                    </>
-                  )}
-                </Space>
-              
+                    <Popconfirm
+                      title="seguro desea eliminar?"
+                      onConfirm={() => handleDelete(record.key)}
+                    >
+                      <div className="iconDelete">{deleteIcon}</div>
+                    </Popconfirm>
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <Popconfirm
+                      title="seguro desea eliminar?"
+                      onConfirm={() => handleDelete(record.key)}
+                    >
+                      <div className="iconDelete">{deleteIcon}</div>
+                    </Popconfirm>
+                  </>
+                )}
+              </Space>
             </>
           ) : null}
         </>
@@ -295,6 +291,7 @@ const Settings: React.FC = () => {
     // initLanguage();
   }, [settingOptions]);
 
+// console.log(selectedItem)
   const vanillaTable = (
     <>
       <div className="cointainer-table">
@@ -342,7 +339,6 @@ const Settings: React.FC = () => {
                       >
                         {visibleForm ? MinusOutlined : PlusOutlined}
                       </div>
-                      
                     ) : (
                       ""
                     )}
@@ -366,7 +362,6 @@ const Settings: React.FC = () => {
               );
             }}
           />
-        
         </PerfectScrollbar>
       </div>
     </>
@@ -414,7 +409,7 @@ const Settings: React.FC = () => {
                     </Col>
                   </Row>
                 </Col>
-                <Col xs={24} md={!visibleForm ? 20 : 16}>
+                <Col xs={24} md={visibleForm || isSecondaryTableOpen? 14 : 20}>
                   <Card className="card-body">
                     {selectedItem && renderContentManager()}
                   </Card>
@@ -452,17 +447,18 @@ const Settings: React.FC = () => {
                       />
                     </Card>
                   </Col>
-                ) : null}
+                ): null}
 
-               
+                {isSecondaryTableOpen ? (
+                  <Col md={6}>
+                    <Card className="justify-content-center align-items-center ">
+                      <ExampleComponent />
+                    </Card>
+                  </Col>
+                ) : null}
               </Row>
             </div>
           </div>
-
-        
-        
-       <YourTableComponent/>
-         
         </Card>
       </div>
     </>

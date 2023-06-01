@@ -1,32 +1,33 @@
-import { Col, Row } from "antd";
+import { Col, Row, Spin } from "antd";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import "../../assets/styles/testing.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePickerAddForm from "../datepickeraddform";
 import MultiSelect from "../selectedform";
 import InputAddNumber from "../inputaddnumber";
+import { useFormEstablecimiento } from "./hooks/useFormEstablecimiento";
 
 const FormEstablecimiento = ({
   setTitleState,
   keyValues,
   selectItem,
   FKGroupData,
-  handleSubmit,
+  
   itemsInformation,
 }: {
   setTitleState: any;
   keyValues: any;
   selectItem: any;
   FKGroupData: any;
-  handleSubmit: any;
+ 
   itemsInformation: any;
 }) => {
-  const initialValuesPrimary = {
-    field1: "",
-    field2: "",
-    field3: "",
-    // ...otros campos
-  };
+  const { apiGet, initialValues, setInitialValue }: any =
+    useFormEstablecimiento();
+
+  useEffect(() => {
+    apiGet("establecimiento", setInitialValue);
+  }, []);
 
   const [selectedField, setSelectedField] = useState(null);
 
@@ -67,12 +68,11 @@ const FormEstablecimiento = ({
 
     const processColumn = (columnName: any) => {
       const columnQualitiesInformation = itemsInformation.filter(
-        (itemColumn: any) => itemColumn.column_name == columnName
+        (itemColumn: any) => itemColumn.column_name == columnName,
+       
       );
-
-      
-
-
+      console.log(columnQualitiesInformation)
+ 
       return (
         <>
           {columnName.startsWith("FK_") ? (
@@ -104,47 +104,40 @@ const FormEstablecimiento = ({
             </Col>
           ) : columnQualitiesInformation[0]?.data_type ===
             "character varying" ? (
-              <>
-            
-            <Col span={6}>  
-            <div className="form-container">
-              {/* Primera columna */}
-              <div className="form-column">
-                <div className="form-field">
-                   <Field
-                
-                // placeholder={columnName}
-                id={columnName}
-                name={columnName}
-                autoComplete="off"
-              
-                maxLength={columnQualitiesInformation[0]?.longitud}
-                onFocus={() => handleFieldFocus(columnName)}
-                onBlur={handleFieldBlur}
-              /> 
-              <ErrorMessage
-                name={columnName}
-                component={"div"}
-                className="text-danger"
-              />
-                  <span
-                    className={`placeholder ${
-                     selectedField  === columnName ? "active" : ""
-                    }`}
-                  >
-                    {columnName}
-                  </span>
-                </div>
-    
-                {/* ...otros campos de la primera columna */}
-              </div>
-              
-            </div>
-              
-            
+            <>
+              <Col span={6}>
+                <div className="form-container">
+                  {/* Primera columna */}
+                  <div className="form-column">
+                    <div className="form-field">
+                      <Field
+                        // placeholder={columnName}
+                        id={columnName}
+                        name={columnName}
+                        autoComplete="off"
+                        maxLength={columnQualitiesInformation[0]?.longitud}
+                        placeholder={columnName}
+                        onFocus={() => handleFieldFocus(columnName)}
+                        onBlur={handleFieldBlur}
+                      />
+                      <ErrorMessage
+                        name={columnName}
+                        component={"div"}
+                        className="text-danger"
+                      />
+                      {/* <span
+                        className={`placeholder ${
+                          selectedField === columnName ? "active" : ""
+                        }`}
+                      >
+                        {columnName}
+                      </span> */}
+                    </div>
 
-             
-            </Col>
+                   
+                  </div>
+                </div>
+              </Col>
             </>
           ) : columnQualitiesInformation[0]?.data_type === "integer" ||
             columnQualitiesInformation[0]?.data_type === "numeric" ? (
@@ -224,25 +217,34 @@ const FormEstablecimiento = ({
   };
 
   const inputs = inputsGenerator(keyValues);
-
+  const handleSubmit = (values) => {
+    console.log('Datos actualizados:', values);
+    // Realizar cualquier otra lógica de envío o actualización aquí
+  };
   return (
     <>
-      <Formik initialValues={initialValuesPrimary} onSubmit={handleSubmit}>
-        <Form className="formulario">
-          <div className="col-12">
-            <Row gutter={[24, 30]}>
-              {inputs.map((item) => (
-                <>{item}</>
-              ))}
-              <Row>
-                <div className="w-100">
-                  <button type="submit">save</button>
-                </div>
+      {initialValues ? (
+        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+          <Form className="formulario">
+            <div className="col-12">
+              <Row gutter={[24, 30]}>
+                {inputs.map((item) => (
+                  <>{item}</>
+                ))}
+                <Row>
+                  <div className="w-100">
+                    <button type="submit">save</button>
+                  </div>
+                </Row>
               </Row>
-            </Row>
-          </div>
-        </Form>
-      </Formik>
+            </div>
+          </Form>
+        </Formik>
+      ) : (
+        <div className="user_settings_loading_spin">
+          <Spin tip="" size="large" />
+        </div>
+      )}
     </>
   );
 };
