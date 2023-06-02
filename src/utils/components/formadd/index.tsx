@@ -96,13 +96,7 @@ const FormAdd = ({
     return Yup.object().shape(validationObject);
   };
 
-<<<<<<< HEAD
-  // console.log("las fk group: ", FKGroupData)
-
-  const inputsGenerator = (inputsOptions: any) => {
-=======
   const inputsGenerator = (inputsOptions:any) => {
->>>>>>> 8a5ed3a5daba673bfcd5327fd2044e327cedfa94
     const keys = Object.keys(inputsOptions);
 
     const processColumn = (columnName: any) => {
