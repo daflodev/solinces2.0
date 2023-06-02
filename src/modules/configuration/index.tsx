@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 import "../../utils/assets/styles/testing.css";
 
 import { useEffect } from "react";
 
-import { Card, Col, Popconfirm, Row, Spin, Table } from "antd";
+import { Card, Col, Popconfirm, Row, Space, Spin, Table, Tooltip } from "antd";
 import { SettingOutlined, CloseOutlined } from "@ant-design/icons";
 
 import { UseSettigns } from "./components/hooks/useApp";
@@ -13,6 +13,7 @@ import {
   PlusOutlined,
   deleteIcon,
   downloadIcon,
+  sedeJornada,
 } from "../../utils/assets/icon/iconManager";
 import FormAdd from "../../utils/components/formadd";
 import SelectableSearch from "../../utils/components/selectablesearch";
@@ -22,6 +23,13 @@ import { EditableCell } from "../../utils/components/editablecells";
 import { withPrincipal } from "../../utils/components/content";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
+import { sessionInformationStore } from "../../store/userInformationStore";
+import shallow from "zustand/shallow";
+
+import { renderCloseIcon } from "antd/es/modal/PurePanel";
+import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimiento/formEstablecimientoUsario";
+import YourTableComponent from "../../utils/components/tableCheckbox/tableChecBox";
+import ExampleComponent from "../../utils/components/tableCheckbox/tableChecBox";
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
@@ -53,6 +61,17 @@ const Settings: React.FC = () => {
     itemsColumnsInformation,
     params,
   }: any = UseSettigns();
+
+
+  const { currentRol } = sessionInformationStore(
+    (state) => ({
+      currentRol: state.currentRol,
+    }),
+    shallow
+  );
+
+  console.log(fkGroup)
+  console.log(currentRol);
 
   //Funcion para generar la data de los filtros select
   const filterSelectOnColumnGenerator = (
@@ -94,6 +113,35 @@ const Settings: React.FC = () => {
     return options;
   };
 
+  const renderContentManager = () => {
+    if (currentRol == "RECTOR" && selectedItem?.nombre == "TESTABLECIMIENTO") {
+      return (
+        <FormEstablecimiento
+          setTitleState={setDataTable}
+          keyValues={inputFilter}
+          selectItem={selectedItem}
+          FKGroupData={fkGroup}
+          
+          itemsInformation={itemsColumnsInformation}
+        />
+      );
+    }
+    return vanillaTable;
+  };
+
+  const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
+
+
+
+
+
+  const handleOpenSecondaryTable = (values) => {
+    setIsSecondaryTableOpen(true);
+    setSelectedId(values.PK_TSEDE);
+  };
+
   //funcion de selecion lista para renderizar tabla
   const columnsGenerator = (filterObjet: any) => {
     const keys = Object.keys(filterObjet);
@@ -124,6 +172,8 @@ const Settings: React.FC = () => {
           ),
           dataIndex: item,
           editable: true,
+          width: 250,
+          ellipsis: true,
         };
 
         return preColumn;
@@ -141,6 +191,8 @@ const Settings: React.FC = () => {
           ),
           dataIndex: item,
           editable: true,
+          width: 250,
+          ellipsis: true,
         };
 
         return preColumn;
@@ -148,20 +200,44 @@ const Settings: React.FC = () => {
     });
 
     result.push({
-      title: "",
+      title: "operacion",
       dataIndex: "operation",
+      align: "center" as "center",
+      width: 150,
       render: (_, record: { key: React.Key }) => (
         <>
-          {/* @ts-ignore */}
           {settingOptions?.length >= 1 ? (
-            <Popconfirm
-              title="seguro desea eliminar?"
-              onConfirm={() => handleDelete(record.key)}
-            >
-              <div className="iconDelete" style={{ visibility: "hidden" }}>
-                {deleteIcon}
-              </div>
-            </Popconfirm>
+            <>
+              <Space size="middle" className="boton">
+                {currentRol == "RECTOR" && selectedItem?.nombre == "TSEDE" ? (
+                  <>
+                    <div
+                      onClick={() => handleOpenSecondaryTable(record)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {sedeJornada}
+                    </div>
+
+                    <Popconfirm
+                      title="seguro desea eliminar?"
+                      onConfirm={() => handleDelete(record.key)}
+                    >
+                      <div className="iconDelete">{deleteIcon}</div>
+                    </Popconfirm>
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <Popconfirm
+                      title="seguro desea eliminar?"
+                      onConfirm={() => handleDelete(record.key)}
+                    >
+                      <div className="iconDelete">{deleteIcon}</div>
+                    </Popconfirm>
+                  </>
+                )}
+              </Space>
+            </>
           ) : null}
         </>
       ),
@@ -177,8 +253,7 @@ const Settings: React.FC = () => {
     dataIndex: string;
     title: any;
     render?: any;
-    width?: number;
-
+    fixed?: any;
   })[] = columnsGenerator(inputFilter);
 
   //propiedades que se le pasan a la tabla para establecer el comportamiento de filas y celda
@@ -216,19 +291,81 @@ const Settings: React.FC = () => {
     // initLanguage();
   }, [settingOptions]);
 
+// console.log(selectedItem)
+  const vanillaTable = (
+    <>
+      <div className="cointainer-table">
+        <PerfectScrollbar>
+          <Table
+            components={components}
+            rowSelection={{
+              selectedRowKeys,
+              onChange: onSelectChange,
+            }}
+            size="small"
+            // @ts-ignore
+            rowKey={`PK_T${selectedItem.key_table?.toUpperCase()}`}
+            dataSource={data}
+            rowClassName="rowf"
+            // onRow={(record, rowIndex) => {
+            //   return {
+            //     onMouseEnter: () => {
+            //       handleMouseEnter();
+            //     },
+            //     onMouseLeave: () => {
+            //       handleMouseLeave();
+            //     },
+            //   };
+            // }}
+            sticky
+            loading={{
+              indicator: <Spin tip="" size="large" />,
+              // @ts-ignore
+              spinning:
+                !dataTable || settingOptions?.length === 0 ? true : false,
+            }}
+            // @ts-ignore
+            columns={columnS as ColumnTypes}
+            title={() => {
+              return (
+                <>
+                  <Row>{selectedItem.nombre}</Row>
 
-  const tableRef: any = useRef(null);
+                  <Row gutter={[16, 16]}>
+                    {selectedItem ? (
+                      <div
+                        className="mostrarOcultarForm"
+                        onClick={handleMostrarForm}
+                      >
+                        {visibleForm ? MinusOutlined : PlusOutlined}
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                    {downloadIcon}
+                    {selectedRowKeys.length > 0 && (
+                      <>
+                        <Popconfirm
+                          title="seguro desea eliminar?"
+                          // @ts-ignore
+                          onConfirm={handleDeleteGroup}
+                          style={{ visibility: "hidden" }}
+                        >
+                          <div className="iconDelete">{deleteIcon}</div>
+                        </Popconfirm>
+                      </>
+                    )}
+                  </Row>
 
-  useEffect(() => {
-    // Calcula la altura de la tabla y actualiza la altura de la Card
-    if (tableRef.current) {
-      const tableHeight = tableRef.current.clientHeight;
-      const card = tableRef.current.closest('.card-body');
-      if (card) {
-        card.style.height = `${tableHeight}px - 100px`;
-      }
-    }
-  }, []);
+                  <Row>{renderMessage()}</Row>
+                </>
+              );
+            }}
+          />
+        </PerfectScrollbar>
+      </div>
+    </>
+  );
 
   return (
     <>
@@ -272,77 +409,9 @@ const Settings: React.FC = () => {
                     </Col>
                   </Row>
                 </Col>
-                <Col xs={24} md={!visibleForm ? 20 : 16}>
+                <Col xs={24} md={visibleForm || isSecondaryTableOpen? 14 : 20}>
                   <Card className="card-body">
-                    {selectedItem && (
-                      <>
-                        <div className="cointainer-table">
-                          <PerfectScrollbar>
-                            <Table
-                              components={components}
-                              //scroll={{x:300}}
-                              rowSelection={{
-                                selectedRowKeys,
-                                onChange: onSelectChange,
-                              }}
-                              // @ts-ignore
-                              rowKey={`PK_T${selectedItem.key_table?.toUpperCase()}`}
-                              rowClassName={() => "editable-row"}
-                              dataSource={data}
-                              loading={{
-                                indicator: <Spin tip="" size="large" />,
-                                // @ts-ignore
-                                spinning:
-                                  !dataTable || settingOptions?.length === 0
-                                    ? true
-                                    : false,
-                              }}
-                              // @ts-ignore
-                              columns={columnS as ColumnTypes}
-                              title={() => {
-                                return (
-                                  <>
-                                    <Row>{selectedItem.nombre}</Row>
-
-                                    <Row gutter={[16, 16]}>
-                                      {selectedItem ? (
-                                        <div
-                                          className="mostrarOcultarForm"
-                                          onClick={handleMostrarForm}
-                                        >
-                                          {visibleForm
-                                            ? MinusOutlined
-                                            : PlusOutlined}
-                                        </div>
-                                      ) : (
-                                        ""
-                                      )}
-                                      {downloadIcon}
-                                      {selectedRowKeys.length > 0 && (
-                                        <>
-                                          <Popconfirm
-                                            title="seguro desea eliminar?"
-                                            // @ts-ignore
-                                            onConfirm={handleDeleteGroup}
-                                            style={{ visibility: "hidden" }}
-                                          >
-                                            <div className="iconDelete">
-                                              {deleteIcon}
-                                            </div>
-                                          </Popconfirm>
-                                        </>
-                                      )}
-                                    </Row>
-
-                                    <Row>{renderMessage()}</Row>
-                                  </>
-                                );
-                              }}
-                            />
-                          </PerfectScrollbar>
-                        </div>
-                      </>
-                    )}
+                    {selectedItem && renderContentManager()}
                   </Card>
                 </Col>
                 {visibleForm ? (
@@ -376,6 +445,14 @@ const Settings: React.FC = () => {
                         handleSubmit={handleSubmit}
                         itemsInformation={itemsColumnsInformation}
                       />
+                    </Card>
+                  </Col>
+                ): null}
+
+                {isSecondaryTableOpen ? (
+                  <Col md={6}>
+                    <Card className="justify-content-center align-items-center ">
+                      <ExampleComponent />
                     </Card>
                   </Col>
                 ) : null}

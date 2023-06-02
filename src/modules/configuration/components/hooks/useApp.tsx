@@ -2,12 +2,17 @@ import { useEffect, useMemo, useState } from "react";
 
 import "../../../../utils/assets/styles/testing.css";
 import { message } from "antd";
-import { apiGetThunksAsync, apiGetThunksMenuItemsOptionsAsync, apiPostThunksAsync } from "../../../../utils/services/api/thunks";
+import {
+  apiGetThunksAsync,
+  apiGetThunksMenuItemsOptionsAsync,
+  apiPostThunksAsync,
+} from "../../../../utils/services/api/thunks";
 import { useParams, useNavigate } from "react-router-dom";
 import { getUserToken } from "../../../../utils/utils";
+import {sessionInformationStore} from '../../../../store/userInformationStore'
+import {shallow} from "zustand/shallow";
 
 export const UseSettigns = () => {
-
   const params: any = useParams<{ type: any }>();
 
   const navigate = useNavigate();
@@ -23,7 +28,7 @@ export const UseSettigns = () => {
   const [selectedItem, setSelectedItem] = useState({
     key: null,
     nombre: null,
-    key_table: null
+    key_table: null,
   });
   // Estado que maneja la visibilidad delformulario de agregar
   const [visibleForm, setVisibleForm] = useState(false);
@@ -47,24 +52,25 @@ export const UseSettigns = () => {
     style: "",
   });
 
-  const [visibleMessage, setVisibleMessage] = useState(<></>)
+  const [visibleMessage, setVisibleMessage] = useState(<></>);
 
-  const tokenInformation = localStorage.getItem('user_token_information');
-  const parserTokenInformation: any | null = tokenInformation ? JSON.parse(tokenInformation) : null;
+  const tokenInformation = localStorage.getItem("user_token_information");
+  const parserTokenInformation: any | null = tokenInformation
+    ? JSON.parse(tokenInformation)
+    : null;
 
-  const clearAlertMessage = () =>{
+  const clearAlertMessage = () => {
     const time = setTimeout(() => {
-      setVisibleMessage(<></>)
-    }, 5000); 
+      setVisibleMessage(<></>);
+    }, 5000);
     return () => {
-    clearTimeout(time);
+      clearTimeout(time);
+    };
   };
-  }
 
   //funcion que ejecuta el mensaje
   const renderMessage = () => {
-
-    return visibleMessage
+    return visibleMessage;
   };
 
   // const initLanguage = async () => {
@@ -76,7 +82,6 @@ export const UseSettigns = () => {
   const ListNameTables = (options: any) => {
     setSettingOptions(options);
   };
-
 
   function changeKey(
     json: Record<string, any>,
@@ -91,61 +96,79 @@ export const UseSettigns = () => {
   }
 
   // Procesa la informacion de las columnas para crear la base inputFilter
-  const ProcessingColumnsInformation = (columnsInformation: any, setFunction: any) => {
+  const ProcessingColumnsInformation = (
+    columnsInformation: any,
+    setFunction: any
+  ) => {
+    const columnsKeys = columnsInformation.map((item: any) => item.column_name);
 
-    const columnsKeys = columnsInformation.map((item: any)=> item.column_name);
+    const filteredKeys = columnsKeys.filter(
+      (key: any) =>
+        key !== "AUTHOR_RC" && key !== "CLIENTS_RC" && !key.startsWith("PK_")
+    );
 
-    const filteredKeys = columnsKeys.filter((key: any) => (
-      key !== 'AUTHOR_RC' &&
-      key !== 'CLIENTS_RC' &&
-      !key.startsWith("PK_")))
+    let newInputFilter = {};
 
-    let newInputFilter = {}
-
-    filteredKeys.map((key: any) =>{
+    filteredKeys.map((key: any) => {
       newInputFilter = {
-        ... newInputFilter,
-        [key]: ''
-      }
-    })
+        ...newInputFilter,
+        [key]: "",
+      };
+    });
 
-    setFunction(newInputFilter)
-  }
+    setFunction(newInputFilter);
+  };
 
   //data table for items listnameTable
-  
-  const select_type = (params: any) => {
 
+  const select_type = (params: any) => {
     const type: any = {
-        'establecimiento': {
-           table:["PK_TESTABLECIMIENTO","CODIGO", "NOMBRE", "NIT", "FK_TMUNICIPIO", "FK_TLISTA_VALOR_ZONA", "FK_TPROPIEDAD_JURIDICA", "FK_TLV_CALENDARIO", "FK_TLV_ESTADO_ESTABLECIMIENTO"],
-        },
-        'defauld': {
-            table:"",
-        }
+      establecimiento: {
+        table: [
+          "PK_TESTABLECIMIENTO",
+          "CODIGO",
+          "NOMBRE",
+          "NIT",
+          "FK_TMUNICIPIO",
+          "FK_TLISTA_VALOR_ZONA",
+          "FK_TPROPIEDAD_JURIDICA",
+          "FK_TLV_CALENDARIO",
+          "FK_TLV_ESTADO_ESTABLECIMIENTO",
+        ],
+      },
+      defauld: {
+        table: "",
+      },
     };
 
-    const user = getUserToken()
-    let validate: any = type['defauld']
-    if(user.rol[0] == "SUPER_ADMINISTRADOR"){
-      validate = type[params] ?? type['defauld']
+    const user = getUserToken();
+    let validate: any = type["defauld"];
+    if (user.rol[0] == "SUPER_ADMINISTRADOR") {
+      validate = type[params] ?? type["defauld"];
     }
     // validate = params == 'establecimiento' ? type[params] : type['defauld'];
-    return validate
+    return validate;
   };
 
   const filtrarJsonArray = (jsonArray: any[], columnas: any): any[] => {
-    if(columnas !== ""){
-      return jsonArray.filter(objeto => {
+    if (columnas !== "") {
+      return jsonArray.filter((objeto) => {
         return columnas.some((columna: any) => objeto.column_name === columna);
       });
-    }else {
+    } else {
       return jsonArray;
     }
+  };
 
-  }
+  const { currentRol, currentInstitution } = sessionInformationStore(
+    (state) => ({
+        currentRol: state.currentRol,
+        currentInstitution: state.currentInstitution,
+    }),
+    shallow
+);
 
-  
+
   const apiGet = async (nameTable: any, setDataTable: any) => {
     const tableDateBase = select_type(nameTable);
 
@@ -154,13 +177,22 @@ export const UseSettigns = () => {
       schema: parserTokenInformation?.dataSchema[0],
     };
 
-    
-    const getdata = changeKey(prevData, "base", nameTable);
-    
-    const getDataTable = await apiGetThunksAsync(getdata).then((response: any) => {
-      const { getdata, columnsInformation} = response
+if(currentRol == 'RECTOR' && nameTable == 'sede' ){
+  const dataSede = {
+    base: tableDateBase.table,
+    schema: parserTokenInformation?.dataSchema[0],
+    where: {'sede.FK_TESTABLECIMIENTO': currentInstitution?.value}
+  }
+  const getdata = changeKey(dataSede, "base", nameTable);
 
-      const filterColumnsInformation: any = filtrarJsonArray(columnsInformation, tableDateBase.table);
+  const getDataTable = await apiGetThunksAsync(getdata).then(
+    (response: any) => {
+      const { getdata, columnsInformation } = response;
+
+      const filterColumnsInformation: any = filtrarJsonArray(
+        columnsInformation,
+        tableDateBase.table
+      );
       // console.log(resultado, 'nuevo json');
 
       // #######################
@@ -169,60 +201,100 @@ export const UseSettigns = () => {
       // console.log(filtroColumnYes, 'nueva columna YES')
       // console.log(filtroColumnNO, 'nueva columna NO')
       // #######################
-      ProcessingColumnsInformation(filterColumnsInformation, setInputFilter)
-      setItemsColumnsInformation(filterColumnsInformation)
+      ProcessingColumnsInformation(filterColumnsInformation, setInputFilter);
+      setItemsColumnsInformation(filterColumnsInformation);
 
-      const res = getdata
-      return res
-    });
+      const res = getdata;
+      return res;
+    }
+  );
+
+  setDataTable(getDataTable);
+}else{
+  const getdata = changeKey(prevData, "base", nameTable);
+
+    const getDataTable = await apiGetThunksAsync(getdata).then(
+      (response: any) => {
+        const { getdata, columnsInformation } = response;
+
+        const filterColumnsInformation: any = filtrarJsonArray(
+          columnsInformation,
+          tableDateBase.table
+        );
+        // console.log(resultado, 'nuevo json');
+
+        // #######################
+        // const filtroColumnYes = columnsInformation.filter((item) => item.is_nullable == 'YES')
+        // const filtroColumnNO = columnsInformation.filter((item) => item.is_nullable == 'NO')
+        // console.log(filtroColumnYes, 'nueva columna YES')
+        // console.log(filtroColumnNO, 'nueva columna NO')
+        // #######################
+        ProcessingColumnsInformation(filterColumnsInformation, setInputFilter);
+        setItemsColumnsInformation(filterColumnsInformation);
+
+        const res = getdata;
+        return res;
+      }
+    );
 
     setDataTable(getDataTable);
+}
+    
   };
 
   const handleSelect = (item: any) => {
-    setDataTable(null)
+    setDataTable(null);
     setSelectedItem(item);
     apiGet(item.key_table, setDataTable);
     handleOcultarForm();
 
-     // cambio de color de item de la lista
-  const items = document.querySelectorAll("#mi-lista li");
-  // let elementoSeleccionado = null;
+    // cambio de color de item de la lista
+    const items = document.querySelectorAll("#mi-lista li");
+    // let elementoSeleccionado = null;
 
-  for (let i = 0; i < items.length; i++) {
-    items[i].addEventListener("click", function () {
-    
-      for (let j = 0; j < items.length; j++){
-        items[j].classList.remove('changes-color')
-      }
-      items[i].classList.add('changes-color')
-    });
-  }
-  
+    for (let i = 0; i < items.length; i++) {
+      items[i].addEventListener("click", function () {
+        for (let j = 0; j < items.length; j++) {
+          items[j].classList.remove("changes-color");
+        }
+        items[i].classList.add("changes-color");
+      });
+    }
   };
 
-  const dynamicFilterConditions = (item:any, filterObject:any) => {
+  const dynamicFilterConditions = (item: any, filterObject: any) => {
     let providerResult = true;
 
-    const filterObjetKeys = Object.keys(filterObject)
+    const filterObjetKeys = Object.keys(filterObject);
 
-    filterObjetKeys.map((filterItemName)=>{
+    filterObjetKeys.map((filterItemName) => {
+      const columDataTypeInformation: any = itemsColumnsInformation.filter(
+        (columnItem: any) => columnItem?.column_name == filterItemName
+      );
 
-      const columDataTypeInformation:any = itemsColumnsInformation.filter((columnItem:any) => columnItem?.column_name == filterItemName)
+      if (providerResult) {
+        if (
+          columDataTypeInformation[0].is_nullable == "NO" ||
+          item?.[filterItemName] !== null
+        ) {
+          providerResult = item?.[filterItemName]
+            ?.toString()
+            .toLowerCase()
+            .includes(filterObject?.[filterItemName]?.toString().toLowerCase());
+        }
 
-      if(providerResult){
-        if(columDataTypeInformation[0].is_nullable == 'NO' || item?.[filterItemName] !== null){
-          providerResult = item?.[filterItemName]?.toString().toLowerCase().includes(filterObject?.[filterItemName]?.toString().toLowerCase())
-        };
+        if (
+          columDataTypeInformation[0].is_nullable == "YES" &&
+          item?.[filterItemName] == null
+        ) {
+          const replaceNullValue = "";
 
-        if(columDataTypeInformation[0].is_nullable == 'YES' && item?.[filterItemName] == null){
-          const replaceNullValue = '';
-
-          providerResult = replaceNullValue.includes(filterObject?.[filterItemName]?.toString().toLowerCase())
-        };
-      };
-
-    })
+          providerResult = replaceNullValue.includes(
+            filterObject?.[filterItemName]?.toString().toLowerCase()
+          );
+        }
+      }
+    });
 
     return providerResult;
   };
@@ -261,10 +333,9 @@ export const UseSettigns = () => {
 
   // Funcion que se encarga de gestionar el "agregar" del formulario
   const handleSubmit = async (
-    values:any,
-    setDataTable:any,
-    selectedItem:any,
-   
+    values: any,
+    setDataTable: any,
+    selectedItem: any
   ) => {
     const sendData = {
       data: values,
@@ -280,33 +351,31 @@ export const UseSettigns = () => {
     await apiPostThunksAsync(getdata)
       .then((response) => {
         if (response.success == "OK") {
-          
           setProcessMessage({
             message: "Se agrego correctamente",
             style: "render-message-insert",
           });
         }
 
-        if(response.status == 400){
+        if (response.status == 400) {
+          const messageResponse = response?.data?.message;
 
-          const messageResponse = response?.data?.message;   
-
-          if(messageResponse.includes("already exists")){
+          if (messageResponse.includes("already exists")) {
             setProcessMessage({
-              message: "El valor que trata de ingresar ya se encuentra registrado.",
+              message:
+                "El valor que trata de ingresar ya se encuentra registrado.",
               style: "render-message-delete",
             });
-          }else{
+          } else {
             setProcessMessage({
               message: "Ocurrio un error inesperado, intentelo mas tarde.",
               style: "render-message-delete",
             });
           }
         }
-
       })
-      .catch((error)=>{
-        console.log("catch response: ", error)
+      .catch((error) => {
+        console.log("catch response: ", error);
       })
       .finally(() => {
         apiGet(selectedItem?.key_table, setDataTable);
@@ -315,10 +384,10 @@ export const UseSettigns = () => {
 
   //funcion para eliminar datos de la tabla y envio de mensjae de exitoso
   const handleDelete = async (key: React.Key) => {
-    
+    console.log(key, "funcion delete");
     const newData = data.filter((item: any) => item.key !== key);
-    let keyPosicion = parseInt(key.toString());
-    let whereUpdate = {
+    const keyPosicion = parseInt(key.toString());
+    const whereUpdate = {
       //@ts-ignore
       where: data[keyPosicion][`PK_T${selectedItem.key_table.toUpperCase()}`],
     };
@@ -339,40 +408,39 @@ export const UseSettigns = () => {
     );
     getdata["schema"] = parserTokenInformation?.dataSchema[0];
 
-    await apiPostThunksAsync(getdata).then((response) => {
-      if (response.success == "OK") {
-        
-        setProcessMessage({
-          message: "El registro se elimino correctamente",
-          style: "render-message-delete",
-        });
-      }
+    await apiPostThunksAsync(getdata)
+      .then((response) => {
+        if (response.success == "OK") {
+          setProcessMessage({
+            message: "El registro se elimino correctamente",
+            style: "render-message-delete",
+          });
+        }
 
-      if(response.status == 400){
-        setProcessMessage({
-          message: "Ocurrio un error inesperado, intentelo mas tarde.",
-          style: "render-message-delete",
-        });
-      }
-
-    })
-    .catch((error)=>{
-      console.log("catch response: ", error)
-    });
+        if (response.status == 400) {
+          setProcessMessage({
+            message: "Ocurrio un error inesperado, intentelo mas tarde.",
+            style: "render-message-delete",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("catch response: ", error);
+      });
 
     setDataTable(newData);
   };
 
-   // funcion de selccion de filas por medio de checkbox
-   const onSelectChange = (newSelectedRowKeys:any) => {
-    setSelectedRowKeys(newSelectedRowKeys)
+  // funcion de selccion de filas por medio de checkbox
+  const onSelectChange = (newSelectedRowKeys: any) => {
+    setSelectedRowKeys(newSelectedRowKeys);
   };
 
   const handleDeleteGroup = async () => {
-
     //@ts-ignore
-    const newData = data.filter((item:any) => !selectedRowKeys.includes(item.key));
-    
+    const newData = data.filter(
+      (item: any) => !selectedRowKeys.includes(item.key)
+    );
 
     let whereUpdate = {
       where: selectedRowKeys,
@@ -394,47 +462,48 @@ export const UseSettigns = () => {
     );
     getdata["schema"] = parserTokenInformation?.dataSchema[0];
 
-    await apiPostThunksAsync(getdata).then((response) => {
-      if (response.success == "OK") {
-        setProcessMessage({
-          message: "Los registro se eliminaron correctamente",
-          style: "render-message-delete",
-        });
-      }
+    await apiPostThunksAsync(getdata)
+      .then((response) => {
+        if (response.success == "OK") {
+          setProcessMessage({
+            message: "Los registro se eliminaron correctamente",
+            style: "render-message-delete",
+          });
+        }
 
-      if(response.status == 400){
-        setProcessMessage({
-          message: "Ocurrio un error inesperado, intentelo mas tarde.",
-          style: "render-message-delete",
-        });
-      }
-
-    }).catch((error)=>{
-      console.log("catch response: ", error)
-    });
+        if (response.status == 400) {
+          setProcessMessage({
+            message: "Ocurrio un error inesperado, intentelo mas tarde.",
+            style: "render-message-delete",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("catch response: ", error);
+      });
 
     setDataTable(newData);
     await apiGet(selectedItem?.key_table, setDataTable);
   };
 
-    //data table for items list FK
-    const apiGetFK = async (nameTable:any) => {
-      const prevData = {
-        base: "",
-        schema: parserTokenInformation?.dataSchema[0],
-      };
+  //data table for items list FK
+  const apiGetFK = async (nameTable: any) => {
+    const prevData = {
+      base: "",
+      schema: parserTokenInformation?.dataSchema[0],
+    };
 
-      const getdata = changeKey(prevData, "base", nameTable);
+    const getdata = changeKey(prevData, "base", nameTable);
 
-      const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
-        //@ts-ignore
-        const { getdata } = response
+    const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
+      //@ts-ignore
+      const { getdata } = response;
 
-        const res = getdata
-        return res
-      });
-      return getDataTable
-      };
+      const res = getdata;
+      return res;
+    });
+    return getDataTable;
+  };
 
     const categoryApiGetFKTLVManager = (currentTable, fkNameTable) =>{
 
@@ -467,52 +536,64 @@ export const UseSettigns = () => {
         where: { "lista_valor.CATEGORIA": categoryApiGetFKTLVManager(selectedItem?.key_table, nameTable) }
       };
 
-      const getdata = changeKey(prevData, "base", 'lista_valor');
+    const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
+      //@ts-ignore
+      const { getdata } = response;
 
-      const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
-        //@ts-ignore
-        const { getdata } = response
+      const res = getdata;
+      return res;
+    });
+    return getDataTable;
+  };
 
-        const res = getdata
-        return res
-      });
-      return getDataTable
-      };
+  const apiGetFKTFunsionario = async (nameTable: any) => {
+    const formatedName = nameTable.toUpperCase();
 
-      const apiGetFKTFunsionario = async (nameTable: any) => {
+    const tokenInformation = localStorage.getItem("user_token_information");
+    const parserTokenInformation: any | null = tokenInformation
+      ? JSON.parse(tokenInformation)
+      : null;
 
-        const formatedName = nameTable.toUpperCase()
+    // console.log("parser token info 2: ", parserTokenInformation?.dataSchema[0])
 
-        const tokenInformation = localStorage.getItem('user_token_information');
-        const parserTokenInformation: any | null = tokenInformation ? JSON.parse(tokenInformation) : null;
-      
-        const prevData = {  
-            funcionario: "",
-            schema: parserTokenInformation?.dataSchema[0],
-            where: { "lista_valor.VALOR": `'${formatedName}'` },
-            concat: [["usuario.'PRIMER_NOMBRE'",
-                       "usuario.'SEGUNDO_NOMBRE'",
-                       "usuario.'PRIMER_APELLIDO'",
-                       "usuario.'SEGUNDO_APELLIDO'"], ["AS 'NOMBRE'"]],
-            join: [{ "table": "lista_valor",
-                       "columns": "",
-                       "on": ["PK_TLISTA_VALOR", "funcionario.FK_TLV_CLASE_FUNCIONARIO"] },
-                    {"table":"usuario",
-                             "columns": ["PK_TUSUARIO"],
-                             "on": ["PK_TUSUARIO", "funcionario.FK_TUSUARIO"] }]
-         };
-  
-        const getdata = changeKey(prevData, "base", 'lista_valor');
-  
-        const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
-          //@ts-ignore
-          const { getdata } = response
-  
-          const res = getdata
-          return res
-        });
-        return getDataTable
-        };
+    const prevData = {
+      funcionario: "",
+      schema: parserTokenInformation?.dataSchema[0],
+      where: { "lista_valor.VALOR": `'${formatedName}'` },
+      concat: [
+        [
+          "usuario.'PRIMER_NOMBRE'",
+          "usuario.'SEGUNDO_NOMBRE'",
+          "usuario.'PRIMER_APELLIDO'",
+          "usuario.'SEGUNDO_APELLIDO'",
+        ],
+        ["AS 'NOMBRE'"],
+      ],
+      join: [
+        {
+          table: "lista_valor",
+          columns: "",
+          on: ["PK_TLISTA_VALOR", "funcionario.FK_TLV_CLASE_FUNCIONARIO"],
+        },
+        {
+          table: "usuario",
+          columns: ["PK_TUSUARIO"],
+          on: ["PK_TUSUARIO", "funcionario.FK_TUSUARIO"],
+        },
+      ],
+    };
+
+    const getdata = changeKey(prevData, "base", "lista_valor");
+
+    const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
+      //@ts-ignore
+      const { getdata } = response;
+
+      const res = getdata;
+      return res;
+    });
+    return getDataTable;
+  };
 
   //funcion que va capturando los caracteres uno a uno en el input filter
   const handleFilterChange = ({ target }) => {
@@ -525,7 +606,7 @@ export const UseSettigns = () => {
   };
 
   //funcion para guardar la data editada
-  const handleSave = (row:any) => {
+  const handleSave = (row: any) => {
     const newData = [...data];
     const index = newData.findIndex((item) => row.key === item.key);
     const item = newData[index];
@@ -546,94 +627,94 @@ export const UseSettigns = () => {
         //@ts-ignore
         const primaryKey = `PK_T${selectedItem.key_table.toUpperCase()}`;
 
-        let whereUpdate = {
-          where: record[primaryKey],
+      let whereUpdate = {
+        where: record[primaryKey],
+      };
+      const newWhere = changeKey(
+        whereUpdate,
+        "where",
+        //@ts-ignore
+        `PK_T${selectedItem.key_table.toUpperCase()}`
+      );
+
+      let values = {};
+
+      let newValue = oldValue[1];
+
+      if (form?.editingDate) {
+        values = form.value;
+        newValue = Object.values(values);
+      } else {
+        values = await form?.validateFields();
+        newValue = Object.values(values);
+      }
+
+      if (newValue[0] != oldValue[1]) {
+        const sendData = {
+          data: values,
         };
-        const newWhere = changeKey(
-          whereUpdate,
-          "where",
-          //@ts-ignore
-          `PK_T${selectedItem.key_table.toUpperCase()}`
+        const getdata = changeKey(
+          sendData,
+          "data",
+          `update_${selectedItem?.key_table}`
         );
+        (getdata["where"] = newWhere),
+          (getdata["schema"] = parserTokenInformation?.dataSchema[0]);
 
-        let values = {}
-
-        let newValue = oldValue[1];
-
-        if(form?.editingDate){
-          values = form.value;
-          newValue = Object.values(values);        
-
-        }else{
-          values = await form?.validateFields();
-          newValue = Object.values(values);
-        }
-
-        if(newValue[0] != oldValue[1]){
-          const sendData = {
-            data: values,
-          };
-          const getdata = changeKey(
-            sendData,
-            "data",
-            `update_${selectedItem?.key_table}`
-          );
-          (getdata["where"] = newWhere), (getdata["schema"] = parserTokenInformation?.dataSchema[0]);
-          
-          await apiPostThunksAsync(getdata).then((response) => {
+        await apiPostThunksAsync(getdata)
+          .then((response) => {
             if (response.success == "OK") {
               handleSave({ ...record, ...values });
             }
-      
-            if(response.status == 400){
+
+            if (response.status == 400) {
               setProcessMessage({
                 message: "Ocurrio un error inesperado, intentelo mas tarde.",
                 style: "render-message-delete",
               });
             }
-      
-          }).catch((error)=>{
-            console.log("catch response: ", error)
+          })
+          .catch((error) => {
+            console.log("catch response: ", error);
           });
-
-        }
-
-        toggleEdit();
-
-      } catch (errInfo) {
-        console.log("save error: ", errInfo)
-        messageApi.info("Save failed");
       }
-    };
 
-    const FKConsultManager = (FKNameList:any) =>{
-      let answer = {}
+      toggleEdit();
+    } catch (errInfo) {
+      console.log("save error: ", errInfo);
+      messageApi.info("Save failed");
+    }
+  };
 
-      // console.log("FK guardadas: ", fkGroup)
+  const FKConsultManager = (FKNameList: any) => {
+    let answer = {};
 
-      FKNameList.map((name) => {
+    // console.log("FK guardadas: ", fkGroup)
 
-        let tableName = name.replace("FK_T", "");
+    FKNameList.map((name) => {
+      let tableName = name.replace("FK_T", "");
 
-        if(tableName.startsWith('LV_') || tableName.startsWith('LISTA_VALOR_')){
+      if (tableName.startsWith("LV_") || tableName.startsWith("LISTA_VALOR_")) {
+        const parserTablename = tableName.startsWith("LV_")
+          ? tableName.replace("LV_", "")
+          : tableName.replace("LISTA_VALOR_", "");
 
-          const parserTablename = tableName.startsWith('LV_') ? tableName.replace('LV_', '') : tableName.replace('LISTA_VALOR_', '');
+        apiGetFKTLV(parserTablename.toLowerCase())
+          .then((response) => {
+            const res = response;
 
-          apiGetFKTLV(parserTablename.toLowerCase()).then((response) => {
-            const res = response
-  
             answer = {
-              ... answer,
-              [name]: res
-            }
-  
-            }).then(()=>{
-  
-              setFkGroup({
-                ... fkGroup,
-                ...answer
-            })
-          }).catch((e) => {
+              ...answer,
+              [name]: res,
+            };
+          })
+          .then(() => {
+            setFkGroup({
+              ...fkGroup,
+              ...answer,
+            });
+          })
+          .catch((e) => {
             // const pre = {
             //   [name]: []
             // }
@@ -645,184 +726,182 @@ export const UseSettigns = () => {
             //   ...pre
             // })
 
-            console.log(` error en ${name}: `, e)
+            console.log(` error en ${name}: `, e);
+          });
+      } else if (tableName.startsWith("FUNCIONARIO_")) {
+        const parserTablename = tableName.replace("FUNCIONARIO_", "");
 
+        apiGetFKTFunsionario(parserTablename.toLowerCase())
+          .then((response) => {
+            const res = response;
+
+            answer = {
+              ...answer,
+              [name]: res,
+            };
           })
+          .then(() => {
+            setFkGroup({
+              ...fkGroup,
+              ...answer,
+            });
+          })
+          .catch((e) => {
+            // const pre = {
+            //   [name]: []
+            // }
 
-        } else if(tableName.startsWith('FUNCIONARIO_')){
+            // console.log("el pre: ", pre)
 
-            const parserTablename = tableName.replace('FUNCIONARIO_', '');
+            // setFkGroup({
+            //   ... fkGroup,
+            //   ...pre
+            // })
 
-            apiGetFKTFunsionario(parserTablename.toLowerCase()).then((response) => {
-              const res = response
-    
-              answer = {
-                ... answer,
-                [name]: res
-              }
-    
-              }).then(()=>{
-    
-                setFkGroup({
-                  ... fkGroup,
-                  ...answer
-              })
-            }).catch((e) => {
-              // const pre = {
-              //   [name]: []
-              // }
-  
-              // console.log("el pre: ", pre)
-  
-              // setFkGroup({
-              //   ... fkGroup,
-              //   ...pre
-              // })
-  
-              console.log(` error en ${name}: `, e)
-  
-            })
-
-        }else {
-          if(tableName.includes('_PADRE')){
-            tableName = tableName.replace('_PADRE', '')
-          }
-  
-            apiGetFK(tableName.toLowerCase()).then((response) => {
-              const res = response
-    
-              answer = {
-                ... answer,
-                [name]: res
-              }
-    
-              }).then(()=>{
-    
-                setFkGroup({
-                  ... fkGroup,
-                  ...answer
-              })
-            }).catch((e) => {
-              // const pre = {
-              //   [name]: []
-              // }
-  
-              // console.log("el pre: ", pre)
-  
-              // setFkGroup({
-              //   ... fkGroup,
-              //   ...pre
-              // })
-  
-              console.log(` error en ${name}: `, e)
-  
-            })
+            console.log(` error en ${name}: `, e);
+          });
+      } else {
+        if (tableName.includes("_PADRE")) {
+          tableName = tableName.replace("_PADRE", "");
         }
-    })
-  }
 
-    const formatingAvalibleOptions = (options:any) => {
+        apiGetFK(tableName.toLowerCase())
+          .then((response) => {
+            const res = response;
 
-      let i = 0;
+            answer = {
+              ...answer,
+              [name]: res,
+            };
+          })
+          .then(() => {
+            setFkGroup({
+              ...fkGroup,
+              ...answer,
+            });
+          })
+          .catch((e) => {
+            // const pre = {
+            //   [name]: []
+            // }
 
-      const result = options.map((option:any) => {
+            // console.log("el pre: ", pre)
 
-        if(option?.VISIBLE === "S" && option?.ESTADO === "A"){
+            // setFkGroup({
+            //   ... fkGroup,
+            //   ...pre
+            // })
 
-          const name = (option?.NOMBRE).toUpperCase()
-
-          const formatedName = option?.NOMBRE.substring(1);
-
-          i = i+1
-
-          const processesOption = {
-            key: i,
-            nombre: name,
-            key_table: formatedName
-          }
-
-          return processesOption
-        }
-      })
-
-      return result
-
-    }
-
-    const consultAvalibeOptions = async (fatherOption:any) => {
-
-      const testOptionSelected = {
-        url: fatherOption
+            console.log(` error en ${name}: `, e);
+          });
       }
+    });
+  };
 
+  const formatingAvalibleOptions = (options: any) => {
+    let i = 0;
 
-      await apiGetThunksMenuItemsOptionsAsync(testOptionSelected).then((response: any) => {
+    const result = options.map((option: any) => {
+      if (option?.VISIBLE === "S" && option?.ESTADO === "A") {
+        const name = (option?.NOMBRE).toUpperCase();
 
-        const theResponseOptions = response?.getdata
+        const formatedName = option?.NOMBRE.substring(1);
 
-        if(theResponseOptions && theResponseOptions.length > 0){
+        i = i + 1;
 
-          const formatedOptions = formatingAvalibleOptions(theResponseOptions)
+        const processesOption = {
+          key: i,
+          nombre: name,
+          key_table: formatedName,
+        };
 
-          if(formatedOptions && formatedOptions.length > 0){
+        return processesOption;
+      }
+    });
 
+    return result;
+  };
+
+  const consultAvalibeOptions = async (fatherOption: any) => {
+    const testOptionSelected = {
+      url: fatherOption,
+    };
+
+    await apiGetThunksMenuItemsOptionsAsync(testOptionSelected)
+      .then((response: any) => {
+        const theResponseOptions = response?.getdata;
+
+        if (theResponseOptions && theResponseOptions.length > 0) {
+          const formatedOptions = formatingAvalibleOptions(theResponseOptions);
+
+          if (formatedOptions && formatedOptions.length > 0) {
             ListNameTables(formatedOptions);
 
             handleSelect(formatedOptions[0]);
-
-          }else {
-            console.log("por algun motivo ninguna opcion es visible")
-            navigate('/no_permission')
+          } else {
+            console.log("por algun motivo ninguna opcion es visible");
+            navigate("/no_permission");
           }
-
-        }else{
-          console.log("las opciones estan vacias")
-          navigate('/no_permission')
+        } else {
+          console.log("las opciones estan vacias");
+          navigate("/no_permission");
         }
-
-      }).catch((error)=>{
-
+      })
+      .catch((error) => {
         //TODO: redireccionar en caso de error
 
-        console.log("catch response: ", error)
-        navigate('/no_permission')
+        console.log("catch response: ", error);
+        navigate("/no_permission");
       });
+  };
 
+  useEffect(() => {
+    setSettingOptions(null);
+
+    setSelectedItem({
+      key: null,
+      nombre: null,
+      key_table: null,
+    });
+
+    consultAvalibeOptions(params?.option);
+
+    // initLanguage();
+  }, [params]);
+
+  useEffect(() => {
+    if (processMessage) {
+      setVisibleMessage(
+        <div className={processMessage.style}>{processMessage.message}</div>
+      );
+      clearAlertMessage();
     }
+  }, [processMessage]);
 
-    useEffect(() => {
+  useEffect(() => {
+    if (Object.entries(inputFilter).length !== 0) {
+      const FKNames = Object.keys(inputFilter).filter((key) =>
+        key.startsWith("FK_")
+      );
 
-      setSettingOptions(null)
+      FKConsultManager(FKNames);
+    }
+  }, [inputFilter]);
 
-      setSelectedItem({
-        key: null,
-        nombre: null,
-        key_table: null
-      })
+  const [hovered, setHovered] = useState(false);
 
-      consultAvalibeOptions(params?.option)
+  const handleMouseEnter = () => {
+    setHovered(true);
+  };
 
-      // initLanguage();
-    }, [params]);
-
-    useEffect(() => {
-      if (processMessage) {
-        setVisibleMessage(<div className={processMessage.style}>{processMessage.message}</div>)
-        clearAlertMessage()
-      }
-    }, [processMessage]);
-
-    useEffect(() => {
-      
-      if(Object.entries(inputFilter).length !== 0){
-        const FKNames = Object.keys(inputFilter).filter((key) => key.startsWith("FK_"))
-
-        FKConsultManager(FKNames)
-      }
-
-    }, [inputFilter])
+  const handleMouseLeave = () => {
+    setHovered(false);
+  };
 
   return {
+    hovered,
+    handleMouseEnter,
+    handleMouseLeave,
     contextHolder,
     messageApi,
     visibleForm,
@@ -848,13 +927,13 @@ export const UseSettigns = () => {
     inputFilter,
     data,
     renderMessage,
-    selectedRowKeys, 
-    onSelectChange, 
+    selectedRowKeys,
+    onSelectChange,
     handleDeleteGroup,
     apiGetFK,
     save,
     fkGroup,
     itemsColumnsInformation,
-    params
+    params,
   };
 };

@@ -64,7 +64,7 @@ export const EditableCell= ({
 
   const inputRef = useRef<InputRef>(null);
   const form = useContext(EditableContext)!;
-
+  
   useEffect(() => {
     if (editing) {
       inputRef.current?.focus();
