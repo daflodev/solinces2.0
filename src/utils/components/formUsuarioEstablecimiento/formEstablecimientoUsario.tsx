@@ -6,24 +6,30 @@ import DatePickerAddForm from "../datepickeraddform";
 import MultiSelect from "../selectedform";
 import InputAddNumber from "../inputaddnumber";
 import { useFormEstablecimiento } from "./hooks/useFormEstablecimiento";
+import "../../assets/styles/formEstablecimiento.css";
 
 const FormEstablecimiento = ({
   setTitleState,
   keyValues,
   selectItem,
   FKGroupData,
-  
+
   itemsInformation,
 }: {
   setTitleState: any;
   keyValues: any;
   selectItem: any;
   FKGroupData: any;
- 
+
   itemsInformation: any;
 }) => {
-  const { apiGet, initialValues, setInitialValue }: any =
-    useFormEstablecimiento();
+  const {
+    apiGet,
+    initialValues,
+    setInitialValue,
+    handleSubmit,
+    contextHolder,
+  }: any = useFormEstablecimiento();
 
   useEffect(() => {
     apiGet("establecimiento", setInitialValue);
@@ -68,44 +74,53 @@ const FormEstablecimiento = ({
 
     const processColumn = (columnName: any) => {
       const columnQualitiesInformation = itemsInformation.filter(
-        (itemColumn: any) => itemColumn.column_name == columnName,
-       
+        (itemColumn: any) => itemColumn.column_name == columnName
       );
-      console.log(columnQualitiesInformation)
- 
+      console.log(columnQualitiesInformation);
+
       return (
         <>
           {columnName.startsWith("FK_") ? (
-            <Col span={6}>
-              <Field
-                component={MultiSelect}
-                style={{
-                  borderRadius: "5px",
-                  border: "2px solid #e2e2e2",
-                  padding: "5px",
-                }}
-                placeholder={columnName}
-                id={columnName}
-                name={columnName}
-                autoComplete="off"
-                options={optionsManager(FKGroupData[columnName], columnName)}
-                filterOption={(input: any, option: any) =>
-                  (option?.label ?? "")
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-              />
+            <Col xs={24} md={6} lg={6} xl={6}>
+              <div className="form-container">
+                {/* Primera columna */}
+                <div className="form-column">
+                  <div className="form-field">
+                    <Field
+                      component={MultiSelect}
+                      style={{
+                        borderRadius: "5px",
+                        border: "2px solid #e2e2e2",
+                        padding: "5px",
+                      }}
+                      placeholder={columnName}
+                      id={columnName}
+                      name={columnName}
+                      autoComplete="off"
+                      options={optionsManager(
+                        FKGroupData[columnName],
+                        columnName
+                      )}
+                      filterOption={(input: any, option: any) =>
+                        (option?.label ?? "")
+                          .toLowerCase()
+                          .includes(input.toLowerCase())
+                      }
+                    />
 
-              <ErrorMessage
-                name={columnName}
-                component={"div"}
-                className="text-danger"
-              />
+                    <ErrorMessage
+                      name={columnName}
+                      component={"div"}
+                      className="text-danger"
+                    />
+                  </div>
+                </div>
+              </div>
             </Col>
           ) : columnQualitiesInformation[0]?.data_type ===
             "character varying" ? (
             <>
-              <Col span={6}>
+              <Col xs={24} md={6} lg={6} xl={6}>
                 <div className="form-container">
                   {/* Primera columna */}
                   <div className="form-column">
@@ -125,23 +140,21 @@ const FormEstablecimiento = ({
                         component={"div"}
                         className="text-danger"
                       />
-                      {/* <span
+                      {/* <md
                         className={`placeholder ${
                           selectedField === columnName ? "active" : ""
                         }`}
                       >
                         {columnName}
-                      </span> */}
+                      </md> */}
                     </div>
-
-                   
                   </div>
                 </div>
               </Col>
             </>
           ) : columnQualitiesInformation[0]?.data_type === "integer" ||
             columnQualitiesInformation[0]?.data_type === "numeric" ? (
-            <Col span={6}>
+            <Col xs={24} md={6} lg={6} xl={6}>
               <Field
                 InputConditions={columnQualitiesInformation[0]}
                 placeholder={columnName}
@@ -163,7 +176,7 @@ const FormEstablecimiento = ({
               />
             </Col>
           ) : columnQualitiesInformation[0]?.data_type === "date" ? (
-            <Col span={6}>
+            <Col xs={24} md={6} lg={6} xl={6}>
               <Field
                 placeholder={columnName}
                 component={DatePickerAddForm}
@@ -184,7 +197,7 @@ const FormEstablecimiento = ({
               />
             </Col>
           ) : (
-            <Col span={6}>
+            <Col xs={24} md={6} lg={6} xl={6}>
               <Field
                 style={{
                   borderRadius: "5px",
@@ -217,12 +230,10 @@ const FormEstablecimiento = ({
   };
 
   const inputs = inputsGenerator(keyValues);
-  const handleSubmit = (values) => {
-    console.log('Datos actualizados:', values);
-    // Realizar cualquier otra lógica de envío o actualización aquí
-  };
+
   return (
     <>
+      {contextHolder}
       {initialValues ? (
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
           <Form className="formulario">
