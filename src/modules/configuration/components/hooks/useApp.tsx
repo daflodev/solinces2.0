@@ -27,7 +27,6 @@ export const UseSettigns = () => {
   });
   // Estado que maneja la visibilidad delformulario de agregar
   const [visibleForm, setVisibleForm] = useState(false);
-  // Provee el texto controlado por el ghestor de idiomas
 
   const [dataTable, setDataTable] = useState<any>();
 
@@ -437,15 +436,35 @@ export const UseSettigns = () => {
       return getDataTable
       };
 
+    const categoryApiGetFKTLVManager = (currentTable, fkNameTable) =>{
+
+      console.log('fkNametable: ', fkNameTable);
+      console.log('currentTable: ', currentTable)
+
+      if(fkNameTable == 'estado' && currentTable == 'periodo_evaluacion'){
+
+        const category = 'ESTADOPERIODOEVALUACION'
+
+        return `'${category}'`;
+      }else if(fkNameTable == 'estado' && currentTable == 'periodo_academico'){
+
+        const category = 'ESTADOPERIODO'
+
+        return `'${category}'`;
+      }else{
+        const formatedName = fkNameTable.toUpperCase()
+
+        return `'${formatedName}'`
+      }
+    }
+
      //data table for items list FK_TLV
     const apiGetFKTLV = async (nameTable: any) => {
-
-      const formatedName = nameTable.toUpperCase()
 
       const prevData = {
         base: "",
         schema: parserTokenInformation?.dataSchema[0],
-        where: { "lista_valor.CATEGORIA": `'${formatedName}'` }
+        where: { "lista_valor.CATEGORIA": categoryApiGetFKTLVManager(selectedItem?.key_table, nameTable) }
       };
 
       const getdata = changeKey(prevData, "base", 'lista_valor');
@@ -466,9 +485,7 @@ export const UseSettigns = () => {
 
         const tokenInformation = localStorage.getItem('user_token_information');
         const parserTokenInformation: any | null = tokenInformation ? JSON.parse(tokenInformation) : null;
-    
-        console.log("parser token info 2: ", parserTokenInformation?.dataSchema[0])
-  
+      
         const prevData = {  
             funcionario: "",
             schema: parserTokenInformation?.dataSchema[0],
@@ -523,7 +540,7 @@ export const UseSettigns = () => {
     });
   };
 
-    // envio de datos de la edicion (necesita integracion a DB)
+    // envio de datos de la edicion
     const save = async (form:any, record:any, toggleEdit:any, oldValue:any) => {
       try {
         //@ts-ignore

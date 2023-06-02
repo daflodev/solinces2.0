@@ -1,16 +1,34 @@
+import { useEffect } from 'react';
 import axios from "axios";
 
 import { getUser, login } from "../helper/auth-helper";
+
+import { sessionInformationStore } from '../../../store/userInformationStore';
+import shallow from 'zustand/shallow';
 
 const loginMethod = () => {
   login();
 };
 
 const interceptor = () => {
+
+  const { currentRol } = sessionInformationStore(
+    (state) => ({
+        currentRol: state.currentRol,
+    }),
+    shallow
+  );
+
+  console.log("a rol: ", currentRol)
+
   axios.interceptors.request.use((config) => {
+
     return getUser().then((user: any) => {
       if (user && user.access_token) {
-        config.headers.Authorization = `Bearer ${user.access_token}`;
+        config.headers ={
+          Authorization: `Bearer ${user.access_token}`,
+          rol: `${currentRol}`,
+        } 
       } else {
         loginMethod();
       }
