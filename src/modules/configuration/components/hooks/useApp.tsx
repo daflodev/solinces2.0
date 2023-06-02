@@ -32,7 +32,6 @@ export const UseSettigns = () => {
   });
   // Estado que maneja la visibilidad delformulario de agregar
   const [visibleForm, setVisibleForm] = useState(false);
-  // Provee el texto controlado por el ghestor de idiomas
 
   const [dataTable, setDataTable] = useState<any>();
 
@@ -387,8 +386,8 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
   const handleDelete = async (key: React.Key) => {
     console.log(key, "funcion delete");
     const newData = data.filter((item: any) => item.key !== key);
-    let keyPosicion = parseInt(key.toString());
-    let whereUpdate = {
+    const keyPosicion = parseInt(key.toString());
+    const whereUpdate = {
       //@ts-ignore
       where: data[keyPosicion][`PK_T${selectedItem.key_table.toUpperCase()}`],
     };
@@ -506,17 +505,36 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
     return getDataTable;
   };
 
-  //data table for items list FK_TLV
-  const apiGetFKTLV = async (nameTable: any) => {
-    const formatedName = nameTable.toUpperCase();
+    const categoryApiGetFKTLVManager = (currentTable, fkNameTable) =>{
 
-    const prevData = {
-      base: "",
-      schema: parserTokenInformation?.dataSchema[0],
-      where: { "lista_valor.CATEGORIA": `'${formatedName}'` },
-    };
+      console.log('fkNametable: ', fkNameTable);
+      console.log('currentTable: ', currentTable)
 
-    const getdata = changeKey(prevData, "base", "lista_valor");
+      if(fkNameTable == 'estado' && currentTable == 'periodo_evaluacion'){
+
+        const category = 'ESTADOPERIODOEVALUACION'
+
+        return `'${category}'`;
+      }else if(fkNameTable == 'estado' && currentTable == 'periodo_academico'){
+
+        const category = 'ESTADOPERIODO'
+
+        return `'${category}'`;
+      }else{
+        const formatedName = fkNameTable.toUpperCase()
+
+        return `'${formatedName}'`
+      }
+    }
+
+     //data table for items list FK_TLV
+    const apiGetFKTLV = async (nameTable: any) => {
+
+      const prevData = {
+        base: "",
+        schema: parserTokenInformation?.dataSchema[0],
+        where: { "lista_valor.CATEGORIA": categoryApiGetFKTLVManager(selectedItem?.key_table, nameTable) }
+      };
 
     const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
       //@ts-ignore
@@ -603,16 +621,11 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
     });
   };
 
-  // envio de datos de la edicion (necesita integracion a DB)
-  const save = async (
-    form: any,
-    record: any,
-    toggleEdit: any,
-    oldValue: any
-  ) => {
-    try {
-      //@ts-ignore
-      const primaryKey = `PK_T${selectedItem.key_table.toUpperCase()}`;
+    // envio de datos de la edicion
+    const save = async (form:any, record:any, toggleEdit:any, oldValue:any) => {
+      try {
+        //@ts-ignore
+        const primaryKey = `PK_T${selectedItem.key_table.toUpperCase()}`;
 
       let whereUpdate = {
         where: record[primaryKey],

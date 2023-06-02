@@ -52,7 +52,7 @@ const HeaderComponent = () => {
 
   } = HeaderHook()
 
-  const { open } = mainDrawerStore();
+  const { open, setRenderContent } = mainDrawerStore();
 
   const generatorUnderFilterOptions = () => {
 
@@ -248,7 +248,7 @@ const HeaderComponent = () => {
 
     useEffect(() => {
 
-      if(parserTokenInformation.preferred_username){
+      if(parserTokenInformation?.preferred_username){
         apiGetInstitutionsAndCampus()
       }
     }, [])
@@ -274,7 +274,7 @@ const HeaderComponent = () => {
     }, [currentAcademicYear])
 
     //TODO: regresar condicion != "SUPER_ADMINISTRADOR" cuando se considere listo el filtrado de opciones relaiconadas con cede
-    if(parserTokenInformation?.rol[0]){
+    if(parserTokenInformation?.rol[0] != "SUPER_ADMINISTRADOR"){
 
       return(
         <div className="frame-67-s3v">
@@ -373,18 +373,15 @@ const HeaderComponent = () => {
               <img
                 className="rectangle-25-yrx"
                 src={icon_four}
-                onClick={()=> open()}
+                onClick={()=> {
+                  setRenderContent({
+                    contentName: 'userSettings'
+                  })
+                  open()
+                }}
               />
-
             </div>
           </div>
-          <Button
-            onClick={() => {
-              logout();
-            }}
-          >
-            Logout
-          </Button>
         </div>
       </div>
 

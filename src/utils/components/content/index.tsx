@@ -10,9 +10,10 @@ import { mainDrawerStore } from "../../../store/mainDrawerStore";
 
 const ContentComponents = ({ children }: {children: any}) => {
 
-    const { isOpen } = mainDrawerStore(
+    const { isOpen, withDrawer } = mainDrawerStore(
         (state) => ({
             isOpen: state.isOpen,
+            withDrawer: state.withDrawer
         }),
         shallow
     );
@@ -34,12 +35,12 @@ const ContentComponents = ({ children }: {children: any}) => {
                 <div style={containerStyle}>
                     {children}
                     <Drawer
-                        title="Basic Drawer"
                         placement="right"
-                        closable={true}
-                        onClose={close}
                         open={isOpen}
                         getContainer={false}
+                        width={`${withDrawer}%`}
+                        destroyOnClose={true}
+                        closable={false}
                     >
                         {DrawerRender()}
                     </Drawer>

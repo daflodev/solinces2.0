@@ -1,52 +1,44 @@
-import { Button, Popover } from 'antd';
-import React, { useEffect } from 'react';
-import { sessionInformationStore } from '../../../store/userInformationStore';
+import { UserSettings } from "../mainDrawersComponents/userSettings"
+
+import React from 'react';
+import { mainDrawerStore } from '../../../store/mainDrawerStore';
 import shallow from 'zustand/shallow';
 import './drawerRender.css'
-import { RetweetOutlined } from '@ant-design/icons';
 
 
 const DrawerRender: React.FC = () => {
     
-    const { currentRol, roles } = sessionInformationStore(
+    const { renderContent } = mainDrawerStore(
         (state) => ({
-            currentRol: state.currentRol,
-            roles: state.currentRoles,
+          renderContent: state.renderContent,
         }),
         shallow
     );
 
-    const { updateValue } = sessionInformationStore();
-    
-    const handleClick = (event) => {
-        updateValue({element: 'currentRol',
-                    value:event.target.textContent
-                })
-    }
+    const renderContentDigestor = (componentName) => {
 
-   
+      let renderComponent = <></>;
 
-    const ListaItems = () => {
-        return (
-          <ul>
+      switch (componentName) {
+        case "userSettings":
 
-            {roles.map((elemento, index) => (
-              <li className='listRoles' onClick={handleClick} key={index}>{elemento}</li>
-            ))}
-          </ul>
-        );
+          renderComponent = <UserSettings/>
+
+          break;
+      
+        default:
+
+          console.warn("The render element is not register")
+
+          break;
       }
 
-    useEffect(() => {
-      ListaItems()
-    }, [roles, currentRol])
+      return renderComponent
+    }
 
     return(
         <>
-        <p>{currentRol}</p>
-        <Popover content={ListaItems}>
-            <Button style={{ color: 'White' }} type="primary" icon={<RetweetOutlined />} />
-        </Popover>
+          {renderContentDigestor(renderContent)}
         </>
     )
 };
