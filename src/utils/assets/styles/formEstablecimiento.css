@@ -51,13 +51,6 @@
     height: 35px;
     left: 0px;
     top: 0px;
-
-    /* Blanco */
-
-    background: #FFFFFF;
-    /* Gris Medio */
-
-   
 }
 
 
@@ -75,20 +68,10 @@
     align-items: center;
     padding: 3px 10px;
     gap: 37px;
-
-    
     width: 251px;
     height: 35px !important;
     left: 0px;
     top: 0px;
-
-    /* Blanco */
-
-    background: #FFFFFF;
-    /* Gris Medio */
-
-
-    
 }
 
 

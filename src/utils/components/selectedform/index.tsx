@@ -7,7 +7,7 @@ const MultiSelect = ({
     options,
     // @ts-ignore
     isMulti = false,
-    placeholder = 'Select',
+    placeholder = '',
     filterOption
 }) => {
 

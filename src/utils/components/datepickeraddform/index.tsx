@@ -1,6 +1,5 @@
-// @ts-ignore
-
 import { DatePicker } from "antd";
+import moment from "moment";
 
 
 const DatePickerAddForm = ({
@@ -29,11 +28,19 @@ const DatePickerAddForm = ({
         form.setFieldValue(field.name, newDate)
     }
 
+    const handleDateChange = (value, setFieldValue) => {
+        setFieldValue('fecha', value);
+      };
+
+
     return (
         <DatePicker 
+        {...field}
             placeholder={placeholder}
             format="DD/MM/YYYY"
-            onChange={onChange}
+            onChange={(value) => onChange(value)}
+            value={field.value ? moment(field.value) : null}
+          
             onBlur={field.onBlur}
         />
     )

@@ -196,7 +196,7 @@ export const EditableCellsHooks = (fkGroup, title) => {
           setDataToSelect(fkGroup[titleName]);
         } 
       }
-    }, [fkGroup])
+    }, [fkGroup, ifSelect, title?.props?.name])
 
     return {
         ifSelect,

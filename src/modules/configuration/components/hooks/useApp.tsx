@@ -172,10 +172,7 @@ export const UseSettigns = () => {
   const apiGet = async (nameTable: any, setDataTable: any) => {
     const tableDateBase = select_type(nameTable);
 
-    const prevData = {
-      base: tableDateBase.table,
-      schema: parserTokenInformation?.dataSchema[0],
-    };
+    
 
 if(currentRol == 'RECTOR' && nameTable == 'sede' ){
   const dataSede = {
@@ -211,6 +208,10 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
 
   setDataTable(getDataTable);
 }else{
+  const prevData = {
+    base: tableDateBase.table,
+    schema: parserTokenInformation?.dataSchema[0],
+  };
   const getdata = changeKey(prevData, "base", nameTable);
 
     const getDataTable = await apiGetThunksAsync(getdata).then(
@@ -507,8 +508,7 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
 
     const categoryApiGetFKTLVManager = (currentTable, fkNameTable) =>{
 
-      console.log('fkNametable: ', fkNameTable);
-      console.log('currentTable: ', currentTable)
+     
 
       if(fkNameTable == 'estado' && currentTable == 'periodo_evaluacion'){
 
@@ -535,6 +535,7 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
         schema: parserTokenInformation?.dataSchema[0],
         where: { "lista_valor.CATEGORIA": categoryApiGetFKTLVManager(selectedItem?.key_table, nameTable) }
       };
+      const getdata = changeKey(prevData, "base", 'lista_valor');
 
     const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
       //@ts-ignore

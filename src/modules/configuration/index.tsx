@@ -70,8 +70,7 @@ const Settings: React.FC = () => {
     shallow
   );
 
-  console.log(fkGroup)
-  console.log(currentRol);
+
 
   //Funcion para generar la data de los filtros select
   const filterSelectOnColumnGenerator = (

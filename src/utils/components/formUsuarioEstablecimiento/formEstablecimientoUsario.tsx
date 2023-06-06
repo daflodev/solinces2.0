@@ -152,29 +152,7 @@ const FormEstablecimiento = ({
                 </div>
               </Col>
             </>
-          ) : columnQualitiesInformation[0]?.data_type === "integer" ||
-            columnQualitiesInformation[0]?.data_type === "numeric" ? (
-            <Col xs={24} md={6} lg={6} xl={6}>
-              <Field
-                InputConditions={columnQualitiesInformation[0]}
-                placeholder={columnName}
-                component={InputAddNumber}
-                style={{
-                  borderRadius: "5px",
-                  border: "2px solid #e2e2e2",
-                  padding: "5px",
-                }}
-                id={columnName}
-                name={columnName}
-                autoComplete="off"
-              />
-
-              <ErrorMessage
-                name={columnName}
-                component={"div"}
-                className="text-danger"
-              />
-            </Col>
+          
           ) : columnQualitiesInformation[0]?.data_type === "date" ? (
             <Col xs={24} md={6} lg={6} xl={6}>
               <Field
