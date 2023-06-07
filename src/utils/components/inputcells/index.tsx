@@ -1,7 +1,6 @@
-import { Form, FormInstance, Popconfirm, Space, Tooltip } from "antd";
-import React, { useEffect, useRef, useState } from "react";
-import { UseSettigns } from "../../../modules/configuration/components/hooks/useApp";
-import { deleteIcon } from "../../assets/icon/iconManager";
+import { Form, FormInstance } from "antd";
+import React from "react";
+
 export const EditableContext = React.createContext<FormInstance<any> | null>(
   null
 );
@@ -14,10 +13,6 @@ export const EditableRow: React.FC<EditableRowProps> = ({
   ...props
 }) => {
   const [form] = Form.useForm();
-
-  const { settingOptions, handleDelete } = UseSettigns();
-
-  const [isHovered, setIsHovered] = useState(false);
 
 
   // const [hovered, setHovered] = useState(false);

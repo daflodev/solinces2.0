@@ -5,3 +5,12 @@
 .listRoles:hover {
   background-color: #ccc;
 }
+
+.drawer_render_main_container{
+  position: relative;
+  overflow: auto;
+}
+
+.drawer_render_main_container .ant-drawer-body{
+  background-color: var(--bg-color);
+}

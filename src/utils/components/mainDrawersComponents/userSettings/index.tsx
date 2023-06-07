@@ -32,7 +32,8 @@ const UserSettings: React.FC = () => {
     contextHolder,
     currentPasswordErrorMessageState, setCurrentPasswordErrorMessageState,
     newPasswordErrorMessageState, setNewPasswordErrorMessageState,
-    verifyNewPasswordErrorMessageState, setVerifyNewPasswordErrorMessageState
+    verifyNewPasswordErrorMessageState, setVerifyNewPasswordErrorMessageState,
+    handleSubmitUserPasswordChange
   } = mainHook()
 
     const { currentRol, roles } = sessionInformationStore(
@@ -51,6 +52,7 @@ const UserSettings: React.FC = () => {
         updateValue({element: 'currentRol',
                     value:event.target.textContent
                 })
+        localStorage.setItem('current_rol', event.target.textContent);
     }
 
     const capitalizeWords = (str) => {
@@ -170,9 +172,11 @@ const UserSettings: React.FC = () => {
                   </Popover>
                 </Col>
                 <Col span={2}>
-                  <span className="user_settings_log_out_icon" onClick={logout  }>
-                    {logOutIcon}
-                  </span>
+                  <Popover title="Cerrar sesión">
+                    <span className="user_settings_log_out_icon" onClick={logout}>
+                      {logOutIcon}
+                    </span>
+                  </Popover>
                 </Col>
             </Row>
 
@@ -195,14 +199,25 @@ const UserSettings: React.FC = () => {
                         CORREO_ELECTRONICO: values?.correo_electronico
                     }
 
-                    console.log('submit values: ', values)
+                    const currentPassword = values?.current_password;
+                    const newPassword = values?.new_password;
+                    const verifyNewPassword = values?.verify_new_password;
 
-                    const isValidPasswordInputs = validateChangePasswordOperation(values?.current_password, values?.new_password, values?.verify_new_password)
-
-                    console.log("status password values: ", isValidPasswordInputs)
+                    const isValidPasswordInputs = validateChangePasswordOperation(currentPassword, newPassword, verifyNewPassword)
 
                     if(isValidPasswordInputs){
                         handleSubmitUserSettings(userValuesToUpdate);
+
+                        if(currentPassword.length > 0 &&  newPassword.length > 0 && verifyNewPassword.length > 0){
+
+                          const passwordObject = {
+                            current: currentPassword,
+                            new: newPassword,
+                            confirmedNew: verifyNewPassword
+                          };
+
+                          handleSubmitUserPasswordChange(passwordObject);
+                        }
                     }
                   }}>
 
@@ -258,13 +273,14 @@ const UserSettings: React.FC = () => {
                               <Field
                                   style={{
                                     borderRadius: "8px",
-                                    border: "1px solid #E9E7F8",
+                                    border: "1px solid rgb(233, 231, 248)",
                                     padding: "3px 10px",
                                     width: "100%",
                                     height: "2.5rem",
                                     gap: '37px',
                                     fontWeight: '400',
                                     fontSize: '18px',
+                                    background: 'var(--bg-color)',
                                   }}
                                   placeholder="Primer Nombre"
                                   id="primer_nombre"
@@ -281,13 +297,14 @@ const UserSettings: React.FC = () => {
                             <Field
                                   style={{
                                     borderRadius: "8px",
-                                    border: "1px solid #E9E7F8",
+                                    border: "1px solid rgb(233, 231, 248)",
                                     padding: "3px 10px",
                                     width: "100%",
                                     height: "2.5rem",
                                     gap: '37px',
                                     fontWeight: '400',
                                     fontSize: '18px',
+                                    background: 'var(--bg-color)',
                                   }}
                                   placeholder="Segundo Nombre"
                                   id="segundo_nombre"
@@ -304,13 +321,14 @@ const UserSettings: React.FC = () => {
                             <Field
                                     style={{
                                       borderRadius: "8px",
-                                      border: "1px solid #E9E7F8",
+                                      border: "1px solid rgb(233, 231, 248)",
                                       padding: "3px 10px",
                                       width: "100%",
                                       height: "2.5rem",
                                       gap: '37px',
                                       fontWeight: '400',
                                       fontSize: '18px',
+                                      background: 'var(--bg-color)',
                                     }}
                                     placeholder="Primer Apellido"
                                     id="primer_apellido"
@@ -327,13 +345,14 @@ const UserSettings: React.FC = () => {
                             <Field
                                       style={{
                                         borderRadius: "8px",
-                                        border: "1px solid #E9E7F8",
+                                        border: "1px solid rgb(233, 231, 248)",
                                         padding: "3px 10px",
                                         width: "100%",
                                         height: "2.5rem",
                                         gap: '37px',
                                         fontWeight: '400',
                                         fontSize: '18px',
+                                        background: 'var(--bg-color)',
                                       }}
                                       placeholder="Segundo Apellido"
                                       id="segundo_apellido"
@@ -366,13 +385,14 @@ const UserSettings: React.FC = () => {
                             <Field
                                 style={{
                                   borderRadius: "8px",
-                                  border: "1px solid #E9E7F8",
+                                  border: "1px solid rgb(233, 231, 248)",
                                   padding: "3px 10px",
                                   width: "100%",
                                   height: "2.5rem",
                                   gap: '37px',
                                   fontWeight: '400',
                                   fontSize: '18px',
+                                  background: 'var(--bg-color)',
                                 }}
                                 placeholder="Correo Electrónico"
                                 id="correo_electronico"
@@ -433,13 +453,14 @@ const UserSettings: React.FC = () => {
                             <Field
                                 style={{
                                   borderRadius: "8px",
-                                  border: "1px solid #E9E7F8",
+                                  border: "1px solid rgb(233, 231, 248)",
                                   padding: "3px 10px",
                                   width: "100%",
                                   height: "2.5rem",
                                   gap: '37px',
                                   fontWeight: '400',
                                   fontSize: '18px',
+                                  background: 'var(--bg-color)',
                                 }}
                                 placeholder="Contraseña Actual"
                                 id="current_password"
@@ -462,13 +483,14 @@ const UserSettings: React.FC = () => {
                             <Field
                                 style={{
                                   borderRadius: "8px",
-                                  border: "1px solid #E9E7F8",
+                                  border: "1px solid rgb(233, 231, 248)",
                                   padding: "3px 10px",
                                   width: "100%",
                                   height: "2.5rem",
                                   gap: '37px',
                                   fontWeight: '400',
                                   fontSize: '18px',
+                                  background: 'var(--bg-color)',
                                 }}
                                 placeholder="Nueva Contraseña"
                                 id="new_password"
@@ -491,13 +513,14 @@ const UserSettings: React.FC = () => {
                             <Field
                                 style={{
                                   borderRadius: "8px",
-                                  border: "1px solid #E9E7F8",
+                                  border: "1px solid rgb(233, 231, 248)",
                                   padding: "3px 10px",
                                   width: "100%",
                                   height: "2.5rem",
                                   gap: '37px',
                                   fontWeight: '400',
                                   fontSize: '18px',
+                                  background: 'var(--bg-color)',
                                 }}
                                 placeholder="Verificar Contraseña"
                                 id="verify_new_password"

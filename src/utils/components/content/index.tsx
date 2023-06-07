@@ -7,6 +7,7 @@ import { DrawerRender } from "./drawerRender";
 import shallow from "zustand/shallow";
 import { mainDrawerStore } from "../../../store/mainDrawerStore";
 
+import './drawerRender.css'
 
 const ContentComponents = ({ children }: {children: any}) => {
 
@@ -18,13 +19,6 @@ const ContentComponents = ({ children }: {children: any}) => {
         shallow
     );
 
-    const { close } = mainDrawerStore()
-
-    const containerStyle: React.CSSProperties = {
-        position: 'relative',
-        overflow: 'auto',
-    };
-
     return (
         <>
             <nav>
@@ -32,7 +26,7 @@ const ContentComponents = ({ children }: {children: any}) => {
             </nav>
 
             <main>
-                <div style={containerStyle}>
+                <div className="drawer_render_main_container" >
                     {children}
                     <Drawer
                         placement="right"

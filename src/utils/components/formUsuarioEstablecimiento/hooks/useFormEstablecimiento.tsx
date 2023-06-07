@@ -122,14 +122,7 @@ export const useFormEstablecimiento = () => {
           columnsInformation,
           tableDateBase.table
         );
-        // console.log(resultado, 'nuevo json');
 
-        // #######################
-        // const filtroColumnYes = columnsInformation.filter((item) => item.is_nullable == 'YES')
-        // const filtroColumnNO = columnsInformation.filter((item) => item.is_nullable == 'NO')
-        // console.log(filtroColumnYes, 'nueva columna YES')
-        // console.log(filtroColumnNO, 'nueva columna NO')
-        // #######################
         ProcessingColumnsInformation(filterColumnsInformation, setInputFilter);
         setItemsColumnsInformation(filterColumnsInformation);
 
@@ -191,7 +184,7 @@ export const useFormEstablecimiento = () => {
 
       TELEFONO:getDataTable.TELEFONO ? getDataTable.TELEFONO : null ,
     };
-   
+  
     setDataTable(initialValues);
   };
 
@@ -201,8 +194,6 @@ export const useFormEstablecimiento = () => {
   const handleSubmit = async (
     values:any,
 ) => {
-console.log('data Actuializada',  values)
-   
 
     const getdata = {
         update_ESTABLECIMIENTO: values,

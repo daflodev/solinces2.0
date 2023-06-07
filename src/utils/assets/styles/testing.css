@@ -79,9 +79,6 @@ tr.editable-row:hover td.ant-table-cell {
 
 }
 
-
-
-
 .ant-form-item .ant-input {
     height: 18px;
     padding-left: 5px;
@@ -92,19 +89,11 @@ tr.editable-row:hover td.ant-table-cell {
 }
 
 
-
-
-
 .ant-table-container {
     border-left: none !important;
     border-right: none !important;
     background-color: var(--bg-color) !important;
 }
-
-
-
-
-
 
 thead .ant-table-cell {
     background-color: var(--bg-color) !important;

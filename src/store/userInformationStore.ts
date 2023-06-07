@@ -23,8 +23,10 @@ interface SessionInformationInterface {
     clearArray: () => void;
 };
 
+const currentRolFromLocalStorage = localStorage.getItem('current_rol') ? localStorage.getItem('current_rol') : null;
+
 export const sessionInformationStore = create<SessionInformationInterface>((set, get) => ({
-    currentRol: null,
+    currentRol: currentRolFromLocalStorage,
     currentCampus: null,
     currentInstitution: null,
     currentAcademicPeriod: null,

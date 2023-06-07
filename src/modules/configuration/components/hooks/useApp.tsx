@@ -382,16 +382,27 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
         apiGet(selectedItem?.key_table, setDataTable);
       });
   };
+  const getNameTableResponseError = (MessageErrorString) => {
+
+    const firstCut = MessageErrorString.split('\"');
+
+    const secondCut = firstCut[1].split('\" ')
+
+    const answer = secondCut[0];
+
+    return answer
+  };
 
   //funcion para eliminar datos de la tabla y envio de mensjae de exitoso
   const handleDelete = async (key: React.Key) => {
-    console.log(key, "funcion delete");
-    const newData = data.filter((item: any) => item.key !== key);
-    const keyPosicion = parseInt(key.toString());
+
+    const filteredData = data.filter((item) => item?.key == key);
+
     const whereUpdate = {
       //@ts-ignore
-      where: data[keyPosicion][`PK_T${selectedItem.key_table.toUpperCase()}`],
+      where: filteredData[0][`PK_T${selectedItem.key_table.toUpperCase()}`],
     };
+  
     const newWhere = changeKey(
       whereUpdate,
       "where",
@@ -414,22 +425,34 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
         if (response.success == "OK") {
           setProcessMessage({
             message: "El registro se elimino correctamente",
-            style: "render-message-delete",
+            style: "render-message-insert",
           });
+          apiGet(selectedItem?.key_table, setDataTable);
         }
 
         if (response.status == 400) {
-          setProcessMessage({
-            message: "Ocurrio un error inesperado, intentelo mas tarde.",
-            style: "render-message-delete",
-          });
+          console.log('error response: ', response)
+
+          const responseMessage = response?.data?.message
+
+          if(responseMessage?.includes('is still referenced from table')){
+
+            setProcessMessage({
+              message: "No se puede eliminar: El campo aun se encuentra referenciado en al tabla " + `${getNameTableResponseError(responseMessage)}.`,
+              style: "render-message-delete",
+            });
+
+          }else{
+              setProcessMessage({
+                message: "Ocurrio un error inesperado, intentelo mas tarde.",
+                style: "render-message-delete",
+              });
+          }
         }
       })
       .catch((error) => {
         console.log("catch response: ", error);
       });
-
-    setDataTable(newData);
   };
 
   // funcion de selccion de filas por medio de checkbox
@@ -438,10 +461,6 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
   };
 
   const handleDeleteGroup = async () => {
-    //@ts-ignore
-    const newData = data.filter(
-      (item: any) => !selectedRowKeys.includes(item.key)
-    );
 
     let whereUpdate = {
       where: selectedRowKeys,
@@ -468,23 +487,33 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
         if (response.success == "OK") {
           setProcessMessage({
             message: "Los registro se eliminaron correctamente",
-            style: "render-message-delete",
+            style: "render-message-insert",
           });
+          apiGet(selectedItem?.key_table, setDataTable);
         }
 
         if (response.status == 400) {
-          setProcessMessage({
-            message: "Ocurrio un error inesperado, intentelo mas tarde.",
-            style: "render-message-delete",
-          });
+
+          const responseMessage = response?.data?.message
+          if(responseMessage?.includes('is still referenced from table')){
+
+            setProcessMessage({
+              message: "No se puede eliminar: El campo aun se encuentra referenciado en al tabla " + `${getNameTableResponseError(responseMessage)}.`,
+              style: "render-message-delete",
+            });
+
+          }else{
+              setProcessMessage({
+                message: "Ocurrio un error inesperado, intentelo mas tarde.",
+                style: "render-message-delete",
+              });
+          }
         }
       })
       .catch((error) => {
         console.log("catch response: ", error);
       });
 
-    setDataTable(newData);
-    await apiGet(selectedItem?.key_table, setDataTable);
   };
 
   //data table for items list FK
@@ -508,8 +537,11 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
 
     const categoryApiGetFKTLVManager = (currentTable, fkNameTable) =>{
 
+<<<<<<< HEAD
      
 
+=======
+>>>>>>> fba8f4c93f24f3276eb6ec036d24e2e1a1e2eeee
       if(fkNameTable == 'estado' && currentTable == 'periodo_evaluacion'){
 
         const category = 'ESTADOPERIODOEVALUACION'
@@ -537,6 +569,8 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
       };
       const getdata = changeKey(prevData, "base", 'lista_valor');
 
+    const getdata = changeKey(prevData, "base", 'lista_valor');
+
     const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
       //@ts-ignore
       const { getdata } = response;
@@ -554,8 +588,6 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
     const parserTokenInformation: any | null = tokenInformation
       ? JSON.parse(tokenInformation)
       : null;
-
-    // console.log("parser token info 2: ", parserTokenInformation?.dataSchema[0])
 
     const prevData = {
       funcionario: "",
@@ -690,8 +722,6 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
   const FKConsultManager = (FKNameList: any) => {
     let answer = {};
 
-    // console.log("FK guardadas: ", fkGroup)
-
     FKNameList.map((name) => {
       let tableName = name.replace("FK_T", "");
 
@@ -719,8 +749,6 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
             // const pre = {
             //   [name]: []
             // }
-
-            // console.log("el pre: ", pre)
 
             // setFkGroup({
             //   ... fkGroup,
@@ -752,7 +780,7 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
             //   [name]: []
             // }
 
-            // console.log("el pre: ", pre)
+ 
 
             // setFkGroup({
             //   ... fkGroup,
@@ -785,8 +813,6 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
             // const pre = {
             //   [name]: []
             // }
-
-            // console.log("el pre: ", pre)
 
             // setFkGroup({
             //   ... fkGroup,
