@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { message } from 'antd';
 
-import { apiGetThunksAsync, apiPostThunksAsync } from "../../../../services/api/thunks";
+import { apiGetThunksAsync, apiPostThunksAsync, apiPostPasswordChange } from "../../../../services/api/thunks";
 
 import { mainDrawerStore } from "../../../../../store/mainDrawerStore";
 
@@ -181,6 +181,71 @@ export const mainHook = () =>{
         });
     };
 
+    const handleSubmitUserPasswordChange = async (
+        values:any,
+    ) => {
+
+        const getdata = {
+            credentials:[
+                {
+                    type:"password",
+                    value: values.new
+                }
+            ]
+        
+        }
+
+        setInitialValuesUser(null)
+
+        await apiPostPasswordChange(getdata)
+        .then((response) => {
+            if (response.success == "OK") {
+
+                messageApi.open({
+                    type: 'success',
+                    content: 'Los datos fueron actualizados correctamente',
+                    duration: 2
+                });
+            }
+
+            if(response.status == 400){
+
+                const messageResponse = response?.data?.message;   
+                
+                if(messageResponse.includes("already exists")){
+
+                    messageApi.open({
+                        type: 'warning',
+                        content: 'Uno o mas campos de valores unicos ya se encuentran registrado.',
+                        duration: 2
+                    });
+                }else{
+
+                    messageApi.open({
+                        type: 'error',
+                        content: 'Ocurrio un error inesperado, intentelo mas tarde.',
+                        duration: 2
+                    });
+                }
+            }
+        })
+        .catch((error)=>{
+            messageApi.open({
+                type: 'error',
+                content: 'Ocurrio un error inesperado, intentelo mas tarde.',
+                duration: 2
+            });
+
+            console.log(error)
+        })
+        .finally(() => {
+
+            setTimeout( () =>
+                close()
+            , 2500);
+        });
+    };
+
     useEffect(() => {
         apiGetInstitutionsAndCampus();
 
@@ -244,6 +309,7 @@ export const mainHook = () =>{
         contextHolder,
         currentPasswordErrorMessageState, setCurrentPasswordErrorMessageState,
         newPasswordErrorMessageState, setNewPasswordErrorMessageState,
-        verifyNewPasswordErrorMessageState, setVerifyNewPasswordErrorMessageState
+        verifyNewPasswordErrorMessageState, setVerifyNewPasswordErrorMessageState,
+        handleSubmitUserPasswordChange
     }
 }

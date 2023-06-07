@@ -18,10 +18,20 @@ const LoadPages = () => {
     
           const { myDecodedToken } = useJwtTool(user.access_token);
 
-          updateValue({
-            element: "currentRol",
-            value: myDecodedToken?.rol[0]
-          })
+          const localStorageCurrentRol = localStorage.getItem('current_rol');
+
+          if(localStorageCurrentRol){
+
+            updateValue({
+              element: "currentRol",
+              value: localStorageCurrentRol
+            })
+          }else{
+            updateValue({
+              element: "currentRol",
+              value: myDecodedToken?.rol[0]
+            })
+          }
 
           localStorage.setItem("user_token_information", JSON.stringify(myDecodedToken))    
           navigate("/layout/configuracion");

@@ -70,9 +70,6 @@ const Settings: React.FC = () => {
     shallow
   );
 
-  console.log(fkGroup)
-  console.log(currentRol);
-
   //Funcion para generar la data de los filtros select
   const filterSelectOnColumnGenerator = (
     fkName: any,
@@ -131,11 +128,6 @@ const Settings: React.FC = () => {
 
   const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
-
-
-
-
-
 
   const handleOpenSecondaryTable = (values) => {
     setIsSecondaryTableOpen(true);
@@ -317,7 +309,6 @@ const Settings: React.FC = () => {
             //     },
             //   };
             // }}
-            sticky
             loading={{
               indicator: <Spin tip="" size="large" />,
               // @ts-ignore

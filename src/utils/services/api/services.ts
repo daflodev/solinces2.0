@@ -30,3 +30,17 @@ export const ApiServicesThunksMainMenuOptionsItem = async (data: any) => {
   return resp;
 };
 
+export const ApiServicesPasswordChange = async (data: any) => {
+
+  const tokenInformation = localStorage.getItem('user_token_information');
+  const parserTokenInformation: any | null = tokenInformation ? JSON.parse(tokenInformation) : null;
+
+  const user = parserTokenInformation?.sub
+
+  const url = "https://auth.colombiaevaluadora.edu.co/auth/admin/realms/solinces/users/" + user;
+
+  const resp = await axios.put(url, data).then((response) => {
+    return response;
+  });
+  return resp;
+};

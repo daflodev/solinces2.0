@@ -49,7 +49,7 @@ const ExampleComponent: React.FC = () => {
     <Formik
       initialValues={{ selectedData: [] }}
       onSubmit={(values: any) => {
-        // console.log("submit")
+        
       }}
     >
       {() => (

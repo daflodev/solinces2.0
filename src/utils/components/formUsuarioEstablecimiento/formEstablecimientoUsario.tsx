@@ -76,7 +76,6 @@ const FormEstablecimiento = ({
       const columnQualitiesInformation = itemsInformation.filter(
         (itemColumn: any) => itemColumn.column_name == columnName
       );
-      console.log(columnQualitiesInformation);
 
       return (
         <>

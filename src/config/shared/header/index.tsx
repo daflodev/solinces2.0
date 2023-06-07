@@ -102,7 +102,7 @@ const HeaderComponent = () => {
           }
         ])
 
-        setInstitutionsAndCampusOptions(res)
+        setInstitutionsAndCampusOptions(res);
 
         return res
       });
@@ -233,11 +233,6 @@ const HeaderComponent = () => {
         clearArray()
         getdata.map((item) => {
           addToArray(item.CODIGO.toString())
-        })
-
-        updateValue({
-          element: "currentRol",
-          value: getdata[0].CODIGO
         })
 
         return getdata

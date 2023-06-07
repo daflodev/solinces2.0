@@ -2,6 +2,7 @@ import {
     ApiServicesThunks,
     ApiServicesThunksMainMenu,
     ApiServicesThunksMainMenuOptionsItem,
+    ApiServicesPasswordChange
   } from "./services";
   
   export const apiGetThunksAsync = async (data: any) => {
@@ -46,7 +47,7 @@ import {
   export const apiGetThunksMainMenuAsync = async (data: any) => {
     const resp = await ApiServicesThunksMainMenu()
       .then((response) => {
-        console.log("respuesta", response);
+        
         const getdata = response.data.results.map((d:any, i:any) => ({
           ...d,
           key: i,
@@ -88,4 +89,14 @@ import {
     return resp;
   };
   
+  export const apiPostPasswordChange = async (data: any) => {
+    const resp = await ApiServicesPasswordChange(data)
+      .then((response) => {
+        console.log('respuesta cambio contraseña: ', response)
+      })
+      .catch((error) => {
+        return error.response;
+      });
   
+    return resp;
+  };

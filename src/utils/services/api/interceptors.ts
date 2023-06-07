@@ -19,8 +19,6 @@ const interceptor = () => {
     shallow
   );
 
-  console.log("a rol: ", currentRol)
-
   axios.interceptors.request.use((config) => {
 
     return getUser().then((user: any) => {
