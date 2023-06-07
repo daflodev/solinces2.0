@@ -537,11 +537,6 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
 
     const categoryApiGetFKTLVManager = (currentTable, fkNameTable) =>{
 
-<<<<<<< HEAD
-     
-
-=======
->>>>>>> fba8f4c93f24f3276eb6ec036d24e2e1a1e2eeee
       if(fkNameTable == 'estado' && currentTable == 'periodo_evaluacion'){
 
         const category = 'ESTADOPERIODOEVALUACION'
@@ -569,7 +564,7 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
       };
       const getdata = changeKey(prevData, "base", 'lista_valor');
 
-    const getdata = changeKey(prevData, "base", 'lista_valor');
+    
 
     const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
       //@ts-ignore
