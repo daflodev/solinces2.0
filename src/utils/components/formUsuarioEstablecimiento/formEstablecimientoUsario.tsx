@@ -1,5 +1,5 @@
-import { Col, Row, Spin } from "antd";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Col, DatePicker, Form, Input, Row, Select, Spin } from "antd";
+import { ErrorMessage, Field, Formik } from "formik";
 import "../../assets/styles/testing.css";
 import React, { useEffect, useState } from "react";
 import DatePickerAddForm from "../datepickeraddform";
@@ -7,6 +7,10 @@ import MultiSelect from "../selectedform";
 import InputAddNumber from "../inputaddnumber";
 import { useFormEstablecimiento } from "./hooks/useFormEstablecimiento";
 import "../../assets/styles/formEstablecimiento.css";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+dayjs.extend(customParseFormat);
 
 const FormEstablecimiento = ({
   setTitleState,
@@ -68,7 +72,24 @@ const FormEstablecimiento = ({
 
     return options;
   };
+  const [selectedOption, setSelectedOption] = useState("");
 
+  const handleOptionChange = (value) => {
+    setSelectedOption(value);
+  };
+  const handleDateChange = (date) => {
+    console.log("Date changed:", date);
+  };
+
+  const handleBlur = () => {
+    console.log("Input blurred");
+  };
+
+  const handleFocus = () => {
+    console.log("Input focused");
+  };
+
+  const dateFormat = "YYYY/MM/DD";
   const inputsGenerator = (inputsOptions: any) => {
     const keys = Object.keys(inputsOptions);
 
@@ -85,33 +106,21 @@ const FormEstablecimiento = ({
                 {/* Primera columna */}
                 <div className="form-column">
                   <div className="form-field">
-                    <Field
-                      component={MultiSelect}
-                      style={{
-                        borderRadius: "5px",
-                        border: "2px solid #e2e2e2",
-                        padding: "5px",
-                      }}
-                      placeholder={columnName}
-                      id={columnName}
-                      name={columnName}
-                      autoComplete="off"
-                      options={optionsManager(
-                        FKGroupData[columnName],
-                        columnName
-                      )}
-                      filterOption={(input: any, option: any) =>
-                        (option?.label ?? "")
-                          .toLowerCase()
-                          .includes(input.toLowerCase())
-                      }
-                    />
-
-                    <ErrorMessage
-                      name={columnName}
-                      component={"div"}
-                      className="text-danger"
-                    />
+                    <Form.Item name={columnName} id={columnName}>
+                      <Select
+                        onChange={handleOptionChange}
+                        placeholder={columnName}
+                        options={optionsManager(
+                          FKGroupData[columnName],
+                          columnName
+                        )}
+                        filterOption={(input: any, option: any) =>
+                          (option?.label ?? "")
+                            .toLowerCase()
+                            .includes(input.toLowerCase())
+                        }
+                      />
+                    </Form.Item>
                   </div>
                 </div>
               </div>
@@ -124,21 +133,22 @@ const FormEstablecimiento = ({
                   {/* Primera columna */}
                   <div className="form-column">
                     <div className="form-field">
-                      <Field
+                      <Form.Item
                         // placeholder={columnName}
-                        id={columnName}
+
                         name={columnName}
-                        autoComplete="off"
-                        maxLength={columnQualitiesInformation[0]?.longitud}
-                        placeholder={columnName}
-                        onFocus={() => handleFieldFocus(columnName)}
-                        onBlur={handleFieldBlur}
-                      />
-                      <ErrorMessage
-                        name={columnName}
-                        component={"div"}
-                        className="text-danger"
-                      />
+
+                        // maxLength={columnQualitiesInformation[0]?.longitud}
+
+                        // onFocus={() => handleFieldFocus(columnName)}
+                        // onBlur={handleFieldBlur}
+                      >
+                        <Input
+                          type="text"
+                          onChange={(value) => console.log(value)}
+                          placeholder={columnName}
+                        />
+                      </Form.Item>
                       {/* <md
                         className={`placeholder ${
                           selectedField === columnName ? "active" : ""
@@ -151,47 +161,32 @@ const FormEstablecimiento = ({
                 </div>
               </Col>
             </>
-          
           ) : columnQualitiesInformation[0]?.data_type === "date" ? (
             <Col xs={24} md={6} lg={6} xl={6}>
-              <Field
-                placeholder={columnName}
-                component={DatePickerAddForm}
-                style={{
-                  borderRadius: "5px",
-                  border: "2px solid #e2e2e2",
-                  padding: "5px",
-                }}
-                id={columnName}
-                name={columnName}
-                autoComplete="off"
-              />
-
-              <ErrorMessage
-                name={columnName}
-                component={"div"}
-                className="text-danger"
-              />
+              <Form.Item name={columnName}>
+                <DatePicker
+                  placeholder={columnName}
+                  onChange={handleDateChange}
+                  onBlur={handleBlur}
+                  onFocus={handleFocus}
+                  format="YYYY/MM/DD"
+                />
+              </Form.Item>
             </Col>
           ) : (
             <Col xs={24} md={6} lg={6} xl={6}>
-              <Field
-                style={{
-                  borderRadius: "5px",
-                  border: "2px solid #e2e2e2",
-                  padding: "5px",
-                }}
-                placeholder={columnName}
-                id={columnName}
-                name={columnName}
-                autoComplete="off"
-              />
+              <Form.Item
+                // placeholder={columnName}
 
-              <ErrorMessage
                 name={columnName}
-                component={"div"}
-                className="text-danger"
-              />
+
+                // maxLength={columnQualitiesInformation[0]?.longitud}
+
+                // onFocus={() => handleFieldFocus(columnName)}
+                // onBlur={handleFieldBlur}
+              >
+                <Input placeholder={columnName} />
+              </Form.Item>
             </Col>
           )}
         </>
@@ -212,22 +207,24 @@ const FormEstablecimiento = ({
     <>
       {contextHolder}
       {initialValues ? (
-        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          <Form className="formulario">
-            <div className="col-12">
-              <Row gutter={[24, 30]}>
-                {inputs.map((item) => (
-                  <>{item}</>
-                ))}
-                <Row>
-                  <div className="w-100">
-                    <button type="submit">save</button>
-                  </div>
-                </Row>
+        <Form
+          className="formulario"
+          initialValues={initialValues}
+          onFinish={handleSubmit}
+        >
+          <div className="col-12">
+            <Row gutter={[24, 30]}>
+              {inputs.map((item) => (
+                <>{item}</>
+              ))}
+              <Row>
+                <div className="w-100">
+                  <button type="submit">save</button>
+                </div>
               </Row>
-            </div>
-          </Form>
-        </Formik>
+            </Row>
+          </div>
+        </Form>
       ) : (
         <div className="user_settings_loading_spin">
           <Spin tip="" size="large" />

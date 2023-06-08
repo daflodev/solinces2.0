@@ -4,8 +4,7 @@ import { apiGetThunksAsync, apiPostThunksAsync } from "../../../services/api/thu
 import { useEffect, useState } from "react";
 import { getUserToken } from "../../../utils";
 import { message } from "antd";
-import moment from "moment";
-
+import dayjs from 'dayjs';
 export const useFormEstablecimiento = () => {
 
 
@@ -141,7 +140,7 @@ export const useFormEstablecimiento = () => {
       DIRECCION: getDataTable.DIRECCION ? getDataTable.DIRECCION : null,
       ETNIAS: getDataTable.ETNIAS ? getDataTable.ETNIAS : null,
       FAX: getDataTable.FAX ? getDataTable.FAX : null,
-      FECHA_LICENCIA:getDataTable.FECHA_LICENCIA ? getDataTable.FECHA_LICENCIA : null,
+      FECHA_LICENCIA:dayjs(getDataTable.FECHA_LICENCIA ? getDataTable.FECHA_LICENCIA : null),
       FK_TARCHIVO: getDataTable.FK_TARCHIVO ? getDataTable.FK_TARCHIVO : null,
 
       FK_TFUNCIONARIO_RECTOR: getDataTable.FK_TFUNCIONARIO_RECTOR? getDataTable.FK_TFUNCIONARIO_RECTOR : null,
