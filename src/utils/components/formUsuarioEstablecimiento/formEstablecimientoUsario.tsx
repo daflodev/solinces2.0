@@ -9,6 +9,7 @@ import { useFormEstablecimiento } from "./hooks/useFormEstablecimiento";
 import "../../assets/styles/formEstablecimiento.css";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { saveIcon } from "../../assets/icon/iconManager";
 
 dayjs.extend(customParseFormat);
 
@@ -40,13 +41,25 @@ const FormEstablecimiento = ({
   }, []);
 
   const [selectedField, setSelectedField] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("");
 
   const handleFieldFocus = (fieldName) => {
     setSelectedField(fieldName);
   };
 
-  const handleFieldBlur = () => {
-    setSelectedField(null);
+  const handleOptionChange = (value) => {
+    setSelectedOption(value);
+  };
+  const handleDateChange = (date) => {
+    console.log("Date changed:", date);
+  };
+
+  const handleBlur = () => {
+    console.log("Input blurred");
+  };
+
+  const handleFocus = () => {
+    console.log("Input focused");
   };
 
   const optionsManager = (data: any, columnName: any) => {
@@ -72,24 +85,7 @@ const FormEstablecimiento = ({
 
     return options;
   };
-  const [selectedOption, setSelectedOption] = useState("");
 
-  const handleOptionChange = (value) => {
-    setSelectedOption(value);
-  };
-  const handleDateChange = (date) => {
-    console.log("Date changed:", date);
-  };
-
-  const handleBlur = () => {
-    console.log("Input blurred");
-  };
-
-  const handleFocus = () => {
-    console.log("Input focused");
-  };
-
-  const dateFormat = "YYYY/MM/DD";
   const inputsGenerator = (inputsOptions: any) => {
     const keys = Object.keys(inputsOptions);
 
@@ -97,7 +93,6 @@ const FormEstablecimiento = ({
       const columnQualitiesInformation = itemsInformation.filter(
         (itemColumn: any) => itemColumn.column_name == columnName
       );
-
       return (
         <>
           {columnName.startsWith("FK_") ? (
@@ -106,10 +101,11 @@ const FormEstablecimiento = ({
                 {/* Primera columna */}
                 <div className="form-column">
                   <div className="form-field">
-                    <Form.Item name={columnName} id={columnName}>
+                    <Form.Item name={columnName}>
                       <Select
                         onChange={handleOptionChange}
                         placeholder={columnName}
+                        value={selectedOption}
                         options={optionsManager(
                           FKGroupData[columnName],
                           columnName
@@ -133,46 +129,44 @@ const FormEstablecimiento = ({
                   {/* Primera columna */}
                   <div className="form-column">
                     <div className="form-field">
-                      <Form.Item
-                        // placeholder={columnName}
-
-                        name={columnName}
-
-                        // maxLength={columnQualitiesInformation[0]?.longitud}
-
-                        // onFocus={() => handleFieldFocus(columnName)}
-                        // onBlur={handleFieldBlur}
-                      >
+                      <Form.Item name={columnName}>
                         <Input
+                          maxLength={columnQualitiesInformation[0]?.longitud}
                           type="text"
-                          onChange={(value) => console.log(value)}
-                          placeholder={columnName}
+                          onFocus={() => handleFieldFocus(columnName)}
+                          onBlur={() => handleFieldFocus(null)}
+                          // placeholder={columnName}
                         />
                       </Form.Item>
-                      {/* <md
+                      <span
                         className={`placeholder ${
-                          selectedField === columnName ? "active" : ""
+                          selectedField === columnName ||
+                         (initialValues ? initialValues[columnName] != null : false)
+                            ? "active"
+                            : ""
                         }`}
                       >
                         {columnName}
-                      </md> */}
+                      </span>
                     </div>
                   </div>
                 </div>
               </Col>
             </>
           ) : columnQualitiesInformation[0]?.data_type === "date" ? (
-            <Col xs={24} md={6} lg={6} xl={6}>
-              <Form.Item name={columnName}>
-                <DatePicker
-                  placeholder={columnName}
-                  onChange={handleDateChange}
-                  onBlur={handleBlur}
-                  onFocus={handleFocus}
-                  format="YYYY/MM/DD"
-                />
-              </Form.Item>
-            </Col>
+            <>
+              <Col xs={24} md={6} lg={6} xl={6}>
+                <Form.Item name={columnName}>
+                  <DatePicker
+                    placeholder={columnName}
+                    onChange={handleDateChange}
+                    onBlur={handleBlur}
+                    onFocus={handleFocus}
+                    format="YYYY/MM/DD"
+                  />
+                </Form.Item>
+              </Col>
+            </>
           ) : (
             <Col xs={24} md={6} lg={6} xl={6}>
               <Form.Item
@@ -185,7 +179,10 @@ const FormEstablecimiento = ({
                 // onFocus={() => handleFieldFocus(columnName)}
                 // onBlur={handleFieldBlur}
               >
-                <Input placeholder={columnName} />
+                <Input
+                  placeholder={columnName}
+                  maxLength={columnQualitiesInformation[0]?.longitud}
+                />
               </Form.Item>
             </Col>
           )}
@@ -211,17 +208,18 @@ const FormEstablecimiento = ({
           className="formulario"
           initialValues={initialValues}
           onFinish={handleSubmit}
-        >
+        > 
+        <Row style={{paddingBottom:"20px"}}>
+                <div className="w-100">
+                  <button type="submit" style={{background:"transparent", cursor:"pointer", border:"none", color:"black"}}>{saveIcon}</button>
+                </div>
+              </Row>
           <div className="col-12">
             <Row gutter={[24, 30]}>
               {inputs.map((item) => (
                 <>{item}</>
               ))}
-              <Row>
-                <div className="w-100">
-                  <button type="submit">save</button>
-                </div>
-              </Row>
+             
             </Row>
           </div>
         </Form>
