@@ -33,7 +33,13 @@
 
 }
 
+.form-field .ant-picker{
+    width: 100%;
+}
 
+.form-field .ant-picker:hover{
+    border-color: var(--mid-blue) !important;
+}
 
 
 .form-field input {
@@ -82,14 +88,18 @@
     top: 0px;
 }
 
+.form-field .ant-select .ant-select-selector:hover{
+    border-color: var(--mid-blue) !important;
+}
+
 
 .placeholder.active {
-    top: 2px;
+    top: 0px;
     left: 5px;
-    font-size: 10px;
+    font-size: 12px;
     background-color: white !important;
     padding: 0 2px;
     color: var(--high-gray) !important;
-    z-index: 9999;
+    z-index: 2;
     text-transform:lowercase ;
 }
