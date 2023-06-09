@@ -29,7 +29,8 @@ import shallow from "zustand/shallow";
 import { renderCloseIcon } from "antd/es/modal/PurePanel";
 import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimiento/formEstablecimientoUsario";
 import YourTableComponent from "../../utils/components/tableCheckbox/tableChecBox";
-import ExampleComponent from "../../utils/components/tableCheckbox/tableChecBox";
+import MyForm from "../../utils/components/tableCheckbox/tableChecBox";
+import { apiPostThunksAsync } from "../../utils/services/api/thunks";
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
@@ -60,6 +61,8 @@ const Settings: React.FC = () => {
     save,
     itemsColumnsInformation,
     params,
+    changeKey,
+    parserTokenInformation, apiGet
   }: any = UseSettigns();
 
 
@@ -129,10 +132,45 @@ const Settings: React.FC = () => {
   const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
-  const handleOpenSecondaryTable = (values) => {
-    setIsSecondaryTableOpen(true);
-    setSelectedId(values.PK_TSEDE);
+
+
+
+
+
+  const handleOpenSecondaryTable = async (key: React.Key)=> {
+    setIsSecondaryTableOpen(true)
+    const filteredData = data.filter((item) => item?.key == key);
+
+    const getdata = {
+     schema: parserTokenInformation?.dataSchema[0],
+      sede_jornada:"",
+      //@ts-ignore
+      where:{ "sede_jornada.PKTSEDE" : filteredData[0][`PK_T${selectedItem.key_table.toUpperCase()}`]},
+      
+    };
+    console.log(getdata)
+  
+    await apiPostThunksAsync(getdata)
+      .then((response) => {
+        if (response) {
+          
+          console.log(response, "respuesta")
+        }
+
+      })
+      .catch((error) => {
+        console.log("catch response: ", error);
+      });
   };
+
+
+
+
+
+
+
+
+
 
   //funcion de selecion lista para renderizar tabla
   const columnsGenerator = (filterObjet: any) => {
@@ -204,7 +242,7 @@ const Settings: React.FC = () => {
                 {currentRol == "RECTOR" && selectedItem?.nombre == "TSEDE" ? (
                   <>
                     <div
-                      onClick={() => handleOpenSecondaryTable(record)}
+                      onClick={() => handleOpenSecondaryTable(record.key)}
                       style={{ cursor: "pointer" }}
                     >
                       {sedeJornada}
@@ -443,7 +481,7 @@ const Settings: React.FC = () => {
                 {isSecondaryTableOpen ? (
                   <Col md={6}>
                     <Card className="justify-content-center align-items-center ">
-                      <ExampleComponent />
+                      <MyForm />
                     </Card>
                   </Col>
                 ) : null}
@@ -457,3 +495,4 @@ const Settings: React.FC = () => {
 };
 
 export default withPrincipal(Settings);
+   

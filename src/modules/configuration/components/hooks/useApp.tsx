@@ -160,10 +160,11 @@ export const UseSettigns = () => {
     }
   };
 
-  const { currentRol, currentInstitution } = sessionInformationStore(
+  const { currentRol, currentInstitution, currentCampus } = sessionInformationStore(
     (state) => ({
         currentRol: state.currentRol,
         currentInstitution: state.currentInstitution,
+        currentCampus: state.currentCampus
     }),
     shallow
 );
@@ -957,5 +958,8 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
     fkGroup,
     itemsColumnsInformation,
     params,
+    parserTokenInformation,
+  
+    
   };
 };

@@ -99,6 +99,7 @@ const FormEstablecimiento = ({
                         onFocus={() => handleFieldFocus(columnName)}
                         onBlur={() => handleFieldFocus(null)}
                         value={selectedOption}
+                        
                         options={optionsManager(
                           FKGroupData[columnName],
                           columnName
@@ -139,6 +140,7 @@ const FormEstablecimiento = ({
                           maxLength={columnQualitiesInformation[0]?.longitud}
                           onFocus={() => handleFieldFocus(columnName)}
                           onBlur={() => handleFieldFocus(null)}
+                          autoComplete="off"
                           // placeholder={columnName}
                         />
                       </Form.Item>
