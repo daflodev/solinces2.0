@@ -62,9 +62,9 @@ const Settings: React.FC = () => {
     itemsColumnsInformation,
     params,
     changeKey,
-    parserTokenInformation, apiGet
+    parserTokenInformation,
+    apiGet,
   }: any = UseSettigns();
-
 
   const { currentRol } = sessionInformationStore(
     (state) => ({
@@ -121,7 +121,6 @@ const Settings: React.FC = () => {
           keyValues={inputFilter}
           selectItem={selectedItem}
           FKGroupData={fkGroup}
-          
           itemsInformation={itemsColumnsInformation}
         />
       );
@@ -132,45 +131,31 @@ const Settings: React.FC = () => {
   const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
-
-
-
-
-
-  const handleOpenSecondaryTable = async (key: React.Key)=> {
-    setIsSecondaryTableOpen(true)
+  const handleOpenSecondaryTable = async (key: React.Key) => {
+    setIsSecondaryTableOpen(true);
     const filteredData = data.filter((item) => item?.key == key);
 
     const getdata = {
-     schema: parserTokenInformation?.dataSchema[0],
-      sede_jornada:"",
+      schema: parserTokenInformation?.dataSchema[0],
+      sede_jornada: "",
       //@ts-ignore
-      where:{ "sede_jornada.PKTSEDE" : filteredData[0][`PK_T${selectedItem.key_table.toUpperCase()}`]},
-      
+      where: {
+        "sede_jornada.PKTSEDE":
+          filteredData[0][`PK_T${selectedItem.key_table.toUpperCase()}`],
+      },
     };
-    console.log(getdata)
-  
+    console.log(getdata);
+
     await apiPostThunksAsync(getdata)
       .then((response) => {
         if (response) {
-          
-          console.log(response, "respuesta")
+          console.log(response, "respuesta");
         }
-
       })
       .catch((error) => {
         console.log("catch response: ", error);
       });
   };
-
-
-
-
-
-
-
-
-
 
   //funcion de selecion lista para renderizar tabla
   const columnsGenerator = (filterObjet: any) => {
@@ -321,7 +306,7 @@ const Settings: React.FC = () => {
     // initLanguage();
   }, [settingOptions]);
 
-// console.log(selectedItem)
+  // console.log(selectedItem)
   const vanillaTable = (
     <>
       <div className="cointainer-table">
@@ -438,7 +423,7 @@ const Settings: React.FC = () => {
                     </Col>
                   </Row>
                 </Col>
-                <Col xs={24} md={visibleForm || isSecondaryTableOpen? 14 : 20}>
+                <Col xs={24} md={visibleForm || isSecondaryTableOpen ? 14 : 20}>
                   <Card className="card-body">
                     {selectedItem && renderContentManager()}
                   </Card>
@@ -476,7 +461,7 @@ const Settings: React.FC = () => {
                       />
                     </Card>
                   </Col>
-                ): null}
+                ) : null}
 
                 {isSecondaryTableOpen ? (
                   <Col md={6}>
@@ -495,4 +480,3 @@ const Settings: React.FC = () => {
 };
 
 export default withPrincipal(Settings);
-   
