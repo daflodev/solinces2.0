@@ -11,6 +11,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getUserToken } from "../../../../utils/utils";
 import {sessionInformationStore} from '../../../../store/userInformationStore'
 import {shallow} from "zustand/shallow";
+import { QueryBuilders } from "../../../../utils/orm/queryBuilders";
 
 export const UseSettigns = () => {
   const params: any = useParams<{ type: any }>();
@@ -176,6 +177,17 @@ export const UseSettigns = () => {
     
 
 if(currentRol == 'RECTOR' && nameTable == 'sede' ){
+    // // select con where
+        const query = new QueryBuilders(tableDateBase.table);
+        const results = await query
+        .select('*')
+        .where('"FK_TESTABLECIMIENTO"', '=', currentInstitution?.value)
+        .schema(parserTokenInformation?.dataSchema[0])
+        .get().then(
+          (response:any)=>{
+            console.log(response)
+          }
+        )
   const dataSede = {
     base: tableDateBase.table,
     schema: parserTokenInformation?.dataSchema[0],
