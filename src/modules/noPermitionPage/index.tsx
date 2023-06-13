@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, Row, Col } from "antd";
 
 import { withPrincipal } from "../../utils/components/content";
 
 import "../../utils/assets/noPermitionPage/noPermitionPage.css";
+import { QueryBuilders } from "../../utils/orm/queryBuilders";
 
 
 const mainImageNoPermissionPage = (
@@ -33,6 +34,72 @@ const mainImageNoPermissionPage = (
 
 const NoPermissionPage: React.FC = () => {
 
+    const getData = async () => {
+        
+
+        // // select
+        // const query = new QueryBuilders('jornada');
+        // const results = await query
+        // .select('*')
+        // .schema('ACADEMICO_COL0')
+        // .get()
+
+        // // select con where
+        // const query = new QueryBuilders('ano_lectivo');
+        // const results = await query
+        // .select('*')
+        // .where('"NOMBRE"', '=', '2014')
+        // .where('"FK_TESTABLECIMIENTO"', '=', 745)
+        // .schema('ACADEMICO_COL0')
+        // .get()
+
+        // // select con join
+        // const query = new QueryBuilders('ano_lectivo');
+        // const results = await query
+        // .select('*')
+        // .join('establecimiento', '"PK_TESTABLECIMIENTO"', 'ano_lectivo."FK_TESTABLECIMIENTO"')
+        // // .where('ano_lectivo."FK_TESTABLECIMIENTO"', '=', 748)
+        // .orderBy('ano_lectivo."PK_TANO_LECTIVO"', 'asc')
+        // .limit(10)
+        // .schema('ACADEMICO_COL0')
+        // .get();
+
+        // console.log(results, 'data')
+
+        // // create    
+        // const query = new QueryBuilders('jornada');
+        // const results = await query
+        //  .create({
+        //     codigo: 'daniel',
+        //     nombre: 'daniel',
+        //     AUTHOR_RC: 'probando daniel'
+        // })
+        // .schema('ACADEMICO_COL0')
+        // .save()
+
+        // // update    
+        // const query = new QueryBuilders('jornada');
+        // const results = await query
+        //  .update({
+        //     nombre: 'daniel 111',
+        // })
+        // .where('"PK_TJORNADA"', '=', 14)
+        // .schema('ACADEMICO_COL0')
+        // .save()
+
+        // // delete    
+        // const query = new QueryBuilders('jornada');
+        // const results = await query
+        // .where('"PK_TJORNADA"', '=', 14)
+        // .schema('ACADEMICO_COL0')
+        // .delete()
+     
+    }
+
+    useEffect(() => {
+        getData()
+    }, []);
+    
     return(
         <div>
             <Card className="card-container">
