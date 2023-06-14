@@ -29,7 +29,6 @@ const [selectedData, setSelectedData] = useState([]);
 
   //  `
 
-  
 
   const onSelectChange = (selectedRowKeys, selectedRows) => {
     setSelectedData(selectedRowKeys);
