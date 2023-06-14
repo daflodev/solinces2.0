@@ -2,7 +2,8 @@ import {
     ApiServicesThunks,
     ApiServicesThunksMainMenu,
     ApiServicesThunksMainMenuOptionsItem,
-    ApiServicesPasswordChange
+    ApiServicesPasswordChange,
+    ApiSedeJornada
   } from "./services";
   
   export const apiGetThunksAsync = async (data: any) => {
@@ -43,6 +44,21 @@ import {
   
     return resp;
   };
+
+  export const apiPostThunksAsyncSedeJornada = async (data: any) => {
+    const resp = await ApiSedeJornada(data)
+      .then((response) => {
+        const getdata = response.data;
+        return getdata;
+      })
+      .catch((error) => {
+        return error.response;
+      });
+  
+    return resp;
+  };
+
+
   // @ts-ignore
   export const apiGetThunksMainMenuAsync = async (data: any) => {
     const resp = await ApiServicesThunksMainMenu()

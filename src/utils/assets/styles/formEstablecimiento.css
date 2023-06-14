@@ -5,15 +5,18 @@
 
 .form-container {
     display: flex;
+    width: 251px;
 }
 
 .form-column {
     flex: 1;
+    width: 251px;
 }
 
 
 .form-field {
     position: relative;
+    width: 251px;
 }
 
 
@@ -30,13 +33,17 @@
 
 }
 
-.placeholder {
-    z-index: 1 !important;
+.form-field .ant-picker{
+    width: 100%;
 }
+
+.form-field .ant-picker:hover{
+    border-color: var(--mid-blue) !important;
+}
+
 
 .form-field input {
     border-radius: 8px;
-    border: 1px solid #e2e2e2;
     padding: 5px;
     background-color: transparent !important;
     z-index: 2;
@@ -45,22 +52,22 @@
     align-items: center;
     padding: 3px 10px;
     gap: 37px;
-
-   
-    width: 251px;
-    height: 35px;
+    width: 251px !important;
+    height: 35px !important;
     left: 0px;
     top: 0px;
-
-    /* Blanco */
-
-    background: #FFFFFF;
-    /* Gris Medio */
-
-   
+    text-overflow: ellipsis;
 }
 
+.form-field input:hover {
+  border-color: var(--mid-blue);
+  cursor: pointer;
+}
 
+.form-field input:focus {
+    border-color: var(--mid-blue);
+    cursor:auto;
+  }
 
 
 .form-field .ant-select .ant-select-selector{
@@ -75,28 +82,24 @@
     align-items: center;
     padding: 3px 10px;
     gap: 37px;
-
-    
-    width: 251px;
+    width: 251px !important;
     height: 35px !important;
     left: 0px;
     top: 0px;
+}
 
-    /* Blanco */
-
-    background: #FFFFFF;
-    /* Gris Medio */
-
-
-    
+.form-field .ant-select .ant-select-selector:hover{
+    border-color: var(--mid-blue) !important;
 }
 
 
 .placeholder.active {
-    top: 1px;
+    top: 0px;
     left: 5px;
-    font-size: 10px;
-    background-color: white;
+    font-size: 12px;
+    background-color: white !important;
     padding: 0 2px;
-    color: #000;
+    color: var(--high-gray) !important;
+    z-index: 2;
+    text-transform:lowercase ;
 }
