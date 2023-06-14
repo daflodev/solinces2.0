@@ -7,6 +7,7 @@ import { sessionInformationStore } from '../../../store/userInformationStore';
 import shallow from 'zustand/shallow';
 
 const loginMethod = () => {
+  localStorage.setItem('current_rol', '')
   login();
 };
 

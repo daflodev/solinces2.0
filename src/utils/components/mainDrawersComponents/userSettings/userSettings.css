@@ -50,6 +50,10 @@
     transform: scale(1.2);
 }
 
+.pop_over_element{
+    background-color: brown;
+}
+
 .user_settings_log_out_icon .icon_log_out_svg{
     transform: scale(1.2);
     cursor: pointer;

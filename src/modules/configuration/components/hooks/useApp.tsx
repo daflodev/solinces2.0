@@ -168,7 +168,6 @@ export const UseSettigns = () => {
     shallow
 );
 
-
   const apiGet = async (nameTable: any, setDataTable: any) => {
     const tableDateBase = select_type(nameTable);
 
@@ -176,6 +175,8 @@ export const UseSettigns = () => {
       base: tableDateBase.table,
       schema: parserTokenInformation?.dataSchema[0],
     };
+
+    console.log("name table: ", nameTable)
 
 if(currentRol == 'RECTOR' && nameTable == 'sede' ){
   const dataSede = {
