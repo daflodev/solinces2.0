@@ -1,5 +1,5 @@
-import { Col, Row, Spin } from "antd";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Col, DatePicker, Form, Input, Row, Select, Spin } from "antd";
+import { ErrorMessage, Field, Formik } from "formik";
 import "../../assets/styles/testing.css";
 import React, { useEffect, useState } from "react";
 import DatePickerAddForm from "../datepickeraddform";
@@ -7,6 +7,11 @@ import MultiSelect from "../selectedform";
 import InputAddNumber from "../inputaddnumber";
 import { useFormEstablecimiento } from "./hooks/useFormEstablecimiento";
 import "../../assets/styles/formEstablecimiento.css";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import { saveIcon } from "../../assets/icon/iconManager";
+
+dayjs.extend(customParseFormat);
 
 const FormEstablecimiento = ({
   setTitleState,
@@ -36,13 +41,17 @@ const FormEstablecimiento = ({
   }, []);
 
   const [selectedField, setSelectedField] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("");
 
   const handleFieldFocus = (fieldName) => {
     setSelectedField(fieldName);
   };
 
-  const handleFieldBlur = () => {
-    setSelectedField(null);
+  const handleOptionChange = (value) => {
+    setSelectedOption(value);
+  };
+  const handleDateChange = (date) => {
+    console.log("Date changed:", date);
   };
 
   const optionsManager = (data: any, columnName: any) => {
@@ -76,7 +85,6 @@ const FormEstablecimiento = ({
       const columnQualitiesInformation = itemsInformation.filter(
         (itemColumn: any) => itemColumn.column_name == columnName
       );
-
       return (
         <>
           {columnName.startsWith("FK_") ? (
@@ -85,33 +93,36 @@ const FormEstablecimiento = ({
                 {/* Primera columna */}
                 <div className="form-column">
                   <div className="form-field">
-                    <Field
-                      component={MultiSelect}
-                      style={{
-                        borderRadius: "5px",
-                        border: "2px solid #e2e2e2",
-                        padding: "5px",
-                      }}
-                      placeholder={columnName}
-                      id={columnName}
-                      name={columnName}
-                      autoComplete="off"
-                      options={optionsManager(
-                        FKGroupData[columnName],
-                        columnName
-                      )}
-                      filterOption={(input: any, option: any) =>
-                        (option?.label ?? "")
-                          .toLowerCase()
-                          .includes(input.toLowerCase())
-                      }
-                    />
-
-                    <ErrorMessage
-                      name={columnName}
-                      component={"div"}
-                      className="text-danger"
-                    />
+                    <Form.Item name={columnName}>
+                      <Select
+                        onChange={handleOptionChange}
+                        onFocus={() => handleFieldFocus(columnName)}
+                        onBlur={() => handleFieldFocus(null)}
+                        value={selectedOption}
+                        
+                        options={optionsManager(
+                          FKGroupData[columnName],
+                          columnName
+                        )}
+                        filterOption={(input: any, option: any) =>
+                          (option?.label ?? "")
+                            .toLowerCase()
+                            .includes(input.toLowerCase())
+                        }
+                      />
+                    </Form.Item>
+                    <span
+                      className={`placeholder ${
+                        selectedField === columnName ||
+                        (initialValues
+                          ? initialValues[columnName] != null
+                          : false)
+                          ? "active"
+                          : ""
+                      }`}
+                    >
+                      {columnName}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -124,96 +135,80 @@ const FormEstablecimiento = ({
                   {/* Primera columna */}
                   <div className="form-column">
                     <div className="form-field">
-                      <Field
-                        // placeholder={columnName}
-                        id={columnName}
-                        name={columnName}
-                        autoComplete="off"
-                        maxLength={columnQualitiesInformation[0]?.longitud}
-                        placeholder={columnName}
-                        onFocus={() => handleFieldFocus(columnName)}
-                        onBlur={handleFieldBlur}
-                      />
-                      <ErrorMessage
-                        name={columnName}
-                        component={"div"}
-                        className="text-danger"
-                      />
-                      {/* <md
+                      <Form.Item name={columnName}>
+                        <Input
+                          maxLength={columnQualitiesInformation[0]?.longitud}
+                          onFocus={() => handleFieldFocus(columnName)}
+                          onBlur={() => handleFieldFocus(null)}
+                          autoComplete="off"
+                          // placeholder={columnName}
+                        />
+                      </Form.Item>
+                      <span
                         className={`placeholder ${
-                          selectedField === columnName ? "active" : ""
+                          selectedField === columnName ||
+                          (initialValues
+                            ? initialValues[columnName] != null
+                            : false)
+                            ? "active"
+                            : ""
                         }`}
                       >
                         {columnName}
-                      </md> */}
+                      </span>
                     </div>
                   </div>
                 </div>
               </Col>
             </>
-          ) : columnQualitiesInformation[0]?.data_type === "integer" ||
-            columnQualitiesInformation[0]?.data_type === "numeric" ? (
-            <Col xs={24} md={6} lg={6} xl={6}>
-              <Field
-                InputConditions={columnQualitiesInformation[0]}
-                placeholder={columnName}
-                component={InputAddNumber}
-                style={{
-                  borderRadius: "5px",
-                  border: "2px solid #e2e2e2",
-                  padding: "5px",
-                }}
-                id={columnName}
-                name={columnName}
-                autoComplete="off"
-              />
-
-              <ErrorMessage
-                name={columnName}
-                component={"div"}
-                className="text-danger"
-              />
-            </Col>
           ) : columnQualitiesInformation[0]?.data_type === "date" ? (
-            <Col xs={24} md={6} lg={6} xl={6}>
-              <Field
-                placeholder={columnName}
-                component={DatePickerAddForm}
-                style={{
-                  borderRadius: "5px",
-                  border: "2px solid #e2e2e2",
-                  padding: "5px",
-                }}
-                id={columnName}
-                name={columnName}
-                autoComplete="off"
-              />
-
-              <ErrorMessage
-                name={columnName}
-                component={"div"}
-                className="text-danger"
-              />
-            </Col>
+            <>
+              <Col xs={24} md={6} lg={6} xl={6}>
+                <div className="form-container">
+                  {/* Primera columna */}
+                  <div className="form-column">
+                    <div className="form-field">
+                      <Form.Item name={columnName}>
+                        <DatePicker
+                          onChange={handleDateChange}
+                          format="YYYY/MM/DD"
+                          placeholder=""
+                        />
+                      </Form.Item>
+                      <span
+                        className={`placeholder ${
+                          selectedField === columnName ||
+                          (initialValues
+                            ? initialValues[columnName] != null
+                            : false)
+                            ? "active"
+                            : ""
+                        }`}
+                      >
+                        {columnName}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+            </>
           ) : (
             <Col xs={24} md={6} lg={6} xl={6}>
-              <Field
-                style={{
-                  borderRadius: "5px",
-                  border: "2px solid #e2e2e2",
-                  padding: "5px",
-                }}
-                placeholder={columnName}
-                id={columnName}
-                name={columnName}
-                autoComplete="off"
-              />
+              <Form.Item
+                // placeholder={columnName}
 
-              <ErrorMessage
                 name={columnName}
-                component={"div"}
-                className="text-danger"
-              />
+
+                // maxLength={columnQualitiesInformation[0]?.longitud}
+
+                // onFocus={() => handleFieldFocus(columnName)}
+                // onBlur={handleFieldBlur}
+              >
+                <Input
+                  placeholder={columnName}
+                  maxLength={columnQualitiesInformation[0]?.longitud}
+                />
+              </Form.Item>
             </Col>
           )}
         </>
@@ -234,22 +229,34 @@ const FormEstablecimiento = ({
     <>
       {contextHolder}
       {initialValues ? (
-        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-          <Form className="formulario">
-            <div className="col-12">
-              <Row gutter={[24, 30]}>
-                {inputs.map((item) => (
-                  <>{item}</>
-                ))}
-                <Row>
-                  <div className="w-100">
-                    <button type="submit">save</button>
-                  </div>
-                </Row>
-              </Row>
+        <Form
+          className="formulario"
+          initialValues={initialValues}
+          onFinish={handleSubmit}
+        >
+          <Row style={{ paddingBottom: "20px" }}>
+            <div className="w-100">
+              <button
+                type="submit"
+                style={{
+                  background: "transparent",
+                  cursor: "pointer",
+                  border: "none",
+                  color: "black",
+                }}
+              >
+                {saveIcon}
+              </button>
             </div>
-          </Form>
-        </Formik>
+          </Row>
+          <div className="col-12">
+            <Row gutter={[24, 30]}>
+              {inputs.map((item) => (
+                <>{item}</>
+              ))}
+            </Row>
+          </div>
+        </Form>
       ) : (
         <div className="user_settings_loading_spin">
           <Spin tip="" size="large" />

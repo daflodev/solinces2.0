@@ -4,7 +4,7 @@ import { apiGetThunksAsync, apiPostThunksAsync } from "../../../services/api/thu
 import { useEffect, useState } from "react";
 import { getUserToken } from "../../../utils";
 import { message } from "antd";
-
+import dayjs from 'dayjs';
 export const useFormEstablecimiento = () => {
 
 
@@ -140,58 +140,32 @@ export const useFormEstablecimiento = () => {
       DIRECCION: getDataTable.DIRECCION ? getDataTable.DIRECCION : null,
       ETNIAS: getDataTable.ETNIAS ? getDataTable.ETNIAS : null,
       FAX: getDataTable.FAX ? getDataTable.FAX : null,
-      FECHA_LICENCIA: getDataTable.FECHA_LICENCIA ? getDataTable.FECHA_LICENCIA : null,
+      FECHA_LICENCIA:dayjs(getDataTable.FECHA_LICENCIA ? getDataTable.FECHA_LICENCIA : null),
       FK_TARCHIVO: getDataTable.FK_TARCHIVO ? getDataTable.FK_TARCHIVO : null,
 
-      FK_TFUNCIONARIO_RECTOR: getDataTable.FK_TFUNCIONARIO_RECTOR
-        ? getDataTable.FK_TFUNCIONARIO_RECTOR
-        : null,
-      FK_TFUNCIONARIO_SECRETARIA: getDataTable.FK_TFUNCIONARIO_SECRETARIA
-        ? getDataTable.FK_TFUNCIONARIO_SECRETARIA
-        : null,
-      FK_TLISTA_VALOR_ZONA: getDataTable.FK_TLISTA_VALOR_ZONA
-        ? getDataTable.FK_TLISTA_VALOR_ZONA
-        : null,
-      FK_TLV_ASOCIACION_NACIONAL: getDataTable.FK_TLV_ASOCIACION_NACIONAL
-        ? getDataTable.FK_TLV_ASOCIACION_NACIONAL
-        : null,
-      FK_TLV_CALENDARIO: getDataTable.FK_TLV_CALENDARIO
-        ? getDataTable.FK_TLV_CALENDARIO
-        : null,
-      FK_TLV_DISCAPACIDAD: getDataTable.FK_TLV_DISCAPACIDAD
-        ? getDataTable.FK_TLV_DISCAPACIDAD
-        : null,
+      FK_TFUNCIONARIO_RECTOR: getDataTable.FK_TFUNCIONARIO_RECTOR? getDataTable.FK_TFUNCIONARIO_RECTOR : null,
+      FK_TFUNCIONARIO_SECRETARIA: getDataTable.FK_TFUNCIONARIO_SECRETARIA ? getDataTable.FK_TFUNCIONARIO_SECRETARIA : null,
+      FK_TLISTA_VALOR_ZONA: getDataTable.FK_TLISTA_VALOR_ZONA ? getDataTable.FK_TLISTA_VALOR_ZONA : null,
+      FK_TLV_ASOCIACION_NACIONAL: getDataTable.FK_TLV_ASOCIACION_NACIONAL ? getDataTable.FK_TLV_ASOCIACION_NACIONAL : null,
+      FK_TLV_CALENDARIO: getDataTable.FK_TLV_CALENDARIO ? getDataTable.FK_TLV_CALENDARIO: null,
+      FK_TLV_DISCAPACIDAD: getDataTable.FK_TLV_DISCAPACIDAD? getDataTable.FK_TLV_DISCAPACIDAD: null,
 
-      FK_TLV_ESTADO_ESTABLECIMIENTO: getDataTable.FK_TLV_ESTADO_ESTABLECIMIENTO
-        ? getDataTable.FK_TLV_ESTADO_ESTABLECIMIENTO
-        : null,
-      FK_TLV_GENERO_EST: getDataTable.FK_TLV_GENERO_EST
-        ? getDataTable.FK_TLV_GENERO_EST
-        : null,
+      FK_TLV_ESTADO_ESTABLECIMIENTO: getDataTable.FK_TLV_ESTADO_ESTABLECIMIENTO? getDataTable.FK_TLV_ESTADO_ESTABLECIMIENTO: null,
+      FK_TLV_GENERO_EST: getDataTable.FK_TLV_GENERO_EST? getDataTable.FK_TLV_GENERO_EST: null,
 
-      FK_TLV_IDIOMA: getDataTable.FK_TLV_IDIOMA
-        ? getDataTable.FK_TLV_IDIOMA
-        : null,
+      FK_TLV_IDIOMA: getDataTable.FK_TLV_IDIOMA? getDataTable.FK_TLV_IDIOMA: null,
 
-      FK_TLV_RANGO_TARIFA: getDataTable.FK_TLV_RANGO_TARIFA
-        ? getDataTable.FK_TLV_RANGO_TARIFA
-        : null,
+      FK_TLV_RANGO_TARIFA: getDataTable.FK_TLV_RANGO_TARIFA? getDataTable.FK_TLV_RANGO_TARIFA: null,
 
-      FK_TLV_REGIMEN_CATCOSTO: getDataTable.FK_TLV_REGIMEN_CATCOSTO
-        ? getDataTable.FK_TLV_REGIMEN_CATCOSTO
-        : null,
+      FK_TLV_REGIMEN_CATCOSTO: getDataTable.FK_TLV_REGIMEN_CATCOSTO? getDataTable.FK_TLV_REGIMEN_CATCOSTO: null,
 
-      FK_TMUNICIPIO: getDataTable.FK_TMUNICIPIO
-        ? getDataTable.FK_TMUNICIPIO
-        : null,
+      FK_TMUNICIPIO: getDataTable.FK_TMUNICIPIO? getDataTable.FK_TMUNICIPIO: null,
 
-      FK_TPROPIEDAD_JURIDICA: getDataTable.FK_TPROPIEDAD_JURIDICA
-        ? getDataTable.FK_TPROPIEDAD_JURIDICA
-        : null,
+      FK_TPROPIEDAD_JURIDICA: getDataTable.FK_TPROPIEDAD_JURIDICA? getDataTable.FK_TPROPIEDAD_JURIDICA: null,
 
       LICENCIA_FUNCIONAMIENTO:getDataTable.LICENCIA_FUNCIONAMIENTO ? getDataTable.LICENCIA_FUNCIONAMIENTO : null ,
 
-      LOCALIDAD:getDataTable. LOCALIDAD ? getDataTable. LOCALIDAD : null ,
+      LOCALIDAD:getDataTable.LOCALIDAD ? getDataTable.LOCALIDAD : null ,
 
       NIT:getDataTable.NIT ? getDataTable.NIT : null ,
 

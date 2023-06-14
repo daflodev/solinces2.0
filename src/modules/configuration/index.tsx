@@ -13,8 +13,8 @@ import {
   PlusOutlined,
   deleteIcon,
   downloadIcon,
+  funcionarioPermisoIcon,
   sedeJornada,
-  funcionarioPermisoIcon
 } from "../../utils/assets/icon/iconManager";
 import FormAdd from "../../utils/components/formadd";
 import SelectableSearch from "../../utils/components/selectablesearch";
@@ -30,7 +30,9 @@ import shallow from "zustand/shallow";
 import { renderCloseIcon } from "antd/es/modal/PurePanel";
 import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimiento/formEstablecimientoUsario";
 import YourTableComponent from "../../utils/components/tableCheckbox/tableChecBox";
-import ExampleComponent from "../../utils/components/tableCheckbox/tableChecBox";
+import MyForm from "../../utils/components/tableCheckbox/tableChecBox";
+import { apiPostThunksAsync, apiPostThunksAsyncSedeJornada } from "../../utils/services/api/thunks";
+import { useJournySede } from "./components/hooks/useSedeJornada";
 
 import { FuncionarioPermitidosComponent } from "./components/optionsRender/tfuncionario_tpermitidos/tfuncionario_tpermitidos"
 
@@ -65,6 +67,9 @@ const Settings: React.FC = () => {
     params,
   }: any = UseSettigns();
 
+
+
+  const {isSecondaryTableOpen, handleOpenSecondaryTable, handleCloseSecondaryTable, setIsSecondaryTableOpen, dataSede} : any =  useJournySede()
 
   const { currentRol } = sessionInformationStore(
     (state) => ({
@@ -121,24 +126,16 @@ const Settings: React.FC = () => {
           keyValues={inputFilter}
           selectItem={selectedItem}
           FKGroupData={fkGroup}
-          
           itemsInformation={itemsColumnsInformation}
         />
       );
     }
-    
     return vanillaTable;
   };
 
-  const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
-  const handleOpenSecondaryTable = (values) => {
-    console.log('secondaryTable open: ', values)
-    setIsSecondaryTableOpen(true);
-    setSelectedId(values.PK_TSEDE);
-  };
-
+  
   const iconOptionsManager = (rol, selectedTable, selectedTableInformation, setTableInformationStatus) => {
 
     let result = (<>
@@ -213,6 +210,8 @@ const Settings: React.FC = () => {
     return result;
   }
 
+
+
   //funcion de selecion lista para renderizar tabla
   const columnsGenerator = (filterObjet: any) => {
     const keys = Object.keys(filterObjet);
@@ -285,6 +284,7 @@ const Settings: React.FC = () => {
               </Space>
             </>
           ) : null}
+
         </>
       ),
     });
@@ -337,7 +337,7 @@ const Settings: React.FC = () => {
     // initLanguage();
   }, [settingOptions]);
 
-// console.log(selectedItem)
+  // console.log(selectedItem)
   const vanillaTable = (
     <>
       <div className="cointainer-table">
@@ -454,7 +454,7 @@ const Settings: React.FC = () => {
                     </Col>
                   </Row>
                 </Col>
-                <Col xs={24} md={visibleForm || isSecondaryTableOpen? 14 : 20}>
+                <Col xs={24} md={visibleForm || isSecondaryTableOpen ? 14 : 20}>
                   <Card className="card-body">
                     {selectedItem && renderContentManager()}
                   </Card>
@@ -492,15 +492,17 @@ const Settings: React.FC = () => {
                       />
                     </Card>
                   </Col>
-                ): null}
+                ) : null}
 
                 {isSecondaryTableOpen ? (
                   <Col md={6}>
                     <Card className="justify-content-center align-items-center ">
-                      <ExampleComponent />
+                      <MyForm onClick={handleCloseSecondaryTable} title={"tsede_jornada"} data={dataSede}/>
                     </Card>
                   </Col>
-                ) : null}
+                ):null}
+                  
+                
               </Row>
             </div>
           </div>
