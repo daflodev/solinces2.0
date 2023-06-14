@@ -36,6 +36,7 @@ console.log(dataSede)
     isSecondaryTableOpen,
     handleOpenSecondaryTable,
     handleCloseSecondaryTable,
+    setIsSecondaryTableOpen,
   }
 }
 

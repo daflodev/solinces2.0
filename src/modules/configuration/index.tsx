@@ -13,8 +13,8 @@ import {
   PlusOutlined,
   deleteIcon,
   downloadIcon,
+  funcionarioPermisoIcon,
   sedeJornada,
-  funcionarioPermisoIcon
 } from "../../utils/assets/icon/iconManager";
 import FormAdd from "../../utils/components/formadd";
 import SelectableSearch from "../../utils/components/selectablesearch";
@@ -67,7 +67,7 @@ const Settings: React.FC = () => {
 
 
 
-  const {isSecondaryTableOpen, handleOpenSecondaryTable, handleCloseSecondaryTable, dataSede} : any =  useJournySede()
+  const {isSecondaryTableOpen, handleOpenSecondaryTable, handleCloseSecondaryTable, setIsSecondaryTableOpen, dataSede} : any =  useJournySede()
 
   const { currentRol } = sessionInformationStore(
     (state) => ({
@@ -75,7 +75,6 @@ const Settings: React.FC = () => {
     }),
     shallow
   );
-  
 
   //Funcion para generar la data de los filtros select
   const filterSelectOnColumnGenerator = (
@@ -129,14 +128,12 @@ const Settings: React.FC = () => {
         />
       );
     }
-    
     return vanillaTable;
   };
 
   const [selectedId, setSelectedId] = useState(null);
 
   
-
   const iconOptionsManager = (rol, selectedTable, selectedTableInformation, setTableInformationStatus) => {
 
     let result = (<>
@@ -211,6 +208,8 @@ const Settings: React.FC = () => {
     return result;
   }
 
+
+
   //funcion de selecion lista para renderizar tabla
   const columnsGenerator = (filterObjet: any) => {
     const keys = Object.keys(filterObjet);
@@ -283,6 +282,7 @@ const Settings: React.FC = () => {
               </Space>
             </>
           ) : null}
+
         </>
       ),
     });
