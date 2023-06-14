@@ -32,6 +32,8 @@ import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimien
 import YourTableComponent from "../../utils/components/tableCheckbox/tableChecBox";
 import ExampleComponent from "../../utils/components/tableCheckbox/tableChecBox";
 
+import { FuncionarioPermitidosComponent } from "./components/optionsRender/tfuncionario_tpermitidos/tfuncionario_tpermitidos"
+
 type EditableTableProps = Parameters<typeof Table>[0];
 
 type ColumnTypes = Exclude<EditableTableProps[], undefined>;
