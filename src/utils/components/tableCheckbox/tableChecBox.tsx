@@ -13,7 +13,7 @@ interface propsJourny {
 }
 
 const MyForm: React.FC<propsJourny> = (props) => {
-
+const [selectedData, setSelectedData] = useState([]);
   const columns = [
     {
       title: "NOMBRE",
@@ -29,10 +29,10 @@ const MyForm: React.FC<propsJourny> = (props) => {
 
   //  `
 
-  const [selectedData, setSelectedData] = useState([]);
+  
 
   const onSelectChange = (selectedRowKeys, selectedRows) => {
-    setSelectedData(selectedRows);
+    setSelectedData(selectedRowKeys);
   };
 
   const rowSelection = {
