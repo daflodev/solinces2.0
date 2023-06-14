@@ -23,7 +23,9 @@ interface SessionInformationInterface {
     clearArray: () => void;
 };
 
-const currentRolFromLocalStorage = localStorage.getItem('current_rol') ? localStorage.getItem('current_rol') : null;
+const rolFromLocalStorage = localStorage.getItem('current_rol');
+
+const currentRolFromLocalStorage = (rolFromLocalStorage && rolFromLocalStorage.length > 0) ? rolFromLocalStorage : null;
 
 export const sessionInformationStore = create<SessionInformationInterface>((set, get) => ({
     currentRol: currentRolFromLocalStorage,

@@ -14,6 +14,7 @@ import {
   deleteIcon,
   downloadIcon,
   sedeJornada,
+  funcionarioPermisoIcon
 } from "../../utils/assets/icon/iconManager";
 import FormAdd from "../../utils/components/formadd";
 import SelectableSearch from "../../utils/components/selectablesearch";
@@ -128,12 +129,87 @@ const Settings: React.FC = () => {
         />
       );
     }
+    
     return vanillaTable;
   };
 
   const [selectedId, setSelectedId] = useState(null);
 
   
+
+  const iconOptionsManager = (rol, selectedTable, selectedTableInformation, setTableInformationStatus) => {
+
+    let result = (<>
+      {" "}
+      <Popconfirm
+        title="seguro desea eliminar?"
+        onConfirm={() => handleDelete(selectedTableInformation.key)}
+      >
+        <div className="iconDelete">{deleteIcon}</div>
+      </Popconfirm>
+    </>);
+
+    switch (selectedTable) {
+      case 'TSEDE':
+
+        if(rol == "RECTOR"){
+          result = (<>
+            <div
+              onClick={() => handleOpenSecondaryTable(selectedTableInformation)}
+              style={{ cursor: "pointer" }}
+            >
+              {sedeJornada}
+            </div>
+  
+            <Popconfirm
+              title="seguro desea eliminar?"
+              onConfirm={() => handleDelete(selectedTableInformation.key)}
+            >
+              <div className="iconDelete">{deleteIcon}</div>
+            </Popconfirm>
+          </>)
+        }
+        
+        break;
+
+      case 'TCONFIGURACION_REPORTE':
+
+        if(rol == "RECTOR"){
+          result = (<>
+            <div
+              onClick={() => handleOpenSecondaryTable(selectedTableInformation)}
+              style={{ cursor: "pointer" }}
+            >
+              {funcionarioPermisoIcon}
+            </div>
+  
+            <Popconfirm
+              title="seguro desea eliminar?"
+              onConfirm={() => handleDelete(selectedTableInformation.key)}
+            >
+              <div className="iconDelete">{deleteIcon}</div>
+            </Popconfirm>
+          </>)
+        }
+        
+        break;
+
+      default:
+
+        result = (<>
+            {" "}
+            <Popconfirm
+              title="seguro desea eliminar?"
+              onConfirm={() => handleDelete(selectedTableInformation.key)}
+            >
+              <div className="iconDelete">{deleteIcon}</div>
+            </Popconfirm>
+          </>)
+        break;
+    }
+
+    return result;
+  }
 
   //funcion de selecion lista para renderizar tabla
   const columnsGenerator = (filterObjet: any) => {
@@ -202,33 +278,8 @@ const Settings: React.FC = () => {
           {settingOptions?.length >= 1 ? (
             <>
               <Space size="middle" className="boton">
-                {currentRol == "RECTOR" && selectedItem?.nombre == "TSEDE" ? (
-                  <>
-                    <div
-                      onClick={() => handleOpenSecondaryTable(record)}
-                      style={{ cursor: "pointer" }}
-                    >
-                      {sedeJornada}
-                    </div>
 
-                    <Popconfirm
-                      title="seguro desea eliminar?"
-                      onConfirm={() => handleDelete(record.key)}
-                    >
-                      <div className="iconDelete">{deleteIcon}</div>
-                    </Popconfirm>
-                  </>
-                ) : (
-                  <>
-                    {" "}
-                    <Popconfirm
-                      title="seguro desea eliminar?"
-                      onConfirm={() => handleDelete(record.key)}
-                    >
-                      <div className="iconDelete">{deleteIcon}</div>
-                    </Popconfirm>
-                  </>
-                )}
+                {iconOptionsManager(currentRol, selectedItem?.nombre, record, setIsSecondaryTableOpen)}
               </Space>
             </>
           ) : null}
