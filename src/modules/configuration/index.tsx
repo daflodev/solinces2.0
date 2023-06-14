@@ -30,7 +30,8 @@ import { renderCloseIcon } from "antd/es/modal/PurePanel";
 import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimiento/formEstablecimientoUsario";
 import YourTableComponent from "../../utils/components/tableCheckbox/tableChecBox";
 import MyForm from "../../utils/components/tableCheckbox/tableChecBox";
-import { apiPostThunksAsync } from "../../utils/services/api/thunks";
+import { apiPostThunksAsync, apiPostThunksAsyncSedeJornada } from "../../utils/services/api/thunks";
+import { useJournySede } from "./components/hooks/useSedeJornada";
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
@@ -61,10 +62,11 @@ const Settings: React.FC = () => {
     save,
     itemsColumnsInformation,
     params,
-    changeKey,
-    parserTokenInformation,
-    apiGet,
   }: any = UseSettigns();
+
+
+
+  const {isSecondaryTableOpen, handleOpenSecondaryTable, handleCloseSecondaryTable, dataSede} : any =  useJournySede()
 
   const { currentRol } = sessionInformationStore(
     (state) => ({
@@ -72,6 +74,7 @@ const Settings: React.FC = () => {
     }),
     shallow
   );
+  
 
   //Funcion para generar la data de los filtros select
   const filterSelectOnColumnGenerator = (
@@ -128,34 +131,9 @@ const Settings: React.FC = () => {
     return vanillaTable;
   };
 
-  const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
-  const handleOpenSecondaryTable = async (key: React.Key) => {
-    setIsSecondaryTableOpen(true);
-    const filteredData = data.filter((item) => item?.key == key);
-
-    const getdata = {
-      schema: parserTokenInformation?.dataSchema[0],
-      sede_jornada: "",
-      //@ts-ignore
-      where: {
-        "sede_jornada.PKTSEDE":
-          filteredData[0][`PK_T${selectedItem.key_table.toUpperCase()}`],
-      },
-    };
-    console.log(getdata);
-
-    await apiPostThunksAsync(getdata)
-      .then((response) => {
-        if (response) {
-          console.log(response, "respuesta");
-        }
-      })
-      .catch((error) => {
-        console.log("catch response: ", error);
-      });
-  };
+  
 
   //funcion de selecion lista para renderizar tabla
   const columnsGenerator = (filterObjet: any) => {
@@ -227,7 +205,7 @@ const Settings: React.FC = () => {
                 {currentRol == "RECTOR" && selectedItem?.nombre == "TSEDE" ? (
                   <>
                     <div
-                      onClick={() => handleOpenSecondaryTable(record.key)}
+                      onClick={() => handleOpenSecondaryTable(record)}
                       style={{ cursor: "pointer" }}
                     >
                       {sedeJornada}
@@ -466,10 +444,12 @@ const Settings: React.FC = () => {
                 {isSecondaryTableOpen ? (
                   <Col md={6}>
                     <Card className="justify-content-center align-items-center ">
-                      <MyForm />
+                      <MyForm onClick={handleCloseSecondaryTable} title={"tsede_jornada"} data={dataSede}/>
                     </Card>
                   </Col>
-                ) : null}
+                ):null}
+                  
+                
               </Row>
             </div>
           </div>

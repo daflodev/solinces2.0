@@ -1,50 +1,32 @@
-import React, { useState } from 'react';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import { Table, Button, Modal } from 'antd';
+import React, { useState } from "react";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import { Table, Button, Modal, Card } from "antd";
+import { saveIcon } from "../../assets/icon/iconManager";
+import { useJournySede } from "../../../modules/configuration/components/hooks/useSedeJornada";
 
 const { confirm } = Modal;
 
-interface propsTableCheck{
-  
+interface propsJourny {
+  onClick: () => void;
+  title: any;
+  data?: any;
 }
 
+const MyForm: React.FC<propsJourny> = (props) => {
 
-const MyForm = () => {
-
-  const data = [
-    {
-      id: 1,
-      name: 'John Doe',
-      age: 30,
-      address: '123 ABC Street',
-    },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      age: 25,
-      address: '456 XYZ Street',
-    },
-    // ... más datos
-  ];
-  
   const columns = [
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: "NOMBRE",
+      dataIndex: "NOMBRE",
+      key: "NOMBRE"
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: "CODIGO",
+      dataIndex: "CODIGO",
+      key: "CODIGO"
     },
   ];
-  
+
   //  `
 
   const [selectedData, setSelectedData] = useState([]);
@@ -58,21 +40,21 @@ const MyForm = () => {
   };
 
   const handleSendData = () => {
-    console.log('Datos a enviar:', selectedData);
+    console.log("Datos a enviar:", selectedData);
   };
-  
+
   return (
     <>
-      <Table
-        rowSelection={rowSelection}
-        columns={columns}
-        dataSource={data}
-        rowKey="id"
-      />
-
-      <Button type="primary" onClick={handleSendData}>
-        Enviar Datos
-      </Button>
+      <Card  title={props.title} extra={<div onClick={props.onClick}>cerrar</div>}>
+        <Table
+          rowSelection={rowSelection}
+          columns={columns}
+          dataSource={props.data}
+        />
+        <div onClick={handleSendData} style={{cursor: "pointer"}} >
+            {saveIcon}
+        </div>
+      </Card>
     </>
   );
 };

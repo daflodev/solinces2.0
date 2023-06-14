@@ -6,11 +6,12 @@ import {
   apiGetThunksAsync,
   apiGetThunksMenuItemsOptionsAsync,
   apiPostThunksAsync,
+  apiPostThunksAsyncSedeJornada,
 } from "../../../../utils/services/api/thunks";
 import { useParams, useNavigate } from "react-router-dom";
 import { getUserToken } from "../../../../utils/utils";
-import {sessionInformationStore} from '../../../../store/userInformationStore'
-import {shallow} from "zustand/shallow";
+import { sessionInformationStore } from "../../../../store/userInformationStore";
+import { shallow } from "zustand/shallow";
 import { QueryBuilders } from "../../../../utils/orm/queryBuilders";
 
 export const UseSettigns = () => {
@@ -52,6 +53,8 @@ export const UseSettigns = () => {
     message: "",
     style: "",
   });
+
+  
 
   const [visibleMessage, setVisibleMessage] = useState(<></>);
 
@@ -161,101 +164,107 @@ export const UseSettigns = () => {
     }
   };
 
-  const { currentRol, currentInstitution, currentCampus } = sessionInformationStore(
-    (state) => ({
+  const { currentRol, currentInstitution, currentCampus } =
+    sessionInformationStore(
+      (state) => ({
         currentRol: state.currentRol,
         currentInstitution: state.currentInstitution,
-        currentCampus: state.currentCampus
-    }),
-    shallow
-);
-
+        currentCampus: state.currentCampus,
+      }),
+      shallow
+    );
 
   const apiGet = async (nameTable: any, setDataTable: any) => {
     const tableDateBase = select_type(nameTable);
 
-    
-
-if(currentRol == 'RECTOR' && nameTable == 'sede' ){
-    // // select con where
-        const query = new QueryBuilders(tableDateBase.table);
-        const results = await query
-        .select('*')
+    if (currentRol == "RECTOR" && nameTable == "sede") {
+      // // select con where
+      const query = new QueryBuilders(nameTable);
+      const results = await query
+        .select("*")
         .where('"FK_TESTABLECIMIENTO"', '=', currentInstitution?.value)
         .schema(parserTokenInformation?.dataSchema[0])
-        .get().then(
-          (response:any)=>{
-            console.log(response)
-          }
-        )
-  const dataSede = {
-    base: tableDateBase.table,
-    schema: parserTokenInformation?.dataSchema[0],
-    where: {'sede.FK_TESTABLECIMIENTO': currentInstitution?.value}
-  }
-  const getdata = changeKey(dataSede, "base", nameTable);
+        .get()
 
-  const getDataTable = await apiGetThunksAsync(getdata).then(
-    (response: any) => {
-      const { getdata, columnsInformation } = response;
 
-      const filterColumnsInformation: any = filtrarJsonArray(
-        columnsInformation,
-        tableDateBase.table
+      console.log(results);
+      const dataSede = {
+        base: tableDateBase.table,
+        schema: parserTokenInformation?.dataSchema[0],
+        where: { "sede.FK_TESTABLECIMIENTO": currentInstitution?.value },
+      };
+      const getdata = changeKey(dataSede, "base", nameTable);
+
+      const getDataTable = await apiGetThunksAsync(getdata).then(
+        (response: any) => {
+          const { getdata, columnsInformation } = response;
+          console.log(response)
+
+          const filterColumnsInformation: any = filtrarJsonArray(
+            columnsInformation,
+            tableDateBase.table
+          );
+          // console.log(resultado, 'nuevo json');
+
+          // #######################
+          // const filtroColumnYes = columnsInformation.filter((item) => item.is_nullable == 'YES')
+          // const filtroColumnNO = columnsInformation.filter((item) => item.is_nullable == 'NO')
+          // console.log(filtroColumnYes, 'nueva columna YES')
+          // console.log(filtroColumnNO, 'nueva columna NO')
+          // #######################
+          ProcessingColumnsInformation(
+            filterColumnsInformation,
+            setInputFilter
+          );
+          setItemsColumnsInformation(filterColumnsInformation);
+
+          const res = getdata;
+          return res;
+        }
       );
-      // console.log(resultado, 'nuevo json');
 
-      // #######################
-      // const filtroColumnYes = columnsInformation.filter((item) => item.is_nullable == 'YES')
-      // const filtroColumnNO = columnsInformation.filter((item) => item.is_nullable == 'NO')
-      // console.log(filtroColumnYes, 'nueva columna YES')
-      // console.log(filtroColumnNO, 'nueva columna NO')
-      // #######################
-      ProcessingColumnsInformation(filterColumnsInformation, setInputFilter);
-      setItemsColumnsInformation(filterColumnsInformation);
+      setDataTable(getDataTable);
+    } else {
+      const prevData = {
+        base: tableDateBase.table,
+        schema: parserTokenInformation?.dataSchema[0],
+      };
+      const getdata = changeKey(prevData, "base", nameTable);
 
-      const res = getdata;
-      return res;
+      const getDataTable = await apiGetThunksAsync(getdata).then(
+        (response: any) => {
+          const { getdata, columnsInformation } = response;
+
+          const filterColumnsInformation: any = filtrarJsonArray(
+            columnsInformation,
+            tableDateBase.table
+          );
+          // console.log(resultado, 'nuevo json');
+
+          // #######################
+          // const filtroColumnYes = columnsInformation.filter((item) => item.is_nullable == 'YES')
+          // const filtroColumnNO = columnsInformation.filter((item) => item.is_nullable == 'NO')
+          // console.log(filtroColumnYes, 'nueva columna YES')
+          // console.log(filtroColumnNO, 'nueva columna NO')
+          // #######################
+          ProcessingColumnsInformation(
+            filterColumnsInformation,
+            setInputFilter
+          );
+          setItemsColumnsInformation(filterColumnsInformation);
+
+          const res = getdata;
+          return res;
+        }
+      );
+
+      setDataTable(getDataTable);
     }
-  );
-
-  setDataTable(getDataTable);
-}else{
-  const prevData = {
-    base: tableDateBase.table,
-    schema: parserTokenInformation?.dataSchema[0],
-  };
-  const getdata = changeKey(prevData, "base", nameTable);
-
-    const getDataTable = await apiGetThunksAsync(getdata).then(
-      (response: any) => {
-        const { getdata, columnsInformation } = response;
-
-        const filterColumnsInformation: any = filtrarJsonArray(
-          columnsInformation,
-          tableDateBase.table
-        );
-        // console.log(resultado, 'nuevo json');
-
-        // #######################
-        // const filtroColumnYes = columnsInformation.filter((item) => item.is_nullable == 'YES')
-        // const filtroColumnNO = columnsInformation.filter((item) => item.is_nullable == 'NO')
-        // console.log(filtroColumnYes, 'nueva columna YES')
-        // console.log(filtroColumnNO, 'nueva columna NO')
-        // #######################
-        ProcessingColumnsInformation(filterColumnsInformation, setInputFilter);
-        setItemsColumnsInformation(filterColumnsInformation);
-
-        const res = getdata;
-        return res;
-      }
-    );
-
-    setDataTable(getDataTable);
-}
-    
   };
 
+
+
+  
   const handleSelect = (item: any) => {
     setDataTable(null);
     setSelectedItem(item);
@@ -396,26 +405,24 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
       });
   };
   const getNameTableResponseError = (MessageErrorString) => {
+    const firstCut = MessageErrorString.split('"');
 
-    const firstCut = MessageErrorString.split('\"');
-
-    const secondCut = firstCut[1].split('\" ')
+    const secondCut = firstCut[1].split('" ');
 
     const answer = secondCut[0];
 
-    return answer
+    return answer;
   };
 
   //funcion para eliminar datos de la tabla y envio de mensjae de exitoso
   const handleDelete = async (key: React.Key) => {
-
     const filteredData = data.filter((item) => item?.key == key);
 
     const whereUpdate = {
       //@ts-ignore
       where: filteredData[0][`PK_T${selectedItem.key_table.toUpperCase()}`],
     };
-  
+
     const newWhere = changeKey(
       whereUpdate,
       "where",
@@ -444,22 +451,22 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
         }
 
         if (response.status == 400) {
-          console.log('error response: ', response)
+          console.log("error response: ", response);
 
-          const responseMessage = response?.data?.message
+          const responseMessage = response?.data?.message;
 
-          if(responseMessage?.includes('is still referenced from table')){
-
+          if (responseMessage?.includes("is still referenced from table")) {
             setProcessMessage({
-              message: "No se puede eliminar: El campo aun se encuentra referenciado en al tabla " + `${getNameTableResponseError(responseMessage)}.`,
+              message:
+                "No se puede eliminar: El campo aun se encuentra referenciado en al tabla " +
+                `${getNameTableResponseError(responseMessage)}.`,
               style: "render-message-delete",
             });
-
-          }else{
-              setProcessMessage({
-                message: "Ocurrio un error inesperado, intentelo mas tarde.",
-                style: "render-message-delete",
-              });
+          } else {
+            setProcessMessage({
+              message: "Ocurrio un error inesperado, intentelo mas tarde.",
+              style: "render-message-delete",
+            });
           }
         }
       })
@@ -474,7 +481,6 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
   };
 
   const handleDeleteGroup = async () => {
-
     let whereUpdate = {
       where: selectedRowKeys,
     };
@@ -506,27 +512,25 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
         }
 
         if (response.status == 400) {
-
-          const responseMessage = response?.data?.message
-          if(responseMessage?.includes('is still referenced from table')){
-
+          const responseMessage = response?.data?.message;
+          if (responseMessage?.includes("is still referenced from table")) {
             setProcessMessage({
-              message: "No se puede eliminar: El campo aun se encuentra referenciado en al tabla " + `${getNameTableResponseError(responseMessage)}.`,
+              message:
+                "No se puede eliminar: El campo aun se encuentra referenciado en al tabla " +
+                `${getNameTableResponseError(responseMessage)}.`,
               style: "render-message-delete",
             });
-
-          }else{
-              setProcessMessage({
-                message: "Ocurrio un error inesperado, intentelo mas tarde.",
-                style: "render-message-delete",
-              });
+          } else {
+            setProcessMessage({
+              message: "Ocurrio un error inesperado, intentelo mas tarde.",
+              style: "render-message-delete",
+            });
           }
         }
       })
       .catch((error) => {
         console.log("catch response: ", error);
       });
-
   };
 
   //data table for items list FK
@@ -548,36 +552,35 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
     return getDataTable;
   };
 
-    const categoryApiGetFKTLVManager = (currentTable, fkNameTable) =>{
+  const categoryApiGetFKTLVManager = (currentTable, fkNameTable) => {
+    if (fkNameTable == "estado" && currentTable == "periodo_evaluacion") {
+      const category = "ESTADOPERIODOEVALUACION";
 
-      if(fkNameTable == 'estado' && currentTable == 'periodo_evaluacion'){
+      return `'${category}'`;
+    } else if (fkNameTable == "estado" && currentTable == "periodo_academico") {
+      const category = "ESTADOPERIODO";
 
-        const category = 'ESTADOPERIODOEVALUACION'
+      return `'${category}'`;
+    } else {
+      const formatedName = fkNameTable.toUpperCase();
 
-        return `'${category}'`;
-      }else if(fkNameTable == 'estado' && currentTable == 'periodo_academico'){
-
-        const category = 'ESTADOPERIODO'
-
-        return `'${category}'`;
-      }else{
-        const formatedName = fkNameTable.toUpperCase()
-
-        return `'${formatedName}'`
-      }
+      return `'${formatedName}'`;
     }
+  };
 
-     //data table for items list FK_TLV
-    const apiGetFKTLV = async (nameTable: any) => {
-
-      const prevData = {
-        base: "",
-        schema: parserTokenInformation?.dataSchema[0],
-        where: { "lista_valor.CATEGORIA": categoryApiGetFKTLVManager(selectedItem?.key_table, nameTable) }
-      };
-      const getdata = changeKey(prevData, "base", 'lista_valor');
-
-    
+  //data table for items list FK_TLV
+  const apiGetFKTLV = async (nameTable: any) => {
+    const prevData = {
+      base: "",
+      schema: parserTokenInformation?.dataSchema[0],
+      where: {
+        "lista_valor.CATEGORIA": categoryApiGetFKTLVManager(
+          selectedItem?.key_table,
+          nameTable
+        ),
+      },
+    };
+    const getdata = changeKey(prevData, "base", "lista_valor");
 
     const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
       //@ts-ignore
@@ -662,11 +665,16 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
     });
   };
 
-    // envio de datos de la edicion
-    const save = async (form:any, record:any, toggleEdit:any, oldValue:any) => {
-      try {
-        //@ts-ignore
-        const primaryKey = `PK_T${selectedItem.key_table.toUpperCase()}`;
+  // envio de datos de la edicion
+  const save = async (
+    form: any,
+    record: any,
+    toggleEdit: any,
+    oldValue: any
+  ) => {
+    try {
+      //@ts-ignore
+      const primaryKey = `PK_T${selectedItem.key_table.toUpperCase()}`;
 
       let whereUpdate = {
         where: record[primaryKey],
@@ -787,8 +795,6 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
             // const pre = {
             //   [name]: []
             // }
-
- 
 
             // setFkGroup({
             //   ... fkGroup,
@@ -971,7 +977,6 @@ if(currentRol == 'RECTOR' && nameTable == 'sede' ){
     itemsColumnsInformation,
     params,
     parserTokenInformation,
-  
-    
+   
   };
 };
