@@ -6,52 +6,52 @@ import { useJournySede } from "../../../modules/configuration/components/hooks/u
 
 const { confirm } = Modal;
 
-interface propsJourny {
+interface propsJourny{
   onClick: () => void;
   title: any;
   data?: any;
+  rowSelection?: any
+  handleSendData: ()=> void;
+  key: any
 }
 
+
+
 const MyForm: React.FC<propsJourny> = (props) => {
-const [selectedData, setSelectedData] = useState([]);
+  
   const columns = [
     {
       title: "NOMBRE",
       dataIndex: "NOMBRE",
-      key: "NOMBRE"
+      key: "NOMBRE",
     },
     {
       title: "CODIGO",
       dataIndex: "CODIGO",
-      key: "CODIGO"
+      key: "CODIGO",
     },
   ];
 
-  //  `
+ 
 
-
-  const onSelectChange = (selectedRowKeys, selectedRows) => {
-    setSelectedData(selectedRowKeys);
-  };
-
-  const rowSelection = {
-    onChange: onSelectChange,
-  };
-
-  const handleSendData = () => {
-    console.log("Datos a enviar:", selectedData);
-  };
+  
+  
+  
 
   return (
     <>
-      <Card  title={props.title} extra={<div onClick={props.onClick}>cerrar</div>}>
+      <Card
+        title={props.title}
+        extra={<div onClick={props.onClick}>cerrar</div>}
+      >
         <Table
-          rowSelection={rowSelection}
+          rowSelection={props.rowSelection}
           columns={columns}
           dataSource={props.data}
+          rowKey={props.key}
         />
-        <div onClick={handleSendData} style={{cursor: "pointer"}} >
-            {saveIcon}
+        <div onClick={props.handleSendData} style={{ cursor: "pointer" }}>
+          {saveIcon}
         </div>
       </Card>
     </>
