@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const ApiServicesThunksORM = async (data: object) => {
-    const url = "http://localhost:3001/orm/";
+    const url = "https://apisolinces.colombiaevaluadora.co/base/";
     const resp = await axios.post(url, data).then((response) => {
       return response;
     });

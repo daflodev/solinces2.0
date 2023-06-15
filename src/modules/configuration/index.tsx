@@ -29,8 +29,7 @@ import shallow from "zustand/shallow";
 import { renderCloseIcon } from "antd/es/modal/PurePanel";
 import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimiento/formEstablecimientoUsario";
 import YourTableComponent from "../../utils/components/tableCheckbox/tableChecBox";
-import MyForm from "../../utils/components/tableCheckbox/tableChecBox";
-import { apiPostThunksAsync } from "../../utils/services/api/thunks";
+import ExampleComponent from "../../utils/components/tableCheckbox/tableChecBox";
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
@@ -61,10 +60,8 @@ const Settings: React.FC = () => {
     save,
     itemsColumnsInformation,
     params,
-    changeKey,
-    parserTokenInformation,
-    apiGet,
   }: any = UseSettigns();
+
 
   const { currentRol } = sessionInformationStore(
     (state) => ({
@@ -121,6 +118,7 @@ const Settings: React.FC = () => {
           keyValues={inputFilter}
           selectItem={selectedItem}
           FKGroupData={fkGroup}
+          
           itemsInformation={itemsColumnsInformation}
         />
       );
@@ -131,30 +129,9 @@ const Settings: React.FC = () => {
   const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
-  const handleOpenSecondaryTable = async (key: React.Key) => {
+  const handleOpenSecondaryTable = (values) => {
     setIsSecondaryTableOpen(true);
-    const filteredData = data.filter((item) => item?.key == key);
-
-    const getdata = {
-      schema: parserTokenInformation?.dataSchema[0],
-      sede_jornada: "",
-      //@ts-ignore
-      where: {
-        "sede_jornada.PKTSEDE":
-          filteredData[0][`PK_T${selectedItem.key_table.toUpperCase()}`],
-      },
-    };
-    console.log(getdata);
-
-    await apiPostThunksAsync(getdata)
-      .then((response) => {
-        if (response) {
-          console.log(response, "respuesta");
-        }
-      })
-      .catch((error) => {
-        console.log("catch response: ", error);
-      });
+    setSelectedId(values.PK_TSEDE);
   };
 
   //funcion de selecion lista para renderizar tabla
@@ -227,7 +204,7 @@ const Settings: React.FC = () => {
                 {currentRol == "RECTOR" && selectedItem?.nombre == "TSEDE" ? (
                   <>
                     <div
-                      onClick={() => handleOpenSecondaryTable(record.key)}
+                      onClick={() => handleOpenSecondaryTable(record)}
                       style={{ cursor: "pointer" }}
                     >
                       {sedeJornada}
@@ -306,7 +283,7 @@ const Settings: React.FC = () => {
     // initLanguage();
   }, [settingOptions]);
 
-  // console.log(selectedItem)
+// console.log(selectedItem)
   const vanillaTable = (
     <>
       <div className="cointainer-table">
@@ -423,7 +400,7 @@ const Settings: React.FC = () => {
                     </Col>
                   </Row>
                 </Col>
-                <Col xs={24} md={visibleForm || isSecondaryTableOpen ? 14 : 20}>
+                <Col xs={24} md={visibleForm || isSecondaryTableOpen? 14 : 20}>
                   <Card className="card-body">
                     {selectedItem && renderContentManager()}
                   </Card>
@@ -461,12 +438,12 @@ const Settings: React.FC = () => {
                       />
                     </Card>
                   </Col>
-                ) : null}
+                ): null}
 
                 {isSecondaryTableOpen ? (
                   <Col md={6}>
                     <Card className="justify-content-center align-items-center ">
-                      <MyForm />
+                      <ExampleComponent />
                     </Card>
                   </Col>
                 ) : null}
