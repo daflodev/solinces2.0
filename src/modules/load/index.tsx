@@ -20,13 +20,13 @@ const LoadPages = () => {
 
           const localStorageCurrentRol = localStorage.getItem('current_rol');
 
-          if(localStorageCurrentRol){
-
+          if(localStorageCurrentRol && localStorageCurrentRol.length > 0){
             updateValue({
               element: "currentRol",
               value: localStorageCurrentRol
             })
           }else{
+            localStorage.setItem('current_rol', myDecodedToken?.rol[0])
             updateValue({
               element: "currentRol",
               value: myDecodedToken?.rol[0]
@@ -35,8 +35,9 @@ const LoadPages = () => {
 
           localStorage.setItem("user_token_information", JSON.stringify(myDecodedToken))    
           navigate("/layout/configuracion");
-      
+
       } else {
+          localStorage.setItem('current_rol', '')
           login()
       }
     });

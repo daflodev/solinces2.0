@@ -65,11 +65,13 @@ const UserSettings: React.FC = () => {
 
     const ListaItems = () => {
         return (
-          <ul>
-            {roles.map((elemento, index) => (
-              <li className='listRoles' onClick={handleClick} key={index}>{elemento}</li>
-            ))}
-          </ul>
+          <div style={{ padding: '10px', backgroundColor: 'var(--bg-color)' }}>
+            <ul>
+              {roles.map((elemento, index) => (
+                <li className='listRoles' onClick={handleClick} key={index}>{elemento}</li>
+              ))}
+            </ul>
+          </div>
         );
       }
 
@@ -165,18 +167,19 @@ const UserSettings: React.FC = () => {
                     </div>
                 </Col>
                 <Col span={2}>
-                  <Popover placement="bottom" content={ListaItems}>
-                    <span className="user_settings_change_rol_icon">
-                      {changeRolIcon}
-                    </span>
-                  </Popover>
+                    <Popover placement="bottom" content={ListaItems}>
+                      <span className="user_settings_change_rol_icon">
+                        {changeRolIcon}
+                      </span>
+                    </Popover>
                 </Col>
                 <Col span={2}>
-                  <Popover title="Cerrar sesión">
-                    <span className="user_settings_log_out_icon" onClick={logout}>
+                    <span className="user_settings_log_out_icon" onClick={() =>{
+                      localStorage.setItem('current_rol', '');
+                      logout();
+                      }}>
                       {logOutIcon}
                     </span>
-                  </Popover>
                 </Col>
             </Row>
 
