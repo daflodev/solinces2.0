@@ -10,6 +10,7 @@ interface propsJourny {
   onClick: () => void;
   title: any;
   data?: any;
+  rowSelection?: any;
 }
 
 const MyForm: React.FC<propsJourny> = (props) => {
@@ -27,29 +28,30 @@ const MyForm: React.FC<propsJourny> = (props) => {
     },
   ];
 
-  //  `
+  
 
-  const [selectedData, setSelectedData] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
-  const onSelectChange = (selectedRowKeys, selectedRows) => {
-    setSelectedData(selectedRows);
-  };
-
-  const rowSelection = {
-    onChange: onSelectChange,
+  const handleSelectChange = (selectedRowKeys) => {
+    console.log(selectedRowKeys)
+    setSelectedRowKeys(selectedRowKeys);
   };
 
   const handleSendData = () => {
-    console.log("Datos a enviar:", selectedData);
+    console.log("Datos a enviar:", selectedRowKeys);
   };
 
   return (
     <>
       <Card  title={props.title} extra={<div onClick={props.onClick}>cerrar</div>}>
         <Table
-          rowSelection={rowSelection}
+          rowSelection={{
+            selectedRowKeys,
+            onChange:handleSelectChange,
+          }}
           columns={columns}
           dataSource={props.data}
+          pagination={false}
         />
         <div onClick={handleSendData} style={{cursor: "pointer"}} >
             {saveIcon}
