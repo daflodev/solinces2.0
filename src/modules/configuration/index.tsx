@@ -31,6 +31,10 @@ import { renderCloseIcon } from "antd/es/modal/PurePanel";
 import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimiento/formEstablecimientoUsario";
 
 import MyForm from "../../utils/components/tableCheckbox/tableChecBox";
+import {
+  apiPostThunksAsync,
+  apiPostThunksAsyncSedeJornada,
+} from "../../utils/services/api/thunks";
 import { useJournySede } from "./components/hooks/useSedeJornada";
 
 type EditableTableProps = Parameters<typeof Table>[0];
@@ -70,6 +74,9 @@ const Settings: React.FC = () => {
     handleCloseSecondaryTable,
     setIsSecondaryTableOpen,
     dataSede,
+    rowSelection,
+    handleSendData,
+    generateRowKey,
   }: any = useJournySede();
 
   const { currentRol } = sessionInformationStore(
@@ -510,13 +517,16 @@ const Settings: React.FC = () => {
 
                 {isSecondaryTableOpen ? (
                   <Col md={6}>
-                    <Card className="justify-content-center align-items-center ">
-                      <MyForm
-                        onClick={handleCloseSecondaryTable}
-                        title={"TSEDE_JORNADA"}
-                        data={dataSede}
-                      />
-                    </Card>
+                    
+                    <MyForm
+                      onClick={handleCloseSecondaryTable}
+                      title={"tsede_jornada"}
+                      data={dataSede}
+                      rowSelection={rowSelection}
+                      handleSendData={handleSendData} 
+                      key={generateRowKey}                      />
+                      
+                  
                   </Col>
                 ) : null}
               </Row>
