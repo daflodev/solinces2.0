@@ -30,6 +30,7 @@ import { renderCloseIcon } from "antd/es/modal/PurePanel";
 import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimiento/formEstablecimientoUsario";
 import YourTableComponent from "../../utils/components/tableCheckbox/tableChecBox";
 import ExampleComponent from "../../utils/components/tableCheckbox/tableChecBox";
+import MembreteComponent from "../../utils/components/membrete";
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
@@ -123,6 +124,13 @@ const Settings: React.FC = () => {
         />
       );
     }
+
+    if (selectedItem?.nombre == "TCONFIGURACION_MEMBRETE") {
+      return (
+        <MembreteComponent/>
+      );
+    }
+
     return vanillaTable;
   };
 
