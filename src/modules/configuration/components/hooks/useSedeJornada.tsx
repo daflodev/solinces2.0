@@ -3,15 +3,12 @@ import { apiPostThunksAsyncSedeJornada } from "../../../../utils/services/api/th
 
 
 export const useJournySede  = () =>{
-    const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
 
+    const [dataSede, setDataSede] = useState<[] | null>([])
 
-    const [dataSede, setDataSede] = useState([])
+const journySedeGetData = async (record) => {
 
-
-const handleOpenSecondaryTable = async (record) => {
-    setIsSecondaryTableOpen(true);
-
+    console.log('record: ', record)
 
     await apiPostThunksAsyncSedeJornada(record.PK_TSEDE)
       .then((response) => {
@@ -25,18 +22,12 @@ const handleOpenSecondaryTable = async (record) => {
       });
 
   };
-  const handleCloseSecondaryTable = () => {
-    setIsSecondaryTableOpen(false);
 
-  };
 console.log(dataSede)
 
   return {
     dataSede,
-    isSecondaryTableOpen,
-    handleOpenSecondaryTable,
-    handleCloseSecondaryTable,
-    setIsSecondaryTableOpen,
+    journySedeGetData,
   }
 }
 

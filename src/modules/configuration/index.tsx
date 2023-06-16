@@ -1,10 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 import "../../utils/assets/styles/testing.css";
 
 import { useEffect } from "react";
 
-import { Card, Col, Popconfirm, Row, Space, Spin, Table, Tooltip } from "antd";
+import { Card, Col, Popconfirm, Row, Space, Spin, Table } from "antd";
 import { SettingOutlined, CloseOutlined } from "@ant-design/icons";
 
 import { UseSettigns } from "./components/hooks/useApp";
@@ -31,10 +31,9 @@ import { renderCloseIcon } from "antd/es/modal/PurePanel";
 import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimiento/formEstablecimientoUsario";
 import YourTableComponent from "../../utils/components/tableCheckbox/tableChecBox";
 import MyForm from "../../utils/components/tableCheckbox/tableChecBox";
-import { apiPostThunksAsync, apiPostThunksAsyncSedeJornada } from "../../utils/services/api/thunks";
-import { useJournySede } from "./components/hooks/useSedeJornada";
 
 import { FuncionarioPermitidosComponent } from "./components/optionsRender/tfuncionario_tpermitidos/tfuncionario_tpermitidos"
+import { sideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHook";
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
@@ -67,9 +66,13 @@ const Settings: React.FC = () => {
     params,
   }: any = UseSettigns();
 
-
-
-  const {isSecondaryTableOpen, handleOpenSecondaryTable, handleCloseSecondaryTable, setIsSecondaryTableOpen, dataSede} : any =  useJournySede()
+  const {  
+    isSecondaryTableOpen,
+    handleOpenSecondaryTable,
+    setIsSecondaryTableOpen,
+    secondaryTableComponentRender,
+    handleCloseSecondaryTable,
+    tableGridWidth }: any = sideOptionsManagerHook();
 
   const { currentRol } = sessionInformationStore(
     (state) => ({
@@ -133,9 +136,6 @@ const Settings: React.FC = () => {
     return vanillaTable;
   };
 
-  const [selectedId, setSelectedId] = useState(null);
-
-  
   const iconOptionsManager = (rol, selectedTable, selectedTableInformation, setTableInformationStatus) => {
 
     let result = (<>
@@ -154,7 +154,12 @@ const Settings: React.FC = () => {
         if(rol == "RECTOR"){
           result = (<>
             <div
-              onClick={() => handleOpenSecondaryTable(selectedTableInformation)}
+              onClick={() => {
+                if(visibleForm){
+                  handleMostrarForm()
+                }
+                handleOpenSecondaryTable(selectedTableInformation, 'useSedeJornada')
+              }}
               style={{ cursor: "pointer" }}
             >
               {sedeJornada}
@@ -176,7 +181,12 @@ const Settings: React.FC = () => {
         if(rol == "RECTOR"){
           result = (<>
             <div
-              onClick={() => handleOpenSecondaryTable(selectedTableInformation)}
+              onClick={() => {
+                if(visibleForm){
+                  handleMostrarForm()
+                }
+                handleOpenSecondaryTable(selectedTableInformation, 'useFuncionarioPermission')
+              }}
               style={{ cursor: "pointer" }}
             >
               {funcionarioPermisoIcon}
@@ -337,6 +347,12 @@ const Settings: React.FC = () => {
     // initLanguage();
   }, [settingOptions]);
 
+  useEffect(() => {
+    
+    handleCloseSecondaryTable()
+
+  }, [selectedItem])
+
   // console.log(selectedItem)
   const vanillaTable = (
     <>
@@ -380,7 +396,10 @@ const Settings: React.FC = () => {
                     {selectedItem ? (
                       <div
                         className="mostrarOcultarForm"
-                        onClick={handleMostrarForm}
+                        onClick={ () =>{
+                          handleCloseSecondaryTable()
+                          handleMostrarForm()
+                        }}
                       >
                         {visibleForm ? MinusOutlined : PlusOutlined}
                       </div>
@@ -454,7 +473,7 @@ const Settings: React.FC = () => {
                     </Col>
                   </Row>
                 </Col>
-                <Col xs={24} md={visibleForm || isSecondaryTableOpen ? 14 : 20}>
+                <Col xs={24} md={visibleForm ? 14 : (isSecondaryTableOpen ? tableGridWidth : 20) }>
                   <Card className="card-body">
                     {selectedItem && renderContentManager()}
                   </Card>
@@ -495,13 +514,8 @@ const Settings: React.FC = () => {
                 ) : null}
 
                 {isSecondaryTableOpen ? (
-                  <Col md={6}>
-                    <Card className="justify-content-center align-items-center ">
-                      <MyForm onClick={handleCloseSecondaryTable} title={"tsede_jornada"} data={dataSede}/>
-                    </Card>
-                  </Col>
+                  secondaryTableComponentRender
                 ):null}
-                  
                 
               </Row>
             </div>
