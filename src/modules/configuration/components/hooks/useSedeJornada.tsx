@@ -10,7 +10,7 @@ interface DataItem {
   BOOLEAN_FIELD: any;
 }
 export const useJournySede = () => {
-  const [dataSede, setDataSede] = useState([]);
+  const [dataSede, setDataSede] = useState<[] | null>(null);
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
 
   const journySedeGetData = async (record) => {
@@ -21,6 +21,11 @@ export const useJournySede = () => {
         if (response) {
           console.log(response.data, "respuesta");
           setDataSede(response.data);
+          const preData = response.data
+          const defaultSelectedKeys =preData
+          .filter((item: DataItem) => item.BOOLEAN_FIELD)
+          .map((item: DataItem) => item.PK_TJORNADA);
+          setSelectedRowKeys(defaultSelectedKeys)
         }
       })
 
@@ -54,13 +59,7 @@ export const useJournySede = () => {
     await apiPostThunksAsyncSedeJornada(selectedRowKeys);
   };
 
-  useEffect(() => {
-    const defaultSelectedKeys = dataSede
-      .filter((item: DataItem) => item.BOOLEAN_FIELD)
-      .map((item: DataItem) => item.PK_TJORNADA);
-
-    setSelectedRowKeys(defaultSelectedKeys);
-  }, [dataSede]);
+  
 
   return {
     dataSede,
@@ -69,5 +68,6 @@ export const useJournySede = () => {
     rowSelection,
     generateRowKey,
     handleSendData,
+    setDataSede,
   };
 };

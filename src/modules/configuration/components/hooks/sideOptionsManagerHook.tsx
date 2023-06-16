@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useJournySede } from "./useSedeJornada";
 import { Card, Col } from "antd";
 
@@ -11,11 +11,12 @@ export const SideOptionsManagerHook  = () =>{
 
     const [secondaryTableComponentRender, setSecondaryTableComponentRender] = useState(<></>);
 
-    const {  dataSede, journySedeGetData, rowSelection,handleSendData } : any =  useJournySede()
+    const {  dataSede, journySedeGetData, rowSelection,handleSendData, setDataSede } : any =  useJournySede()
 
     const handleCloseSecondaryTable = () => {
-        setIsSecondaryTableOpen(false);
         setSecondaryTableComponentRender(<></>)
+        setDataSede(null)
+        setIsSecondaryTableOpen(false);
     };
     
 
@@ -29,22 +30,8 @@ const handleOpenSecondaryTable = async (record, nameSideOption) => {
 
             journySedeGetData(record)
 
-            // eslint-disable-next-line no-case-declarations
-            const useSedeJornadaComponent = (
-                <Col md={6}>
-                    <Card className="justify-content-center align-items-center ">
-                        <MyForm 
-                        onClick={handleCloseSecondaryTable}
-                        title={"tsede_jornada"}
-                        data={dataSede}
-                        rowSelection={rowSelection}
-                        handleSendData={handleSendData} 
-                        rowKey="PK_TJORNADA"   />
-                    </Card>
-                </Col>
-            );
-
-            setSecondaryTableComponentRender(useSedeJornadaComponent);
+            
+           
 
             break;
     
@@ -54,7 +41,25 @@ const handleOpenSecondaryTable = async (record, nameSideOption) => {
     }
 
 };
+useEffect(()=>{
+    if(dataSede){
+        const useSedeJornadaComponent = (
+            <Col md={6}>
+                <Card className="justify-content-center align-items-center ">
+                    <MyForm 
+                    onClick={handleCloseSecondaryTable}
+                    title={"tsede_jornada"}
+                    data={dataSede}
+                    rowSelection={rowSelection}
+                    handleSendData={handleSendData} 
+                    rowKey="PK_TJORNADA"   />
+                </Card>
+            </Col>
+        );
 
+        setSecondaryTableComponentRender(useSedeJornadaComponent);
+    }
+}, [dataSede])
     return {
         isSecondaryTableOpen,
         handleOpenSecondaryTable,
