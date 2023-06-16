@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { apiPostThunksAsyncSedeJornada } from "../../../../utils/services/api/thunks";
+import { apiGetThunksAsyncSedeJornada, apiPostThunksAsyncSedeJornada } from "../../../../utils/services/api/thunks";
 interface DataItem {
     PK_TJORNADA: any;
     NOMBRE: any;
@@ -13,12 +13,12 @@ export const useJournySede = () => {
     const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
 
 
-   
+
 
     const handleOpenSecondaryTable = async (record) => {
-        setIsSecondaryTableOpen(!isSecondaryTableOpen);
+        setIsSecondaryTableOpen(true);
 
-        await apiPostThunksAsyncSedeJornada(record.PK_TSEDE)
+        await apiGetThunksAsyncSedeJornada(record.PK_TSEDE)
             .then((response) => {
                 if (response) {
                     console.log(response.data, "respuesta");
@@ -58,6 +58,12 @@ export const useJournySede = () => {
     const handleSendData = () => {
       console.log("Datos a enviar:", selectedRowKeys);
     };
+
+
+  const handleSubmitJornada = async ()=>{
+      await apiPostThunksAsyncSedeJornada(selectedRowKeys)
+      
+  }
   
 
     useEffect(()=>{

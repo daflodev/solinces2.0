@@ -3,7 +3,8 @@ import {
     ApiServicesThunksMainMenu,
     ApiServicesThunksMainMenuOptionsItem,
     ApiServicesPasswordChange,
-    ApiSedeJornada
+    ApiSedeJornada,
+    ApiSedeJornadaPost
   } from "./services";
   
   export const apiGetThunksAsync = async (data: any) => {
@@ -45,8 +46,22 @@ import {
     return resp;
   };
 
-  export const apiPostThunksAsyncSedeJornada = async (data: any) => {
+  export const apiGetThunksAsyncSedeJornada = async (data: any) => {
     const resp = await ApiSedeJornada(data)
+      .then((response) => {
+        const getdata = response.data;
+        return getdata;
+      })
+      .catch((error) => {
+        return error.response;
+      });
+  
+    return resp;
+  };
+
+
+  export const apiPostThunksAsyncSedeJornada= async (data: any) => {
+    const resp = await ApiSedeJornadaPost(data)
       .then((response) => {
         const getdata = response.data;
         return getdata;

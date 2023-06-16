@@ -30,7 +30,7 @@ const MyForm: React.FC<propsJourny> = (props) => {
       dataIndex: "CODIGO",
       key: "CODIGO",
     },
-  ];
+  ];  0
   return (
     <>
       <Card
