@@ -1,22 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { apiGetThunksAsyncSedeJornada, apiPostThunksAsyncSedeJornada } from "../../../../utils/services/api/thunks";
-interface DataItem {
-    PK_TJORNADA: any;
-    NOMBRE: any;
-    CODIGO: any;
-    BOOLEAN_FIELD: any;
-}
-export const useJournySede = () => {
-    const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
-
-    const [dataSede, setDataSede] = useState([]);
-    const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
 
 
+export const useJournySede  = () =>{
 
+    const [dataSede, setDataSede] = useState<[] | null>([])
 
-    const handleOpenSecondaryTable = async (record) => {
-        setIsSecondaryTableOpen(true);
+const journySedeGetData = async (record) => {
+
+    console.log('record: ', record)
 
         await apiGetThunksAsyncSedeJornada(record.PK_TSEDE)
             .then((response) => {
@@ -27,12 +19,15 @@ export const useJournySede = () => {
                 }
             })
 
-            .catch((error) => {
-                console.log("catch response: ", error);
-            });
-    };
+  };
 
+console.log(dataSede)
 
+  return {
+    dataSede,
+    journySedeGetData,
+  }
+}
 
     const handleCloseSecondaryTable = () => {
         setIsSecondaryTableOpen(false);
