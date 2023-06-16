@@ -33,7 +33,7 @@ import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimien
 import MyForm from "../../utils/components/tableCheckbox/tableChecBox";
 
 import { FuncionarioPermitidosComponent } from "./components/optionsRender/tfuncionario_tpermitidos/tfuncionario_tpermitidos"
-import { sideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHook";
+import { SideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHook";
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
@@ -72,7 +72,7 @@ const Settings: React.FC = () => {
     setIsSecondaryTableOpen,
     secondaryTableComponentRender,
     handleCloseSecondaryTable,
-    tableGridWidth }: any = sideOptionsManagerHook();
+    tableGridWidth }: any = SideOptionsManagerHook();
 
   const { currentRol } = sessionInformationStore(
     (state) => ({
@@ -514,24 +514,9 @@ const Settings: React.FC = () => {
                 ) : null}
 
                 {isSecondaryTableOpen ? (
-<<<<<<< HEAD
-                  <Col md={6}>
-                    
-                    <MyForm
-                      onClick={handleCloseSecondaryTable}
-                      title={"tsede_jornada"}
-                      data={dataSede}
-                      rowSelection={rowSelection}
-                      handleSendData={handleSendData} 
-                      rowKey="PK_TJORNADA"                      
-                      />
-                  </Col>
-                ) : null}
-=======
                   secondaryTableComponentRender
                 ):null}
                 
->>>>>>> de98e1b63487ad966a9096b04d09f62f441a40d1
               </Row>
             </div>
           </div>
