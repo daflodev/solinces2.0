@@ -12,7 +12,7 @@ interface propsJourny{
   data?: any;
   rowSelection?: any
   handleSendData: ()=> void;
-  key: any
+  rowKey: any
 }
 
 
@@ -31,13 +31,6 @@ const MyForm: React.FC<propsJourny> = (props) => {
       key: "CODIGO",
     },
   ];
-
- 
-
-  
-  
-  
-
   return (
     <>
       <Card
@@ -48,7 +41,7 @@ const MyForm: React.FC<propsJourny> = (props) => {
           rowSelection={props.rowSelection}
           columns={columns}
           dataSource={props.data}
-          rowKey={props.key}
+          rowKey={props.rowKey}
         />
         <div onClick={props.handleSendData} style={{ cursor: "pointer" }}>
           {saveIcon}

@@ -270,6 +270,7 @@ export const UseSettigns = () => {
     setSelectedItem(item);
     apiGet(item.key_table, setDataTable);
     handleOcultarForm();
+    
 
     // cambio de color de item de la lista
     const items = document.querySelectorAll("#mi-lista li");

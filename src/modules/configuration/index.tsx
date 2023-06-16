@@ -524,9 +524,8 @@ const Settings: React.FC = () => {
                       data={dataSede}
                       rowSelection={rowSelection}
                       handleSendData={handleSendData} 
-                      key={generateRowKey}                      />
-                      
-                  
+                      rowKey="PK_TJORNADA"                      
+                      />
                   </Col>
                 ) : null}
               </Row>

@@ -10,16 +10,13 @@ export const useJournySede = () => {
     const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
 
     const [dataSede, setDataSede] = useState([]);
-    const [selectedRowKeys, setSelectedRowKeys] = useState<string[] | null>(null);
+    const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
 
 
-    const generateRowKey = (record: DataItem) => {
-        // Generar una clave única basada en el índice y el ID de la API
-        return `${record.PK_TJORNADA}`;
-      };
+   
 
     const handleOpenSecondaryTable = async (record) => {
-        setIsSecondaryTableOpen(true);
+        setIsSecondaryTableOpen(!isSecondaryTableOpen);
 
         await apiPostThunksAsyncSedeJornada(record.PK_TSEDE)
             .then((response) => {
@@ -42,15 +39,26 @@ export const useJournySede = () => {
     };
 
     console.log(selectedRowKeys);
-    const onSelectChange = (selectedRowKeys: string[] | number[]) => {
-        setSelectedRowKeys(selectedRowKeys as string[]);
-      };
     
       const rowSelection = {
-        ...selectedRowKeys,
-        onChange: onSelectChange,
-      
+        selectedRowKeys,
+        onChange: (selectedRowKeys: string[] | number[]) => {
+          setSelectedRowKeys(selectedRowKeys as string[]);
+        },
+        getCheckboxProps: (record: DataItem) => ({
+          selectedrowkeys: record.BOOLEAN_FIELD,
+        }),
+      };
+
+    const generateRowKey = (record: DataItem) => {
+      // Generar una clave única basada en el índice y el ID de la API
+      return `${record.PK_TJORNADA}`;
     };
+
+    const handleSendData = () => {
+      console.log("Datos a enviar:", selectedRowKeys);
+    };
+  
 
     useEffect(()=>{
         const defaultSelectedKeys = dataSede
@@ -69,6 +77,7 @@ export const useJournySede = () => {
         setIsSecondaryTableOpen,
         selectedRowKeys,
         rowSelection,
-        generateRowKey
+        generateRowKey,
+        handleSendData,
     };
 };
