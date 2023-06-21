@@ -7,6 +7,8 @@ import { ApiServicesMembrete } from "../../services/api/services";
 import { sessionInformationStore } from "../../../store/userInformationStore";
 import shallow from "zustand/shallow";
 import { QueryBuilders } from "../../orm/queryBuilders";
+import { saveIcon } from "../../assets/icon/iconManager";
+
 
 
 const MembreteComponent = () => {
@@ -140,11 +142,9 @@ const MembreteComponent = () => {
             </Row>
             <Row style={{ marginTop: '30px' }}>
                 <Col span={12}>
-                <Button
-                    type="primary"
-                    icon={<SaveOutlined />}
-                    onClick={() => saveData()}
-                    />
+                    <button onClick={() => saveData()} style={{ background: 'none !important', border: 'none !important', padding: '0', margin: '0' }}>
+                          {saveIcon}
+                    </button>
                 </Col>
             </Row>
             <Row style={{ marginTop: '30px' }}>
