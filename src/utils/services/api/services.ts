@@ -10,6 +10,16 @@ export const ApiServicesThunks = async (data: any) => {
   return resp;
 };
 
+export const ApiSedeJornada = async (data: any) => {
+  const url = `https://apisolinces.colombiaevaluadora.co/journy_sede/${data}`;
+
+  const resp = await axios.get(url).then((response) => {
+   
+    return response;
+  });
+  return resp;
+};
+
 export const ApiServicesThunksMainMenu = async () => {
   const url = "https://apisolinces.colombiaevaluadora.co/menu/";
   const resp = await axios.get(url).then((response) => {

@@ -1,77 +1,62 @@
-import React, { useEffect, useState } from "react";
-import { Table, Button } from "antd";
-import { Formik, Field, Form } from "formik";
+import React, { useState } from "react";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import { Table, Button, Modal, Card } from "antd";
+import { saveIcon } from "../../assets/icon/iconManager";
+import { useJournySede } from "../../../modules/configuration/components/hooks/useSedeJornada";
 
-// Datos de ejemplo para la tabla
-const data = [
-  {
-    id: 1,
-    name: "John Doe",
-    age: 25,
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    age: 30,
-  },
-];
+const { confirm } = Modal;
 
-interface FormValues {
-  selectedData: any[]; // Reemplaza "any" con el tipo correcto de tus datos
+interface propsJourny {
+  onClick: () => void;
+  title: any;
+  data?: any;
 }
 
-const ExampleComponent: React.FC = () => {
+const MyForm: React.FC<propsJourny> = (props) => {
+
   const columns = [
     {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
+      title: "NOMBRE",
+      dataIndex: "NOMBRE",
+      key: "NOMBRE"
     },
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
+      title: "CODIGO",
+      dataIndex: "CODIGO",
+      key: "CODIGO"
     },
   ];
 
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  //  `
 
-  const onSelectChange = (newSelectedRowKeys: any) => {
-    setSelectedRowKeys(newSelectedRowKeys);
+  const [selectedData, setSelectedData] = useState([]);
+
+  const onSelectChange = (selectedRowKeys, selectedRows) => {
+    setSelectedData(selectedRows);
+  };
+
+  const rowSelection = {
+    onChange: onSelectChange,
+  };
+
+  const handleSendData = () => {
+    console.log("Datos a enviar:", selectedData);
   };
 
   return (
-    <Formik
-      initialValues={{ selectedData: [] }}
-      onSubmit={(values: any) => {
-        
-      }}
-    >
-      {() => (
-        <Form>
-          <Table
-            rowSelection={{
-              selectedRowKeys,
-              onChange: onSelectChange,
-            }}
-            columns={columns}
-            dataSource={data}
-            rowKey="id"
-            size="small"
-            pagination={false}
-          />
-          <Button type="primary" htmlType="submit">
-            Enviar
-          </Button>
-        </Form>
-      )}
-    </Formik>
+    <>
+      <Card  title={props.title} extra={<div onClick={props.onClick}>cerrar</div>}>
+        <Table
+          rowSelection={rowSelection}
+          columns={columns}
+          dataSource={props.data}
+        />
+        <div onClick={handleSendData} style={{cursor: "pointer"}} >
+            {saveIcon}
+        </div>
+      </Card>
+    </>
   );
 };
 
-export default ExampleComponent;
+export default MyForm;

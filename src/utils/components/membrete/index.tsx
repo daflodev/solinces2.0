@@ -142,7 +142,7 @@ const MembreteComponent = () => {
             </Row>
             <Row style={{ marginTop: '30px' }}>
                 <Col span={12}>
-                    <button onClick={() => saveData()} style={{ background: 'none !important', border: 'none !important', padding: '0', margin: '0' }}>
+                    <button onClick={() => saveData()} style={{ background: 'none', border: 'none', padding: '0', margin: '0' }}>
                           {saveIcon}
                     </button>
                 </Col>
