@@ -23,6 +23,7 @@ interface ColumnValue {
 }
 
 class QueryBuilders {
+  // @ts-ignore
   private model: string;
   private query: {
     table: string;

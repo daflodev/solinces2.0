@@ -36,6 +36,7 @@ const ContentComponents = ({ children }: {children: any}) => {
                         destroyOnClose={true}
                         closable={false}
                     >
+                         {/* @ts-ignore */}
                         {DrawerRender()}
                     </Drawer>
                 </div>

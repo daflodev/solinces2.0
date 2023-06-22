@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import { Table, Button, Modal, Card } from "antd";
+import { Table, Modal, Card } from "antd";
 import { saveIcon } from "../../assets/icon/iconManager";
-import { useJournySede } from "../../../modules/configuration/components/hooks/useSedeJornada";
 
+// @ts-ignore
 const { confirm } = Modal;
 
 interface propsJourny {
@@ -30,7 +29,7 @@ const MyForm: React.FC<propsJourny> = (props) => {
   //  `
 
   const [selectedData, setSelectedData] = useState([]);
-
+  // @ts-ignore
   const onSelectChange = (selectedRowKeys, selectedRows) => {
     setSelectedData(selectedRows);
   };

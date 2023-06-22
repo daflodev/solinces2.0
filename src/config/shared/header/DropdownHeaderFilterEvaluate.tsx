@@ -31,7 +31,7 @@ const DropdownHeaderFilterEvaluate = (items: any, pointerValue: any, onClickMeth
 
       return optionSelected[0]?.key;
     }
-
+    // @ts-ignore
     const [currentKey, setCurrentKey] = useState(null);
 
     const onClick = (label)=>{

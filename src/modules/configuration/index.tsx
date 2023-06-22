@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import "../../utils/assets/styles/testing.css";
 
@@ -27,10 +27,7 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import { sessionInformationStore } from "../../store/userInformationStore";
 import shallow from "zustand/shallow";
 
-import { renderCloseIcon } from "antd/es/modal/PurePanel";
 import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimiento/formEstablecimientoUsario";
-import YourTableComponent from "../../utils/components/tableCheckbox/tableChecBox";
-import ExampleComponent from "../../utils/components/tableCheckbox/tableChecBox";
 import MembreteComponent from "../../utils/components/membrete";
 import { sideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHook";
 
@@ -141,7 +138,7 @@ const Settings: React.FC = () => {
 
     return vanillaTable;
   };
-
+  // @ts-ignore
   const iconOptionsManager = (rol, selectedTable, selectedTableInformation, setTableInformationStatus) => {
 
     let result = (<>

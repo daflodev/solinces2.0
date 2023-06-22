@@ -14,7 +14,7 @@ interface mainDrawerStoreInterface {
     open: () => void,
     setRenderContent: (newRenderContent: setRenderContentProp) => void
 };
-
+// @ts-ignore
 export const mainDrawerStore = create<mainDrawerStoreInterface>((set, get) => ({
     isOpen: false,
     renderContent: null,

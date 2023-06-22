@@ -4,7 +4,6 @@ import { Card, Row, Col } from "antd";
 import { withPrincipal } from "../../utils/components/content";
 
 import "../../utils/assets/noPermitionPage/noPermitionPage.css";
-import { QueryBuilders } from "../../utils/orm/queryBuilders";
 
 
 const mainImageNoPermissionPage = (

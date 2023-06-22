@@ -1,4 +1,3 @@
-import { RcFile } from "antd/es/upload/interface";
 import axios from "axios";
 
 export const ApiServicesThunks = async (data: any) => {

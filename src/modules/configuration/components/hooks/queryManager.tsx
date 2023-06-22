@@ -1,4 +1,4 @@
-
+// @ts-ignore
 export function QueryManager(queryBase: object, userRol: string, selectedTable: string, complementDataToQuery: object){
 
     let answerQuery = queryBase;
