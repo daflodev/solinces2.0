@@ -16,47 +16,50 @@ interface propsJourny {
 }
 
 const MyForm: React.FC<propsJourny> = (props) => {
-  const handleCheckboxChange = (id) => {
-    props.setData((prevData) =>
-      prevData.map((item) => {
-        if (item.PK_TJORNADA === id) {
-          const updatedItem = { ...item, BOOLEAN_FIELD: !item.BOOLEAN_FIELD };
-          if (updatedItem.BOOLEAN_FIELD) {
-            props.setSelectedItems((prevSelectedItems) => [
-              ...prevSelectedItems,
-              updatedItem,
-            ]);
-          } else {
-            props.setSelectedItems((prevSelectedItems) =>
-              prevSelectedItems.filter(
-                (selectedItem) => selectedItem.PK_TJORNADA !== id
-              )
-            );
-          }
-          return updatedItem;
-        }
-        return item;
-      })
-    );
-  };
 
-  const handleSelectAllChange = () => {
-    props.setSelectAll(!props.selectAll);
-    props.setData((prevData) =>
-      prevData.map((item) => ({ ...item, BOOLEAN_FIELD: !props.selectAll }))
-    );
-    if (!props.selectAll) {
-      props.setSelectedItems([...props.data]);
-    } else {
-      props.setSelectedItems([]);
-    }
-  };
+  const [checkAll, setCheckAll] = useState(false);
+  // const handleCheckboxChange = (id) => {
+  //   props.setData((prevData) =>
+  //     prevData.map((item) => {
+  //       if (item.PK_TJORNADA === id) {
+  //         const updatedItem = { ...item, BOOLEAN_FIELD: !item.BOOLEAN_FIELD };
+  //         if (updatedItem.BOOLEAN_FIELD) {
+  //           props.setSelectedItems((prevSelectedItems) => [
+  //             ...prevSelectedItems,
+  //             updatedItem,
+  //           ]);
+  //         } else {
+  //           props.setSelectedItems((prevSelectedItems) =>
+  //             prevSelectedItems.filter(
+  //               (selectedItem) => selectedItem.PK_TJORNADA !== id
+  //             )
+  //           );
+  //         }
+  //         return updatedItem;
+  //       }
+  //       return item;
+  //     })
+  //   );
+  // };
+
+  // const handleSelectAllChange = () => {
+  //   props.setSelectAll(!props.selectAll);
+  //   props.setData((prevData) =>
+  //     prevData.map((item) => ({ ...item, BOOLEAN_FIELD: !props.selectAll }))
+  //   );
+  //   if (!props.selectAll) {
+  //     props.setSelectedItems([...props.data]);
+  //   } else {
+  //     props.setSelectedItems([]);
+  //   }
+  // };
 
   const handleCheckAll = (e) => {
     const checked = e.target.checked;
-    props.setData(
-      props.data.map((item) => {
-        return { ...item, checked };
+    setCheckAll(checked);
+    props.setData((prevData) =>
+      prevData.map((item) => {
+        return { ...item, checked: checked };
       })
     );
   };
@@ -71,14 +74,15 @@ const MyForm: React.FC<propsJourny> = (props) => {
       })
     );
     console.log(`Se ha marcado o desmarcado el elemento con ID ${record.PK_TJORNADA}`);
+    setCheckAll(false)
   };
 
 
   const columns = [
     {
       title: (
-        <Checkbox onChange={handleCheckAll}>
-          
+        <Checkbox checked={checkAll} onChange={handleCheckAll}>
+
         </Checkbox>
       ),
       dataIndex: 'checked',
