@@ -115,6 +115,12 @@ class QueryBuilders {
     return getData;
   }
 
+  async columninfo(): Promise<object> {
+    this.query['columninfo'] = true
+    const getData = await apiPostThunksAsync(this.query);
+    return getData;
+  }
+
   async save(): Promise<object> {
     const getData = await apiPostThunksAsync(this.query);
     return getData;

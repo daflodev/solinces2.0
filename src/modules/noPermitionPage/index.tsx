@@ -4,6 +4,7 @@ import { Card, Row, Col } from "antd";
 import { withPrincipal } from "../../utils/components/content";
 
 import "../../utils/assets/noPermitionPage/noPermitionPage.css";
+import { QueryBuilders } from "../../utils/orm/queryBuilders";
 
 
 const mainImageNoPermissionPage = (
@@ -35,6 +36,12 @@ const NoPermissionPage: React.FC = () => {
 
     const getData = async () => {
         
+
+        // column
+        // const query = new QueryBuilders('sede');
+        // const results = await query
+        // .schema('ACADEMICO_COL0')
+        // .columninfo()
 
         // select
         // const query = new QueryBuilders('sede');
