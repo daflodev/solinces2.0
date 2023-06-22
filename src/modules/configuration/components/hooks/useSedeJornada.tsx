@@ -12,7 +12,7 @@ interface DataItem {
 export const useJournySede = () => {
   const [dataSede, setDataSede] = useState<DataItem[] >([]);
   const [selectAll, setSelectAll] = useState(false);
-  
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   const journySedeGetData = async (record) => {
     console.log("record: ", record);
@@ -22,9 +22,20 @@ export const useJournySede = () => {
         if (response) {
           console.log(response.data, "respuesta");
           const preData = response.data
+          
           // const formatedData = preData.map((item)=>({...item, BOOLEAN_FIELD: item.BOOLEAN_FIELD}))
           setDataSede(preData);
+          const preselectedKeys = preData.reduce((keys, item) => {
+            if (item.BOOLEAN_FIELD) {
+              keys.push(item.PK_TJORNADA);
+            }
+            return keys;
+          }, []);
+          setSelectedRowKeys(preselectedKeys);
+        
+          
         }
+        
       })
 
       .catch((error) => {
@@ -51,6 +62,7 @@ return item
     selectAll,
     setSelectAll,
     // selectedItems,
-    // setSelectedItems
+    // setSelectedItems,
+    selectedRowKeys
   };
 };
