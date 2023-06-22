@@ -4,61 +4,62 @@ import { Card, Col } from "antd";
 
 import MyForm from "../../../../utils/components/tableCheckbox/tableChecBox";
 
-export const SideOptionsManagerHook  = () =>{
+export const SideOptionsManagerHook = () => {
     const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
 
     const [tableGridWidth, setTableGridWidth] = useState(14);
-   
+
 
     const [secondaryTableComponentRender, setSecondaryTableComponentRender] = useState(<></>);
 
-    const {  dataSede, journySedeGetData,handleSendData, setDataSede, selectAll, setSelectAll, setSelectedItems } : any =  useJournySede()
+    const { dataSede, journySedeGetData, handleSendData, setDataSede, selectedRowKeys }: any = useJournySede()
 
     const handleCloseSecondaryTable = () => {
         setSecondaryTableComponentRender(<></>)
         setDataSede(null)
         setIsSecondaryTableOpen(false);
     };
-    
 
-const handleOpenSecondaryTable = async (record, nameSideOption) => {
-    setIsSecondaryTableOpen(true);
 
-    switch (nameSideOption) {
-        case 'useSedeJornada':
+    const handleOpenSecondaryTable = async (record, nameSideOption) => {
+        setIsSecondaryTableOpen(true);
 
-            setTableGridWidth(14)
+        switch (nameSideOption) {
+            case 'useSedeJornada':
 
-            journySedeGetData(record)
+                setTableGridWidth(14)
 
-            
-           
+                journySedeGetData(record)
 
-            break;
-    
-        default:
-            setIsSecondaryTableOpen(false);
-            break;
-    }
 
-};
-useEffect(()=>{
-    if(dataSede){
-        const useSedeJornadaComponent = (
-            <Col md={6}>
-                <Card className="justify-content-center align-items-center ">
-                    <MyForm 
-                        data={dataSede}
-                    setData={setDataSede}
-                    handleSendData={handleSendData}
-                                        />
-                </Card>
-            </Col>
-        );
 
-        setSecondaryTableComponentRender(useSedeJornadaComponent);
-    }
-}, [dataSede])
+
+                break;
+
+            default:
+                setIsSecondaryTableOpen(false);
+                break;
+        }
+
+    };
+    useEffect(() => {
+        if (dataSede) {
+            const useSedeJornadaComponent = (
+                <Col md={6}>
+                    <Card className="justify-content-center align-items-center ">
+                        <MyForm
+                            data={dataSede}
+                            setData={setDataSede}
+                            handleSendData={handleSendData}
+                            selectedRowKeys={selectedRowKeys}
+                        />
+                    </Card>
+                </Col>
+            );
+
+            setSecondaryTableComponentRender(useSedeJornadaComponent);
+        }
+    }, [dataSede])
     return {
         isSecondaryTableOpen,
         handleOpenSecondaryTable,
