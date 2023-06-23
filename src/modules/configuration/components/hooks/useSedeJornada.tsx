@@ -14,6 +14,10 @@ export const useJournySede = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
+
+  const [checkboxData, setCheckboxData] = useState<DataItem[] >([]);
+  const [selectedValues, setSelectedValues] = useState([]);
+
   const journySedeGetData = async (record) => {
     console.log("record: ", record);
 
@@ -22,18 +26,9 @@ export const useJournySede = () => {
         if (response) {
           console.log(response.data, "respuesta");
           const preData = response.data
-          
-          // const formatedData = preData.map((item)=>({...item, BOOLEAN_FIELD: item.BOOLEAN_FIELD}))
           setDataSede(preData);
-          const preselectedKeys = preData.reduce((keys, item) => {
-            if (item.BOOLEAN_FIELD) {
-              keys.push(item.PK_TJORNADA);
-            }
-            return keys;
-          }, []);
-          setSelectedRowKeys(preselectedKeys);
-        
-          
+        setCheckboxData(preData);
+        setSelectedValues(preData.filter(item => item.BOOLEAN_FIELD).map(item => item.PK_TJORNADA));
         }
         
       })
@@ -42,14 +37,22 @@ export const useJournySede = () => {
         console.log("catch response: ", error);
       });
   };
-
+  const handleCheckboxChange = (index) => {
+    const updatedData = checkboxData.map((item, i) => {
+      if (i === index) {
+        return {
+          ...item,
+          BOOLEAN_FIELD: !item.BOOLEAN_FIELD,
+        };
+      }
+      return item;
+    });
+    setCheckboxData(updatedData);
+  };
   
-  const handleSendData = () => {
-    const selectedData = dataSede.filter((item) =>{
-return item
-    } );
-    // Aquí puedes enviar los datos seleccionados a través de una solicitud HTTP o realizar cualquier otra acción deseada
-    console.log('Datos seleccionados:', selectedData);
+  const  handleSendData = () => {
+    const selectedValues = checkboxData.filter(item => item.BOOLEAN_FIELD ).map(item => item.PK_TJORNADA);
+    console.log('Valores seleccionados:', selectedValues);
   };
   
 
@@ -63,6 +66,9 @@ return item
     setSelectAll,
     // selectedItems,
     // setSelectedItems,
-    selectedRowKeys
+    selectedRowKeys,
+    checkboxData, setCheckboxData,
+  selectedValues, setSelectedValues,
+  handleCheckboxChange,
   };
 };

@@ -3,6 +3,7 @@ import { Table, Modal, Checkbox, Row, Col } from "antd";
 import { saveIcon } from "../../assets/icon/iconManager";
 import type { CheckboxValueType } from "antd/es/checkbox/Group";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
+import "../../assets/styles/tableChecked.css"
 
 interface propsJourny {
   handleSendData?: () => void;
@@ -10,6 +11,9 @@ interface propsJourny {
   setData?: any;
   selectedRowKeys?:any, 
   setSelectedRowKeys?:any
+  checkboxData?:any, setCheckboxData:any,
+  selectedValues?:any, setSelectedValues:any,
+  onChange?:any
 }
 
 const MyForm: React.FC<propsJourny> = (props) => {
@@ -111,29 +115,29 @@ const MyForm: React.FC<propsJourny> = (props) => {
   //   setSelectedRowKeys(newSelectedRowKeys);
   // };
 
-  const [selectedValues, setSelectedValues] = React.useState<any>([]);
-
-  const [checkboxData, setCheckboxData] = useState([]);
+ 
 
   const onChange = (checkedValues: CheckboxValueType[]) => {
     console.log('checked = ', checkedValues);
   };
   return (
     <>
-      <Checkbox.Group onChange={onChange}>
+      <Checkbox.Group value={props.selectedValues} onChange={props.onChange}>
         <table>
           <thead>
             <tr>
-              <th>NOMBRE</th> <th>CODIGO</th>
+           <td> <th>NOMBRE</th></td> <td><th>CODIGO</th></td>
             </tr>
           </thead>
           <tbody>
             {props.data.map((item) => (
-              <tr key={item.PK_TJORNADA}>
+              <tr key={item.PK_TJORNADA} className={item.BOOLEAN_FIELD ? 'selected-row' : 'rows'}>
                 <td>
                   <Checkbox
-                    checked={props.data.map(item => item.BOOLEAN_FIELD)}
-                    value={item}
+                  key={item.PK_TJORNADA}
+                  value={item.PK_TJORNADA}
+                  checked={item.BOOLEAN_FIELD}
+
                     
                   />
                 </td>

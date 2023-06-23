@@ -5,76 +5,79 @@ import { Card, Col } from "antd";
 import MyForm from "../../../../utils/components/tableCheckbox/tableChecBox";
 
 export const SideOptionsManagerHook = () => {
-    const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
+  const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
 
-    const [tableGridWidth, setTableGridWidth] = useState(14);
+  const [tableGridWidth, setTableGridWidth] = useState(14);
 
+  const [secondaryTableComponentRender, setSecondaryTableComponentRender] =
+    useState(<></>);
 
-    const [secondaryTableComponentRender, setSecondaryTableComponentRender] = useState(<></>);
+  const {
+    dataSede,
+    journySedeGetData,
+    handleSendData,
+    setDataSede,
+    checkboxData,
+    setCheckboxData,
+    selectedValues,
+    setSelectedValues,
+    handleCheckboxChange,
+  }: any = useJournySede();
 
-    const { dataSede, journySedeGetData, handleSendData, setDataSede, selectedRowKeys }: any = useJournySede()
+  const handleCloseSecondaryTable = () => {
+    setSecondaryTableComponentRender(<></>);
+    setDataSede(null);
+    setIsSecondaryTableOpen(false);
+  };
 
-    const handleCloseSecondaryTable = () => {
-        setSecondaryTableComponentRender(<></>)
-        setDataSede(null)
+  const handleOpenSecondaryTable = async (record, nameSideOption) => {
+    setIsSecondaryTableOpen(true);
+
+    switch (nameSideOption) {
+      case "useSedeJornada":
+        setTableGridWidth(14);
+
+        journySedeGetData(record);
+
+        break;
+
+      default:
         setIsSecondaryTableOpen(false);
-    };
-
-
-    const handleOpenSecondaryTable = async (record, nameSideOption) => {
-        setIsSecondaryTableOpen(true);
-
-        switch (nameSideOption) {
-            case 'useSedeJornada':
-
-                setTableGridWidth(14)
-
-                journySedeGetData(record)
-
-
-
-
-                break;
-
-            default:
-                setIsSecondaryTableOpen(false);
-                break;
-        }
-
-    };
-    useEffect(() => {
-        if (dataSede) {
-            const useSedeJornadaComponent = (
-                <Col md={6}>
-                    <Card className="justify-content-center align-items-center ">
-                        <MyForm
-                            data={dataSede}
-                            setData={setDataSede}
-                            handleSendData={handleSendData}
-                            selectedRowKeys={selectedRowKeys}
-                        />
-                    </Card>
-                </Col>
-            );
-
-            setSecondaryTableComponentRender(useSedeJornadaComponent);
-        }
-    }, [dataSede])
-    return {
-        isSecondaryTableOpen,
-        handleOpenSecondaryTable,
-        setIsSecondaryTableOpen,
-        secondaryTableComponentRender,
-        handleCloseSecondaryTable,
-        tableGridWidth
+        break;
     }
-}
+  };
+  useEffect(() => {
+    if (dataSede) {
+      const useSedeJornadaComponent = (
+        <Col md={6}>
+          <Card className="justify-content-center align-items-center ">
+            <MyForm
+              data={dataSede}
+              setData={setDataSede}
+              handleSendData={handleSendData}
+             
+              checkboxData={checkboxData}
+              setCheckboxData={setCheckboxData}
+              selectedValues={selectedValues}
+              setSelectedValues={setSelectedValues}
+            onChange={handleCheckboxChange}
+            />
+          </Card>
+        </Col>
+      );
 
-
-
-
-
-
+      setSecondaryTableComponentRender(useSedeJornadaComponent);
+    }
+  }, [dataSede]);
+  return {
+    isSecondaryTableOpen,
+    handleOpenSecondaryTable,
+    setIsSecondaryTableOpen,
+    secondaryTableComponentRender,
+    handleCloseSecondaryTable,
+    tableGridWidth,
+  };
+};
 
 // import { Table, Checkbox } from 'antd';
 // import { useState, useEffect } from 'react';
