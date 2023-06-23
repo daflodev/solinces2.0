@@ -1,4 +1,4 @@
-import { Button, Spin } from "antd";
+import { Spin } from "antd";
 import { DropdownHeaderFilterEvaluate } from "./DropdownHeaderFilterEvaluate";
 import { DropdownHeaderFilterAcademic } from "./DropdownHeaderFilterAcademic";
 import { CascaderHeaderFilter } from "./CascaderHeaderFilter";
@@ -18,7 +18,6 @@ import icon_four from "../../../utils/assets/nav/images/rectangle-25.png";
 
 import { Link } from "react-router-dom";
 import { apiGetThunksAsync } from "../../../utils/services/api/thunks";
-import { logout } from "../../../utils/services/helper/auth-helper";
 
 import { useEffect } from "react";
 
@@ -31,6 +30,7 @@ const HeaderComponent = () => {
     setAcademicPeriodOptions,
     evaluatePeriodOptions, 
     setEvaluatePeriodOptions,
+    // @ts-ignore
     currentRol,
     currentInstitution,
     currentCampus,
@@ -98,6 +98,7 @@ const HeaderComponent = () => {
           },
           {
             element: "currentCampus",
+            // @ts-ignore
             value: firstCampus
           }
         ])

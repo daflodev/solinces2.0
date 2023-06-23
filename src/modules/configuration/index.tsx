@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import "../../utils/assets/styles/testing.css";
 
@@ -27,13 +27,14 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import { sessionInformationStore } from "../../store/userInformationStore";
 import shallow from "zustand/shallow";
 
-import { renderCloseIcon } from "antd/es/modal/PurePanel";
 import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimiento/formEstablecimientoUsario";
 
 import MyForm from "../../utils/components/tableCheckbox/tableChecBox";
 
 import { FuncionarioPermitidosComponent } from "./components/optionsRender/tfuncionario_tpermitidos/tfuncionario_tpermitidos"
 import { SideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHook";
+import MembreteComponent from "../../utils/components/membrete";
+import { sideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHook";
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
@@ -133,9 +134,16 @@ const Settings: React.FC = () => {
         />
       );
     }
+
+    if (selectedItem?.nombre == "TCONFIGURACION_MEMBRETE") {
+      return (
+        <MembreteComponent/>
+      );
+    }
+
     return vanillaTable;
   };
-
+  // @ts-ignore
   const iconOptionsManager = (rol, selectedTable, selectedTableInformation, setTableInformationStatus) => {
 
     let result = (<>

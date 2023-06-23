@@ -1,7 +1,7 @@
 import {shallow} from "zustand/shallow";
 import { sessionInformationStore } from "../../../../store/userInformationStore";
 import { apiGetThunksAsync, apiPostThunksAsync } from "../../../services/api/thunks";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getUserToken } from "../../../utils";
 import { message } from "antd";
 import dayjs from 'dayjs';
@@ -10,8 +10,9 @@ export const useFormEstablecimiento = () => {
 
   const [messageApi, contextHolder] = message.useMessage()
 
-
+  // @ts-ignore
   const [itemsColumnsInformation, setItemsColumnsInformation] = useState([]);
+  // @ts-ignore
   const [inputFilter, setInputFilter] = useState({});
   const [initialValues, setInitialValue] = useState<object | null>(null);
 
@@ -60,7 +61,7 @@ export const useFormEstablecimiento = () => {
   const parserTokenInformation: any | null = tokenInformation
     ? JSON.parse(tokenInformation)
     : null;
-
+  // @ts-ignore
   const { currentRol, currentInstitution } = sessionInformationStore(
     (state) => ({
       currentRol: state.currentRol,

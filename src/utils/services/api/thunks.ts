@@ -3,8 +3,8 @@ import {
     ApiServicesThunksMainMenu,
     ApiServicesThunksMainMenuOptionsItem,
     ApiServicesPasswordChange,
-    ApiSedeJornada,
-    ApiSedeJornadaPost
+    ApiServicesMembrete,
+    ApiSedeJornada
   } from "./services";
   
   export const apiGetThunksAsync = async (data: any) => {
@@ -124,6 +124,18 @@ import {
     const resp = await ApiServicesPasswordChange(data)
       .then((response) => {
         console.log('respuesta cambio contraseña: ', response)
+      })
+      .catch((error) => {
+        return error.response;
+      });
+  
+    return resp;
+  };
+
+  export const apiGetUrlMembrete = async (data: any) => {
+    const resp = await ApiServicesMembrete(data)
+      .then((response) => {
+        return response.data.data
       })
       .catch((error) => {
         return error.response;

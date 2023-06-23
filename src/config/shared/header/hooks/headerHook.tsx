@@ -35,7 +35,7 @@ export const HeaderHook = () => {
             ?.map(word => word.charAt(0).toUpperCase() + word.slice(1))
             ?.join(" ");
     };
-
+    // @ts-ignore
     const onChangeCascaderHeaderFilter = (value: any, selectedOptions: any)=>{
 
         const newCampusSelected = {

@@ -67,3 +67,24 @@ export const ApiServicesPasswordChange = async (data: any) => {
   });
   return resp;
 };
+
+export const ApiServicesMembrete = async (data: any) => {
+
+    const url = "https://apisolinces.colombiaevaluadora.co/upload_file/";
+    const formData = new FormData();
+    
+    formData.append('file', data.file);
+    formData.append('idsede', data.idsede);
+    formData.append('descripcion',data.descripcion);
+    formData.append('etiqueta', data.etiqueta);
+
+    const resp = await axios.post(url, formData,{
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then((response) => {
+      return response;
+    });
+    return resp;
+
+};

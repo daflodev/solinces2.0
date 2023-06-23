@@ -1,10 +1,7 @@
 import { Col, DatePicker, Form, Input, Row, Select, Spin } from "antd";
-import { ErrorMessage, Field, Formik } from "formik";
 import "../../assets/styles/testing.css";
+// @ts-ignore
 import React, { useEffect, useState } from "react";
-import DatePickerAddForm from "../datepickeraddform";
-import MultiSelect from "../selectedform";
-import InputAddNumber from "../inputaddnumber";
 import { useFormEstablecimiento } from "./hooks/useFormEstablecimiento";
 import "../../assets/styles/formEstablecimiento.css";
 import dayjs from "dayjs";
@@ -14,8 +11,10 @@ import { saveIcon } from "../../assets/icon/iconManager";
 dayjs.extend(customParseFormat);
 
 const FormEstablecimiento = ({
+  // @ts-ignore
   setTitleState,
   keyValues,
+  // @ts-ignore
   selectItem,
   FKGroupData,
 

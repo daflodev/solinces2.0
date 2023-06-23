@@ -23,6 +23,7 @@ interface ColumnValue {
 }
 
 class QueryBuilders {
+  // @ts-ignore
   private model: string;
   private query: {
     table: string;
@@ -110,6 +111,12 @@ class QueryBuilders {
 
   async delete(): Promise<object> {
     this.query['delete'] = true
+    const getData = await apiPostThunksAsync(this.query);
+    return getData;
+  }
+
+  async columninfo(): Promise<object> {
+    this.query['columninfo'] = true
     const getData = await apiPostThunksAsync(this.query);
     return getData;
   }

@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import axios from "axios";
 
 import { getUser, login } from "../helper/auth-helper";
@@ -24,6 +23,7 @@ const interceptor = () => {
 
     return getUser().then((user: any) => {
       if (user && user.access_token) {
+        // @ts-ignore
         config.headers ={
           Authorization: `Bearer ${user.access_token}`,
           rol: `${currentRol}`,

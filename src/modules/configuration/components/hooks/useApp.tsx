@@ -6,6 +6,7 @@ import {
   apiGetThunksAsync,
   apiGetThunksMenuItemsOptionsAsync,
   apiPostThunksAsync,
+  // @ts-ignore
   apiPostThunksAsyncSedeJornada,
 } from "../../../../utils/services/api/thunks";
 import { useParams, useNavigate } from "react-router-dom";
@@ -163,7 +164,7 @@ export const UseSettigns = () => {
       return jsonArray;
     }
   };
-
+  // @ts-ignore
   const { currentRol, currentInstitution, currentCampus } =
     sessionInformationStore(
       (state) => ({

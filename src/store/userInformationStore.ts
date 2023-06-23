@@ -7,6 +7,7 @@ interface CompositeInformation {
 
 interface UpdateValueObject {
     element: "currentRol" | "currentCampus" | "currentInstitution" | "currentAcademicPeriod" | "currentAcademicYear",
+    // @ts-ignore
     value: string | CompositeInformation
 }
 
@@ -26,7 +27,7 @@ interface SessionInformationInterface {
 const rolFromLocalStorage = localStorage.getItem('current_rol');
 
 const currentRolFromLocalStorage = (rolFromLocalStorage && rolFromLocalStorage.length > 0) ? rolFromLocalStorage : null;
-
+// @ts-ignore
 export const sessionInformationStore = create<SessionInformationInterface>((set, get) => ({
     currentRol: currentRolFromLocalStorage,
     currentCampus: null,
