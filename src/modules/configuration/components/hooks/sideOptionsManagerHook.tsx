@@ -3,6 +3,7 @@ import { useJournySede } from "./useSedeJornada";
 import { Card, Col } from "antd";
 
 import MyForm from "../../../../utils/components/tableCheckbox/tableChecBox";
+import SedeInfraEstructuraFisica from "../../../../utils/components/formSedeInfra";
 
 export const sideOptionsManagerHook  = () =>{
     const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
@@ -41,6 +42,25 @@ const handleOpenSecondaryTable = async (record, nameSideOption) => {
             setSecondaryTableComponentRender(useSedeJornadaComponent);
 
             break;
+
+        case 'useSedeInfra':
+
+        setTableGridWidth(14)
+
+        journySedeGetData(record)
+
+        const useSedeInfraComponent = (
+            <Col md={6}>
+                <Card className="justify-content-center align-items-center ">
+                    <SedeInfraEstructuraFisica onClick={ handleCloseSecondaryTable} />
+                </Card>
+            </Col>
+
+        );
+
+        setSecondaryTableComponentRender(useSedeInfraComponent);
+
+        break;
     
         default:
             setIsSecondaryTableOpen(false);
