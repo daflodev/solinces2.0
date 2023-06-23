@@ -6,3 +6,15 @@
 .rows:hover{
     background-color: var(--low-gray);
 }
+
+.custom-table{
+    border-collapse: collapse;
+}
+
+
+
+  .custom-table th,
+  .custom-table td {
+    
+    border-bottom: 1px solid #ccc;
+  }

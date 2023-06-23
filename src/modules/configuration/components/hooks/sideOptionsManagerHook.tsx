@@ -50,17 +50,14 @@ export const SideOptionsManagerHook = () => {
     if (dataSede) {
       const useSedeJornadaComponent = (
         <Col md={6}>
-          <Card className="justify-content-center align-items-center ">
+          <Card>
             <MyForm
               data={dataSede}
               setData={setDataSede}
               handleSendData={handleSendData}
-             
-              checkboxData={checkboxData}
-              setCheckboxData={setCheckboxData}
               selectedValues={selectedValues}
               setSelectedValues={setSelectedValues}
-            onChange={handleCheckboxChange}
+              onChange={handleCheckboxChange}
             />
           </Card>
         </Col>
