@@ -4,28 +4,29 @@ import "../../utils/assets/styles/testing.css";
 
 import { useEffect } from "react";
 
+import { CloseOutlined, SettingOutlined } from "@ant-design/icons";
 import { Card, Col, Popconfirm, Row, Space, Spin, Table } from "antd";
-import { SettingOutlined, CloseOutlined } from "@ant-design/icons";
 
-import { UseSettigns } from "./components/hooks/useApp";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import "react-perfect-scrollbar/dist/css/styles.css";
+import shallow from "zustand/shallow";
+import { sessionInformationStore } from "../../store/userInformationStore";
 import {
   MinusOutlined,
   PlusOutlined,
   deleteIcon,
   downloadIcon,
   funcionarioPermisoIcon,
+  sedeInfraEstructuraFisicaIcon,
   sedeJornada,
 } from "../../utils/assets/icon/iconManager";
-import FormAdd from "../../utils/components/formadd";
-import SelectableSearch from "../../utils/components/selectablesearch";
-import { InputSearch } from "../../utils/components/inputsearch";
-import { EditableRow } from "../../utils/components/inputcells";
-import { EditableCell } from "../../utils/components/editablecells";
 import { withPrincipal } from "../../utils/components/content";
-import PerfectScrollbar from "react-perfect-scrollbar";
-import "react-perfect-scrollbar/dist/css/styles.css";
-import { sessionInformationStore } from "../../store/userInformationStore";
-import shallow from "zustand/shallow";
+import { EditableCell } from "../../utils/components/editablecells";
+import FormAdd from "../../utils/components/formadd";
+import { EditableRow } from "../../utils/components/inputcells";
+import { InputSearch } from "../../utils/components/inputsearch";
+import SelectableSearch from "../../utils/components/selectablesearch";
+import { UseSettigns } from "./components/hooks/useApp";
 
 import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimiento/formEstablecimientoUsario";
 
@@ -172,7 +173,14 @@ const Settings: React.FC = () => {
             >
               {sedeJornada}
             </div>
-  
+
+            <div
+              onClick={() => handleOpenSecondaryTable(selectedTableInformation, 'useSedeInfra')}
+              style={{ cursor: "pointer" }}
+            >
+              {sedeInfraEstructuraFisicaIcon}
+            </div>
+
             <Popconfirm
               title="seguro desea eliminar?"
               onConfirm={() => handleDelete(selectedTableInformation.key)}
