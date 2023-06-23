@@ -143,7 +143,7 @@ const Settings: React.FC = () => {
 
     return vanillaTable;
   };
-  // @ts-ignore
+ 
   const iconOptionsManager = (rol, selectedTable, selectedTableInformation, setTableInformationStatus) => {
 
     let result = (<>
@@ -389,7 +389,7 @@ const Settings: React.FC = () => {
             // }}
             loading={{
               indicator: <Spin tip="" size="large" />,
-              // @ts-ignore
+             
               spinning:
                 !dataTable || settingOptions?.length === 0 ? true : false,
             }}
@@ -419,7 +419,7 @@ const Settings: React.FC = () => {
                       <>
                         <Popconfirm
                           title="seguro desea eliminar?"
-                          // @ts-ignore
+                        
                           onConfirm={handleDeleteGroup}
                           style={{ visibility: "hidden" }}
                         >

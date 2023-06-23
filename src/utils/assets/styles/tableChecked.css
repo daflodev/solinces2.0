@@ -9,12 +9,28 @@
 
 .custom-table{
     border-collapse: collapse;
+    width: 100%;
 }
 
-
-
-  .custom-table th,
+.custom-table th {
+  color: var(--high-gray);
+  font-size: 14px;
+  font-weight: 400;
+}
+  
   .custom-table td {
     
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid;
+    border-color: var(--mid-gray);
+    
   }
+
+.custom-table{
+  width: 100%;
+}
+
+.custom-table tr{
+    max-width: 2000% !important;
+    width: 300% !important;  
+height: 34px;
+}

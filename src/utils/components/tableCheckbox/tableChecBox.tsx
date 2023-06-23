@@ -13,15 +13,26 @@ interface propsJourny {
   selectedRowKeys?: any;
   setSelectedRowKeys?: any;
   selectedValues?: any;
-  setSelectedValues: any;
   onChange?: () => void;
 }
 
 const MyForm: React.FC<propsJourny> = (props) => {
   const [selectedValues, setSelectedValues] = useState(props.selectedValues);
+  const [indeterminate, setIndeterminate] = useState(true);
+  const [checkAll, setCheckAll] = useState(false);
+
   const handleCheckboxChange = (index) => {
     console.log(index, "index");
     setSelectedValues(index);
+    setIndeterminate(!!index.length && index.length < props.data.length);
+    setCheckAll(index.length === props.data.length);
+  };
+
+ const onCheckAllChange = (e) => {
+  console.log(props.data.map(item => item.PK_TJORNADA))
+    setSelectedValues(e.target.checked ?  props.data.map(item => item.PK_TJORNADA) : []);
+    setIndeterminate(false);
+    setCheckAll(e.target.checked);
   };
 
   useEffect(() => {
@@ -30,13 +41,14 @@ const MyForm: React.FC<propsJourny> = (props) => {
 
   return (
     <>
-      <Checkbox.Group value={selectedValues} onChange={handleCheckboxChange}>
-        <table  className="custom-table">
+      
+       
+       <table  className="custom-table">
           <thead>
             <tr>
               <td>
                 <th>
-                  <Checkbox></Checkbox>
+                  <Checkbox onChange={onCheckAllChange} indeterminate={indeterminate} checked={checkAll}/>
                 </th>
               </td>
               <td>
@@ -48,20 +60,22 @@ const MyForm: React.FC<propsJourny> = (props) => {
               </td>
             </tr>
           </thead>
+          <Checkbox.Group value={selectedValues} onChange={handleCheckboxChange}> 
           <tbody>
             {props.data.map((item) => (
               <tr key={item.PK_TJORNADA + "_key"}>
+                
                 <td style={{paddingRight: 20}}>
-                  <Checkbox value={item.PK_TJORNADA} />
-                </td>
+                 <Checkbox value={item.PK_TJORNADA} />
+</td> 
                 <td  style={{paddingRight: 20, alignItems: "center"}}>{item.NOMBRE}</td>
                 <td style={{ alignContent: "center"}}>{item.CODIGO}</td>
               </tr>
             ))}
-          </tbody>
-        </table>
-      </Checkbox.Group>
+          </tbody> </Checkbox.Group>                
 
+        </table>
+    
       <div
         onClick={() => {
           props?.handleSendData(selectedValues);

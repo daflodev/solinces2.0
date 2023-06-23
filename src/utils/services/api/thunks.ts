@@ -4,7 +4,8 @@ import {
     ApiServicesThunksMainMenuOptionsItem,
     ApiServicesPasswordChange,
     ApiServicesMembrete,
-    ApiSedeJornada
+    ApiSedeJornada,
+    ApiSedeJornadaPost
   } from "./services";
   
   export const apiGetThunksAsync = async (data: any) => {

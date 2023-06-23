@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useJournySede } from "./useSedeJornada";
-import { Card, Col } from "antd";
+import { Card, Col, Spin } from "antd";
 
 import MyForm from "../../../../utils/components/tableCheckbox/tableChecBox";
 
@@ -17,20 +17,18 @@ export const SideOptionsManagerHook = () => {
     journySedeGetData,
     handleSendData,
     setDataSede,
-    checkboxData,
-    setCheckboxData,
     selectedValues,
-    setSelectedValues,
-    handleCheckboxChange,
+    // handleCheckboxChange,
   }: any = useJournySede();
 
   const handleCloseSecondaryTable = () => {
-    setSecondaryTableComponentRender(<></>);
+    setSecondaryTableComponentRender(<Col span={2} style={{justifyContent:"center", alignItems:"center", display:"flex", width:"100%", height:"100%"}}><Spin tip="" size="large" /></Col>);
     setDataSede(null);
     setIsSecondaryTableOpen(false);
   };
 
   const handleOpenSecondaryTable = async (record, nameSideOption) => {
+    handleCloseSecondaryTable()
     setIsSecondaryTableOpen(true);
 
     switch (nameSideOption) {
@@ -56,8 +54,7 @@ export const SideOptionsManagerHook = () => {
               setData={setDataSede}
               handleSendData={handleSendData}
               selectedValues={selectedValues}
-              setSelectedValues={setSelectedValues}
-              onChange={handleCheckboxChange}
+              // onChange={handleCheckboxChange}
             />
           </Card>
         </Col>

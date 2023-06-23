@@ -16,6 +16,7 @@ export const useJournySede = () => {
 
   const [checkboxData, setCheckboxData] = useState<DataItem[]>([]);
   const [selectedValues, setSelectedValues] = useState([]);
+  
 
   const journySedeGetData = async (record) => {
     console.log("record: ", record);
@@ -57,11 +58,11 @@ export const useJournySede = () => {
 // }
 
 
-  const handleCheckboxChange = (index) => {
-    console.log(index, "index");
+  // const handleCheckboxChange = (index) => {
+  //   console.log(index, "index");
 
-    setSelectedValues(index);
-  };
+  //   setSelectedValues(index);
+  // };
 
   const handleSendData = (selectedValues): void => {
     const preData = [...dataSede]
@@ -109,6 +110,6 @@ for(let i = 0; i < dataSede.length; i++){
     setCheckboxData,
     selectedValues,
     setSelectedValues,
-    handleCheckboxChange,
+    // handleCheckboxChange,
   };
 };
