@@ -3,13 +3,18 @@ import {
   apiGetThunksAsyncSedeJornada,
   apiPostThunksAsyncSedeJornada,
 } from "../../../../utils/services/api/thunks";
+import message from "antd/es/message";
 interface DataItem {
   PK_TJORNADA: any;
   NOMBRE: any;
   CODIGO: any;
   BOOLEAN_FIELD: any;
-  PK_TSEDE:any;
 }
+
+interface Getpk {
+  PK_TSEDE: any;
+}
+
 export const useJournySede = () => {
   const [dataSede, setDataSede] = useState<DataItem[]>([]);
   const [selectAll, setSelectAll] = useState(false);
@@ -17,13 +22,20 @@ export const useJournySede = () => {
 
   const [checkboxData, setCheckboxData] = useState<DataItem[]>([]);
   const [selectedValues, setSelectedValues] = useState([]);
-  const [pkSede, setPksede] = useState<DataItem[]>([])
-  
+  const [pkSede, setPksede] = useState<Getpk[]>([]);
+  //manejos de estado del mensaje al editar, enviar o eliminar un dato
+  const [processMessage, setProcessMessage] = useState({
+    message: "",
+    style: "",
+  });
+
+  const [messageApi, contextHolder] = message.useMessage();
 
   const journySedeGetData = async (record) => {
     console.log("record: ", record);
+    // const getPK = record["PK_TSEDE"]
 
-setPksede(record)
+    setPksede(record);
 
     await apiGetThunksAsyncSedeJornada(record.PK_TSEDE)
       .then((response) => {
@@ -44,68 +56,100 @@ setPksede(record)
       });
   };
 
-
-  const reemplazarNombresCampos=(arrayObjetos, nombreCampo, nuevoNombreCampo)=> {
-    return arrayObjetos.map(objeto => {
+  const reemplazarNombresCampos = (
+    arrayObjetos,
+    nombreCampo,
+    nuevoNombreCampo
+  ) => {
+    return arrayObjetos.map((objeto) => {
       const nuevoObjeto = {};
       for (const campo in objeto) {
-        const nuevoCampo = (campo === nombreCampo) ? nuevoNombreCampo : campo;
+        const nuevoCampo = campo === nombreCampo ? nuevoNombreCampo : campo;
         nuevoObjeto[nuevoCampo] = objeto[campo];
       }
       return nuevoObjeto;
     });
-  }
-  console.log(dataSede)
+  };
 
-  const handleSendData = (selectedValues): void => {
-    const preData = [...dataSede]
-   
- const resultado = preData.map((objeto) =>{
-  if(selectedValues.includes(objeto.PK_TJORNADA)){
+  const handleSendData = async (selectedValues, cerrarTable) => {
+    const preData = [...dataSede];
 
-    const newObeject = {...objeto}
-    newObeject.BOOLEAN_FIELD = true
-    console.log(newObeject)
+    const resultado = preData.map((objeto) => {
+      if (selectedValues.includes(objeto.PK_TJORNADA)) {
+        const newObeject = { ...objeto };
+        newObeject.BOOLEAN_FIELD = true;
+        console.log(newObeject);
+
+        return newObeject;
+      } else {
+        const newObeject = { ...objeto };
+        newObeject.BOOLEAN_FIELD = false;
+        console.log(newObeject);
+
+        return newObeject;
+      }
+    });
+    const newArray: any[] = [];
+    for (let i = 0; i < dataSede.length; i++) {
+      const objetoA = dataSede[i];
+      const objetoB = resultado[i];
+      if (objetoA.BOOLEAN_FIELD !== objetoB.BOOLEAN_FIELD) {
+        newArray.push(objetoB);
+      }
+    }
+
+    const deleteField = ["NOMBRE", "CODIGO"];
+
+    const newObject = newArray.map((obeject) => {
+      const duplicateObject = { ...obeject };
+      deleteField.forEach((campo) => delete duplicateObject[campo]);
+      return duplicateObject;
+    });
+
+    const changeName = reemplazarNombresCampos(
+      newObject,
+      "PK_TJORNADA",
+      "FK_TJORNADA"
+    );
+
+    const nameField = "PK_TSEDE";
+    const modifiedArray = changeName.map((item) => {
+      const dataField = pkSede[nameField];
+      const newObj = {
+        ...item,
+        FK_TSEDE: dataField,
+      };
+      return newObj;
+    });
+
+    console.log(modifiedArray);
+    await apiPostThunksAsyncSedeJornada(modifiedArray).then((response) => {
+      if (response.status == "success") {
+        messageApi.open({
+          type: "success",
+          content: "se ha modificado las jornada a la sede",
+        });
+
+        setTimeout(() => {
+          cerrarTable();
+        }, 2000);
+        
     
-    return  newObeject
-  }else{
-    const newObeject = {...objeto}
-    newObeject.BOOLEAN_FIELD = false
-    console.log(newObeject)
-    
-    return  newObeject
-  }
- })
- const newArray:any[] = []
-for(let i = 0; i < dataSede.length; i++){
-  const objetoA = dataSede[i]
-  const objetoB = resultado[i]
-  if(objetoA.BOOLEAN_FIELD !== objetoB.BOOLEAN_FIELD){
-     newArray.push(objetoB)
-  }
-    
-  }
-
-  const deleteField = ["NOMBRE", "CODIGO"];
-
-  const newObject = newArray.map(obeject => {
-    const duplicateObject = {...obeject};
-    deleteField.forEach(campo => delete duplicateObject[campo])
-    return duplicateObject
-  })
-
-const changeName = reemplazarNombresCampos(newObject, "PK_TJORNADA", "FK_TJORNADA" )
-
-
-
-  console.log(changeName, " resultado")
-  }
+      } else {
+        messageApi.open({
+          type: "error",
+          content: "no se pudo hacer el cambio a las jornadas",
+        });
+      }
+    });
+  };
 
   return {
     dataSede,
     journySedeGetData,
-
+    processMessage,
     handleSendData,
+    contextHolder,
     setDataSede,
     selectAll,
     setSelectAll,

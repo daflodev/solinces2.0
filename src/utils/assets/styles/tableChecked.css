@@ -1,13 +1,4 @@
-.selected-row{
-    background-color: aqua;
-}
-
-
-.rows:hover{
-    background-color: var(--low-gray);
-}
-
-.custom-table{
+custom-table{
     border-collapse: collapse;
     width: 100%;
 }
@@ -25,12 +16,3 @@
     
   }
 
-.custom-table{
-  width: 100%;
-}
-
-.custom-table tr{
-    max-width: 2000% !important;
-    width: 300% !important;  
-height: 34px;
-}

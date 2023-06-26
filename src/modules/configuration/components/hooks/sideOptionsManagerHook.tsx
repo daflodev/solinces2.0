@@ -3,6 +3,7 @@ import { useJournySede } from "./useSedeJornada";
 import { Card, Col, Spin } from "antd";
 
 import MyForm from "../../../../utils/components/tableCheckbox/tableChecBox";
+import { equisIcon } from "../../../../utils/assets/icon/iconManager";
 
 export const SideOptionsManagerHook = () => {
   const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
@@ -18,6 +19,7 @@ export const SideOptionsManagerHook = () => {
     handleSendData,
     setDataSede,
     selectedValues,
+    contextHolder
     // handleCheckboxChange,
   }: any = useJournySede();
 
@@ -47,17 +49,23 @@ export const SideOptionsManagerHook = () => {
   useEffect(() => {
     if (dataSede) {
       const useSedeJornadaComponent = (
+        <>
+        {contextHolder}
         <Col md={6}>
-          <Card>
+          <Card title="Tsede_jornada" extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}>
             <MyForm
               data={dataSede}
               setData={setDataSede}
               handleSendData={handleSendData}
               selectedValues={selectedValues}
               // onChange={handleCheckboxChange}
+              onClick={handleCloseSecondaryTable}
             />
           </Card>
         </Col>
+        </>
+        
+        
       );
 
       setSecondaryTableComponentRender(useSedeJornadaComponent);
