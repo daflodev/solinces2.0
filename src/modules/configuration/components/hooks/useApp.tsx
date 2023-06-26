@@ -189,6 +189,8 @@ export const UseSettigns = () => {
 
 
       console.log(results);
+     
+
       const dataSede = {
         base: tableDateBase.table,
         schema: parserTokenInformation?.dataSchema[0],
