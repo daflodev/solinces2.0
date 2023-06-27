@@ -4,6 +4,7 @@ import { Card, Col, Spin } from "antd";
 
 import MyForm from "../../../../utils/components/tableCheckbox/tableChecBox";
 import { equisIcon } from "../../../../utils/assets/icon/iconManager";
+import { useNivelSede } from "./useSedeNivel";
 
 export const SideOptionsManagerHook = () => {
   const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
@@ -19,18 +20,39 @@ export const SideOptionsManagerHook = () => {
     handleSendData,
     setDataSede,
     selectedValues,
-    contextHolder
-    // handleCheckboxChange,
-  }: any = useJournySede();
+    contextHolder,
+  }: // handleCheckboxChange,
+  any = useJournySede();
+  const {
+    nivelSedeGetData,
+    handleSendDataNivel,
+    dataSedeNivel,
+    setDataSedeNivel,
+    selectedValuesNivel,
+  }:any = useNivelSede();
 
   const handleCloseSecondaryTable = () => {
-    setSecondaryTableComponentRender(<Col span={2} style={{justifyContent:"center", alignItems:"center", display:"flex", width:"100%", height:"100%"}}><Spin tip="" size="large" /></Col>);
+    setSecondaryTableComponentRender(
+      <Col
+        span={2}
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          display: "flex",
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        <Spin tip="" size="large" />
+      </Col>
+    );
     setDataSede(null);
+    setDataSedeNivel(null)
     setIsSecondaryTableOpen(false);
   };
 
   const handleOpenSecondaryTable = async (record, nameSideOption) => {
-    handleCloseSecondaryTable()
+    handleCloseSecondaryTable();
     setIsSecondaryTableOpen(true);
 
     switch (nameSideOption) {
@@ -39,6 +61,10 @@ export const SideOptionsManagerHook = () => {
 
         journySedeGetData(record);
 
+        break;
+      case "useSedeNivel":
+        setTableGridWidth(14);
+        nivelSedeGetData(record);
         break;
 
       default:
@@ -50,27 +76,52 @@ export const SideOptionsManagerHook = () => {
     if (dataSede) {
       const useSedeJornadaComponent = (
         <>
-        {contextHolder}
-        <Col md={6}>
-          <Card title="Tsede_jornada" extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}>
-            <MyForm
-              data={dataSede}
-              setData={setDataSede}
-              handleSendData={handleSendData}
-              selectedValues={selectedValues}
-              // onChange={handleCheckboxChange}
-              onClick={handleCloseSecondaryTable}
-            />
-          </Card>
-        </Col>
+          {contextHolder}
+          <Col md={6}>
+            <Card
+              title="Tsede_jornada"
+              extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
+            >
+              <MyForm
+                data={dataSede}
+                setData={setDataSede}
+                handleSendData={handleSendData}
+                selectedValues={selectedValues}
+                // onChange={handleCheckboxChange}
+                onClick={handleCloseSecondaryTable}
+                rowKey="PK_TJORNADA"
+              />
+            </Card>
+          </Col>
         </>
-        
-        
       );
 
       setSecondaryTableComponentRender(useSedeJornadaComponent);
+    } else if (dataSedeNivel) {
+      const useSedeNivelComponent = (
+        <>
+          {contextHolder}
+          <Col md={6}>
+            <Card
+              title="Tsede_jornada"
+              extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
+            >
+              <MyForm
+                data={dataSedeNivel}
+                setData={setDataSedeNivel}
+                handleSendData={handleSendDataNivel}
+                selectedValues={selectedValuesNivel}
+                // onChange={handleCheckboxChange}
+                onClick={handleCloseSecondaryTable}
+                rowKey="PK_TNIVEL_ENSENANZA"
+              />
+            </Card>
+          </Col>
+        </>
+      );
+      setSecondaryTableComponentRender(useSedeNivelComponent);
     }
-  }, [dataSede]);
+  }, [dataSede, dataSedeNivel]);
   return {
     isSecondaryTableOpen,
     handleOpenSecondaryTable,

@@ -10,11 +10,10 @@ interface propsJourny {
   handleSendData: (selectedValues, onClick) => void;
   data?: any;
   setData?: any;
-  selectedRowKeys?: any;
-  setSelectedRowKeys?: any;
   selectedValues?: any;
   onChange?: () => void;
   onClick?: () => void;
+  rowKey?: string
 }
 
 const MyForm: React.FC<propsJourny> = (props) => {
