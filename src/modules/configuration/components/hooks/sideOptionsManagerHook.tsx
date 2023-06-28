@@ -5,6 +5,7 @@ import { Card, Col, Spin } from "antd";
 import MyForm from "../../../../utils/components/tableCheckbox/tableChecBox";
 import { equisIcon } from "../../../../utils/assets/icon/iconManager";
 import { useNivelSede } from "./useSedeNivel";
+import SedeInfraEstructuraFisica from "../../../../utils/components/formSedeInfra";
 
 export const SideOptionsManagerHook = () => {
   const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
@@ -51,6 +52,20 @@ export const SideOptionsManagerHook = () => {
     setIsSecondaryTableOpen(false);
   };
 
+
+  const useSedeInfraComponente= (
+    <>
+    {/* {contextHolder} */}
+          <Col md={8}>
+            <Card
+              extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
+            >
+              <SedeInfraEstructuraFisica/>
+            </Card>
+          </Col>
+    </>
+  )
+
   const handleOpenSecondaryTable = async (record, nameSideOption) => {
     handleCloseSecondaryTable();
     setIsSecondaryTableOpen(true);
@@ -66,6 +81,13 @@ export const SideOptionsManagerHook = () => {
         setTableGridWidth(14);
         nivelSedeGetData(record);
         break;
+        case "useSedeInfra":
+
+         setSecondaryTableComponentRender(useSedeInfraComponente)
+          
+          setTableGridWidth(12);
+          setIsSecondaryTableOpen(true)
+          break
 
       default:
         setIsSecondaryTableOpen(false);

@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import "./sedeInfra.css";
+import "../../../utils/assets/styles/sedeInfra.css";
+
 import {
     Col,
     DatePicker,
@@ -10,7 +11,6 @@ import {
     Typography
 } from 'antd';
 import { equisIcon, saveIcon } from '../../assets/icon/iconManager';
-
 
 interface infraProps{
     onClick?: ()=> void;
@@ -33,22 +33,14 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
         setSelectedData(selectedRows);
     }
 
+    
+
         const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
+
+        
 
         return (
             <>
-            <Row>
-                <Col span={12}>
-                    <Typography.Title level={3}>tsede_infraestructura</Typography.Title>
-                </Col>
-                <Col span={12}>
-                    <Row justify="end">
-                        <div onClick={props.onClick} style={{cursor: "pointer"}}>{equisIcon}</div>
-                            
-                        
-                    </Row>
-                </Col>
-            </Row>
             <Form
                 labelCol={{ span: 4 }}
                 wrapperCol={{ span: 14 }}
