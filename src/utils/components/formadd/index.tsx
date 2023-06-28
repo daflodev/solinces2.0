@@ -22,12 +22,27 @@ const FormAdd = ({
   handleSubmit: any;
   itemsInformation: any;
 }) => {
-  const initialValuesPrimary = {
-    ...keyValues,
-    AUTHOR_RC: "1",
-    CLIENTS_RC: "1",
-  };
+  // 
+  const initialValuesGeneraitor = (keys, columInfo) => {
 
+    const cloneKeys = {...keys}
+  
+    for (const columnItem of columInfo) {
+      if (columnItem.is_nullable === 'YES' && cloneKeys.hasOwnProperty(columnItem.column_name)) {
+        cloneKeys[columnItem.column_name] = null;
+      }
+    }
+  
+    return {
+      ...cloneKeys,
+      AUTHOR_RC: "1",
+      CLIENTS_RC: "1",
+    }
+  } 
+  
+    const initialValuesPrimary = initialValuesGeneraitor(keyValues, itemsInformation);
+
+  // 
   const processVarCharTypeRules = (columnQualityInformation: any) => {
     if (columnQualityInformation?.is_nullable == "NO") {
       return Yup.string()
@@ -46,7 +61,7 @@ const FormAdd = ({
     }
 
     if (columnQualityInformation?.is_nullable == "YES") {
-      return Yup.string();
+      return null
     }
   };
 
