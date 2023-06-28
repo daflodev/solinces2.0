@@ -1,0 +1,15 @@
+.changeColorInputRed .ant-select-selector{
+    border-radius: 5px;
+    border: 2px solid !important;
+    border-color: #DB0000 !important;
+    width: 100% !important;
+    background-color: #f3282828 !important;
+}
+
+.changeColorInputYellow .ant-select-selector{
+    border-radius: 5px;
+    border: 2px solid !important;
+    border-color: #EA9000 !important;
+    width: 100% !important;
+    background-color: #ffa41233 !important;
+}
