@@ -114,26 +114,31 @@ const FormAdd = ({
         return (
           <>
             <Row gutter={[16, 16]}>
-              <Field
-                className={validateInputColorRed ? 'changeColorInputRed': validateInputColorYellow ? 'changeColorInputYellow' : null}
-                component={MultiSelect}
-                placeholder={columnName}
-                id={columnName}
-                name={columnName}
-                autoComplete="off"
-                options={optionsManager(FKGroupData[columnName], columnName)}
-                filterOption={(input: any, option: any) =>
-                  (option?.label ?? "")
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-              />
+              <Col>
+                <Field
+                  className={validateInputColorRed ? 'changeColorInputRed': validateInputColorYellow ? 'changeColorInputYellow' : null}
+                  component={MultiSelect}
+                  placeholder={columnName}
+                  id={columnName}
+                  name={columnName}
+                  autoComplete="off"
+                  options={optionsManager(FKGroupData[columnName], columnName)}
+                  filterOption={(input: any, option: any) =>
+                    (option?.label ?? "")
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                />
 
-              <ErrorMessage
-                name={columnName}
-                component={"div"}
-                className="text-danger"
-              />
+                <ErrorMessage
+                  name={columnName}
+                  component={"div"}
+                  className="text-danger"
+                />
+                {validateInputColorRed &&(<div style={{}}>Peligro | Sin datos</div>)}
+                {validateInputColorYellow &&(<div style={{}}>Advertencia | Sin datos</div>)}
+              </Col>
+              
             </Row>
             <br />
           </>
@@ -290,6 +295,7 @@ const FormAdd = ({
                       </button>
                     </div>
                   </Row>
+                  
                 </Col>
               </Row>
             </div>
