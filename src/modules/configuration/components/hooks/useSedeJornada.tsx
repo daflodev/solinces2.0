@@ -16,7 +16,7 @@ interface Getpk {
 }
 
 export const useJournySede = () => {
-  const [dataSede, setDataSede] = useState<DataItem[] | null>(null);
+  const [dataSede, setDataSede] = useState<DataItem[]>([]);
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 

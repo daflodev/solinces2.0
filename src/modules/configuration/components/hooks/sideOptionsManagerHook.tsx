@@ -89,7 +89,7 @@ export const SideOptionsManagerHook = () => {
                 selectedValues={selectedValues}
                 // onChange={handleCheckboxChange}
                 onClick={handleCloseSecondaryTable}
-                rowKey="PK_TJORNADA"
+                rowKey="PK_TJORNADA"               
               />
             </Card>
           </Col>
@@ -103,7 +103,7 @@ export const SideOptionsManagerHook = () => {
           {contextHolder}
           <Col md={6}>
             <Card
-              title="Tsede_jornada"
+              title="Tsede_nivel"
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
             >
               <MyForm
@@ -114,6 +114,7 @@ export const SideOptionsManagerHook = () => {
                 // onChange={handleCheckboxChange}
                 onClick={handleCloseSecondaryTable}
                 rowKey="PK_TNIVEL_ENSENANZA"
+                
               />
             </Card>
           </Col>

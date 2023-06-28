@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Table, Modal, Checkbox, Row, Col } from "antd";
 import { saveIcon, equisIcon } from "../../assets/icon/iconManager";
 import type { CheckboxValueType } from "antd/es/checkbox/Group";
-import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import "../../assets/styles/tableChecked.css";
-import { useJournySede } from "../../../modules/configuration/components/hooks/useSedeJornada";
+
 
 interface propsJourny {
   handleSendData: (selectedValues, onClick) => void;
@@ -13,7 +12,7 @@ interface propsJourny {
   selectedValues?: any;
   onChange?: () => void;
   onClick?: () => void;
-  rowKey?: string
+  rowKey?: string;
 }
 
 const MyForm: React.FC<propsJourny> = (props) => {
@@ -29,10 +28,19 @@ const MyForm: React.FC<propsJourny> = (props) => {
   };
 
   const onCheckAllChange = (e) => {
-    console.log(props.data.map((item) => item.PK_TJORNADA));
-    setSelectedValues(
-      e.target.checked ? props.data.map((item) => item.PK_TJORNADA) : []
-    );
+    let updatedSelectedValues = [];
+    if (props.rowKey === "PK_TJORNADA") {
+      updatedSelectedValues = e.target.checked
+      ? props.data.map((item) => item.PK_TJORNADA)
+      : [];
+      
+    } else if (props.rowKey === "PK_TNIVEL_ENSENANZA") {
+      updatedSelectedValues = e.target.checked
+      ? props.data.map((item) => item.PK_TNIVEL_ENSENANZA)
+      : [];
+     
+    } 
+    setSelectedValues(updatedSelectedValues)
     setIndeterminate(false);
     setCheckAll(e.target.checked);
   };
@@ -50,8 +58,8 @@ const MyForm: React.FC<propsJourny> = (props) => {
           checked={checkAll}
         />
       ),
-      dataIndex: "PK_TJORNADA",
-      key: "PK_TJORNADA",
+      dataIndex: props.rowKey,
+      key: props.rowKey,
       render: (value) => (
         <Checkbox
           checked={selectedValues.includes(value)}
