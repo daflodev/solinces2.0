@@ -58,7 +58,7 @@ export const HeaderHook = () => {
     }
 
     const onChangeAcademicYear = (value: any) => {
-
+        localStorage.setItem('currentAcademicYear', value )
         updateValue({
             element: 'currentAcademicYear',
             value: value

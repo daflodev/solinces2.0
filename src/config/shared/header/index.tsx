@@ -136,6 +136,7 @@ const HeaderComponent = () => {
         const { getdata }: any = response;
 
         const res = academicPeriodResponseDigestor(getdata);
+        localStorage.setItem('currentAcademicYear', res[0]?.key )
 
         updateValue({
             element: "currentAcademicYear",
