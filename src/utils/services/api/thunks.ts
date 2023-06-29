@@ -5,7 +5,9 @@ import {
     ApiServicesPasswordChange,
     ApiServicesMembrete,
     ApiSedeJornada,
-    ApiSedeJornadaPost
+    ApiSedeJornadaPost,
+    ApiSedeNivelPost,
+    ApiSedeNivel
   } from "./services";
   
   export const apiGetThunksAsync = async (data: any) => {
@@ -49,6 +51,34 @@ import {
 
   export const apiGetThunksAsyncSedeJornada = async (data: any) => {
     const resp = await ApiSedeJornada(data)
+      .then((response) => {
+        const getdata = response.data;
+        return getdata;
+      })
+      .catch((error) => {
+        return error.response;
+      });
+  
+    return resp;
+  };
+
+
+  export const apiPostThunksAsyncSedeNivel= async (data: any) => {
+    const resp = await ApiSedeNivelPost(data)
+      .then((response) => {
+        const getdata = response.data;
+        return getdata;
+      })
+      .catch((error) => {
+        return error.response;
+      });
+  
+    return resp;
+  };
+
+
+  export const apiGetThunksAsyncSedeNivel = async (data: any) => {
+    const resp = await ApiSedeNivel(data)
       .then((response) => {
         const getdata = response.data;
         return getdata;

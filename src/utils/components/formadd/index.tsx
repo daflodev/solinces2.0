@@ -1,11 +1,13 @@
 import { SaveOutlined } from "@ant-design/icons";
 
 import { Col, Row } from "antd";
-import { ErrorMessage, Field, Formik, Form } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Yup } from "../../utils";
-import MultiSelect from "../selectedform";
-import InputAddNumber from "../inputaddnumber";
 import DatePickerAddForm from "../datepickeraddform";
+import InputAddNumber from "../inputaddnumber";
+import MultiSelect from "../selectedform";
+import './formaddStyle.css';
+
 
 const FormAdd = ({
   setTitleState,
@@ -105,33 +107,38 @@ const FormAdd = ({
       );
 
       if (columnName.startsWith("FK_")) {
+        const data = optionsManager(FKGroupData[columnName], columnName)
+        const columnInformationColor = itemsInformation.filter((item) => item.column_name == columnName)
+        const validateInputColorRed = (data == undefined || data?.lenght == 0) && columnInformationColor[0].is_nullable == 'NO'
+        const validateInputColorYellow = (data == undefined || data?.lenght == 0) && columnInformationColor[0].is_nullable == 'YES'
         return (
           <>
             <Row gutter={[16, 16]}>
-              <Field
-                component={MultiSelect}
-                style={{
-                  borderRadius: "5px",
-                  border: "2px solid #e2e2e2",
-                  padding: "5px",
-                }}
-                placeholder={columnName}
-                id={columnName}
-                name={columnName}
-                autoComplete="off"
-                options={optionsManager(FKGroupData[columnName], columnName)}
-                filterOption={(input: any, option: any) =>
-                  (option?.label ?? "")
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-              />
+              <Col>
+                <Field
+                  className={validateInputColorRed ? 'changeColorInputRed': validateInputColorYellow ? 'changeColorInputYellow' : null}
+                  component={MultiSelect}
+                  placeholder={columnName}
+                  id={columnName}
+                  name={columnName}
+                  autoComplete="off"
+                  options={optionsManager(FKGroupData[columnName], columnName)}
+                  filterOption={(input: any, option: any) =>
+                    (option?.label ?? "")
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                />
 
-              <ErrorMessage
-                name={columnName}
-                component={"div"}
-                className="text-danger"
-              />
+                <ErrorMessage
+                  name={columnName}
+                  component={"div"}
+                  className="text-danger"
+                />
+                {validateInputColorRed &&(<div style={{}}>Peligro | Sin datos</div>)}
+                {validateInputColorYellow &&(<div style={{}}>Advertencia | Sin datos</div>)}
+              </Col>
+              
             </Row>
             <br />
           </>
@@ -288,6 +295,7 @@ const FormAdd = ({
                       </button>
                     </div>
                   </Row>
+                  
                 </Col>
               </Row>
             </div>

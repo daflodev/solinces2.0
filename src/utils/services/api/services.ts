@@ -29,6 +29,28 @@ export const ApiSedeJornadaPost = async (data) => {
   return resp;
 };
 
+
+
+export const ApiSedeNivel = async (data: any) => {
+  const url = `https://apisolinces.colombiaevaluadora.co/level_sede/${data}`;
+
+  const resp = await axios.get(url).then((response) => {
+    return response;
+  });
+  return resp;
+};
+
+export const ApiSedeNivelPost = async (data) => {
+  const url = `https://apisolinces.colombiaevaluadora.co/level_sede/`;
+
+  const resp = await axios
+    .post(url,data )
+    .then((response) => {
+      return response;
+    });
+  return resp;
+};
+
 export const ApiServicesThunksMainMenu = async () => {
   const url = "https://apisolinces.colombiaevaluadora.co/menu/";
   const resp = await axios.get(url).then((response) => {

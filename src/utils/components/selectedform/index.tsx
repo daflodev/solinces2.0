@@ -8,11 +8,13 @@ const MultiSelect = ({
     // @ts-ignore
     isMulti = false,
     placeholder = '',
-    filterOption
+    filterOption,
+    className,
 }) => {
 
     return (
         <Select
+            className={className}
             options={options}
             // @ts-ignore
             name={field.name}
