@@ -6,10 +6,10 @@ export const useSedeInfra  = () =>{
     const [isSedeInfraSecondaryTableOpen, setIsSedeInfraSecondaryTableOpen] = useState(false);
 
 
-    const [dataSedeInfra, setDataSedeInfra] = useState([])
+    // const [dataSedeInfra, setDataSedeInfra] = useState([])
 
 
-const handleOpenSedeInfraSecondaryTable = async (record) => {
+const handleOpenSedeInfraSecondaryTable = async () => {
     setIsSedeInfraSecondaryTableOpen(true);
   };
   const handleCloseSedeInfraSecondaryTable = () => {
