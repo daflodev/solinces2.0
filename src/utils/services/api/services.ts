@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const ApiServicesThunks = async (data: any) => {
-  const url = "http://localhost:3001/base/";
+  const url = "https://apisolinces.colombiaevaluadora.co/base/";
 
   const resp = await axios.post(url, data).then((response) => {
     return response;
@@ -10,7 +10,7 @@ export const ApiServicesThunks = async (data: any) => {
 };
 
 export const ApiSedeJornada = async (data: any) => {
-  const url = `http://localhost:3001/journy_sede/${data}`;
+  const url = `https://apisolinces.colombiaevaluadora.co/journy_sede/${data}`;
 
   const resp = await axios.get(url).then((response) => {
     return response;
@@ -52,7 +52,7 @@ export const ApiSedeNivelPost = async (data) => {
 };
 
 export const ApiServicesThunksMainMenu = async () => {
-  const url = "http://localhost:3001/menu/";
+  const url = "https://apisolinces.colombiaevaluadora.co/menu/";
   const resp = await axios.get(url).then((response) => {
     return response;
   });
@@ -65,7 +65,7 @@ export const ApiServicesThunksMainMenuOptionsItem = async (data: any) => {
   //   url:"opcion"
   // }
 
-  const url = "http://localhost:3001/menu_kids/";
+  const url = "https://apisolinces.colombiaevaluadora.co/menu_kids/";
   const resp = await axios.post(url, data).then((response) => {
     return response;
   });
@@ -92,7 +92,7 @@ export const ApiServicesPasswordChange = async (data: any) => {
 
 export const ApiServicesMembrete = async (data: any) => {
 
-    const url = "http://localhost:3001/upload_file/";
+    const url = "https://apisolinces.colombiaevaluadora.co/upload_file/";
     const formData = new FormData();
     
     formData.append('file', data.file);
