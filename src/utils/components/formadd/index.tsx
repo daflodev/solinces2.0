@@ -6,8 +6,7 @@ import { Yup } from "../../utils";
 import DatePickerAddForm from "../datepickeraddform";
 import InputAddNumber from "../inputaddnumber";
 import MultiSelect from "../selectedform";
-import './formaddStyle.css';
-
+import "./formaddStyle.css";
 
 const FormAdd = ({
   setTitleState,
@@ -24,27 +23,32 @@ const FormAdd = ({
   handleSubmit: any;
   itemsInformation: any;
 }) => {
-  // 
+  //
   const initialValuesGeneraitor = (keys, columInfo) => {
+    const cloneKeys = { ...keys };
 
-    const cloneKeys = {...keys}
-  
     for (const columnItem of columInfo) {
-      if (columnItem.is_nullable === 'YES' && cloneKeys.hasOwnProperty(columnItem.column_name)) {
+      if (
+        columnItem.is_nullable === "YES" &&
+        cloneKeys.hasOwnProperty(columnItem.column_name)
+      ) {
         cloneKeys[columnItem.column_name] = null;
       }
     }
-  
+
     return {
       ...cloneKeys,
       AUTHOR_RC: "1",
       CLIENTS_RC: "1",
-    }
-  } 
-  
-    const initialValuesPrimary = initialValuesGeneraitor(keyValues, itemsInformation);
+    };
+  };
 
-  // 
+  const initialValuesPrimary = initialValuesGeneraitor(
+    keyValues,
+    itemsInformation
+  );
+
+  //
   const processVarCharTypeRules = (columnQualityInformation: any) => {
     if (columnQualityInformation?.is_nullable == "NO") {
       return Yup.string()
@@ -63,7 +67,7 @@ const FormAdd = ({
     }
 
     if (columnQualityInformation?.is_nullable == "YES") {
-      return null
+      return null;
     }
   };
 
@@ -113,7 +117,7 @@ const FormAdd = ({
     return Yup.object().shape(validationObject);
   };
 
-  const inputsGenerator = (inputsOptions:any) => {
+  const inputsGenerator = (inputsOptions: any) => {
     const keys = Object.keys(inputsOptions);
 
     const processColumn = (columnName: any) => {
@@ -122,16 +126,28 @@ const FormAdd = ({
       );
 
       if (columnName.startsWith("FK_")) {
-        const data = optionsManager(FKGroupData[columnName], columnName)
-        const columnInformationColor = itemsInformation.filter((item) => item.column_name == columnName)
-        const validateInputColorRed = (data == undefined || data?.lenght == 0) && columnInformationColor[0].is_nullable == 'NO'
-        const validateInputColorYellow = (data == undefined || data?.lenght == 0) && columnInformationColor[0].is_nullable == 'YES'
+        const data = optionsManager(FKGroupData[columnName], columnName);
+        const columnInformationColor = itemsInformation.filter(
+          (item) => item.column_name == columnName
+        );
+        const validateInputColorRed =
+          (data == undefined || data?.lenght == 0) &&
+          columnInformationColor[0].is_nullable == "NO";
+        const validateInputColorYellow =
+          (data == undefined || data?.lenght == 0) &&
+          columnInformationColor[0].is_nullable == "YES";
         return (
           <>
             <Row gutter={[16, 16]}>
               <Col>
                 <Field
-                  className={validateInputColorRed ? 'changeColorInputRed': validateInputColorYellow ? 'changeColorInputYellow' : null}
+                  className={
+                    validateInputColorRed
+                      ? "changeColorInputRed"
+                      : validateInputColorYellow
+                      ? "changeColorInputYellow"
+                      : null
+                  }
                   component={MultiSelect}
                   placeholder={columnName}
                   id={columnName}
@@ -150,10 +166,13 @@ const FormAdd = ({
                   component={"div"}
                   className="text-danger"
                 />
-                {validateInputColorRed &&(<div style={{}}>Peligro | Sin datos</div>)}
-                {validateInputColorYellow &&(<div style={{}}>Advertencia | Sin datos</div>)}
+                {validateInputColorRed && (
+                  <div style={{}}>Peligro | Sin datos</div>
+                )}
+                {validateInputColorYellow && (
+                  <div style={{}}>Advertencia | Sin datos</div>
+                )}
               </Col>
-              
             </Row>
             <br />
           </>
@@ -310,7 +329,6 @@ const FormAdd = ({
                       </button>
                     </div>
                   </Row>
-                  
                 </Col>
               </Row>
             </div>

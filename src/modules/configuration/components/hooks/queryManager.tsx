@@ -9,7 +9,7 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
 
 
     const querycolumn = new QueryBuilders(table);
-    let columnInfoData = await querycolumn
+    const columnInfoData: any = await querycolumn
                         .schema(schema)
                         .columninfo()
 
@@ -62,8 +62,8 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
 
             case 'TRASLADOS':
                 //TODO: consult periodo_academico
-                const queryTraslados = new QueryBuilders('matricula');
-                answerQuery = await queryTraslados
+                const traslados = new QueryBuilders('matricula');
+                answerQuery = await traslados
                     .select('matricula.*')
                     .schema(schema)
                     .join('grupo', '"PK_TGRUPO"', 'matricula."FK_TGRUPO"')
@@ -79,6 +79,7 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
 
             case 'PREMATRICULAS':
                 //TODO: consult periodo_academico
+                
                 const queryPrematricula = new QueryBuilders('matricula');
                 answerQuery = await queryPrematricula
                     .select('matricula.*')
@@ -117,6 +118,12 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                     .get()
                 break;
         }
+    }else{
+        answerQuery = await query
+        .schema(schema)
+        .limit(20)
+        .orderBy(`"PK_T${table.toUpperCase()}"`)
+        .get()
     }
 
     const data: object = {
@@ -125,4 +132,4 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
     }
 
     return data
-};
+}
