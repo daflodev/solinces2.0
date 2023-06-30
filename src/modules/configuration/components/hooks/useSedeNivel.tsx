@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
-  apiGetThunksAsyncSedeJornada,
   apiGetThunksAsyncSedeNivel,
-  apiPostThunksAsyncSedeJornada,
   apiPostThunksAsyncSedeNivel,
 } from "../../../../utils/services/api/thunks";
 import message from "antd/es/message";
@@ -141,6 +139,8 @@ export const useNivelSede = () => {
       }
     });
   };
+
+  
 
   return {
     dataSedeNivel,
