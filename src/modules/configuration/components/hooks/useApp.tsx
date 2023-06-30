@@ -194,12 +194,12 @@ export const UseSettigns = () => {
       console.log(results);
      
 
-      const dataSede = {
-        base: tableDateBase.table,
-        schema: parserTokenInformation?.dataSchema[0],
-        where: { "sede.FK_TESTABLECIMIENTO": currentInstitution?.value },
-      };
-      const getdata = changeKey(dataSede, "base", nameTable);
+      // const dataSede = {
+      //   base: tableDateBase.table,
+      //   schema: parserTokenInformation?.dataSchema[0],
+      //   where: { "sede.FK_TESTABLECIMIENTO": currentInstitution?.value },
+      // };
+      // const getdata = changeKey(dataSede, "base", nameTable);
       const query2 = new QueryBuilders(nameTable);
       const getDataTable = await query2
         .schema(parserTokenInformation?.dataSchema[0])
