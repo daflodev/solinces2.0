@@ -31,12 +31,9 @@ import { UseSettigns } from "./components/hooks/useApp";
 
 import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimiento/formEstablecimientoUsario";
 
-import MyForm from "../../utils/components/tableCheckbox/tableChecBox";
 
-import { FuncionarioPermitidosComponent } from "./components/optionsRender/tfuncionario_tpermitidos/tfuncionario_tpermitidos";
 import { SideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHook";
 import MembreteComponent from "../../utils/components/membrete";
-import { sideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHook";
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
@@ -72,7 +69,6 @@ const Settings: React.FC = () => {
   const {
     isSecondaryTableOpen,
     handleOpenSecondaryTable,
-    setIsSecondaryTableOpen,
     secondaryTableComponentRender,
     handleCloseSecondaryTable,
     tableGridWidth,
@@ -149,7 +145,6 @@ const Settings: React.FC = () => {
     rol,
     selectedTable,
     selectedTableInformation,
-    setTableInformationStatus
   ) => {
     let result = (
       <>
@@ -325,7 +320,7 @@ const Settings: React.FC = () => {
     result.push({
       title: "operacion",
       dataIndex: "operation",
-      align: "center" as "center",
+      align: "center",
       width: 150,
       render: (_, record: { key: React.Key }) => (
         <>
@@ -336,7 +331,6 @@ const Settings: React.FC = () => {
                   currentRol,
                   selectedItem?.nombre,
                   record,
-                  setIsSecondaryTableOpen
                 )}
               </Space>
             </>

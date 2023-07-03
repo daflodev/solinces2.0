@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   apiGetThunksAsyncSedeJornada,
   apiPostThunksAsyncSedeJornada,
@@ -18,16 +18,13 @@ interface Getpk {
 export const useJournySede = () => {
   const [dataSede, setDataSede] = useState<DataItem[]>([]);
   const [selectAll, setSelectAll] = useState(false);
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+ 
 
   const [checkboxData, setCheckboxData] = useState<DataItem[]>([]);
   const [selectedValues, setSelectedValues] = useState([]);
   const [pkSede, setPksede] = useState<Getpk[]>([]);
   //manejos de estado del mensaje al editar, enviar o eliminar un dato
-  const [processMessage, setProcessMessage] = useState({
-    message: "",
-    style: "",
-  });
+  
 
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -147,7 +144,7 @@ export const useJournySede = () => {
   return {
     dataSede,
     journySedeGetData,
-    processMessage,
+
     handleSendData,
     contextHolder,
     setDataSede,
@@ -155,7 +152,7 @@ export const useJournySede = () => {
     setSelectAll,
     // selectedItems,
     // setSelectedItems,
-    selectedRowKeys,
+  
     checkboxData,
     setCheckboxData,
     selectedValues,

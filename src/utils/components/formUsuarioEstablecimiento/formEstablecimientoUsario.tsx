@@ -1,7 +1,6 @@
 import { Col, DatePicker, Form, Input, Row, Select, Spin } from "antd";
 import "../../assets/styles/testing.css";
-// @ts-ignore
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormEstablecimiento } from "./hooks/useFormEstablecimiento";
 import "../../assets/styles/formEstablecimiento.css";
 import dayjs from "dayjs";
@@ -10,12 +9,10 @@ import { saveIcon } from "../../assets/icon/iconManager";
 
 dayjs.extend(customParseFormat);
 
-const FormEstablecimiento = ({
-  // @ts-ignore
-  setTitleState,
+const FormEstablecimiento = ({ 
   keyValues,
-  // @ts-ignore
-  selectItem,
+ 
+ 
   FKGroupData,
 
   itemsInformation,

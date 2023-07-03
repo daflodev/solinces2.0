@@ -1,41 +1,26 @@
-import { useState } from 'react';
 import "../../../utils/assets/styles/sedeInfra.css";
 
 import {
     Col,
-    DatePicker,
     Form,
     Input,
     Row,
     Select,
-    Typography
+
 } from 'antd';
-import { equisIcon, saveIcon } from '../../assets/icon/iconManager';
+import { saveIcon } from '../../assets/icon/iconManager';
 
 interface infraProps{
     onClick?: ()=> void;
 }
 
-const { RangePicker } = DatePicker;
-const { TextArea } = Input;
 
-const normFile = (e: any) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
-  };
-
-const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
-
-    const [ selectedData, setSelectedData ] = useState([]);
-    const onSelectChange = (selectedRowKeys, selectedRows) => {
-        setSelectedData(selectedRows);
-    }
+const SedeInfraEstructuraFisica: React.FC<infraProps> = () => {
 
     
+    
 
-        const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
+      
 
         
 
@@ -45,11 +30,11 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                 labelCol={{ span: 4 }}
                 wrapperCol={{ span: 14 }}
                 layout="horizontal"
-                disabled={componentDisabled}
+                disabled={false}
                 style={{ maxWidth: 600 }}
             >
 
-                <Row gutter={16}>
+                <Row gutter={16} >
                     <Col span={12}>
                         <Form.Item>
                             <Input placeholder="pc_licenciados" style={{ width: '100%' }}/>

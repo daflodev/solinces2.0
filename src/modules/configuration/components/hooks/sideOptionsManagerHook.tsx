@@ -7,10 +7,11 @@ import { equisIcon } from "../../../../utils/assets/icon/iconManager";
 import { useNivelSede } from "./useSedeNivel";
 import SedeInfraEstructuraFisica from "../../../../utils/components/formSedeInfra";
 
+
 export const SideOptionsManagerHook = () => {
   const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
 
-  const [tableGridWidth, setTableGridWidth] = useState(14);
+  const [tableGridWidth, setTableGridWidth] = useState(12);
 
   const [secondaryTableComponentRender, setSecondaryTableComponentRender] =
     useState(<></>);
@@ -31,6 +32,8 @@ export const SideOptionsManagerHook = () => {
     setDataSedeNivel,
     selectedValuesNivel,
   }:any = useNivelSede();
+
+  // const {onFieldChange, onFinish}=useSedeInfra()
 
   const handleCloseSecondaryTable = () => {
     setSecondaryTableComponentRender(
@@ -57,8 +60,7 @@ export const SideOptionsManagerHook = () => {
     <>
     {/* {contextHolder} */}
           <Col md={8}>
-            <Card
-            title="tsede_infraestructura"
+            <Card style={{width: "100%"}} className="cardInfra"
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
             >
               <SedeInfraEstructuraFisica/>
@@ -73,13 +75,13 @@ export const SideOptionsManagerHook = () => {
 
     switch (nameSideOption) {
       case "useSedeJornada":
-        setTableGridWidth(14);
+        setTableGridWidth(12);
 
         journySedeGetData(record);
 
         break;
       case "useSedeNivel":
-        setTableGridWidth(14);
+        setTableGridWidth(12);
         nivelSedeGetData(record);
         break;
         case "useSedeInfra":
@@ -100,8 +102,9 @@ export const SideOptionsManagerHook = () => {
       const useSedeJornadaComponent = (
         <>
           {contextHolder}
-          <Col md={6}>
+          <Col md={8}>
             <Card
+            style={{width: "100%"}}
               title="Tsede_jornada"
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
             >
@@ -124,8 +127,9 @@ export const SideOptionsManagerHook = () => {
       const useSedeNivelComponent = (
         <>
           {contextHolder}
-          <Col md={6}>
+          <Col md={8}>
             <Card
+            style={{width: "100%"}}
               title="Tsede_nivel"
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
             >

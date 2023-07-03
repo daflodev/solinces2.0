@@ -1,19 +1,16 @@
 .ant-form-item .ant-input {
     height: 35px;
-    width: 240px !important;
+    width: 180px !important;
     padding: 3px 10px 3px 10px;
     border: 1px solid #E9E7F8;
 }
 
 .ant-select-selector {
     height: 35px !important; 
-    width: 240px !important;
+    width: 180px !important;
 }
 
-:where(.css-dev-only-do-not-override-15rg2km).ant-select {
-    width: 240px !important;
+.ant-select {
+    width: 180px !important;
 }
 
-:where(.css-dev-only-do-not-override-15rg2km).ant-row {
-    margin-right: 6px;
-}

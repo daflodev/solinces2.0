@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Table, Modal, Checkbox, Row, Col } from "antd";
-import { saveIcon, equisIcon } from "../../assets/icon/iconManager";
-import type { CheckboxValueType } from "antd/es/checkbox/Group";
+import { Table, Checkbox} from "antd";
+import { saveIcon,} from "../../assets/icon/iconManager";
 import "../../assets/styles/tableChecked.css";
 
 
