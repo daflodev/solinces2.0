@@ -58,6 +58,7 @@ export const SideOptionsManagerHook = () => {
     {/* {contextHolder} */}
           <Col md={8}>
             <Card
+            title="tsede_infraestructura"
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
             >
               <SedeInfraEstructuraFisica/>
