@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import "../../assets/styles/testing.css";
-import { useEffect, useContext, useRef } from "react";
 
 
 //interface de tipado para pasar por props los datos editado
@@ -20,8 +19,8 @@ interface EditableCellProps {
 
 import moment from 'moment-timezone';
 
-import 'moment/locale/es';
 import { DatePicker, Form, Input, InputNumber, InputRef, Select } from "antd";
+import 'moment/locale/es';
 import { EditableCellsHooks } from "../../../config/hooks/editableCellsHooks";
 import { EditableContext } from "../inputcells";
 

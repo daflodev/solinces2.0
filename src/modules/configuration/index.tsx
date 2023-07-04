@@ -32,8 +32,8 @@ import { UseSettigns } from "./components/hooks/useApp";
 import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimiento/formEstablecimientoUsario";
 
 
-import { SideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHook";
 import MembreteComponent from "../../utils/components/membrete";
+import { SideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHook";
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
@@ -317,27 +317,34 @@ const Settings: React.FC = () => {
       }
     });
 
-    result.push({
-      title: "operacion",
-      dataIndex: "operation",
-      align: "center",
-      width: 150,
-      render: (_, record: { key: React.Key }) => (
-        <>
-          {settingOptions?.length >= 1 ? (
+    {
+      selectedItem && (!selectedItem?.nombre?.startsWith('THISTORY_') && !(selectedItem?.nombre == 'TSESION')) 
+      ?
+        result.push({
+          title: "operacion",
+          dataIndex: "operation",
+          align: "center",
+          width: 150,
+          render: (_, record: { key: React.Key }) => (
             <>
-              <Space size="middle" className="boton">
-                {iconOptionsManager(
-                  currentRol,
-                  selectedItem?.nombre,
-                  record,
-                )}
-              </Space>
+              {settingOptions?.length >= 1 ? (
+                <>
+                  <Space size="middle" className="boton">
+                    {iconOptionsManager(
+                      currentRol,
+                      selectedItem?.nombre,
+                      record,
+                    )}
+                  </Space>
+                </>
+              ) : null}
+
             </>
-          ) : null}
-        </>
-      ),
-    });
+          ),
+        }) 
+      : 
+        null
+    };
 
     return result;
   };
@@ -369,7 +376,7 @@ const Settings: React.FC = () => {
       ...col,
       onCell: (record: any) => ({
         record,
-        editable: col.editable,
+        editable: (!selectedItem?.nombre?.startsWith('THISTORY_') && !(selectedItem?.nombre == 'TSESION')) ? col.editable : false ,
         dataIndex: col.dataIndex,
         title: col.title,
         render: col.render,
@@ -429,9 +436,8 @@ const Settings: React.FC = () => {
               return (
                 <>
                   <Row>{selectedItem.nombre}</Row>
-
                   <Row gutter={[16, 16]}>
-                    {selectedItem ? (
+                    {selectedItem && (!selectedItem?.nombre?.startsWith('THISTORY_') && !(selectedItem?.nombre == 'TSESION')) ? (
                       <div
                         className="mostrarOcultarForm"
                         onClick={() => {
