@@ -5,7 +5,17 @@ import "../../utils/assets/styles/testing.css";
 import { useEffect } from "react";
 
 import { CloseOutlined, SettingOutlined } from "@ant-design/icons";
-import { Card, Col, Popconfirm, Row, Space, Spin, Table } from "antd";
+import {
+  Card,
+  Col,
+  Layout,
+  Menu,
+  Popconfirm,
+  Row,
+  Space,
+  Spin,
+  Table,
+} from "antd";
 
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
@@ -31,13 +41,13 @@ import { UseSettigns } from "./components/hooks/useApp";
 
 import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimiento/formEstablecimientoUsario";
 
-
 import { SideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHook";
 import MembreteComponent from "../../utils/components/membrete";
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
 type ColumnTypes = Exclude<EditableTableProps[], undefined>;
+const { Header, Sider, Content } = Layout;
 
 const Settings: React.FC = () => {
   //funciones y estado del custom hooks personalizado
@@ -141,11 +151,7 @@ const Settings: React.FC = () => {
     return vanillaTable;
   };
 
-  const iconOptionsManager = (
-    rol,
-    selectedTable,
-    selectedTableInformation,
-  ) => {
+  const iconOptionsManager = (rol, selectedTable, selectedTableInformation) => {
     let result = (
       <>
         {" "}
@@ -327,11 +333,7 @@ const Settings: React.FC = () => {
           {settingOptions?.length >= 1 ? (
             <>
               <Space size="middle" className="boton">
-                {iconOptionsManager(
-                  currentRol,
-                  selectedItem?.nombre,
-                  record,
-                )}
+                {iconOptionsManager(currentRol, selectedItem?.nombre, record)}
               </Space>
             </>
           ) : null}
@@ -471,98 +473,106 @@ const Settings: React.FC = () => {
   return (
     <>
       {contextHolder}
+
       <div>
         <Card className="card-container">
-          <div className="row justify-content-center">
-            <div className="col-12">
-              <Row gutter={[16, 16]}>
-                <Col span="4">
-                  <Row gutter={[16, 16]}>
-                    <Col span="2">
+          <Layout>
+            <Row gutter={[16,16]}>
+              <Col xs={24} md={2} lg={6} xl={4}>
+                <Sider style={{ background: "transparent" }}>
+                  <Row>
+                    <Col span={2}>
                       <div className="iconConfiguration">
                         {<SettingOutlined />}
                       </div>
                     </Col>
-                    <Col xs={24} md={22}>
+                    <Col span={10}>
                       <div className="configuration">
                         {params?.option ? (params?.option).toUpperCase() : null}
                       </div>
                     </Col>
                   </Row>
-                  <Row gutter={[16, 16]}>
-                    <Col span={24}>
-                      {settingOptions ? (
-                        <ul id="mi-lista">
-                          {/* @ts-ignore */}
-                          {settingOptions?.map((item: any) => (
-                            // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-                            <li
-                              key={`${item.nombre}_${item.key}`}
-                              onClick={() => handleSelect(item)}
-                            >
-                              {item.nombre}
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <Spin tip="" size="large" />
-                      )}
-                    </Col>
-                  </Row>
-                </Col>
-                <Col
-                  xs={24}
-                  md={
-                    visibleForm
-                      ? 14
-                      : isSecondaryTableOpen
-                      ? tableGridWidth
-                      : 20
-                  }
-                >
-                  <Card className="card-body">
-                    {selectedItem && renderContentManager()}
-                  </Card>
-                </Col>
-                {visibleForm ? (
-                  <Col md={4}>
-                    <Card
-                      className="justify-content-center align-items-center "
-                      title={
-                        <>
-                          <Row gutter={[16, 16]}>
-                            <Col xs={12} md={10}>
-                              <div className="titleForm">Agregar</div>
-                            </Col>
-                            <Col xs={12} md={12}>
-                              <div className="closeCardForm">
-                                <CloseOutlined
-                                  onClick={() => {
-                                    handleMostrarForm();
-                                  }}
-                                />
-                              </div>
-                            </Col>
-                          </Row>
-                        </>
-                      }
-                    >
-                      <FormAdd
-                        setTitleState={setDataTable}
-                        keyValues={inputFilter}
-                        selectItem={selectedItem}
-                        FKGroupData={fkGroup}
-                        handleSubmit={handleSubmit}
-                        itemsInformation={itemsColumnsInformation}
-                      />
-                    </Card>
-                  </Col>
-                ) : null}
 
-                {isSecondaryTableOpen ? secondaryTableComponentRender : null}
-              </Row>
-            </div>
-          </div>
+                  {settingOptions ? (
+                    <ul id="mi-lista">
+                      {/* @ts-ignore */}
+                      {settingOptions?.map((item: any) => (
+                        // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+                        <li
+                          key={`${item.nombre}_${item.key}`}
+                          onClick={() => handleSelect(item)}
+                        >
+                          {item.nombre}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <Spin tip="" size="large" />
+                  )}
+                </Sider>
+              </Col>
+              <Col xs={24} md={24} lg={18} xl={20}>
+                <Layout>
+                  <Content style={{ margin: "16px" }}>
+                    <Row gutter={[16, 16]}>
+                      <Col
+                        xs={24}
+                        md={
+                          visibleForm
+                            ? 20
+                            : isSecondaryTableOpen
+                            ? tableGridWidth
+                            : 24
+                        }
+                      >
+                        <Card className="card-body">
+                          {selectedItem && renderContentManager()}
+                        </Card>
+                      </Col>
+                      {visibleForm ? (
+                        <Col md={4}>
+                          <Card
+                            className="justify-content-center align-items-center "
+                            title={
+                              <>
+                                <Row gutter={[16, 16]}>
+                                  <Col xs={12} md={10}>
+                                    <div className="titleForm">Agregar</div>
+                                  </Col>
+                                  <Col xs={12} md={12}>
+                                    <div className="closeCardForm">
+                                      <CloseOutlined
+                                        onClick={() => {
+                                          handleMostrarForm();
+                                        }}
+                                      />
+                                    </div>
+                                  </Col>
+                                </Row>
+                              </>
+                            }
+                          >
+                            <FormAdd
+                              setTitleState={setDataTable}
+                              keyValues={inputFilter}
+                              selectItem={selectedItem}
+                              FKGroupData={fkGroup}
+                              handleSubmit={handleSubmit}
+                              itemsInformation={itemsColumnsInformation}
+                            />
+                          </Card>
+                        </Col>
+                      ) : null}
+
+                      {isSecondaryTableOpen
+                        ? secondaryTableComponentRender
+                        : null}
+                    </Row>
+                  </Content>
+                </Layout>
+              </Col>
+            </Row>
+          </Layout>
         </Card>
       </div>
     </>

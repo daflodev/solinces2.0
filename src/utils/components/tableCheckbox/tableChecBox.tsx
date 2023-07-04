@@ -86,7 +86,7 @@ const MyForm: React.FC<propsJourny> = (props) => {
 
   return (
     <>
-      <table className="custom-table">
+      {/* <table className="custom-table">
         <thead>
           <tr>
             <th>
@@ -120,9 +120,9 @@ const MyForm: React.FC<propsJourny> = (props) => {
             ))}
           </Checkbox.Group>
         </tbody>
-      </table>
+      </table> */}
 
-      {/* <Table dataSource={props.data} columns={columns} rowKey="PK_TJORNADA" /> */}
+      <Table dataSource={props.data} columns={columns} rowKey={props.rowKey}/>
 
       <div
         onClick={() => {

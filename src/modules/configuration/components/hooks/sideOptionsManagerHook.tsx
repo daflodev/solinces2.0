@@ -14,7 +14,7 @@ export const SideOptionsManagerHook = () => {
   const [tableGridWidth, setTableGridWidth] = useState(12);
 
   const [secondaryTableComponentRender, setSecondaryTableComponentRender] =
-    useState(<></>);
+    useState(<Spin tip="" size="large" />);
 
   const {
     dataSede,
@@ -75,20 +75,20 @@ export const SideOptionsManagerHook = () => {
 
     switch (nameSideOption) {
       case "useSedeJornada":
-        setTableGridWidth(12);
+        setTableGridWidth(16);
 
         journySedeGetData(record);
 
         break;
       case "useSedeNivel":
-        setTableGridWidth(12);
+        setTableGridWidth(16);
         nivelSedeGetData(record);
         break;
         case "useSedeInfra":
 
          setSecondaryTableComponentRender(useSedeInfraComponente)
           
-          setTableGridWidth(12);
+          setTableGridWidth(16);
           setIsSecondaryTableOpen(true)
           break
 
