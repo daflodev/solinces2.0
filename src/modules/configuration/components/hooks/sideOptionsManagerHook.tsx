@@ -6,6 +6,7 @@ import MyForm from "../../../../utils/components/tableCheckbox/tableChecBox";
 import { equisIcon } from "../../../../utils/assets/icon/iconManager";
 import { useNivelSede } from "./useSedeNivel";
 import SedeInfraEstructuraFisica from "../../../../utils/components/formSedeInfra";
+import { useSedeInfra } from "./useSedeInfra";
 
 
 export const SideOptionsManagerHook = () => {
@@ -33,6 +34,9 @@ export const SideOptionsManagerHook = () => {
     selectedValuesNivel,
   }:any = useNivelSede();
 
+
+  const {apiGetFKTLV} = useSedeInfra()
+
   // const {onFieldChange, onFinish}=useSedeInfra()
 
   const handleCloseSecondaryTable = () => {
@@ -59,11 +63,12 @@ export const SideOptionsManagerHook = () => {
   const useSedeInfraComponente= (
     <>
     {/* {contextHolder} */}
+    
           <Col md={8}>
             <Card style={{width: "100%"}} className="cardInfra"
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
             >
-              <SedeInfraEstructuraFisica/>
+              <SedeInfraEstructuraFisica />
             </Card>
           </Col>
     </>
@@ -150,6 +155,10 @@ export const SideOptionsManagerHook = () => {
       setSecondaryTableComponentRender(useSedeNivelComponent);
     }
   }, [dataSede, dataSedeNivel]);
+
+
+
+
   return {
     isSecondaryTableOpen,
     handleOpenSecondaryTable,

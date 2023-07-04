@@ -70,39 +70,6 @@ export const useFormEstablecimiento = () => {
     shallow
   );
 
-  // const filtrarJsonArray = (jsonArray: any[], columnas: any): any[] => {
-  //   if (columnas !== "") {
-  //     return jsonArray.filter((objeto) => {
-  //       return columnas.some((columna: any) => objeto.column_name === columna);
-  //     });
-  //   } else {
-  //     return jsonArray;
-  //   }
-  // };
-
-  // const ProcessingColumnsInformation = (
-  //   columnsInformation: any,
-  //   setFunction: any
-  // ) => {
-  //   const columnsKeys = columnsInformation.map((item: any) => item.column_name);
-
-  //   const filteredKeys = columnsKeys.filter(
-  //     (key: any) =>
-  //       key !== "AUTHOR_RC" && key !== "CLIENTS_RC" && !key.startsWith("PK_")
-  //   );
-
-  //   let newInputFilter = {};
-
-  //   filteredKeys.map((key: any) => {
-  //     newInputFilter = {
-  //       ...newInputFilter,
-  //       [key]: "",
-  //     };
-  //   });
-
-  //   setFunction(newInputFilter);
-  // };
-
   const apiGet = async (nameTable: any, setDataTable: any) => {
     const tableDateBase = select_type(nameTable);
     const dataSede = {

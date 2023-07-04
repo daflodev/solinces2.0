@@ -51,6 +51,29 @@ export const ApiSedeNivelPost = async (data) => {
   return resp;
 };
 
+
+export const ApiSedeInfra = async (data: any) => {
+  const url = `https://apisolinces.colombiaevaluadora.co/infrastructure_headquarters/${data}`;
+
+  const resp = await axios.get(url).then((response) => {
+    return response;
+  });
+  return resp;
+};
+
+export const ApiSedeInfraPost = async (data) => {
+  const url = `https://apisolinces.colombiaevaluadora.co/level_sede/`;
+
+  const resp = await axios
+    .post(url,data )
+    .then((response) => {
+      return response;
+    });
+  return resp;
+};
+
+
+
 export const ApiServicesThunksMainMenu = async () => {
   const url = "https://apisolinces.colombiaevaluadora.co/menu/";
   const resp = await axios.get(url).then((response) => {

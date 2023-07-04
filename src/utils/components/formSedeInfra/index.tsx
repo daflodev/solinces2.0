@@ -9,6 +9,8 @@ import {
 
 } from 'antd';
 import { saveIcon } from '../../assets/icon/iconManager';
+import { useSedeInfra } from "../../../modules/configuration/components/hooks/useSedeInfra";
+import { useEffect } from "react";
 
 interface infraProps{
     onClick?: ()=> void;
@@ -17,13 +19,16 @@ interface infraProps{
 
 const SedeInfraEstructuraFisica: React.FC<infraProps> = () => {
 
-    
-    
+const {initialValues, setInitialValue, apiGetFKTLV} = useSedeInfra()
 
-      
+useEffect(()=>{
+  apiGetFKTLV("ENCARGADO_LICENCIAS", setInitialValue)
+ 
+},[])
 
-        
 
+
+console.log(initialValues)
         return (
             <>
             <Form
@@ -32,6 +37,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = () => {
                 layout="horizontal"
                 disabled={false}
                 style={{ maxWidth: 600 }}
+                initialValues={initialValues}
             >
 
                 <Row gutter={16} >
@@ -40,13 +46,23 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = () => {
                             <Input placeholder="pc_licenciados" style={{ width: '100%' }}/>
                         </Form.Item>
                         <Form.Item>
-                            <Select placeholder="fk_tlv_terrena_zona">
-                                <Select.Option value="demo">Demo</Select.Option>
+                        <Select placeholder="aaaaaa">
+                                {initialValues?.map((item)=> {
+                                    return <Select.Option   value={item.PK_TLISTA_VALOR}>{item.NOMBRE}</Select.Option>
+                                })
+                               
+                                }
+                                
                             </Select>
                         </Form.Item>
                         <Form.Item>
-                            <Select placeholder="fk_tlv_sistema_operativo">
-                                <Select.Option value="demo">Demo</Select.Option>
+                            <Select placeholder="aaaaaa">
+                                {initialValues?.map((item)=> {
+                                    return <Select.Option   value={item.PK_TLISTA_VALOR}>{item.NOMBRE}</Select.Option>
+                                })
+                               
+                                }
+                                
                             </Select>
                         </Form.Item>
                         <Form.Item>

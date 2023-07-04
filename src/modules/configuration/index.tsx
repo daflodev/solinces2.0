@@ -152,6 +152,7 @@ const Settings: React.FC = () => {
   };
 
   const iconOptionsManager = (rol, selectedTable, selectedTableInformation) => {
+    console.log(selectedTableInformation)
     let result = (
       <>
         {" "}
