@@ -114,13 +114,13 @@ const FormEstablecimiento = ({
                           ? "active"
                           : ""
                       }`}
-                      style={{ ...(initialValues[columnName] === null ?
-                         { width: "45%",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap"} : { width: "40%"})
+                      // style={{ ...(initialValues[columnName] === null ?
+                      //    { width: "45%",
+                      //   overflow: "hidden",
+                      //   textOverflow: "ellipsis",
+                      //   whiteSpace: "nowrap"} : { width: "40%"})
                      
-                      }}
+                      // }}
                     >
                       {columnName}
                     </div>
@@ -154,14 +154,14 @@ const FormEstablecimiento = ({
                             ? "active"
                             : ""
                         }`}
-                        style={{ 
-                          ...(initialValues[columnName] === null ?
-                          { width: "45%",
-                         overflow: "hidden",
-                         textOverflow: "ellipsis",
-                         whiteSpace: "nowrap"} : "")
+                      //   style={{ 
+                      //     ...(initialValues[columnName] === null ?
+                      //     { width: "45%",
+                      //    overflow: "hidden",
+                      //    textOverflow: "ellipsis",
+                      //    whiteSpace: "nowrap"} : "")
                       
-                       }}
+                      //  }}
                       >
                         {columnName}
                       </div>
@@ -193,14 +193,14 @@ const FormEstablecimiento = ({
                             ? "active"
                             : ""
                         }`}
-                        style={{ 
-                          ...(initialValues[columnName] === null ?
-                          { width: "65%",
-                         overflow: "hidden",
-                         textOverflow: "ellipsis",
-                         whiteSpace: "nowrap"} :"" )
+                      //   style={{ 
+                      //     ...(initialValues[columnName] === null ?
+                      //     { width: "65%",
+                      //    overflow: "hidden",
+                      //    textOverflow: "ellipsis",
+                      //    whiteSpace: "nowrap"} :"" )
                       
-                       }}
+                      //  }}
                       >
                         {columnName}
                       </div>

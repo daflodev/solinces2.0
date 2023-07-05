@@ -14,38 +14,40 @@ import { useEffect } from "react";
 
 interface infraProps{
     onClick?: ()=> void;
+    form?: any
+    initialValues?: any;
 }
 
 
-const SedeInfraEstructuraFisica: React.FC<infraProps> = () => {
+const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
 
-const {initialValues, setInitialValue, apiGetFKTLV} = useSedeInfra()
 
-useEffect(()=>{
-  apiGetFKTLV("ENCARGADO_LICENCIAS", setInitialValue)
+// useEffect(()=>{
+//   apiGetFKTLV("ENCARGADO_LICENCIAS", setInitialValue)
  
-},[])
+// },[])
 
+const [form] = Form.useForm();
 
-
-console.log(initialValues)
         return (
             <>
-            <Form
+            <Form   
                 labelCol={{ span: 4 }}
                 wrapperCol={{ span: 14 }}
                 layout="horizontal"
                 disabled={false}
                 style={{ maxWidth: 600 }}
-                initialValues={initialValues}
+                // form={props.form}
+                initialValues={props.initialValues}
+                form={form}
             >
 
                 <Row gutter={16} >
                     <Col span={12}>
-                        <Form.Item>
+                        <Form.Item name="PC_LICENCIADOS">
                             <Input placeholder="pc_licenciados" style={{ width: '100%' }}/>
                         </Form.Item>
-                        <Form.Item>
+                        {/* <Form.Item>
                         <Select placeholder="aaaaaa">
                                 {initialValues?.map((item)=> {
                                     return <Select.Option   value={item.PK_TLISTA_VALOR}>{item.NOMBRE}</Select.Option>
@@ -54,18 +56,9 @@ console.log(initialValues)
                                 }
                                 
                             </Select>
-                        </Form.Item>
-                        <Form.Item>
-                            <Select placeholder="aaaaaa">
-                                {initialValues?.map((item)=> {
-                                    return <Select.Option   value={item.PK_TLISTA_VALOR}>{item.NOMBRE}</Select.Option>
-                                })
-                               
-                                }
-                                
-                            </Select>
-                        </Form.Item>
-                        <Form.Item>
+                        </Form.Item> */}
+                    
+                        <Form.Item >
                             <Input placeholder="distancia_cabecera_municipal" />
                         </Form.Item>
                         <Form.Item>

@@ -35,7 +35,7 @@ export const SideOptionsManagerHook = () => {
   }:any = useNivelSede();
 
 
-  const {apiGetFKTLV} = useSedeInfra()
+  const {initialValues, dataSedeInfra, infraSedeGetData} = useSedeInfra()
 
   // const {onFieldChange, onFinish}=useSedeInfra()
 
@@ -60,19 +60,7 @@ export const SideOptionsManagerHook = () => {
   };
 
 
-  const useSedeInfraComponente= (
-    <>
-    {/* {contextHolder} */}
-    
-          <Col md={8}>
-            <Card style={{width: "100%"}} className="cardInfra"
-              extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
-            >
-              <SedeInfraEstructuraFisica />
-            </Card>
-          </Col>
-    </>
-  )
+
 
   const handleOpenSecondaryTable = async (record, nameSideOption) => {
     handleCloseSecondaryTable();
@@ -90,11 +78,9 @@ export const SideOptionsManagerHook = () => {
         nivelSedeGetData(record);
         break;
         case "useSedeInfra":
-
-         setSecondaryTableComponentRender(useSedeInfraComponente)
           
           setTableGridWidth(16);
-          setIsSecondaryTableOpen(true)
+          infraSedeGetData(record)
           break
 
       default:
@@ -153,8 +139,23 @@ export const SideOptionsManagerHook = () => {
         </>
       );
       setSecondaryTableComponentRender(useSedeNivelComponent);
+    }else if (dataSedeInfra) {
+      const useSedeInfraComponente= (
+    <>
+    {/* {contextHolder} */}
+    
+          <Col md={8}>
+            <Card style={{width: "100%"}} className="cardInfra"
+              extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
+            >
+              <SedeInfraEstructuraFisica initialValues={initialValues} />
+            </Card>
+          </Col>
+    </>
+  )
+      setSecondaryTableComponentRender(useSedeInfraComponente);
     }
-  }, [dataSede, dataSedeNivel]);
+  }, [dataSede, dataSedeNivel, dataSedeInfra]);
 
 
 

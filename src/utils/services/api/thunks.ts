@@ -7,7 +7,9 @@ import {
     ApiSedeJornada,
     ApiSedeJornadaPost,
     ApiSedeNivelPost,
-    ApiSedeNivel
+    ApiSedeNivel,
+    ApiSedeInfraPost,
+    ApiSedeInfra
   } from "./services";
   
   export const apiGetThunksAsync = async (data: any) => {
@@ -63,7 +65,22 @@ import {
   };
 
 
-  export const apiPostThunksAsyncSedeNivel= async (data: any) => {
+ 
+
+
+  export const apiPostThunksAsyncSedeJornada= async (data: any) => {
+    const resp = await ApiSedeJornadaPost(data)
+      .then((response) => {
+        const getdata = response.data;
+        return getdata;
+      })
+      .catch((error) => {
+        return error.response;
+      });
+  
+    return resp;
+  };
+ export const apiPostThunksAsyncSedeNivel= async (data: any) => {
     const resp = await ApiSedeNivelPost(data)
       .then((response) => {
         const getdata = response.data;
@@ -91,8 +108,9 @@ import {
   };
 
 
-  export const apiPostThunksAsyncSedeJornada= async (data: any) => {
-    const resp = await ApiSedeJornadaPost(data)
+
+  export const apiPostThunksAsyncSedeInfra= async (data: any) => {
+    const resp = await ApiSedeInfraPost(data)
       .then((response) => {
         const getdata = response.data;
         return getdata;
@@ -103,6 +121,23 @@ import {
   
     return resp;
   };
+
+
+  export const apiGetThunksAsyncSedeInfra = async (data: any) => {
+    const resp = await ApiSedeInfra(data)
+      .then((response) => {
+        const getdata = response.data;
+        return getdata;
+      })
+      .catch((error) => {
+        return error.response;
+      });
+  
+    return resp;
+  };
+
+
+
 
 
   // @ts-ignore
