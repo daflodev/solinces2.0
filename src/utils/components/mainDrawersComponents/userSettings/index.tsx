@@ -44,6 +44,9 @@ const UserSettings: React.FC = () => {
         shallow
     );
 
+    const getLocalStorage = JSON.parse(localStorage.getItem('user_token_information')!!);
+    const rolesLocalStorage = getLocalStorage.rol;
+
     const { updateValue } = sessionInformationStore();
 
     const { close } = mainDrawerStore()
@@ -67,7 +70,7 @@ const UserSettings: React.FC = () => {
         return (
           <div style={{ padding: '10px', backgroundColor: 'var(--bg-color)' }}>
             <ul>
-              {roles.map((elemento, index) => (
+              {rolesLocalStorage.map((elemento, index) => (
                 <li className='listRoles' onClick={handleClick} key={index}>{elemento}</li>
               ))}
             </ul>
