@@ -10,8 +10,11 @@ const MultiSelect = ({
     placeholder = '',
     filterOption,
     className,
+    defaultValue = null,
     isBloqued = false,
 }) => {
+
+    console.log('default value: ', typeof defaultValue)
 
     return (
         <Select
@@ -27,6 +30,7 @@ const MultiSelect = ({
             placeholder={placeholder}
             filterOption={filterOption}
             disabled={isBloqued}
+            defaultValue={ defaultValue != null ? parseInt(defaultValue) : null}
         />
     )
 }

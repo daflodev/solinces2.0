@@ -158,12 +158,13 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
     
                 break;
 
-            case 'grado':
+            case 'grupo':
                 //TODO: consult periodo_academico
                 answerQuery = await query
-                    .select('*')
+                    .select('grupo.*')
                     .schema(schema)
-                    .where('"FK_TPERIODO_ACADEMICO"', '=', currentAcademicPeriodLocal)
+                    .join('grado', '"PK_TGRADO"', 'grupo."FK_TGRADO"')
+                    .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicPeriodLocal)
                     .limit(20)
                     .orderBy(`"PK_T${table.toUpperCase()}"`)
                     .get()
