@@ -127,6 +127,8 @@ const FormAdd = ({
 
       if (columnName.startsWith("FK_")) {
         const data = optionsManager(FKGroupData[columnName], columnName);
+        console.log(columnName, 'fkselect')
+        
         const columnInformationColor = itemsInformation.filter(
           (item) => item.column_name == columnName
         );
@@ -159,6 +161,8 @@ const FormAdd = ({
                       .toLowerCase()
                       .includes(input.toLowerCase())
                   }
+                  defaultValue=""
+                  isBloqued={true}
                 />
 
                 <ErrorMessage

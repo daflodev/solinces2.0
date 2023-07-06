@@ -10,6 +10,7 @@ const MultiSelect = ({
     placeholder = '',
     filterOption,
     className,
+    isBloqued = false,
 }) => {
 
     return (
@@ -25,6 +26,7 @@ const MultiSelect = ({
             onBlur={field.onBlur}
             placeholder={placeholder}
             filterOption={filterOption}
+            disabled={isBloqued}
         />
     )
 }

@@ -179,19 +179,42 @@ export const UseSettigns = () => {
     );
 
   const apiGet = async (nameTable: any, setDataTable: any) => {
+    setDataTable(null);
     const tableDateBase = select_type(nameTable);
 
     if (currentRol == "RECTOR" && nameTable == "sede") {
+
+      //  TEMPORAL
+      const currentAcademicYearLocal = localStorage.getItem('currentAcademicYear');
+      console.log(currentAcademicYearLocal, 'currentAcademicYearLocal')
+      //  TEMPORAL
+
       // // select con where
       const query = new QueryBuilders(nameTable);
-      const results = await query
-        .select("*")
-        .where('"FK_TESTABLECIMIENTO"', '=', currentInstitution?.value)
+      const getDataTable = await query
+        .select("sede.*")
+        .join('periodo_academico', '"FK_TSEDE"', 'sede."PK_TSEDE"')
+        .where('periodo_academico."PK_TPERIODO_ACADEMICO"', '=', currentAcademicYearLocal)
+        // .where('sede."FK_TESTABLECIMIENTO"', '=', currentInstitution?.value)
         .schema(parserTokenInformation?.dataSchema[0])
         .get()
 
+        const querycolumn = new QueryBuilders(nameTable);
+         const columnInfoData: any = await querycolumn
+                        .schema(parserTokenInformation?.dataSchema[0])
+                        .columninfo()
 
-      console.log(results);
+        ProcessingColumnsInformation(
+          columnInfoData,
+          setInputFilter
+        );
+
+        const filterColumnsInformation: any = filtrarJsonArray(
+              columnInfoData,
+              tableDateBase.table
+              );
+        setItemsColumnsInformation(filterColumnsInformation);
+      console.log(currentInstitution?.value, 'currentInstitution');
      
 
       // const dataSede = {
@@ -200,13 +223,15 @@ export const UseSettigns = () => {
       //   where: { "sede.FK_TESTABLECIMIENTO": currentInstitution?.value },
       // };
       // const getdata = changeKey(dataSede, "base", nameTable);
-      const query2 = new QueryBuilders(nameTable);
-      const getDataTable = await query2
-        .schema(parserTokenInformation?.dataSchema[0])
-        .limit(10)
-        .orderBy(`"PK_T${nameTable.toUpperCase()}"`)
-        .get()
-      console.log(getDataTable, 'data -----')
+
+      // 
+      // const query2 = new QueryBuilders(nameTable);
+      // const getDataTable = await query2
+      //   .schema(parserTokenInformation?.dataSchema[0])
+      //   .limit(10)
+      //   .orderBy(`"PK_T${nameTable.toUpperCase()}"`)
+      //   .get()
+      // console.log(getDataTable, 'data -----')
 
       // const getDataTable = await apiGetThunksAsync(getdata).then(
       //   (response: any) => {
@@ -245,7 +270,7 @@ export const UseSettigns = () => {
       // const getdata = changeKey(prevData, "base", nameTable);
 
       // 
-      const getQueryManager: any = await QueryManager(nameTable, currentRol, currentAcademicYear, currentCampus, parserTokenInformation?.dataSchema[0])
+      const getQueryManager: any = await QueryManager(nameTable, currentRol, currentAcademicYear, currentCampus,currentInstitution, parserTokenInformation?.dataSchema[0])
       // const { data, column } : any  = validate
       const getDataTable =  getQueryManager?.data
       const columnInfor =  getQueryManager?.column
@@ -595,11 +620,13 @@ export const UseSettigns = () => {
     //   const res = getdata;
     //   return res;
     // });
+
+    
     const query = new QueryBuilders(nameTable);
         const getDataTable = await query
         .select('*')
         .schema(parserTokenInformation?.dataSchema[0])
-        .limit(10)
+        // .limit(10)
         .get()
     return getDataTable;
   };
@@ -980,6 +1007,10 @@ export const UseSettigns = () => {
       FKConsultManager(FKNames);
     }
   }, [inputFilter]);
+
+  useEffect(() => {
+    apiGet(selectedItem?.key_table, setDataTable);
+  }, [currentRol, currentInstitution, currentCampus , currentAcademicPeriod, currentAcademicYear]);
 
   const [hovered, setHovered] = useState(false);
 
