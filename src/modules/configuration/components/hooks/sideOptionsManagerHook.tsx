@@ -35,7 +35,7 @@ export const SideOptionsManagerHook = () => {
   }:any = useNivelSede();
 
 
-  const {initialValues, dataSedeInfra, infraSedeGetData} = useSedeInfra()
+  const {dataSedeInfra, infraSedeGetData, initialValues} = useSedeInfra()
 
   // const {onFieldChange, onFinish}=useSedeInfra()
 
@@ -139,7 +139,7 @@ export const SideOptionsManagerHook = () => {
         </>
       );
       setSecondaryTableComponentRender(useSedeNivelComponent);
-    }else if (dataSedeInfra) {
+    }else if (dataSedeInfra && initialValues != null ) {
       const useSedeInfraComponente= (
     <>
     {/* {contextHolder} */}

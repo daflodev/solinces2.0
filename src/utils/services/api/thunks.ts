@@ -9,7 +9,8 @@ import {
     ApiSedeNivelPost,
     ApiSedeNivel,
     ApiSedeInfraPost,
-    ApiSedeInfra
+    ApiSedeInfra,
+    ApiSedeInfraFK
   } from "./services";
   
   export const apiGetThunksAsync = async (data: any) => {
@@ -96,6 +97,21 @@ import {
 
   export const apiGetThunksAsyncSedeNivel = async (data: any) => {
     const resp = await ApiSedeNivel(data)
+      .then((response) => {
+        const getdata = response.data;
+        return getdata;
+      })
+      .catch((error) => {
+        return error.response;
+      });
+  
+    return resp;
+  };
+
+
+
+  export const apiFKThunksAsyncSedeInfra= async (data: any) => {
+    const resp = await ApiSedeInfraFK(data)
       .then((response) => {
         const getdata = response.data;
         return getdata;

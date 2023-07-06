@@ -61,6 +61,9 @@ export const ApiSedeInfra = async (data: any) => {
   return resp;
 };
 
+
+
+
 export const ApiSedeInfraPost = async (data) => {
   const url = `https://apisolinces.colombiaevaluadora.co/level_sede/`;
 
@@ -71,6 +74,19 @@ export const ApiSedeInfraPost = async (data) => {
     });
   return resp;
 };
+
+
+export const ApiSedeInfraFK = async (data) => {
+  const url = `https://apisolinces.colombiaevaluadora.co/value_list/`;
+
+  const resp = await axios
+    .post(url,data )
+    .then((response) => {
+      return response;
+    });
+  return resp;
+};
+
 
 
 
