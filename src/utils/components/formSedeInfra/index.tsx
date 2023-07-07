@@ -1,4 +1,4 @@
-import "../../../utils/assets/styles/sedeInfra.css";
+// import "../../../utils/assets/styles/sedeInfra.css";
 
 import { Col, Form, Input, Row, Select } from "antd";
 import { saveIcon } from "../../assets/icon/iconManager";
@@ -9,6 +9,7 @@ interface infraProps {
     onClick?: () => void;
     form?: any;
     initialValues?: any;
+    dataselect?: any;
 }
 
 const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
@@ -39,16 +40,19 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
             >
                 <Row gutter={16}>
                     <Col span={12}>
-                        <div className="form-container">
+                        {/* <div className="form-container">
                             <div className="form-column">
-                                <div className="form-field">
-                                    <Form.Item name="PC_LICENCIADOS">
-                                        <Input
-                                            style={{ width: "100%" }}
-                                            onFocus={() => handleFieldFocus(props.initialValues.PC_LICENCIADOS)}
-                                            onBlur={() => handleFieldFocus(null)}
-                                        />
-                                        {/* <div
+                                <div className="form-field"> */}
+                        <Form.Item name="PC_LICENCIADOS">
+                            <Input
+                               
+                                style={{ width: 200 }}
+                                onFocus={() =>
+                                    handleFieldFocus(props.initialValues.PC_LICENCIADOS)
+                                }
+                                onBlur={() => handleFieldFocus(null)}
+                            />
+                            {/* <div
                                             className={`placeholder ${selectedField === "PC_LICENCIADOS" ||
                                                     (props.initialValues
                                                         ? props.initialValues.PC_LICENCIADOS != null
@@ -66,16 +70,40 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                                         >
                                             PC_LICENCIADOS
                                         </div> */}
-                                    </Form.Item>
-                               
-                        <Form.Item name={"ENCARGADO_LICENCIAS"}>
-                        <Select placeholder="aaaaaa" options={props.initialValues.CATEGORIA}>
-                                
+                        </Form.Item>
+
+                        <Form.Item name={"TERRENO_ZONA"}>
+                            <Select
+                                style={{ width: 200 }}
+                                placeholder="Selecciona una opción"
+                            >
+                                {props.dataselect?.TERRENO_ZONA.map((item) => (
+                                    <>
+                                        <Select.Option key={item.CATEGORIA} value={item.CATEGORIA}>
+                                            {item.NOMBRE}
+                                        </Select.Option>
+                                    </>
+                                ))}
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item name={"SISTEMA_OPERATIVO"}>
+                            <Select
+                                style={{ width: 200 }}
+                                placeholder="Selecciona una opción"
+                            >
+                                {props.dataselect?.SISTEMA_OPERATIVO.map((item) => (
+                                    <>
+                                        <Select.Option key={item.CATEGORIA} value={item.CATEGORIA}>
+                                            {item.NOMBRE}
+                                        </Select.Option>
+                                    </>
+                                ))}
                             </Select>
                         </Form.Item>
 
                         <Form.Item name="DISTANCIA_CABECERA_MUNICIPAL">
-                            <Input/>
+                            <Input style={{ width: 200 }} />
                             {/* <div
                                             className={`placeholder ${selectedField === "DISTANCIA_CABECERA_MUNICIPAL" ||
                                                     (props.initialValues
@@ -96,30 +124,75 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                                         </div> */}
                         </Form.Item>
                         <Form.Item name={"VIA_ACCESO_TRONCAL"}>
-                            <Input placeholder="via_acceso_troncal" />
+                            <Input    style={{ width: 200 }} placeholder="via_acceso_troncal" />
                         </Form.Item>
                         <Form.Item name={"VIA_ACCESO_RIO"}>
-                            <Input placeholder="via_acceso_rio" />
+                            <Input  style={{ width: 200 }} placeholder="via_acceso_rio" />
                         </Form.Item>
                         <Form.Item name={"VIA_ACCESO_TRANSPORTE_ANIMAL"}>
-                            <Input placeholder="via_acceso_transporte_animal" />
+                            <Input style={{ width: 200 }} placeholder="via_acceso_transporte_animal" />
                         </Form.Item>
                         <Form.Item name={"DESCRIPCION_OTRO_ACCESO"}>
-                            <Input placeholder="descripcion_otro_acceso" />
+                            <Input style={{ width: 200 }} placeholder="descripcion_otro_acceso" />
                         </Form.Item>
-                   
-                
-                    <Form.Item name={"VIA_ACCESO_PRINCIPAL"}>
-                        <Input placeholder="via_acceso_principal" />
-                    </Form.Item>
-                    <Form.Item name={"VIA_ACCESO_CARRETEABLE"}>
-                        <Input placeholder="via_acceso_carreteable" />
-                    </Form.Item>
-                    <Form.Item name={"VIA_ACCESO_OTROS"}>
-                        <Input placeholder="via_acceso_otros" />
-                    </Form.Item> </div>
+
+                        <Form.Item name={"ESTADO_INFRAESTRUCTURA"}>
+                            <Select
+                                style={{ width: 200 }}
+                                placeholder="Selecciona una opción"
+                            >
+                                {props.dataselect?.ESTADO_INFRAESTRUCTURA.map((item) => (
+                                    <>
+                                        <Select.Option key={item.CATEGORIA} value={item.CATEGORIA}>
+                                            {item.NOMBRE}
+                                        </Select.Option>
+                                    </>
+                                ))}
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item name={"TIPO_AULA"}>
+                            <Select
+                                style={{ width: 200 }}
+                                placeholder="Selecciona una opción"
+                            >
+                                {props.dataselect?.TIPO_AULA.map((item) => (
+                                    <>
+                                        <Select.Option key={item.CATEGORIA} value={item.CATEGORIA}>
+                                            {item.NOMBRE}
+                                        </Select.Option>
+                                    </>
+                                ))}
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item name={"ENCARGADO_LICENCIAS"}>
+                            <Select
+                                style={{ width: 200 }}
+                                placeholder="Selecciona una opción"
+                            >
+                                {props.dataselect?.ENCARGADO_LICENCIAS.map((item) => (
+                                    <>
+                                        <Select.Option key={item.CATEGORIA} value={item.CATEGORIA}>
+                                            {item.NOMBRE}
+                                        </Select.Option>
+                                    </>
+                                ))}
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item name={"VIA_ACCESO_PRINCIPAL"}>
+                            <Input style={{ width: 200 }} placeholder="via_acceso_principal" />
+                        </Form.Item>
+                        <Form.Item name={"VIA_ACCESO_CARRETEABLE"}>
+                            <Input style={{ width: 200 }} placeholder="via_acceso_carreteable" />
+                        </Form.Item>
+                        <Form.Item name={"VIA_ACCESO_OTROS"}>
+                            <Input style={{ width: 200 }} placeholder="via_acceso_otros" />
+                        </Form.Item>
+                        {/*   </div>
                             </div>
-                        </div>
+                        </div> */}
                     </Col>
                 </Row>
 

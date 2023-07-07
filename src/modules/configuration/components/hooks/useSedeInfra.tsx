@@ -6,6 +6,8 @@ import {
 } from "../../../../utils/services/api/thunks";
 import { QueryBuilders } from "../../../../utils/orm/queryBuilders";
 import { Form } from "antd";
+
+import _ from 'lodash';
 // import { apiPostThunksAsyncSedeJornada } from "../../../../utils/services/api/thunks";
 
 export const useSedeInfra = () => {
@@ -61,6 +63,9 @@ export const useSedeInfra = () => {
   //data table for items list FK_TLV
   const [dataSedeInfra, setDataSedeInfra] = useState<any>({});
   const [initialValues, setInitialValues] = useState<any>({});
+  const [dataSeelect, setDataSelect] = useState<any>()
+
+
   const [form] = Form.useForm();
 
   const fkTlvCategoria = [
@@ -75,13 +80,30 @@ export const useSedeInfra = () => {
     try {
       const response = await apiFKThunksAsyncSedeInfra(fkTlvCategoria);
       const predata = response.data;
-      // console.log(predata)
+     
+      setDataSelect(predata)
+     
       return predata;
     } catch (error) {
       console.log("catch response: ", error);
       return null;
     }
   };
+// Agrupar por la propiedad 'categoria'
+const agrupados = _.groupBy(dataSeelect, 'CATEGORIA');
+
+// Imprimir los resultados
+// Crear un objeto final con el nombre de la categoría como llave
+const resultado: { [key: string]: any } = {};
+Object.entries(agrupados).forEach(([categoria, productos]) => {
+  resultado[categoria] = productos;
+  console.log(resultado)
+});
+
+useEffect(()=> {
+  infraFKData()
+}, [])
+
   const infraSedeGetData = async (record) => {
     // const getPK = record["PK_TSEDE"]
     await apiGetThunksAsyncSedeInfra(record.PK_TSEDE)
@@ -90,8 +112,7 @@ export const useSedeInfra = () => {
           // console.log(response.data[0], "data")
           const preData = response.data[0];
           setDataSedeInfra(preData);
-          const infraFKDataResult = infraFKData();
-          const mergedData = { ...preData, ...infraFKDataResult };
+          const mergedData = { ...preData };
           console.log(mergedData, "mergeData")
 
           setInitialValues({
@@ -182,5 +203,8 @@ export const useSedeInfra = () => {
     dataSedeInfra,
     infraSedeGetData,
     initialValues,
+    dataSeelect,
+    resultado
+ 
   };
 };

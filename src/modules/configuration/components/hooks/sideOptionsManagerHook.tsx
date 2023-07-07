@@ -35,7 +35,7 @@ export const SideOptionsManagerHook = () => {
   }:any = useNivelSede();
 
 
-  const {dataSedeInfra, infraSedeGetData, initialValues} = useSedeInfra()
+  const {dataSedeInfra, infraSedeGetData, initialValues, dataSeelect, resultado} = useSedeInfra()
 
   // const {onFieldChange, onFinish}=useSedeInfra()
 
@@ -148,7 +148,7 @@ export const SideOptionsManagerHook = () => {
             <Card style={{width: "100%"}} className="cardInfra"
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
             >
-              <SedeInfraEstructuraFisica initialValues={initialValues} />
+              <SedeInfraEstructuraFisica initialValues={initialValues} dataselect={resultado} />
             </Card>
           </Col>
     </>
