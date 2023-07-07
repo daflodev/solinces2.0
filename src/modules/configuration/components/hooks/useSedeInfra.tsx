@@ -97,7 +97,7 @@ const agrupados = _.groupBy(dataSeelect, 'CATEGORIA');
 const resultado: { [key: string]: any } = {};
 Object.entries(agrupados).forEach(([categoria, productos]) => {
   resultado[categoria] = productos;
-  console.log(resultado)
+  console.log(resultado, "resultado")
 });
 
 useEffect(()=> {

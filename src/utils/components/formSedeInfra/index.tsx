@@ -26,6 +26,11 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
 
     const [form] = Form.useForm();
 
+    const handleFormSubmit = (values) => {
+        console.log('Valores del formulario:', values);
+        // Realizar acciones adicionales con los valores del formulario si es necesario
+      };
+
     return (
         <>
             <Form
@@ -33,6 +38,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                 wrapperCol={{ span: 14 }}
                 layout="horizontal"
                 disabled={false}
+                onFinish={handleFormSubmit}
                 style={{ maxWidth: 600 }}
                 // form={props.form}
                 initialValues={props.initialValues}
@@ -79,7 +85,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                             >
                                 {props.dataselect?.TERRENO_ZONA.map((item) => (
                                     <>
-                                        <Select.Option key={item.CATEGORIA} value={item.CATEGORIA}>
+                                        <Select.Option value={item.CATEGORIA}>
                                             {item.NOMBRE}
                                         </Select.Option>
                                     </>
@@ -94,7 +100,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                             >
                                 {props.dataselect?.SISTEMA_OPERATIVO.map((item) => (
                                     <>
-                                        <Select.Option key={item.CATEGORIA} value={item.CATEGORIA}>
+                                        <Select.Option value={item.CATEGORIA}>
                                             {item.NOMBRE}
                                         </Select.Option>
                                     </>
@@ -143,7 +149,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                             >
                                 {props.dataselect?.ESTADO_INFRAESTRUCTURA.map((item) => (
                                     <>
-                                        <Select.Option key={item.CATEGORIA} value={item.CATEGORIA}>
+                                        <Select.Option value={item.CATEGORIA}>
                                             {item.NOMBRE}
                                         </Select.Option>
                                     </>
@@ -158,7 +164,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                             >
                                 {props.dataselect?.TIPO_AULA.map((item) => (
                                     <>
-                                        <Select.Option key={item.CATEGORIA} value={item.CATEGORIA}>
+                                        <Select.Option value={item.CATEGORIA}>
                                             {item.NOMBRE}
                                         </Select.Option>
                                     </>
@@ -173,7 +179,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                             >
                                 {props.dataselect?.ENCARGADO_LICENCIAS.map((item) => (
                                     <>
-                                        <Select.Option key={item.CATEGORIA} value={item.CATEGORIA}>
+                                        <Select.Option value={item.CATEGORIA}>
                                             {item.NOMBRE}
                                         </Select.Option>
                                     </>
