@@ -1,0 +1,53 @@
+.funcionario_permission_container{
+    max-height: calc(93vh - 5.2rem);
+    overflow: auto;
+    background: var(--bg-color);
+}
+
+.funcionario_permission_container_x_close_icon{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    cursor: pointer;
+}
+
+.funcionario_permission_container_title{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 21px;
+}
+
+.funcionario_permission_container .ant-select .ant-select-selector{
+    height: 30px !important;
+    border: 1px solid rgb(233, 231, 248);
+    border-radius: 8px;
+    background: var(--bg-color);
+}
+
+.funcionario_permission_container .ant-select .ant-select-selector .ant-select-selection-placeholder{
+    padding-left: 10px;
+}
+
+.funcionario_permission_container .ant-select .ant-select-selector .ant-select-selection-item{
+    padding-left: 10px;
+}
+
+.ant-select-dropdown .ant-space .ant-select .ant-select-selector{
+    height: 30px !important;
+    border: 1px solid rgb(233, 231, 248);
+    border-radius: 8px;
+    background: var(--bg-color);
+}
+
+.ant-select-dropdown{
+    background: var(--bg-color);
+}
+
+.ant-select-dropdown .ant-space .ant-select .ant-select-selector .ant-select-selection-placeholder{
+    padding-left: 10px;
+}
+
+.ant-select-dropdown .ant-space .ant-select .ant-select-selector .ant-select-selection-item{
+    padding-left: 10px;
+}

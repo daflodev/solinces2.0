@@ -27,12 +27,8 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import { sessionInformationStore } from "../../store/userInformationStore";
 import shallow from "zustand/shallow";
 
-import { renderCloseIcon } from "antd/es/modal/PurePanel";
 import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimiento/formEstablecimientoUsario";
-import YourTableComponent from "../../utils/components/tableCheckbox/tableChecBox";
-import MyForm from "../../utils/components/tableCheckbox/tableChecBox";
 
-import { FuncionarioPermitidosComponent } from "./components/optionsRender/tfuncionario_tpermitidos/tfuncionario_tpermitidos"
 import { sideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHook";
 
 type EditableTableProps = Parameters<typeof Table>[0];
@@ -122,7 +118,7 @@ const Settings: React.FC = () => {
   };
 
   const renderContentManager = () => {
-    if (currentRol == "RECTOR" && selectedItem?.nombre == "TESTABLECIMIENTO") {
+    if (currentRol != "SUPER_ADMINISTRADOR" && selectedItem?.nombre == "TESTABLECIMIENTO") {
       return (
         <FormEstablecimiento
           setTitleState={setDataTable}
@@ -137,6 +133,8 @@ const Settings: React.FC = () => {
   };
 
   const iconOptionsManager = (rol, selectedTable, selectedTableInformation, setTableInformationStatus) => {
+
+    const rolesToShowuseFuncionarioPermission = ['SUPER_ADMINISTRADOR', 'DIRECTOR_ENTE_TERRITORIAL', 'JEFE_SISTEMA_ENTE_TERRITORIAL', 'JEFE_AREA_PLANEACION', 'JEFE_AREA_COBERTURA', 'RECTOR'];
 
     let result = (<>
       {" "}
@@ -176,9 +174,9 @@ const Settings: React.FC = () => {
         
         break;
 
-      case 'TCONFIGURACION_REPORTE':
+      case 'TFUNCIONARIO':
 
-        if(rol == "RECTOR"){
+        if(rolesToShowuseFuncionarioPermission.includes(rol)){
           result = (<>
             <div
               onClick={() => {
@@ -203,6 +201,59 @@ const Settings: React.FC = () => {
         
         break;
 
+        case 'TPADRE':
+
+          if(rolesToShowuseFuncionarioPermission.includes(rol)){
+            result = (<>
+              <div
+                onClick={() => {
+                  if(visibleForm){
+                    handleMostrarForm()
+                  }
+                  handleOpenSecondaryTable(selectedTableInformation, 'useFuncionarioPermission')
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                {funcionarioPermisoIcon}
+              </div>
+    
+              <Popconfirm
+                title="seguro desea eliminar?"
+                onConfirm={() => handleDelete(selectedTableInformation.key)}
+              >
+                <div className="iconDelete">{deleteIcon}</div>
+              </Popconfirm>
+            </>)
+          }
+          
+          break;
+
+        case 'TESTUDIANTE':
+          if(rolesToShowuseFuncionarioPermission.includes(rol)){
+            result = (<>
+              <div
+                onClick={() => {
+                  if(visibleForm){
+                    handleMostrarForm()
+                  }
+                  handleOpenSecondaryTable(selectedTableInformation, 'useFuncionarioPermission')
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                {funcionarioPermisoIcon}
+              </div>
+    
+              <Popconfirm
+                title="seguro desea eliminar?"
+                onConfirm={() => handleDelete(selectedTableInformation.key)}
+              >
+                <div className="iconDelete">{deleteIcon}</div>
+              </Popconfirm>
+            </>)
+          }
+          
+          break;
+
       default:
 
         result = (<>
@@ -220,15 +271,13 @@ const Settings: React.FC = () => {
     return result;
   }
 
-
-
   //funcion de selecion lista para renderizar tabla
   const columnsGenerator = (filterObjet: any) => {
     const keys = Object.keys(filterObjet);
 
     const result: any[] = keys.map((item) => {
       const ifSelected = item.startsWith("FK_");
-
+      
       if (ifSelected) {
         const options = filterSelectOnColumnGenerator(
           item,

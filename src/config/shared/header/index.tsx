@@ -268,7 +268,6 @@ const HeaderComponent = () => {
 
     }, [currentAcademicYear])
 
-    //TODO: regresar condicion != "SUPER_ADMINISTRADOR" cuando se considere listo el filtrado de opciones relaiconadas con cede
     if(parserTokenInformation?.rol[0] != "SUPER_ADMINISTRADOR"){
 
       return(

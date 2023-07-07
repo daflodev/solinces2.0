@@ -71,7 +71,7 @@ export const EditableCellsHooks = (fkGroup, title) => {
       if (result.length > 0) {
         return result[0]?.NOMBRE;
       } else {
-        return "Cargando...";
+        return null;
       }
     };
 

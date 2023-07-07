@@ -2,6 +2,7 @@ import React from "react";
 import "../../assets/styles/testing.css";
 import { useEffect, useContext, useRef } from "react";
 
+import { IsEditableManager } from './isEditableManager';
 
 //interface de tipado para pasar por props los datos editado
 // @ts-ignore
@@ -17,13 +18,14 @@ interface EditableCellProps {
   save: (record: any) => void;
 }
 
-
 import moment from 'moment-timezone';
 
 import 'moment/locale/es';
 import { DatePicker, Form, Input, InputNumber, InputRef, Select } from "antd";
 import { EditableCellsHooks } from "../../../config/hooks/editableCellsHooks";
 import { EditableContext } from "../inputcells";
+import { sessionInformationStore } from "@/store/userInformationStore";
+import shallow from "zustand/shallow";
 
 const columnConditionsExtractor = (allColumnInformation:any, columnName:any) => {
 
@@ -64,6 +66,13 @@ export const EditableCell= ({
 
   const inputRef = useRef<InputRef>(null);
   const form = useContext(EditableContext)!;
+
+  const { currentRol } = sessionInformationStore(
+    (state) => ({
+      currentRol: state.currentRol,
+    }),
+    shallow
+  );
   
   useEffect(() => {
     if (editing) {
@@ -89,12 +98,13 @@ export const EditableCell= ({
             ref={inputRef}
             onPressEnter={()=>save(form, record, toggleEdit, children)}
             onBlur={()=>save(form, record, toggleEdit, children)}
-            options={optionsManager(dataToSelect, title?.props?.name)}            />
+            options={optionsManager(dataToSelect, title?.props?.name)}
+            disabled={title?.props?.name == 'FK_TUSUARIO' ? true : false}
+            />
         ) : (
           <p> Cargando ...</p>
         )
       )
-
       return renderValue
     }
 
@@ -126,7 +136,7 @@ export const EditableCell= ({
               save(form, record, toggleEdit, children)
             }}
             step="1"
-            min="1" //TODO: se debe ajustar a ser parametrizado, lo mismo para la propiedad max
+            min="1"
             precision={2}
             onChange={(value)=>{
               const formattedValue = formattingNumberFunction(value, dataInformation,'.')
@@ -190,9 +200,20 @@ export const EditableCell= ({
     }
   }
 
-  let childNode = children;
+  const extractUserName = (userID) =>{
+    const options = optionsManager(dataToSelect, title?.props?.name);
+
+    const user = options.find( option => option.value == userID);
+
+    return user?.label;
+  }
+
+  // Valida si la celda al ser FK es editable o no
+  const validateIfIsEditableCell = IsEditableManager(currentRol, title?.props?.name)
+
+  let childNode = validateIfIsEditableCell?.isFKValue ? extractUserName(children[1]) : children;
   //valida si el input esta vacio el input
-  if (editable) {
+  if (editable && validateIfIsEditableCell?.isEditable) {
     childNode = editing ? (switchBetweenDatePickerAndFormItem()) : (
       <div
         className="editable-cell-value-wrap"

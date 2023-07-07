@@ -7,7 +7,7 @@ import {
   apiGetThunksMenuItemsOptionsAsync,
   apiPostThunksAsync,
   apiPostThunksAsyncSedeJornada,
-} from "../../../../utils/services/api/thunks";
+} from "@/utils/services/api/thunks";
 import { useParams, useNavigate } from "react-router-dom";
 import { getUserToken } from "../../../../utils/utils";
 import { sessionInformationStore } from "../../../../store/userInformationStore";
@@ -24,9 +24,9 @@ export const UseSettigns = () => {
   // Estado para el cambio de idioma
   //const [language, setLanguage] = useState(null);
 
-  // TODO: Maneja la data que se renderizara en la lista
+  // Maneja la data que se renderizara en la lista
   const [settingOptions, setSettingOptions] = useState(null);
-  // TODO:  Estado que manjea la lista renderizada
+  // Estado que manjea la lista renderizada
   const [selectedItem, setSelectedItem] = useState({
     key: null,
     nombre: null,
@@ -186,8 +186,6 @@ export const UseSettigns = () => {
         .schema(parserTokenInformation?.dataSchema[0])
         .get()
 
-
-      console.log(results);
       const dataSede = {
         base: tableDateBase.table,
         schema: parserTokenInformation?.dataSchema[0],
@@ -198,7 +196,6 @@ export const UseSettigns = () => {
       const getDataTable = await apiGetThunksAsync(getdata).then(
         (response: any) => {
           const { getdata, columnsInformation } = response;
-          console.log(response)
 
           const filterColumnsInformation: any = filtrarJsonArray(
             columnsInformation,
@@ -535,12 +532,38 @@ export const UseSettigns = () => {
 
   //data table for items list FK
   const apiGetFK = async (nameTable: any) => {
+
     const prevData = {
       base: "",
       schema: parserTokenInformation?.dataSchema[0],
     };
 
-    const getdata = changeKey(prevData, "base", nameTable);
+    const getdata = (nameTable == 'usuario') ? 
+      {
+        funcionario: "",
+        where: { "sede_usuario.FK_TSEDE": currentCampus.value },
+        concat: [
+          [
+            "usuario.'PRIMER_NOMBRE'",
+            "usuario.'SEGUNDO_NOMBRE'",
+            "usuario.'PRIMER_APELLIDO'",
+            "usuario.'SEGUNDO_APELLIDO'"
+          ],
+          ["AS 'NOMBRE'"]
+        ],
+        join: [
+          {
+            "table": "usuario",
+            "columns": ["PK_TUSUARIO"],
+            "on": ["PK_TUSUARIO", "funcionario.FK_TUSUARIO"]},
+          {
+            "table": "sede_usuario",
+            "columns": "",
+            "on": ["FK_TUSUARIO", "usuario.PK_TUSUARIO"]}
+          ],
+        schema: parserTokenInformation?.dataSchema[0]
+      }
+    : changeKey(prevData, "base", nameTable);
 
     const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
       //@ts-ignore
@@ -730,7 +753,6 @@ export const UseSettigns = () => {
 
       toggleEdit();
     } catch (errInfo) {
-      console.log("save error: ", errInfo);
       messageApi.info("Save failed");
     }
   };
@@ -739,6 +761,7 @@ export const UseSettigns = () => {
     let answer = {};
 
     FKNameList.map((name) => {
+
       let tableName = name.replace("FK_T", "");
 
       if (tableName.startsWith("LV_") || tableName.startsWith("LISTA_VALOR_")) {
@@ -889,7 +912,6 @@ export const UseSettigns = () => {
         }
       })
       .catch((error) => {
-        //TODO: redireccionar en caso de error
 
         console.log("catch response: ", error);
         navigate("/no_permission");

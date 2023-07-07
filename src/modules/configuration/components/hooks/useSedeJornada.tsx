@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { apiPostThunksAsyncSedeJornada } from "../../../../utils/services/api/thunks";
+import { apiPostThunksAsyncSedeJornada } from "@/utils/services/api/thunks";
 
 
 export const useJournySede  = () =>{
 
-    const [dataSede, setDataSede] = useState<[] | null>([])
+    const [dataSede, setDataSede] = useState<[] | null>(null)
 
 const journySedeGetData = async (record) => {
 
@@ -23,11 +23,10 @@ const journySedeGetData = async (record) => {
 
   };
 
-console.log(dataSede)
-
   return {
     dataSede,
     journySedeGetData,
+    setDataSede
   }
 }
 

@@ -177,6 +177,13 @@ const funcionarioPermisoIcon = (
   </svg>
 )
 
+const xIcon = (
+  <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5891 4.91058C15.9145 5.23602 15.9145 5.76366 15.5891 6.08909L5.58909 16.0891C5.26366 16.4145 4.73602 16.4145 4.41058 16.0891C4.08514 15.7637 4.08514 15.236 4.41058 14.9106L14.4106 4.91058C14.736 4.58514 15.2637 4.58514 15.5891 4.91058Z" fill='var(--menu-icon)'/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M4.41058 4.91058C4.73602 4.58514 5.26366 4.58514 5.58909 4.91058L15.5891 14.9106C15.9145 15.236 15.9145 15.7637 15.5891 16.0891C15.2637 16.4145 14.736 16.4145 14.4106 16.0891L4.41058 6.08909C4.08514 5.76366 4.08514 5.23602 4.41058 4.91058Z" fill='var(--menu-icon)'/>
+  </svg>
+)
+
 export { 
   searchIcon, 
   downloadIcon, 
@@ -188,5 +195,6 @@ export {
   changeRolIcon,
   saveIcon,
   sedeJornada,
-  funcionarioPermisoIcon
+  funcionarioPermisoIcon,
+  xIcon
 };
