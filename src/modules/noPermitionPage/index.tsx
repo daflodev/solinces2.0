@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Card, Row, Col } from "antd";
 
 import { withPrincipal } from "../../utils/components/content";
 
 import "../../utils/assets/noPermitionPage/noPermitionPage.css";
-import { QueryBuilders } from "../../utils/orm/queryBuilders";
 
 
 const mainImageNoPermissionPage = (
@@ -37,14 +36,20 @@ const NoPermissionPage: React.FC = () => {
     const getData = async () => {
         
 
-        // // select
-        // const query = new QueryBuilders('jornada');
+        // column
+        // const query = new QueryBuilders('sede');
+        // const results = await query
+        // .schema('ACADEMICO_COL0')
+        // .columninfo()
+
+        // select
+        // const query = new QueryBuilders('sede');
         // const results = await query
         // .select('*')
         // .schema('ACADEMICO_COL0')
         // .get()
 
-        // // select con where
+        // select con where
         // const query = new QueryBuilders('ano_lectivo');
         // const results = await query
         // .select('*')

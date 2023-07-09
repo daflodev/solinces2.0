@@ -8,11 +8,17 @@ const MultiSelect = ({
     // @ts-ignore
     isMulti = false,
     placeholder = '',
-    filterOption
+    filterOption,
+    className,
+    defaultValue = null,
+    isBloqued = false,
 }) => {
+
+    console.log('default value: ', typeof defaultValue)
 
     return (
         <Select
+            className={className}
             options={options}
             // @ts-ignore
             name={field.name}
@@ -23,6 +29,8 @@ const MultiSelect = ({
             onBlur={field.onBlur}
             placeholder={placeholder}
             filterOption={filterOption}
+            disabled={isBloqued}
+            defaultValue={ defaultValue != null ? parseInt(defaultValue) : null}
         />
     )
 }

@@ -1,6 +1,7 @@
 import { DatePicker } from "antd";
-import moment from "moment";
 
+//@ts-ignore
+import moment from "moment";
 
 const DatePickerAddForm = ({
     field,
@@ -27,7 +28,7 @@ const DatePickerAddForm = ({
 
         form.setFieldValue(field.name, newDate)
     }
-
+    // @ts-ignore
     const handleDateChange = (value, setFieldValue) => {
         setFieldValue('fecha', value);
       };

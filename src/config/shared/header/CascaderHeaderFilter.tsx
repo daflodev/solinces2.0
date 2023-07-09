@@ -1,4 +1,3 @@
-import React from 'react';
 import { Cascader } from 'antd';
 
 import shallow from "zustand/shallow";
@@ -30,6 +29,7 @@ const CascaderHeaderFilter: React.FC<CampusOptions[]> = (options, onChange) => {
           expandTrigger="hover"
           displayRender={displayRender}
           onChange={onChange}
+          // @ts-ignore
           value={currentCampus?.label}
           suffixIcon={downDirectionVector}
         />

@@ -6,6 +6,7 @@ import {
   apiGetThunksAsync,
   apiGetThunksMenuItemsOptionsAsync,
   apiPostThunksAsync,
+  // @ts-ignore
   apiPostThunksAsyncSedeJornada,
 } from "@/utils/services/api/thunks";
 import { useParams, useNavigate } from "react-router-dom";
@@ -13,6 +14,7 @@ import { getUserToken } from "../../../../utils/utils";
 import { sessionInformationStore } from "../../../../store/userInformationStore";
 import { shallow } from "zustand/shallow";
 import { QueryBuilders } from "../../../../utils/orm/queryBuilders";
+import { QueryManager } from "./queryManager";
 
 export const UseSettigns = () => {
   const params: any = useParams<{ type: any }>();
@@ -154,7 +156,7 @@ export const UseSettigns = () => {
     return validate;
   };
 
-  const filtrarJsonArray = (jsonArray: any[], columnas: any): any[] => {
+  const filtrarJsonArray = (jsonArray: any, columnas: any): any[] => {
     if (columnas !== "") {
       return jsonArray.filter((objeto) => {
         return columnas.some((columna: any) => objeto.column_name === columna);
@@ -163,97 +165,168 @@ export const UseSettigns = () => {
       return jsonArray;
     }
   };
-
-  const { currentRol, currentInstitution, currentCampus } =
+  // @ts-ignore
+  const { currentRol, currentInstitution, currentCampus , currentAcademicPeriod, currentAcademicYear} =
     sessionInformationStore(
       (state) => ({
         currentRol: state.currentRol,
         currentInstitution: state.currentInstitution,
         currentCampus: state.currentCampus,
+        currentAcademicPeriod: state.currentAcademicPeriod,
+        currentAcademicYear: state.currentAcademicYear,
       }),
       shallow
     );
 
   const apiGet = async (nameTable: any, setDataTable: any) => {
+    setDataTable(null);
     const tableDateBase = select_type(nameTable);
 
     if (currentRol == "RECTOR" && nameTable == "sede") {
+
+      //  TEMPORAL
+      const currentAcademicYearLocal = localStorage.getItem('currentAcademicYear');
+      console.log(currentAcademicYearLocal, 'currentAcademicYearLocal')
+      //  TEMPORAL
+
       // // select con where
       const query = new QueryBuilders(nameTable);
-      const results = await query
-        .select("*")
-        .where('"FK_TESTABLECIMIENTO"', '=', currentInstitution?.value)
+      const getDataTable = await query
+        .select("sede.*")
+        .join('periodo_academico', '"FK_TSEDE"', 'sede."PK_TSEDE"')
+        .where('periodo_academico."PK_TPERIODO_ACADEMICO"', '=', currentAcademicYearLocal)
+        // .where('sede."FK_TESTABLECIMIENTO"', '=', currentInstitution?.value)
         .schema(parserTokenInformation?.dataSchema[0])
         .get()
 
-      const dataSede = {
-        base: tableDateBase.table,
-        schema: parserTokenInformation?.dataSchema[0],
-        where: { "sede.FK_TESTABLECIMIENTO": currentInstitution?.value },
-      };
-      const getdata = changeKey(dataSede, "base", nameTable);
+        const querycolumn = new QueryBuilders(nameTable);
+         const columnInfoData: any = await querycolumn
+                        .schema(parserTokenInformation?.dataSchema[0])
+                        .columninfo()
 
-      const getDataTable = await apiGetThunksAsync(getdata).then(
-        (response: any) => {
-          const { getdata, columnsInformation } = response;
+        ProcessingColumnsInformation(
+          columnInfoData,
+          setInputFilter
+        );
 
-          const filterColumnsInformation: any = filtrarJsonArray(
-            columnsInformation,
-            tableDateBase.table
-          );
-          // console.log(resultado, 'nuevo json');
+        const filterColumnsInformation: any = filtrarJsonArray(
+              columnInfoData,
+              tableDateBase.table
+              );
+        setItemsColumnsInformation(filterColumnsInformation);
+      console.log(currentInstitution?.value, 'currentInstitution');
+     
 
-          // #######################
-          // const filtroColumnYes = columnsInformation.filter((item) => item.is_nullable == 'YES')
-          // const filtroColumnNO = columnsInformation.filter((item) => item.is_nullable == 'NO')
-          // console.log(filtroColumnYes, 'nueva columna YES')
-          // console.log(filtroColumnNO, 'nueva columna NO')
-          // #######################
-          ProcessingColumnsInformation(
-            filterColumnsInformation,
-            setInputFilter
-          );
-          setItemsColumnsInformation(filterColumnsInformation);
+      // const dataSede = {
+      //   base: tableDateBase.table,
+      //   schema: parserTokenInformation?.dataSchema[0],
+      //   where: { "sede.FK_TESTABLECIMIENTO": currentInstitution?.value },
+      // };
+      // const getdata = changeKey(dataSede, "base", nameTable);
 
-          const res = getdata;
-          return res;
-        }
-      );
+      // 
+      // const query2 = new QueryBuilders(nameTable);
+      // const getDataTable = await query2
+      //   .schema(parserTokenInformation?.dataSchema[0])
+      //   .limit(10)
+      //   .orderBy(`"PK_T${nameTable.toUpperCase()}"`)
+      //   .get()
+      // console.log(getDataTable, 'data -----')
+
+      // const getDataTable = await apiGetThunksAsync(getdata).then(
+      //   (response: any) => {
+      //     const { getdata, columnsInformation } = response;
+      //     console.log(response)
+
+      //     const filterColumnsInformation: any = filtrarJsonArray(
+      //       columnsInformation,
+      //       tableDateBase.table
+      //     );
+      //     // console.log(resultado, 'nuevo json');
+
+      //     // #######################
+      //     // const filtroColumnYes = columnsInformation.filter((item) => item.is_nullable == 'YES')
+      //     // const filtroColumnNO = columnsInformation.filter((item) => item.is_nullable == 'NO')
+      //     // console.log(filtroColumnYes, 'nueva columna YES')
+      //     // console.log(filtroColumnNO, 'nueva columna NO')
+      //     // #######################
+      //     ProcessingColumnsInformation(
+      //       filterColumnsInformation,
+      //       setInputFilter
+      //     );
+      //     setItemsColumnsInformation(filterColumnsInformation);
+
+      //     const res = getdata;
+      //     return res;
+      //   }
+      // );
 
       setDataTable(getDataTable);
     } else {
-      const prevData = {
-        base: tableDateBase.table,
-        schema: parserTokenInformation?.dataSchema[0],
-      };
-      const getdata = changeKey(prevData, "base", nameTable);
+      // const prevData = {
+      //   base: tableDateBase.table,
+      //   schema: parserTokenInformation?.dataSchema[0],
+      // };
+      // const getdata = changeKey(prevData, "base", nameTable);
 
-      const getDataTable = await apiGetThunksAsync(getdata).then(
-        (response: any) => {
-          const { getdata, columnsInformation } = response;
+      // 
+      const getQueryManager: any = await QueryManager(nameTable, currentRol, currentAcademicYear, currentCampus,currentInstitution, parserTokenInformation?.dataSchema[0])
+      // const { data, column } : any  = validate
+      const getDataTable =  getQueryManager?.data
+      const columnInfor =  getQueryManager?.column
+      // console.log(data, '--data--')
+      // console.log(column, '--data2--')
+      // 
 
-          const filterColumnsInformation: any = filtrarJsonArray(
-            columnsInformation,
-            tableDateBase.table
-          );
-          // console.log(resultado, 'nuevo json');
+      // const query2 = new QueryBuilders(nameTable);
+      // const getDataTable = await query2
+      //   .schema(parserTokenInformation?.dataSchema[0])
+      //   .limit(20)
+      //   .orderBy(`"PK_T${nameTable.toUpperCase()}"`)
+      //   .get()
 
-          // #######################
-          // const filtroColumnYes = columnsInformation.filter((item) => item.is_nullable == 'YES')
-          // const filtroColumnNO = columnsInformation.filter((item) => item.is_nullable == 'NO')
-          // console.log(filtroColumnYes, 'nueva columna YES')
-          // console.log(filtroColumnNO, 'nueva columna NO')
-          // #######################
-          ProcessingColumnsInformation(
-            filterColumnsInformation,
-            setInputFilter
-          );
-          setItemsColumnsInformation(filterColumnsInformation);
+      // const columnInfor = await query2
+      //   .schema(parserTokenInformation?.dataSchema[0])
+      //   .columninfo()
 
-          const res = getdata;
-          return res;
-        }
-      );
+        ProcessingColumnsInformation(
+                columnInfor,
+                setInputFilter
+              );
+        const filterColumnsInformation: any = filtrarJsonArray(
+                columnInfor,
+                tableDateBase.table
+              );
+        setItemsColumnsInformation(filterColumnsInformation);
+
+        console.log(getDataTable, 'data 2-----')
+
+      // const getDataTable = await apiGetThunksAsync(getdata).then(
+      //   (response: any) => {
+      //     const { getdata, columnsInformation } = response;
+
+      //     const filterColumnsInformation: any = filtrarJsonArray(
+      //       columnsInformation,
+      //       tableDateBase.table
+      //     );
+      //     // console.log(resultado, 'nuevo json');
+
+      //     // #######################
+      //     // const filtroColumnYes = columnsInformation.filter((item) => item.is_nullable == 'YES')
+      //     // const filtroColumnNO = columnsInformation.filter((item) => item.is_nullable == 'NO')
+      //     // console.log(filtroColumnYes, 'nueva columna YES')
+      //     // console.log(filtroColumnNO, 'nueva columna NO')
+      //     // #######################
+      //     ProcessingColumnsInformation(
+      //       filterColumnsInformation,
+      //       setInputFilter
+      //     );
+      //     setItemsColumnsInformation(filterColumnsInformation);
+
+      //     const res = getdata;
+      //     return res;
+      //   }
+      // );
 
       setDataTable(getDataTable);
     }
@@ -267,6 +340,7 @@ export const UseSettigns = () => {
     setSelectedItem(item);
     apiGet(item.key_table, setDataTable);
     handleOcultarForm();
+    
 
     // cambio de color de item de la lista
     const items = document.querySelectorAll("#mi-lista li");
@@ -532,46 +606,28 @@ export const UseSettigns = () => {
 
   //data table for items list FK
   const apiGetFK = async (nameTable: any) => {
+    // const prevData = {
+    //   base: "",
+    //   schema: parserTokenInformation?.dataSchema[0],
+    // };
 
-    const prevData = {
-      base: "",
-      schema: parserTokenInformation?.dataSchema[0],
-    };
+    // const getdata = changeKey(prevData, "base", nameTable);
 
-    const getdata = (nameTable == 'usuario') ? 
-      {
-        funcionario: "",
-        where: { "sede_usuario.FK_TSEDE": currentCampus.value },
-        concat: [
-          [
-            "usuario.'PRIMER_NOMBRE'",
-            "usuario.'SEGUNDO_NOMBRE'",
-            "usuario.'PRIMER_APELLIDO'",
-            "usuario.'SEGUNDO_APELLIDO'"
-          ],
-          ["AS 'NOMBRE'"]
-        ],
-        join: [
-          {
-            "table": "usuario",
-            "columns": ["PK_TUSUARIO"],
-            "on": ["PK_TUSUARIO", "funcionario.FK_TUSUARIO"]},
-          {
-            "table": "sede_usuario",
-            "columns": "",
-            "on": ["FK_TUSUARIO", "usuario.PK_TUSUARIO"]}
-          ],
-        schema: parserTokenInformation?.dataSchema[0]
-      }
-    : changeKey(prevData, "base", nameTable);
+    // const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
+    //   //@ts-ignore
+    //   const { getdata } = response;
 
-    const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
-      //@ts-ignore
-      const { getdata } = response;
+    //   const res = getdata;
+    //   return res;
+    // });
 
-      const res = getdata;
-      return res;
-    });
+    
+    const query = new QueryBuilders(nameTable);
+        const getDataTable = await query
+        .select('*')
+        .schema(parserTokenInformation?.dataSchema[0])
+        // .limit(10)
+        .get()
     return getDataTable;
   };
 
@@ -950,6 +1006,10 @@ export const UseSettigns = () => {
       FKConsultManager(FKNames);
     }
   }, [inputFilter]);
+
+  useEffect(() => {
+    apiGet(selectedItem?.key_table, setDataTable);
+  }, [currentRol, currentInstitution, currentCampus , currentAcademicPeriod, currentAcademicYear]);
 
   const [hovered, setHovered] = useState(false);
 

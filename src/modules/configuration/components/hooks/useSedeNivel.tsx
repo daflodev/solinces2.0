@@ -1,11 +1,11 @@
 import { useState } from "react";
 import {
-  apiGetThunksAsyncSedeJornada,
-  apiPostThunksAsyncSedeJornada,
+  apiGetThunksAsyncSedeNivel,
+  apiPostThunksAsyncSedeNivel,
 } from "../../../../utils/services/api/thunks";
 import message from "antd/es/message";
 interface DataItem {
-  PK_TJORNADA: any;
+  PK_TNIVEL_ENSENANZA: any;
   NOMBRE: any;
   CODIGO: any;
   BOOLEAN_FIELD: any;
@@ -15,35 +15,34 @@ interface Getpk {
   PK_TSEDE: any;
 }
 
-export const useJournySede = () => {
-  const [dataSede, setDataSede] = useState<DataItem[]>([]);
+export const useNivelSede = () => {
+  const [dataSedeNivel, setDataSedeNivel] = useState<DataItem[] >([]);
   const [selectAll, setSelectAll] = useState(false);
- 
-
+  
   const [checkboxData, setCheckboxData] = useState<DataItem[]>([]);
-  const [selectedValues, setSelectedValues] = useState([]);
+  const [selectedValuesNivel, setSelectedValuesNivel] = useState([]);
   const [pkSede, setPksede] = useState<Getpk[]>([]);
-  //manejos de estado del mensaje al editar, enviar o eliminar un dato
+
   
 
   const [messageApi, contextHolder] = message.useMessage();
 
-  const journySedeGetData = async (record) => {
+  const nivelSedeGetData = async (record) => {
     console.log("record: ", record);
     // const getPK = record["PK_TSEDE"]
 
     setPksede(record);
 
-    await apiGetThunksAsyncSedeJornada(record.PK_TSEDE)
+    await apiGetThunksAsyncSedeNivel(record.PK_TSEDE)
       .then((response) => {
         if (response) {
           console.log(response.data, "respuesta");
           const preData = response.data;
-          setDataSede(preData);
-          setSelectedValues(
+          setDataSedeNivel(preData);
+          setSelectedValuesNivel(
             preData
               .filter((item) => item.BOOLEAN_FIELD)
-              .map((item) => item.PK_TJORNADA)
+              .map((item) => item.PK_TNIVEL_ENSENANZA)
           );
         }
       })
@@ -68,11 +67,11 @@ export const useJournySede = () => {
     });
   };
 
-  const handleSendData = async (selectedValues, cerrarTable) => {
-    const preData = dataSede ? [...dataSede]: []
+  const handleSendDataNivel = async (selectedValues, cerrarTable) => {
+    const preData =dataSedeNivel?  [...dataSedeNivel]: [];
 
     const resultado = preData.map((objeto) => {
-      if (selectedValues.includes(objeto.PK_TJORNADA)) {
+      if (selectedValues.includes(objeto.PK_TNIVEL_ENSENANZA)) {
         const newObeject = { ...objeto };
         newObeject.BOOLEAN_FIELD = true;
         console.log(newObeject);
@@ -87,8 +86,8 @@ export const useJournySede = () => {
       }
     });
     const newArray: any[] = [];
-    for (let i = 0; i < dataSede.length; i++) {
-      const objetoA = dataSede[i];
+    for (let i = 0; i < dataSedeNivel.length; i++) {
+      const objetoA = dataSedeNivel[i];
       const objetoB = resultado[i];
       if (objetoA.BOOLEAN_FIELD !== objetoB.BOOLEAN_FIELD) {
         newArray.push(objetoB);
@@ -105,8 +104,8 @@ export const useJournySede = () => {
 
     const changeName = reemplazarNombresCampos(
       newObject,
-      "PK_TJORNADA",
-      "FK_TJORNADA"
+      "PK_TNIVEL_ENSENANZA",
+      "FK_TNIVEL_ENSENANZA"
     );
 
     const nameField = "PK_TSEDE";
@@ -120,11 +119,11 @@ export const useJournySede = () => {
     });
 
     console.log(modifiedArray);
-    await apiPostThunksAsyncSedeJornada(modifiedArray).then((response) => {
+    await apiPostThunksAsyncSedeNivel(modifiedArray).then((response) => {
       if (response.status == "success") {
         messageApi.open({
           type: "success",
-          content: "se ha modificado las jornada a la sede",
+          content: "se ha modificado los niveles a la sede",
         });
 
         setTimeout(() => {
@@ -141,22 +140,19 @@ export const useJournySede = () => {
     });
   };
 
-  return {
-    dataSede,
-    journySedeGetData,
+  
 
-    handleSendData,
+  return {
+    dataSedeNivel,
+    nivelSedeGetData,
+    handleSendDataNivel,
     contextHolder,
-    setDataSede,
+    setDataSedeNivel,
     selectAll,
     setSelectAll,
-    // selectedItems,
-    // setSelectedItems,
-  
     checkboxData,
     setCheckboxData,
-    selectedValues,
-    setSelectedValues,
-    // handleCheckboxChange,
+    selectedValuesNivel,
+    setSelectedValuesNivel,
   };
 };

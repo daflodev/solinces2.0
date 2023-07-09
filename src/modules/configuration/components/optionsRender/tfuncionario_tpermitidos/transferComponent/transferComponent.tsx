@@ -1,3 +1,4 @@
+//@ts-ignore
 import React from 'react';
 
 import { Checkbox, Col, Row, Divider, Collapse, Input } from 'antd';
@@ -72,16 +73,14 @@ interface InterfaceToGenerateTransferComponent {
 
         const filteredData = filterProcess(filterValue, data);
 
+        const defaultKeysActive = filteredData?.map((item)=>{
+            if(!item?.parent){
+                return(item.key + '_panel')
+            }});
+
         const answer = (
             <Checkbox.Group style={{'width': '100%'}} value={value} onChange={onChangeFunction}>
-
-                <Collapse defaultActiveKey={()=> {
-                        const answer = filteredData?.map((item)=>{
-                            if(!item?.parent){
-                                return(item.key + '_panel')
-                            }});
-                        return answer;
-                    }} collapsible='icon' style={{'width': '100%'}} ghost>
+                <Collapse defaultActiveKey={defaultKeysActive} collapsible='icon' style={{'width': '100%'}} ghost>
                     {
                         filteredData?.map((item)=>{
                             if(!item?.parent){

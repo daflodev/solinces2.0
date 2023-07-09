@@ -16,7 +16,7 @@ const LoadPages = () => {
     getUser().then(user => {
       if (user && user.access_token) {
     
-          const { myDecodedToken } = useJwtTool(user.access_token);
+          const { myDecodedToken } : any = useJwtTool(user.access_token);
 
           const localStorageCurrentRol = localStorage.getItem('current_rol');
 
@@ -26,6 +26,7 @@ const LoadPages = () => {
               value: localStorageCurrentRol
             })
           }else{
+
             localStorage.setItem('current_rol', myDecodedToken?.rol[0])
             updateValue({
               element: "currentRol",

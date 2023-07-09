@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+//@ts-ignore
 import moment from 'moment-timezone';
 
 export const EditableCellsHooks = (fkGroup, title) => {

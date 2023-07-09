@@ -40,8 +40,9 @@
     background: var(--bg-color);
 }
 
-.ant-select-dropdown{
+.funcionario_permission_container .ant-select-dropdown{
     background: var(--bg-color);
+    min-width: 230px !important;
 }
 
 .ant-select-dropdown .ant-space .ant-select .ant-select-selector .ant-select-selection-placeholder{

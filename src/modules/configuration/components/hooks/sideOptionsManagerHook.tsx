@@ -1,25 +1,23 @@
 import { useEffect, useState } from "react";
 import { useJournySede } from "./useSedeJornada";
 import { TFuncionarioTPermissionGetDataHook } from '../optionsRender/tfuncionario_tpermitidos/tfuncionarioTpermitidosHook';
-import { Card, Col } from "antd";
 import { FuncionarioPermissionComponent } from "../optionsRender/tfuncionario_tpermitidos/tfuncionario_tpermitidos"
 
 import MyForm from "@/utils/components/tableCheckbox/tableChecBox";
+import { Card, Col, Spin } from "antd";
+import { equisIcon } from "../../../../utils/assets/icon/iconManager";
+import { useNivelSede } from "./useSedeNivel";
+import SedeInfraEstructuraFisica from "../../../../utils/components/formSedeInfra";
 
-export const sideOptionsManagerHook  = () =>{
-    const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
+export const SideOptionsManagerHook = () => {
 
-    const [optionTableSelected, setOptionTableSelected] = useState('')
+  const [optionTableSelected, setOptionTableSelected] = useState('')
 
-    const [tableGridWidth, setTableGridWidth] = useState(14);
+  const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
 
-    const [secondaryTableComponentRender, setSecondaryTableComponentRender] = useState(<></>);
+  const [tableGridWidth, setTableGridWidth] = useState(12);
 
-    const [currentRowInformation, setCurrentRowInformation] = useState(null)
-
-    const {  dataSede,
-            setDataSede,
-            journySedeGetData, } : any =  useJournySede();
+  const [currentRowInformation, setCurrentRowInformation] = useState<any>(null)
 
     const {
         items,
@@ -27,35 +25,89 @@ export const sideOptionsManagerHook  = () =>{
         getUserRoles,
     } : any = TFuncionarioTPermissionGetDataHook();
 
-    const handleCloseSecondaryTable = () => {
-        setSecondaryTableComponentRender(<></>)
-        setDataSede(null)
-        setIsSecondaryTableOpen(false);
-    };
-    
+  const [secondaryTableComponentRender, setSecondaryTableComponentRender] =
+    useState(<></>);
 
-const handleOpenSecondaryTable = async (record, nameSideOption) => {
+  const {
+    dataSede,
+    journySedeGetData,
+    handleSendData,
+    setDataSede,
+    selectedValues,
+    contextHolder,
+  }: // handleCheckboxChange,
+  any = useJournySede();
+  const {
+    nivelSedeGetData,
+    handleSendDataNivel,
+    dataSedeNivel,
+    setDataSedeNivel,
+    selectedValuesNivel,
+  }:any = useNivelSede();
 
-    setOptionTableSelected(nameSideOption)
-    setCurrentRowInformation(record)
+  // const {onFieldChange, onFinish}=useSedeInfra()
+
+  const handleCloseSecondaryTable = () => {
+    setSecondaryTableComponentRender(
+      <Col
+        span={2}
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          display: "flex",
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        <Spin tip="" size="large" />
+      </Col>
+    );
+    setDataSede(null);
+    setDataSedeNivel(null)
+    setIsSecondaryTableOpen(false);
+  };
+
+
+  const useSedeInfraComponente= (
+    <>
+    {/* {contextHolder} */}
+          <Col md={8}>
+            <Card style={{width: "100%"}} className="cardInfra"
+              extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
+            >
+              <SedeInfraEstructuraFisica/>
+            </Card>
+          </Col>
+    </>
+  )
+
+  const handleOpenSecondaryTable = async (record, nameSideOption) => {
+    handleCloseSecondaryTable();
     setIsSecondaryTableOpen(true);
 
     switch (nameSideOption) {
-        case 'useSedeJornada':
+      case "useSedeJornada":
+        setTableGridWidth(12);
+        journySedeGetData(record);
 
-            setTableGridWidth(14);
+        break;
+      case "useSedeNivel":
+        setTableGridWidth(12);
+        nivelSedeGetData(record);
+        break;
+      case "useSedeInfra":
+        setSecondaryTableComponentRender(useSedeInfraComponente);
+        
+        setTableGridWidth(12);
+        setIsSecondaryTableOpen(true);
+        break;
 
-            journySedeGetData(record)
-
-            break;
-
-        case 'useFuncionarioPermission':
-
-            setTableGridWidth(10);
-
-            getUserRoles(record?.FK_TUSUARIO);
-
-            break
+      case 'useFuncionarioPermission':
+          setOptionTableSelected('useFuncionarioPermission');
+          setCurrentRowInformation(record)
+          setTableGridWidth(10);
+          getUserRoles(record?.FK_TUSUARIO);
+          break
     
         default:
             setIsSecondaryTableOpen(false);
@@ -63,50 +115,84 @@ const handleOpenSecondaryTable = async (record, nameSideOption) => {
     }
 };
 
-    useEffect(() => {
-        if(dataSede){
-        
-            const useSedeJornadaComponent = (
-                <Col md={6}>
-                    <Card className="justify-content-center align-items-center ">
-                        <MyForm onClick={handleCloseSecondaryTable} title={"tsede_jornada"} data={dataSede}/>
-                    </Card>
-                </Col>
-            );
-            setSecondaryTableComponentRender(useSedeJornadaComponent);
-        }
-    }, [dataSede])
+  useEffect(() => {
+    if (dataSede) {
+      const useSedeJornadaComponent = (
+        <>
+          {contextHolder}
+          <Col md={8}>
+            <Card
+            style={{width: "100%"}}
+              title="Tsede_jornada"
+              extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
+            >
+              <MyForm
+                data={dataSede}
+                setData={setDataSede}
+                handleSendData={handleSendData}
+                selectedValues={selectedValues}
+                // onChange={handleCheckboxChange}
+                onClick={handleCloseSecondaryTable}
+                rowKey="PK_TJORNADA"               
+              />
+            </Card>
+          </Col>
+        </>
+      );
 
-    useEffect(() => {
-
-        console.log('item first val: ', items);
-        console.log('first rollOptions: ', rollOptions);
-
-        if(items && rollOptions && (optionTableSelected == 'useFuncionarioPermission')){
-        
-            const useFuncionarioPermissionComponent = (
-                <Col md={10}>
-                    <Card className="justify-content-center align-items-center " style={{background: 'var(--bg-color)', border: '0'}}>
-                        <FuncionarioPermissionComponent
-                            firstData={items}
-                            rollOptionsToAddFirst={rollOptions}
-                            userID={currentRowInformation?.FK_TUSUARIO}
-                            onClick={handleCloseSecondaryTable}
-                        />
-                    </Card>
-                </Col>
-            );
-
-            setSecondaryTableComponentRender(useFuncionarioPermissionComponent);
-        }
-    }, [rollOptions])
-
-    return {
-        isSecondaryTableOpen,
-        handleOpenSecondaryTable,
-        setIsSecondaryTableOpen,
-        secondaryTableComponentRender,
-        handleCloseSecondaryTable,
-        tableGridWidth
+      setSecondaryTableComponentRender(useSedeJornadaComponent);
+    } else if (dataSedeNivel) {
+      const useSedeNivelComponent = (
+        <>
+          {contextHolder}
+          <Col md={8}>
+            <Card
+            style={{width: "100%"}}
+              title="Tsede_nivel"
+              extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
+            >
+              <MyForm
+                data={dataSedeNivel}
+                setData={setDataSedeNivel}
+                handleSendData={handleSendDataNivel}
+                selectedValues={selectedValuesNivel}
+                // onChange={handleCheckboxChange}
+                onClick={handleCloseSecondaryTable}
+                rowKey="PK_TNIVEL_ENSENANZA"
+                
+              />
+            </Card>
+          </Col>
+        </>
+      );
+      setSecondaryTableComponentRender(useSedeNivelComponent);
     }
-}
+
+    if(items && rollOptions && (optionTableSelected == 'useFuncionarioPermission')){
+    
+        const useFuncionarioPermissionComponent = (
+            <Col md={10}>
+                <Card className="justify-content-center align-items-center " style={{background: 'var(--bg-color)', border: '0'}}>
+                    <FuncionarioPermissionComponent
+                        firstData={items}
+                        rollOptionsToAddFirst={rollOptions}
+                        userID={currentRowInformation?.FK_TUSUARIO}
+                        onClick={handleCloseSecondaryTable}
+                    />
+                </Card>
+            </Col>
+        );
+
+        setSecondaryTableComponentRender(useFuncionarioPermissionComponent);
+    }
+  }, [dataSede, dataSedeNivel, rollOptions]);
+
+  return {
+    isSecondaryTableOpen,
+    handleOpenSecondaryTable,
+    setIsSecondaryTableOpen,
+    secondaryTableComponentRender,
+    handleCloseSecondaryTable,
+    tableGridWidth,
+  };
+};

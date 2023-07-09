@@ -3,8 +3,6 @@ import { Col, Divider, Row, Select, Space, Spin } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { TransferComponent } from "./transferComponent/transferComponent";
 
-import type { InputRef } from 'antd';
-
 import { xIcon } from '../../../../../utils/assets/icon/iconManager';
 
 import "./tfuncionario_tpermitidos.css";
@@ -35,7 +33,7 @@ const FuncionarioPermissionComponent = (props: funcionarioPermissionProps)=>{
             name, 
             setName} = TFuncionarioTPermissionGetDataHook(firstData, rollOptionsToAddFirst, userID);
 
-    const inputRef = useRef<InputRef>(null);
+    const inputRef = useRef<any>(null);
 
     const onChangeOptionRolSelected = (_, rolSelected) => {
         setSelectedRol(rolSelected);
@@ -63,6 +61,7 @@ const FuncionarioPermissionComponent = (props: funcionarioPermissionProps)=>{
             <br/>
             <Row>
                 <Select
+                    className='funcionario_permission_Select'
                     style={{ width: '256px'}}
                     placeholder="Rol"
                     onChange={onChangeOptionRolSelected}

@@ -1,7 +1,7 @@
 import { Popover, Col, Row, Spin } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { sessionInformationStore } from '../../../../store/userInformationStore';
 import shallow from 'zustand/shallow';
 import { logout } from "../../../../utils/services/helper/auth-helper";
@@ -44,6 +44,9 @@ const UserSettings: React.FC = () => {
         shallow
     );
 
+    const getLocalStorage = JSON.parse(localStorage.getItem('user_token_information')!!);
+    const rolesLocalStorage = getLocalStorage.rol;
+
     const { updateValue } = sessionInformationStore();
 
     const { close } = mainDrawerStore()
@@ -68,7 +71,7 @@ const UserSettings: React.FC = () => {
         return (
           <div style={{ padding: '10px', backgroundColor: 'var(--bg-color)' }}>
             <ul>
-              {roles.map((elemento, index) => (
+              {rolesLocalStorage.map((elemento, index) => (
                 <li className='listRoles' onClick={handleClick} key={index}>{elemento}</li>
               ))}
             </ul>

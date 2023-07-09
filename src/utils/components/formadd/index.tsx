@@ -1,11 +1,15 @@
 import { SaveOutlined } from "@ant-design/icons";
 
 import { Col, Row } from "antd";
-import { ErrorMessage, Field, Formik, Form } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Yup } from "../../utils";
-import MultiSelect from "../selectedform";
-import InputAddNumber from "../inputaddnumber";
 import DatePickerAddForm from "../datepickeraddform";
+import InputAddNumber from "../inputaddnumber";
+import MultiSelect from "../selectedform";
+import "./formaddStyle.css";
+import { sessionInformationStore } from "../../../store/userInformationStore";
+import shallow from "zustand/shallow";
+import { AvalibleSelecteManager } from "./avalibleSelectManager";
 
 const FormAdd = ({
   setTitleState,
@@ -22,12 +26,45 @@ const FormAdd = ({
   handleSubmit: any;
   itemsInformation: any;
 }) => {
-  const initialValuesPrimary = {
-    ...keyValues,
-    AUTHOR_RC: "1",
-    CLIENTS_RC: "1",
+
+   // @ts-ignore
+   const { currentRol, currentInstitution, currentCampus , currentAcademicPeriod, currentAcademicYear} =
+   sessionInformationStore(
+     (state) => ({
+       currentRol: state.currentRol,
+       currentInstitution: state.currentInstitution,
+       currentCampus: state.currentCampus,
+       currentAcademicPeriod: state.currentAcademicPeriod,
+       currentAcademicYear: state.currentAcademicYear,
+     }),
+     shallow
+   );
+
+  const initialValuesGeneraitor = (keys, columInfo) => {
+    const cloneKeys = { ...keys };
+
+    for (const columnItem of columInfo) {
+      if (
+        columnItem.is_nullable === "YES" &&
+        cloneKeys.hasOwnProperty(columnItem.column_name)
+      ) {
+        cloneKeys[columnItem.column_name] = null;
+      }
+    }
+
+    return {
+      ...cloneKeys,
+      AUTHOR_RC: "1",
+      CLIENTS_RC: "1",
+    };
   };
 
+  const initialValuesPrimary = initialValuesGeneraitor(
+    keyValues,
+    itemsInformation
+  );
+
+  //
   const processVarCharTypeRules = (columnQualityInformation: any) => {
     if (columnQualityInformation?.is_nullable == "NO") {
       return Yup.string()
@@ -46,7 +83,7 @@ const FormAdd = ({
     }
 
     if (columnQualityInformation?.is_nullable == "YES") {
-      return Yup.string();
+      return null;
     }
   };
 
@@ -96,7 +133,7 @@ const FormAdd = ({
     return Yup.object().shape(validationObject);
   };
 
-  const inputsGenerator = (inputsOptions:any) => {
+  const inputsGenerator = (inputsOptions: any) => {
     const keys = Object.keys(inputsOptions);
 
     const processColumn = (columnName: any) => {
@@ -105,33 +142,59 @@ const FormAdd = ({
       );
 
       if (columnName.startsWith("FK_")) {
+        const data = optionsManager(FKGroupData[columnName], columnName);
+        console.log(columnName, 'fkselect')
+
+        const selectConditions = AvalibleSelecteManager(columnName, currentRol, currentAcademicPeriod, currentCampus, currentInstitution, currentAcademicYear);
+
+        const columnInformationColor = itemsInformation.filter(
+          (item) => item.column_name == columnName
+        );
+        const validateInputColorRed =
+          (data == undefined || data?.lenght == 0) &&
+          columnInformationColor[0].is_nullable == "NO";
+        const validateInputColorYellow =
+          (data == undefined || data?.lenght == 0) &&
+          columnInformationColor[0].is_nullable == "YES";
         return (
           <>
             <Row gutter={[16, 16]}>
-              <Field
-                component={MultiSelect}
-                style={{
-                  borderRadius: "5px",
-                  border: "2px solid #e2e2e2",
-                  padding: "5px",
-                }}
-                placeholder={columnName}
-                id={columnName}
-                name={columnName}
-                autoComplete="off"
-                options={optionsManager(FKGroupData[columnName], columnName)}
-                filterOption={(input: any, option: any) =>
-                  (option?.label ?? "")
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-              />
+              <Col>
+                <Field
+                  className={
+                    validateInputColorRed
+                      ? "changeColorInputRed"
+                      : validateInputColorYellow
+                      ? "changeColorInputYellow"
+                      : null
+                  }
+                  component={MultiSelect}
+                  placeholder={columnName}
+                  id={columnName}
+                  name={columnName}
+                  autoComplete="off"
+                  options={optionsManager(FKGroupData[columnName], columnName)}
+                  filterOption={(input: any, option: any) =>
+                    (option?.label ?? "")
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  defaultValue={selectConditions?.defaultValue}
+                  isBloqued={selectConditions?.isDisable}
+                />
 
-              <ErrorMessage
-                name={columnName}
-                component={"div"}
-                className="text-danger"
-              />
+                <ErrorMessage
+                  name={columnName}
+                  component={"div"}
+                  className="text-danger"
+                />
+                {validateInputColorRed && (
+                  <div style={{}}>Peligro | Sin datos</div>
+                )}
+                {validateInputColorYellow && (
+                  <div style={{}}>Advertencia | Sin datos</div>
+                )}
+              </Col>
             </Row>
             <br />
           </>

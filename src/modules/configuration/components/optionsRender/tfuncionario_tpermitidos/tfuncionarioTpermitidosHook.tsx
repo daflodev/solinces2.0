@@ -18,7 +18,7 @@ export const TFuncionarioTPermissionGetDataHook  = (data?: any, rolesToAdd?: any
     const [rolSelectedToAddValue, setRolSelectedToAddValue] = useState(null);
     const [isRolSelectedToAddValueAvailable, setIsRolSelectedToAddValueAvailable] = useState(false);
 
-    const [selectedRol, setSelectedRol] = useState(null);
+    const [selectedRol, setSelectedRol] = useState<any>(null);
 
     const[allowedMenuOptions, setAllowedMenuOptions] = useState<object[] | null>(null);
     const[notAllowedMenuOptions, setNotAllowedMenuOptions] = useState<object[] | null>(null);
@@ -67,7 +67,7 @@ export const TFuncionarioTPermissionGetDataHook  = (data?: any, rolesToAdd?: any
             getRoles(filteredDuplicateRoles);
 
         })
-        .catch((error) => {
+        .catch(() => {
             //TODO: Manejo de log de errores
             //console.log("catch response: peticion all user roles FAIL!", error);
         });
@@ -94,7 +94,7 @@ export const TFuncionarioTPermissionGetDataHook  = (data?: any, rolesToAdd?: any
             const filteredNoDefinedValues = readyRolOptions.filter(obj => obj !== undefined);
             setRollOptions(filteredNoDefinedValues  )
         })
-        .catch((error) => {
+        .catch(() => {
             //TODO: Manejo de log de errores
         });
     }

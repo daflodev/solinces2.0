@@ -31,7 +31,8 @@
     "sweetalert2": "^11.4.8",
     "sweetalert2-react-content": "^5.0.7",
     "yup": "^1.1.1",
-    "zustand": "^4.3.8"
+    "zustand": "^4.3.8",
+    "antd-img-crop": "4.12.2"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.3",

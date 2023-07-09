@@ -1,0 +1,10 @@
+
+:where(.css-dev-only-do-not-override-15rg2km).ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload.ant-upload-select{
+    width: 90% !important;
+    height: 250px !important;
+}
+
+:where(.css-dev-only-do-not-override-15rg2km).ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload-list.ant-upload-list-picture-card .ant-upload-list-item-container{
+    width: 90% !important;
+    height: 250px !important;
+}

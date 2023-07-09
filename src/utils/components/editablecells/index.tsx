@@ -1,6 +1,5 @@
-import React from "react";
+import { useContext, useEffect, useRef } from "react";
 import "../../assets/styles/testing.css";
-import { useEffect, useContext, useRef } from "react";
 
 import { IsEditableManager } from './isEditableManager';
 
@@ -18,10 +17,11 @@ interface EditableCellProps {
   save: (record: any) => void;
 }
 
+//@ts-ignore
 import moment from 'moment-timezone';
 
-import 'moment/locale/es';
 import { DatePicker, Form, Input, InputNumber, InputRef, Select } from "antd";
+import 'moment/locale/es';
 import { EditableCellsHooks } from "../../../config/hooks/editableCellsHooks";
 import { EditableContext } from "../inputcells";
 import { sessionInformationStore } from "@/store/userInformationStore";
@@ -83,7 +83,8 @@ export const EditableCell= ({
   // setea los datos del campo de edicion
   const toggleEdit = () => {
     setEditing(!editing);
-    form.setFieldsValue({ [dataIndex]: record[dataIndex] });
+    //@ts-ignore
+    form?.setFieldsValue({ [dataIndex]: record[dataIndex] });
   };
 
   const selectEditableInputType = (isSelectableData:any ,dataInformation:any) =>{
@@ -141,6 +142,7 @@ export const EditableCell= ({
             onChange={(value)=>{
               const formattedValue = formattingNumberFunction(value, dataInformation,'.')
 
+              //@ts-ignore
               form.setFieldValue(title?.props?.name, formattedValue)
             }}
         />
@@ -171,9 +173,6 @@ export const EditableCell= ({
               setEditingValueDate({editingDate: true, value:{[title?.props?.name]: newDate}})
             }}
             onBlur={()=> {
-              save(editingValueDate, record, toggleEdit, children)
-            }}
-            onPressEnter={()=>{
               save(editingValueDate, record, toggleEdit, children)
             }}
             // @ts-ignore

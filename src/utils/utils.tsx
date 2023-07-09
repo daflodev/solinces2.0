@@ -24,6 +24,28 @@ const getUserToken = () => {
   return user;
 }
 
+const removeNullAndEmptyKeys = (json: any): any => {
+  if (typeof json !== 'object' || json === null) {
+    return json;
+  }
+
+  if (Array.isArray(json)) {
+    return json.map(removeNullAndEmptyKeys);
+  }
+
+  const result: any = {};
+
+  for (const key in json) {
+    const value = json[key];
+
+    if (value !== null && !(Array.isArray(value) && value.length === 0)) {
+      result[key] = removeNullAndEmptyKeys(value);
+    }
+  }
+
+  return result;
+}
+
 export {
   alterSwal,
   formik,
@@ -32,4 +54,5 @@ export {
   FormInstance,
   Yup,
   getUserToken,
+  removeNullAndEmptyKeys,
 };

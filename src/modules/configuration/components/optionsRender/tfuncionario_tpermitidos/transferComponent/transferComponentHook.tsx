@@ -265,14 +265,6 @@ export const TransferComponentHook  = (fullData, noPermissionFullData) =>{
 
     };
 
-    const loadingUpdate = () => {
-        messageApi.open({
-          type: 'loading',
-          content: 'Action in progress..',
-          duration: 0,
-        });
-      };
-
     const processOptionsToSent = (allowedOptions, notAllowedOptions, userID, currentRol) =>{
 
         const notAllowedParentFiltered = notAllowedOptions?.filter(notAllowed => {
