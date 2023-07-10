@@ -37,7 +37,7 @@ export const UseSettigns = () => {
   // Estado que maneja la visibilidad delformulario de agregar
   const [visibleForm, setVisibleForm] = useState(false);
 
-  const [dataTable, setDataTable] = useState<any>();
+  const [dataTable, setDataTable] = useState<any>([]);
 
   const [itemsColumnsInformation, setItemsColumnsInformation] = useState([]);
 

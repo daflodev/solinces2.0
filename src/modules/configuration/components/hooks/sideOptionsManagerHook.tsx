@@ -20,9 +20,9 @@ export const SideOptionsManagerHook = () => {
   const [currentRowInformation, setCurrentRowInformation] = useState<any>(null)
 
     const {
-        items,
-        rollOptions,
         getUserRoles,
+        items, setItems,
+        rollOptions, setRollOptions,
     } : any = TFuncionarioTPermissionGetDataHook();
 
   const [secondaryTableComponentRender, setSecondaryTableComponentRender] =
@@ -62,9 +62,17 @@ export const SideOptionsManagerHook = () => {
         <Spin tip="" size="large" />
       </Col>
     );
+
+    setOptionTableSelected('')
+
     setDataSede(null);
     setDataSedeNivel(null)
     setIsSecondaryTableOpen(false);
+
+    //permission view close status
+    setItems(null)
+    setRollOptions(null)
+
   };
 
 
