@@ -1,3 +1,4 @@
+//@ts-ignore
 import React from "react";
 
 import "../../utils/assets/styles/testing.css";
@@ -30,7 +31,6 @@ import SelectableSearch from "../../utils/components/selectablesearch";
 import { UseSettigns } from "./components/hooks/useApp";
 
 import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimiento/formEstablecimientoUsario";
-
 
 import MembreteComponent from "../../utils/components/membrete";
 import { SideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHook";
@@ -122,7 +122,7 @@ const Settings: React.FC = () => {
   };
 
   const renderContentManager = () => {
-    if (currentRol == "RECTOR" && selectedItem?.nombre == "TESTABLECIMIENTO") {
+    if (currentRol != "SUPER_ADMINISTRADOR" && selectedItem?.nombre == "TESTABLECIMIENTO") {
       return (
         <FormEstablecimiento
           setTitleState={setDataTable}
@@ -141,22 +141,19 @@ const Settings: React.FC = () => {
     return vanillaTable;
   };
 
-  const iconOptionsManager = (
-    rol,
-    selectedTable,
-    selectedTableInformation,
-  ) => {
-    let result = (
-      <>
-        {" "}
-        <Popconfirm
-          title="seguro desea eliminar?"
-          onConfirm={() => handleDelete(selectedTableInformation.key)}
-        >
-          <div className="iconDelete">{deleteIcon}</div>
-        </Popconfirm>
-      </>
-    );
+  const iconOptionsManager = (rol, selectedTable, selectedTableInformation) => {
+
+    const rolesToShowuseFuncionarioPermission = ['SUPER_ADMINISTRADOR', 'DIRECTOR_ENTE_TERRITORIAL', 'JEFE_SISTEMA_ENTE_TERRITORIAL', 'JEFE_AREA_PLANEACION', 'JEFE_AREA_COBERTURA', 'RECTOR'];
+
+    let result = (<>
+      {" "}
+      <Popconfirm
+        title="seguro desea eliminar?"
+        onConfirm={() => handleDelete(selectedTableInformation.key)}
+      >
+        <div className="iconDelete">{deleteIcon}</div>
+      </Popconfirm>
+    </>);
 
     switch (selectedTable) {
       case "TSEDE":
@@ -212,35 +209,85 @@ const Settings: React.FC = () => {
 
         break;
 
-        if (rol == "RECTOR") {
-          result = (
-            <>
+      case 'TFUNCIONARIO':
+
+        if(rolesToShowuseFuncionarioPermission.includes(rol)){
+          result = (<>
+            <div
+              onClick={() => {
+                if(visibleForm){
+                  handleMostrarForm()
+                }
+                handleOpenSecondaryTable(selectedTableInformation, 'useFuncionarioPermission')
+              }}
+              style={{ cursor: "pointer" }}
+            >
+              {funcionarioPermisoIcon}
+            </div>
+  
+            <Popconfirm
+              title="seguro desea eliminar?"
+              onConfirm={() => handleDelete(selectedTableInformation.key)}
+            >
+              <div className="iconDelete">{deleteIcon}</div>
+            </Popconfirm>
+          </>)
+        }
+
+        break;
+
+        case 'TPADRE':
+
+          if(rolesToShowuseFuncionarioPermission.includes(rol)){
+            result = (<>
               <div
                 onClick={() => {
-                  if (visibleForm) {
-                    handleMostrarForm();
+                  if(visibleForm){
+                    handleMostrarForm()
                   }
-                  handleOpenSecondaryTable(
-                    selectedTableInformation,
-                    "useFuncionarioPermission"
-                  );
+                  handleOpenSecondaryTable(selectedTableInformation, 'useFuncionarioPermission')
                 }}
                 style={{ cursor: "pointer" }}
               >
                 {funcionarioPermisoIcon}
               </div>
-
+    
               <Popconfirm
                 title="seguro desea eliminar?"
                 onConfirm={() => handleDelete(selectedTableInformation.key)}
               >
                 <div className="iconDelete">{deleteIcon}</div>
               </Popconfirm>
-            </>
-          );
-        }
+            </>)
+          }
+          
+          break;
 
-        break;
+        case 'TESTUDIANTE':
+          if(rolesToShowuseFuncionarioPermission.includes(rol)){
+            result = (<>
+              <div
+                onClick={() => {
+                  if(visibleForm){
+                    handleMostrarForm()
+                  }
+                  handleOpenSecondaryTable(selectedTableInformation, 'useFuncionarioPermission')
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                {funcionarioPermisoIcon}
+              </div>
+    
+              <Popconfirm
+                title="seguro desea eliminar?"
+                onConfirm={() => handleDelete(selectedTableInformation.key)}
+              >
+                <div className="iconDelete">{deleteIcon}</div>
+              </Popconfirm>
+            </>)
+          }
+          
+          break;
 
       default:
         result = (
@@ -255,7 +302,7 @@ const Settings: React.FC = () => {
           </>
         );
         break;
-    }
+    };
 
     return result;
   };
@@ -266,7 +313,7 @@ const Settings: React.FC = () => {
 
     const result: any[] = keys.map((item) => {
       const ifSelected = item.startsWith("FK_");
-
+      
       if (ifSelected) {
         const options = filterSelectOnColumnGenerator(
           item,

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+//@ts-ignore
 import moment from 'moment-timezone';
 
 export const EditableCellsHooks = (fkGroup, title) => {
@@ -71,7 +72,7 @@ export const EditableCellsHooks = (fkGroup, title) => {
       if (result.length > 0) {
         return result[0]?.NOMBRE;
       } else {
-        return "Cargando...";
+        return null;
       }
     };
 

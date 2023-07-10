@@ -1,4 +1,3 @@
-import React from 'react';
 import { Cascader } from 'antd';
 
 import shallow from "zustand/shallow";

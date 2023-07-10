@@ -1,4 +1,3 @@
-import React from "react";
 import { Drawer } from 'antd';
 import HeaderComponent from "../../../config/shared/header";
 

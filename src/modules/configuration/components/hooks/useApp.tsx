@@ -1,16 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
 
+import {
+  apiGetThunksAsync,
+  apiGetThunksMenuItemsOptionsAsync,
+  apiPostThunksAsync
+} from "@/utils/services/api/thunks";
 import { message } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { shallow } from "zustand/shallow";
 import { sessionInformationStore } from "../../../../store/userInformationStore";
 import "../../../../utils/assets/styles/testing.css";
 import { QueryBuilders } from "../../../../utils/orm/queryBuilders";
-import {
-  apiGetThunksAsync,
-  apiGetThunksMenuItemsOptionsAsync,
-  apiPostThunksAsync
-} from "../../../../utils/services/api/thunks";
 import { getUserToken } from "../../../../utils/utils";
 import { QueryManager } from "./queryManager";
 
@@ -24,9 +24,9 @@ export const UseSettigns = () => {
   // Estado para el cambio de idioma
   //const [language, setLanguage] = useState(null);
 
-  // TODO: Maneja la data que se renderizara en la lista
+  // Maneja la data que se renderizara en la lista
   const [settingOptions, setSettingOptions] = useState(null);
-  // TODO:  Estado que manjea la lista renderizada
+  // Estado que manjea la lista renderizada
   const [selectedItem, setSelectedItem] = useState({
     key: null,
     nombre: null,
@@ -35,7 +35,7 @@ export const UseSettigns = () => {
   // Estado que maneja la visibilidad delformulario de agregar
   const [visibleForm, setVisibleForm] = useState(false);
 
-  const [dataTable, setDataTable] = useState<any>();
+  const [dataTable, setDataTable] = useState<any>([]);
 
   const [itemsColumnsInformation, setItemsColumnsInformation] = useState([]);
 
@@ -811,7 +811,6 @@ export const UseSettigns = () => {
 
       toggleEdit();
     } catch (errInfo) {
-      console.log("save error: ", errInfo);
       messageApi.info("Save failed");
     }
   };
@@ -970,7 +969,6 @@ export const UseSettigns = () => {
         }
       })
       .catch((error) => {
-        //TODO: redireccionar en caso de error
 
         console.log("catch response: ", error);
         navigate("/no_permission");

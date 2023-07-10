@@ -1,5 +1,7 @@
-import { Form, FormInstance } from "antd";
+//@ts-ignore
 import React from "react";
+
+import { Form, FormInstance } from "antd";
 
 export const EditableContext = React.createContext<FormInstance<any> | null>(
   null

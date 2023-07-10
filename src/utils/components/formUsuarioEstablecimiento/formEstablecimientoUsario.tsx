@@ -3,7 +3,9 @@ import "../../assets/styles/testing.css";
 import { useEffect, useState } from "react";
 import { useFormEstablecimiento } from "./hooks/useFormEstablecimiento";
 import "../../assets/styles/formEstablecimiento.css";
+//@ts-ignore
 import dayjs from "dayjs";
+//@ts-ignore
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { saveIcon } from "../../assets/icon/iconManager";
 

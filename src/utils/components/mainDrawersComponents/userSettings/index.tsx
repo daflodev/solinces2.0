@@ -1,7 +1,7 @@
 import { Popover, Col, Row, Spin } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { sessionInformationStore } from '../../../../store/userInformationStore';
 import shallow from 'zustand/shallow';
 import { logout } from "../../../../utils/services/helper/auth-helper";
@@ -67,6 +67,7 @@ const UserSettings: React.FC = () => {
   };
 
     const ListaItems = () => {
+      console.log('roles: ', roles)
         return (
           <div style={{ padding: '10px', backgroundColor: 'var(--bg-color)' }}>
             <ul>

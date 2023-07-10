@@ -1,17 +1,29 @@
 import { useEffect, useState } from "react";
 import { useJournySede } from "./useSedeJornada";
-import { Card, Col, Spin } from "antd";
+import { TFuncionarioTPermissionGetDataHook } from '../optionsRender/tfuncionario_tpermitidos/tfuncionarioTpermitidosHook';
+import { FuncionarioPermissionComponent } from "../optionsRender/tfuncionario_tpermitidos/tfuncionario_tpermitidos"
 
-import MyForm from "../../../../utils/components/tableCheckbox/tableChecBox";
+import MyForm from "@/utils/components/tableCheckbox/tableChecBox";
+import { Card, Col, Spin } from "antd";
 import { equisIcon } from "../../../../utils/assets/icon/iconManager";
 import { useNivelSede } from "./useSedeNivel";
 import SedeInfraEstructuraFisica from "../../../../utils/components/formSedeInfra";
 
-
 export const SideOptionsManagerHook = () => {
+
+  const [optionTableSelected, setOptionTableSelected] = useState('')
+
   const [isSecondaryTableOpen, setIsSecondaryTableOpen] = useState(false);
 
   const [tableGridWidth, setTableGridWidth] = useState(12);
+
+  const [currentRowInformation, setCurrentRowInformation] = useState<any>(null)
+
+    const {
+        getUserRoles,
+        items, setItems,
+        rollOptions, setRollOptions,
+    } : any = TFuncionarioTPermissionGetDataHook();
 
   const [secondaryTableComponentRender, setSecondaryTableComponentRender] =
     useState(<></>);
@@ -50,9 +62,17 @@ export const SideOptionsManagerHook = () => {
         <Spin tip="" size="large" />
       </Col>
     );
+
+    setOptionTableSelected('')
+
     setDataSede(null);
     setDataSedeNivel(null)
     setIsSecondaryTableOpen(false);
+
+    //permission view close status
+    setItems(null)
+    setRollOptions(null)
+
   };
 
 
@@ -76,7 +96,6 @@ export const SideOptionsManagerHook = () => {
     switch (nameSideOption) {
       case "useSedeJornada":
         setTableGridWidth(12);
-
         journySedeGetData(record);
 
         break;
@@ -84,19 +103,26 @@ export const SideOptionsManagerHook = () => {
         setTableGridWidth(12);
         nivelSedeGetData(record);
         break;
-        case "useSedeInfra":
-
-         setSecondaryTableComponentRender(useSedeInfraComponente)
-          
-          setTableGridWidth(12);
-          setIsSecondaryTableOpen(true)
-          break
-
-      default:
-        setIsSecondaryTableOpen(false);
+      case "useSedeInfra":
+        setSecondaryTableComponentRender(useSedeInfraComponente);
+        
+        setTableGridWidth(12);
+        setIsSecondaryTableOpen(true);
         break;
+
+      case 'useFuncionarioPermission':
+          setOptionTableSelected('useFuncionarioPermission');
+          setCurrentRowInformation(record)
+          setTableGridWidth(10);
+          getUserRoles(record?.FK_TUSUARIO);
+          break
+    
+        default:
+            setIsSecondaryTableOpen(false);
+            break;
     }
-  };
+};
+
   useEffect(() => {
     if (dataSede) {
       const useSedeJornadaComponent = (
@@ -149,7 +175,26 @@ export const SideOptionsManagerHook = () => {
       );
       setSecondaryTableComponentRender(useSedeNivelComponent);
     }
-  }, [dataSede, dataSedeNivel]);
+
+    if(items && rollOptions && (optionTableSelected == 'useFuncionarioPermission')){
+    
+        const useFuncionarioPermissionComponent = (
+            <Col md={10}>
+                <Card className="justify-content-center align-items-center " style={{background: 'var(--bg-color)', border: '0'}}>
+                    <FuncionarioPermissionComponent
+                        firstData={items}
+                        rollOptionsToAddFirst={rollOptions}
+                        userID={currentRowInformation?.FK_TUSUARIO}
+                        onClick={handleCloseSecondaryTable}
+                    />
+                </Card>
+            </Col>
+        );
+
+        setSecondaryTableComponentRender(useFuncionarioPermissionComponent);
+    }
+  }, [dataSede, dataSedeNivel, rollOptions]);
+
   return {
     isSecondaryTableOpen,
     handleOpenSecondaryTable,
@@ -159,72 +204,3 @@ export const SideOptionsManagerHook = () => {
     tableGridWidth,
   };
 };
-
-// import { Table, Checkbox } from 'antd';
-// import { useState, useEffect } from 'react';
-// import axios from 'axios';
-
-// const MyTable = () => {
-//   const [data, setData] = useState([]);
-
-//   useEffect(() => {
-//     fetchData();
-//   }, []);
-
-//   const fetchData = async () => {
-//     try {
-//       const response = await axios.get('https://ejemplo.com/api/data');
-//       const apiData = response.data;
-//       // Añade una propiedad "checked" inicialmente a "false" en cada objeto de la API
-//       const formattedData = apiData.map((item) => ({ ...item, checked: false }));
-//       setData(formattedData);
-//     } catch (error) {
-//       console.error('Error al obtener los datos:', error);
-//     }
-//   };
-
-//   const handleCheckAll = (e) => {
-//     const checked = e.target.checked;
-//     setData(
-//       data.map((item) => {
-//         return { ...item, checked };
-//       })
-//     );
-//   };
-
-//   const handleCheck = (record, checked) => {
-//     setData(
-//       data.map((item) => {
-//         if (item.id === record.id) {
-//           return { ...item, checked };
-//         }
-//         return item;
-//       })
-//     );
-//   };
-
-//   const columns = [
-//     {
-//       title: (
-//         <Checkbox onChange={handleCheckAll}>
-//           Checked All
-//         </Checkbox>
-//       ),
-//       dataIndex: 'checked',
-//       render: (_, record) => (
-//         <Checkbox
-//           checked={record.checked}
-//           onChange={(e) => handleCheck(record, e.target.checked)}
-//         />
-//       ),
-//     },
-//     {
-//       title: 'Nombre',
-//       dataIndex: 'name',
-//     },
-//   ];
-
-//   return <Table columns={columns} dataSource={data} />;
-// };
-
-// export default MyTable;

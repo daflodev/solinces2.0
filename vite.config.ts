@@ -7,5 +7,10 @@ export default defineConfig({
   server: {
     host:'127.0.0.1',
     port: 9000 // Reemplaza este número con el puerto que desees utilizar
+  },
+  resolve: {
+    alias: {
+      "@": "/src"
+    }
   }
 })
