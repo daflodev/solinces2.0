@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { CampusOptions, AcademicPeriodAndEvaluatePeriodOptions } from "../headerGInterfaces";
+import { AcademicPeriodAndEvaluatePeriodOptions, CampusOptions } from "../headerGInterfaces";
 
 import { shallow } from "zustand/shallow";
 import { sessionInformationStore } from "../../../../store/userInformationStore";
