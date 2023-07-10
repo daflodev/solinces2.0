@@ -65,7 +65,7 @@ export const ApiSedeInfra = async (data: any) => {
 
 
 export const ApiSedeInfraPost = async (data) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/level_sede/`;
+  const url = `https://apisolinces.colombiaevaluadora.co/infrastructure_headquarters/`;
 
   const resp = await axios
     .post(url,data )

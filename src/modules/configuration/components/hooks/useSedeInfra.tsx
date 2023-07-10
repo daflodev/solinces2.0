@@ -94,15 +94,14 @@ const agrupados = _.groupBy(dataSeelect, 'CATEGORIA');
 
 // Imprimir los resultados
 // Crear un objeto final con el nombre de la categoría como llave
-const resultado: { [key: string]: any } = {};
+const resultado = {};
 Object.entries(agrupados).forEach(([categoria, productos]) => {
   resultado[categoria] = productos;
   console.log(resultado, "resultado")
 });
 
-useEffect(()=> {
-  infraFKData()
-}, [])
+
+
 
   const infraSedeGetData = async (record) => {
     // const getPK = record["PK_TSEDE"]
@@ -204,7 +203,7 @@ useEffect(()=> {
     infraSedeGetData,
     initialValues,
     dataSeelect,
-    resultado
- 
+    resultado,
+ infraFKData,
   };
 };

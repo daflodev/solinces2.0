@@ -35,7 +35,7 @@ export const SideOptionsManagerHook = () => {
   }:any = useNivelSede();
 
 
-  const {dataSedeInfra, infraSedeGetData, initialValues, dataSeelect, resultado} = useSedeInfra()
+  const {dataSedeInfra, infraSedeGetData, initialValues, dataSeelect, resultado, infraFKData} = useSedeInfra()
 
   // const {onFieldChange, onFinish}=useSedeInfra()
 
@@ -76,10 +76,11 @@ export const SideOptionsManagerHook = () => {
       case "useSedeNivel":
         setTableGridWidth(16);
         nivelSedeGetData(record);
+        
         break;
         case "useSedeInfra":
           
-          setTableGridWidth(16);
+          setTableGridWidth(10);
           infraSedeGetData(record)
           break
 
@@ -127,9 +128,9 @@ export const SideOptionsManagerHook = () => {
               <MyForm
                 data={dataSedeNivel}
                 setData={setDataSedeNivel}
-                handleSendData={handleSendDataNivel}
                 selectedValues={selectedValuesNivel}
                 // onChange={handleCheckboxChange}
+                handleSendData={handleSendDataNivel}                
                 onClick={handleCloseSecondaryTable}
                 rowKey="PK_TNIVEL_ENSENANZA"
                 
@@ -140,12 +141,14 @@ export const SideOptionsManagerHook = () => {
       );
       setSecondaryTableComponentRender(useSedeNivelComponent);
     }else if (dataSedeInfra && initialValues != null ) {
+      infraFKData()
+
       const useSedeInfraComponente= (
     <>
     {/* {contextHolder} */}
     
-          <Col md={8}>
-            <Card style={{width: "100%"}} className="cardInfra"
+          <Col md={14}>
+            <Card style={{width: "100%"}}
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
             >
               <SedeInfraEstructuraFisica initialValues={initialValues} dataselect={resultado} />
@@ -153,6 +156,7 @@ export const SideOptionsManagerHook = () => {
           </Col>
     </>
   )
+  
       setSecondaryTableComponentRender(useSedeInfraComponente);
     }
   }, [dataSede, dataSedeNivel, dataSedeInfra]);

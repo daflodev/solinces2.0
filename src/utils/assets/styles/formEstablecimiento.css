@@ -1,6 +1,7 @@
 .formulario {
     padding-top: 20px;
     min-height: calc(93vh - 9.2em);
+    width: auto;
 }
 
 .layout-establecimeinto .ant-layout {
