@@ -289,6 +289,33 @@ const Settings: React.FC = () => {
           
           break;
 
+          case 'TUSUARIO':
+
+          if(rolesToShowuseFuncionarioPermission.includes(rol)){
+            result = (<>
+              <div
+                onClick={() => {
+                  if(visibleForm){
+                    handleMostrarForm()
+                  }
+                  handleOpenSecondaryTable(selectedTableInformation, 'useFuncionarioPermission')
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                {funcionarioPermisoIcon}
+              </div>
+    
+              <Popconfirm
+                title="seguro desea eliminar?"
+                onConfirm={() => handleDelete(selectedTableInformation.key)}
+              >
+                <div className="iconDelete">{deleteIcon}</div>
+              </Popconfirm>
+            </>)
+          }
+          
+          break;
+
       default:
         result = (
           <>
