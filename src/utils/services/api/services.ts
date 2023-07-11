@@ -74,6 +74,16 @@ export const ApiSedeInfraPost = async (data) => {
     });
   return resp;
 };
+export const ApiSedeInfraPut = async (FK_TESEDE,data) => {
+  const url = `https://apisolinces.colombiaevaluadora.co/infrastructure_headquarters/${FK_TESEDE}`;
+
+  const resp = await axios
+    .put(url,data)
+    .then((response) => {
+      return response;
+    });
+  return resp;
+};
 
 
 export const ApiSedeInfraFK = async (data) => {

@@ -3,11 +3,11 @@
 import { Col, Form, Input, Layout, Row, Select } from "antd";
 import { saveIcon } from "../../assets/icon/iconManager";
 import { useSedeInfra } from "../../../modules/configuration/components/hooks/useSedeInfra";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Content } from "antd/es/layout/layout";
 
 interface infraProps {
-    onClick?: () => void;
+    handleFormSubmit?:(event: FormEvent) => void;
     form?: any;
     initialValues?: any;
     dataselect?: any;
@@ -27,10 +27,10 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
 
     const [form] = Form.useForm();
 
-    const handleFormSubmit = (values) => {
-        console.log("Valores del formulario:", values);
-        // Realizar acciones adicionales con los valores del formulario si es necesario
-    };
+    // const handleFormSubmit = (values) => {
+    //     console.log("Valores del formulario:", values);
+    //     // Realizar acciones adicionales con los valores del formulario si es necesario
+    // };
 
     const [selectedValues, setSelectedValues] = useState({});
 
@@ -44,8 +44,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
 
     return (
         <>
-          
-                 
+        
 
                 <Form
                     // labelCol={{ span: 4 }}
@@ -54,7 +53,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                     className="formulario"
 
                     disabled={false}
-                    onFinish={handleFormSubmit}
+                    onFinish={props.handleFormSubmit}
                     style={{ maxWidth: 600 }}
                     // form={props.form}
                     initialValues={props.initialValues}

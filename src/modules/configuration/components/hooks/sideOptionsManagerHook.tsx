@@ -35,7 +35,7 @@ export const SideOptionsManagerHook = () => {
   }:any = useNivelSede();
 
 
-  const {dataSedeInfra, infraSedeGetData, initialValues, dataSeelect, resultado, infraFKData} = useSedeInfra()
+  const {dataSedeInfra, infraSedeGetData, initialValues, dataSeelect, resultado, infraFKData, handleFormSubmit} = useSedeInfra()
 
   // const {onFieldChange, onFinish}=useSedeInfra()
 
@@ -60,8 +60,7 @@ export const SideOptionsManagerHook = () => {
   };
 
 
-
-
+  
   const handleOpenSecondaryTable = async (record, nameSideOption) => {
     handleCloseSecondaryTable();
     setIsSecondaryTableOpen(true);
@@ -80,7 +79,7 @@ export const SideOptionsManagerHook = () => {
         break;
         case "useSedeInfra":
           
-          setTableGridWidth(10);
+          setTableGridWidth(16);
           infraSedeGetData(record)
           break
 
@@ -147,14 +146,14 @@ export const SideOptionsManagerHook = () => {
     <>
     {/* {contextHolder} */}
     
-          <Col md={14}>
+          <Col md={8}>
             <Card style={{width: "100%"}}
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
             >
-              <SedeInfraEstructuraFisica initialValues={initialValues} dataselect={resultado} />
+              <SedeInfraEstructuraFisica initialValues={initialValues} dataselect={resultado} handleFormSubmit={handleFormSubmit} />
             </Card>
           </Col>
-    </>
+                </>
   )
   
       setSecondaryTableComponentRender(useSedeInfraComponente);

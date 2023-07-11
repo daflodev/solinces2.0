@@ -6,8 +6,6 @@ import {
   apiGetThunksAsync,
   apiGetThunksMenuItemsOptionsAsync,
   apiPostThunksAsync,
-  // @ts-ignore
-  apiPostThunksAsyncSedeJornada,
 } from "../../../../utils/services/api/thunks";
 import { useParams, useNavigate } from "react-router-dom";
 import { getUserToken } from "../../../../utils/utils";

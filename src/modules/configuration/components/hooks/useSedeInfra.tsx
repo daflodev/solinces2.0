@@ -3,18 +3,20 @@ import {
   apiFKThunksAsyncSedeInfra,
   apiGetThunksAsync,
   apiGetThunksAsyncSedeInfra,
+  apiPostThunksAsyncSedeInfra,
+  apiPutSedeInfra,
 } from "../../../../utils/services/api/thunks";
 import { QueryBuilders } from "../../../../utils/orm/queryBuilders";
 import { Form } from "antd";
 
-import _ from 'lodash';
+import _ from "lodash";
 // import { apiPostThunksAsyncSedeJornada } from "../../../../utils/services/api/thunks";
 
 export const useSedeInfra = () => {
-  const tokenInformation = localStorage.getItem("user_token_information");
-  const parserTokenInformation: any | null = tokenInformation
-    ? JSON.parse(tokenInformation)
-    : null;
+  // const tokenInformation = localStorage.getItem("user_token_information");
+  // const parserTokenInformation: any | null = tokenInformation
+  //   ? JSON.parse(tokenInformation)
+  //   : null;
 
   function changeKey(
     json: Record<string, any>,
@@ -63,8 +65,7 @@ export const useSedeInfra = () => {
   //data table for items list FK_TLV
   const [dataSedeInfra, setDataSedeInfra] = useState<any>({});
   const [initialValues, setInitialValues] = useState<any>({});
-  const [dataSeelect, setDataSelect] = useState<any>()
-
+  const [dataSeelect, setDataSelect] = useState<any>();
 
   const [form] = Form.useForm();
 
@@ -80,28 +81,27 @@ export const useSedeInfra = () => {
     try {
       const response = await apiFKThunksAsyncSedeInfra(fkTlvCategoria);
       const predata = response.data;
-     
-      setDataSelect(predata)
-     
+
+      setDataSelect(predata);
+
       return predata;
     } catch (error) {
       console.log("catch response: ", error);
       return null;
     }
   };
-// Agrupar por la propiedad 'categoria'
-const agrupados = _.groupBy(dataSeelect, 'CATEGORIA');
+  // Agrupar por la propiedad 'categoria'
+  const agrupados = _.groupBy(dataSeelect, "CATEGORIA");
 
-// Imprimir los resultados
-// Crear un objeto final con el nombre de la categoría como llave
-const resultado = {};
-Object.entries(agrupados).forEach(([categoria, productos]) => {
-  resultado[categoria] = productos;
-  console.log(resultado, "resultado")
-});
+  // Imprimir los resultados
+  // Crear un objeto final con el nombre de la categoría como llave
+  const resultado = {};
+  Object.entries(agrupados).forEach(([categoria, productos]) => {
+    resultado[categoria] = productos;
+    // console.log(resultado, "resultado");
+  });
 
-
-
+  
 
   const infraSedeGetData = async (record) => {
     // const getPK = record["PK_TSEDE"]
@@ -110,10 +110,10 @@ Object.entries(agrupados).forEach(([categoria, productos]) => {
         if (response) {
           // console.log(response.data[0], "data")
           const preData = response.data[0];
-          setDataSedeInfra(preData);
+         
           const mergedData = { ...preData };
-          console.log(mergedData, "mergeData")
-
+          console.log(mergedData, "mergeData");
+          setDataSedeInfra(mergedData);
           setInitialValues({
             DISTANCIA_CABECERA_MUNICIPAL:
               mergedData.DISTANCIA_CABECERA_MUNICIPAL
@@ -150,9 +150,7 @@ Object.entries(agrupados).forEach(([categoria, productos]) => {
             TERRENO_ZONA: mergedData.TERRENO_ZONA
               ? mergedData.TERRENO_ZONA
               : null,
-            TIPO_AULA: mergedData.TIPO_AULA
-              ? mergedData.TIPO_AULA
-              : null,
+            TIPO_AULA: mergedData.TIPO_AULA ? mergedData.TIPO_AULA : null,
             SISTEMA_OPERATIVO: mergedData.SISTEMA_OPERATIVO
               ? mergedData.SISTEMA_OPERATIVO
               : null,
@@ -167,7 +165,27 @@ Object.entries(agrupados).forEach(([categoria, productos]) => {
         console.log("catch response: ", error);
       });
   };
+const handleFormSubmit = async (values) => {
+    // console.log("Valores del formulario:", values);
+    const dataForm = {
+      data: values,
+    };
 
+    console.log(dataForm)
+    console.log(dataSedeInfra.FK_TSEDE)
+
+    await apiPutSedeInfra(dataSedeInfra.FK_TSEDE, dataForm)
+    
+      .then((response) => {
+        console.log(dataForm)
+        // const sendData = response;
+        // console.log(sendData, "response");
+      })
+      .catch((error) => {
+        console.log("catch response: ", error);
+      });
+    //     // Realizar acciones adicionales con los valores del formulario si es necesario
+  };
   // console.log(initialValues);
 
   // const apiGetFKTLV = async (nameTable: any, setDataTable: any) => {
@@ -204,6 +222,7 @@ Object.entries(agrupados).forEach(([categoria, productos]) => {
     initialValues,
     dataSeelect,
     resultado,
- infraFKData,
+    infraFKData,
+    handleFormSubmit,
   };
 };

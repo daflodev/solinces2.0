@@ -138,6 +138,11 @@ import {
     return resp;
   };
 
+  export const apiPutSedeInfra = async (FK_TESEDE, data: any) => {
+    const resp = await apiPutSedeInfra(FK_TESEDE, data)  
+    return resp;
+  };
+
 
   export const apiGetThunksAsyncSedeInfra = async (data: any) => {
     const resp = await ApiSedeInfra(data)
