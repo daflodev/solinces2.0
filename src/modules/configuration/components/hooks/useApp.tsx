@@ -485,7 +485,9 @@ export const UseSettigns = () => {
 
   //funcion para eliminar datos de la tabla y envio de mensjae de exitoso
   const handleDelete = async (key: React.Key) => {
-    const filteredData = data.filter((item) => item?.key == key);
+    const keyTable = selectedItem ? selectedItem.key_table : '';
+    const keyDelete = `PK_T${keyTable?.toUpperCase()}`
+    const filteredData = data.filter((item) => item?.[keyDelete] == key);
 
     const whereUpdate = {
       //@ts-ignore
