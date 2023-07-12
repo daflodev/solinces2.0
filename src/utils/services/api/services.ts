@@ -74,10 +74,10 @@ export const ApiSedeInfraPost = async (data) => {
     });
   return resp;
 };
-export const ApiSedeInfraPut = async (FK_TESEDE,data) => {
+export const ApiSedeAsyncInfraPut = async (FK_TESEDE,data) => {
   const url = `https://apisolinces.colombiaevaluadora.co/infrastructure_headquarters/${FK_TESEDE}`;
 
-  const resp = await axios
+  const resp = axios
     .put(url,data)
     .then((response) => {
       return response;

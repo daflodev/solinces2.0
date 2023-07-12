@@ -7,7 +7,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { Content } from "antd/es/layout/layout";
 
 interface infraProps {
-    handleFormSubmit?:(event: FormEvent) => void;
+    handleFormSubmit?: (event: FormEvent) => void;
     form?: any;
     initialValues?: any;
     dataselect?: any;
@@ -35,6 +35,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
     const [selectedValues, setSelectedValues] = useState({});
 
     const handleSelectChange = (value, field) => {
+        console.log(field);
         setSelectedValues((prevSelectedValues) => ({
             ...prevSelectedValues,
             [field]: value,
@@ -44,24 +45,22 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
 
     return (
         <>
-        
-
-                <Form
-                    // labelCol={{ span: 4 }}
-                    // wrapperCol={{ span: 14 }}
-                    // layout="horizontal"
-                    className="formulario"
-
-                    disabled={false}
-                    onFinish={props.handleFormSubmit}
-                    style={{ maxWidth: 600 }}
-                    // form={props.form}
-                    initialValues={props.initialValues}
-                    form={form}
-                >   <Layout>
-                   
+            <Form
+                // labelCol={{ span: 4 }}
+                // wrapperCol={{ span: 14 }}
+                // layout="horizontal"
+                className="formulario"
+                disabled={false}
+                onFinish={props.handleFormSubmit}
+                style={{ maxWidth: 600 }}
+                // form={props.form}
+                initialValues={props.initialValues}
+                form={form}
+            >
+                {" "}
+                <Layout>
                     <Row gutter={[16, 16]}>
-                    <Col xs={24} lg={8} xl={12}>
+                        <Col xs={24} lg={8} xl={12}>
                             {/* <div className="form-container">
                             <div className="form-column">
                                 <div className="form-field"> */}
@@ -93,8 +92,6 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                                         </div> */}
                             </Form.Item>
 
-
-
                             <Form.Item name="DISTANCIA_CABECERA_MUNICIPAL">
                                 <Input style={{ width: 100 }} />
                                 {/* <div
@@ -117,7 +114,10 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                                         </div> */}
                             </Form.Item>
                             <Form.Item name={"VIA_ACCESO_TRONCAL"}>
-                                <Input style={{ width: 100 }} placeholder="via_acceso_troncal" />
+                                <Input
+                                    style={{ width: 100 }}
+                                    placeholder="via_acceso_troncal"
+                                />
                             </Form.Item>
                             <Form.Item name={"VIA_ACCESO_RIO"}>
                                 <Input style={{ width: 100 }} placeholder="via_acceso_rio" />
@@ -134,7 +134,6 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                                     placeholder="descripcion_otro_acceso"
                                 />
                             </Form.Item>
-
 
                             <Form.Item name={"VIA_ACCESO_PRINCIPAL"}>
                                 <Input
@@ -155,31 +154,37 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                             </div>
                         </div> */}
                         </Col>
-                     
-                       
-                        <Col xs={24} lg={8} xl={12}>   
-                        <Layout>
-                        {Object.entries(props.dataselect).map(([field, option]) => (
-                            <Form.Item key={field} name={field}>
-                                <Select
-                                    value={selectedValues[field]}
-                                    onChange={(value) => handleSelectChange(value, field)}
-                                    style={{ width: 100 }}
-                                    placeholder={field}
-                                >
-                                    {option.map((option) => (
-                                        <Select.Option
-                                            value={option.PK_TLISTA_VALOR}
-                                            key={option.PK_TLISTA_VALOR}
-                                        >
-                                            {option.NOMBRE}
-                                        </Select.Option>
-                                    ))}
-                                </Select>
-                            </Form.Item>
-                        ))} </Layout>
+
+                        <Col xs={24} lg={8} xl={12}>
+                            <Layout>
+                                {Object.entries(props.dataselect).map(([field, option]) => {
+                                    console.log(option)
+                                   console.log(props.initialValues, " valores iniciales")
+                                   console.log(`FK_TLV_${field}`, "campos") 
+                                    return (
+                                        <>
+                                            <Form.Item key={field} name={`FK_TLV_${field}`}>
+                                                <Select
+                                                
+                                                    onChange={(value) => handleSelectChange(value, field)}
+                                                    style={{ width: 100 }}
+                                                    placeholder={field}
+                                                >
+                                                    {option.map((option) => (
+                                                        <Select.Option
+                                                            value={option.PK_TLISTA_VALOR}
+                                                            key={option.PK_TLISTA_VALOR}
+                                                        >
+                                                            {option.NOMBRE}
+                                                        </Select.Option>
+                                                    ))}
+                                                </Select>
+                                            </Form.Item>
+                                        </>
+                                    );
+                                })}{" "}
+                            </Layout>
                         </Col>
-                       
                     </Row>
 
                     <Row gutter={[16, 16]}>
@@ -197,12 +202,8 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                             </button>
                         </div>
                     </Row>
-                  
-                    </Layout>
-                </Form>
-
-            
-
+                </Layout>
+            </Form>
         </>
     );
 };

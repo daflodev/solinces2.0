@@ -139,7 +139,7 @@ export const SideOptionsManagerHook = () => {
         </>
       );
       setSecondaryTableComponentRender(useSedeNivelComponent);
-    }else if (dataSedeInfra && initialValues != null ) {
+    }else if (dataSedeInfra) {
       infraFKData()
 
       const useSedeInfraComponente= (

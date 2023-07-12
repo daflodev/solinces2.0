@@ -68,6 +68,7 @@ export const useSedeInfra = () => {
   const [dataSeelect, setDataSelect] = useState<any>();
 
   const [form] = Form.useForm();
+  const [isEdit, setIsEdit] = useState(false);
 
   const fkTlvCategoria = [
     "'ESTADO_INFRAESTRUCTURA'",
@@ -101,8 +102,6 @@ export const useSedeInfra = () => {
     // console.log(resultado, "resultado");
   });
 
-  
-
   const infraSedeGetData = async (record) => {
     // const getPK = record["PK_TSEDE"]
     await apiGetThunksAsyncSedeInfra(record.PK_TSEDE)
@@ -110,52 +109,51 @@ export const useSedeInfra = () => {
         if (response) {
           // console.log(response.data[0], "data")
           const preData = response.data[0];
-         
-          const mergedData = { ...preData };
-          console.log(mergedData, "mergeData");
-          setDataSedeInfra(mergedData);
+
+          console.log(preData, "mergeData");
+          setDataSedeInfra(preData);
           setInitialValues({
-            DISTANCIA_CABECERA_MUNICIPAL:
-              mergedData.DISTANCIA_CABECERA_MUNICIPAL
-                ? mergedData.DISTANCIA_CABECERA_MUNICIPAL
-                : null,
-            VIA_ACCESO_TRONCAL: mergedData.VIA_ACCESO_TRONCAL
-              ? mergedData.VIA_ACCESO_TRONCAL
+            DISTANCIA_CABECERA_MUNICIPAL: preData.DISTANCIA_CABECERA_MUNICIPAL
+              ? preData.DISTANCIA_CABECERA_MUNICIPAL
               : null,
-            VIA_ACCESO_PRINCIPAL: mergedData.VIA_ACCESO_PRINCIPAL
-              ? mergedData.VIA_ACCESO_PRINCIPAL
+            VIA_ACCESO_TRONCAL: preData.VIA_ACCESO_TRONCAL
+              ? preData.VIA_ACCESO_TRONCAL
               : null,
-            VIA_ACCESO_RIO: mergedData.VIA_ACCESO_RIO
-              ? mergedData.VIA_ACCESO_RIO
+            VIA_ACCESO_PRINCIPAL: preData.VIA_ACCESO_PRINCIPAL
+              ? preData.VIA_ACCESO_PRINCIPAL
               : null,
-            VIA_ACCESO_CARRETEABLE: mergedData.VIA_ACCESO_CARRETEABLE
-              ? mergedData.VIA_ACCESO_CARRETEABLE
+            VIA_ACCESO_RIO: preData.VIA_ACCESO_RIO
+              ? preData.VIA_ACCESO_RIO
               : null,
-            VIA_ACCESO_TRANSPORTE_ANIMAL:
-              mergedData.VIA_ACCESO_TRANSPORTE_ANIMAL
-                ? mergedData.VIA_ACCESO_TRANSPORTE_ANIMAL
-                : null,
-            VIA_ACCESO_OTROS: mergedData.PC_LICENCIADOS
-              ? mergedData.PC_LICENCIADOS
+            VIA_ACCESO_CARRETEABLE: preData.VIA_ACCESO_CARRETEABLE
+              ? preData.VIA_ACCESO_CARRETEABLE
               : null,
-            DESCRIPCION_OTRO_ACCESO: mergedData.VIA_ACCESO_OTROS
-              ? mergedData.VIA_ACCESO_OTROS
+            VIA_ACCESO_TRANSPORTE_ANIMAL: preData.VIA_ACCESO_TRANSPORTE_ANIMAL
+              ? preData.VIA_ACCESO_TRANSPORTE_ANIMAL
               : null,
-            PC_LICENCIADOS: mergedData.PC_LICENCIADOS
-              ? mergedData.PC_LICENCIADOS
+            VIA_ACCESO_OTROS: preData.PC_LICENCIADOS
+              ? preData.PC_LICENCIADOS
               : null,
-            ESTADO_INFRAESTRUCTURA: mergedData.ESTADO_INFRAESTRUCTURA
-              ? mergedData.ESTADO_INFRAESTRUCTURA
+            DESCRIPCION_OTRO_ACCESO: preData.VIA_ACCESO_OTROS
+              ? preData.VIA_ACCESO_OTROS
               : null,
-            TERRENO_ZONA: mergedData.TERRENO_ZONA
-              ? mergedData.TERRENO_ZONA
+            PC_LICENCIADOS: preData.PC_LICENCIADOS
+              ? preData.PC_LICENCIADOS
               : null,
-            TIPO_AULA: mergedData.TIPO_AULA ? mergedData.TIPO_AULA : null,
-            SISTEMA_OPERATIVO: mergedData.SISTEMA_OPERATIVO
-              ? mergedData.SISTEMA_OPERATIVO
+            FK_TLV_ESTADO_INFRAESTRUCTURA: preData.FK_TLV_ESTADO_INFRAESTRUCTURA
+              ? preData.FK_TLV_ESTADO_INFRAESTRUCTURA
               : null,
-            ENCARGADO_LICENCIAS: mergedData.ENCARGADO_LICENCIAS
-              ? mergedData.ENCARGADO_LICENCIAS
+            FK_TLV_TERRENA_ZONA: preData.FK_TLV_TERRENA_ZONA
+              ? preData.FK_TLV_TERRENA_ZONA
+              : null,
+            FK_TLV_TIPO_AULA: preData.FK_TLV_TIPO_AULA
+              ? preData.FK_TLV_TIPO_AULA
+              : null,
+            FK_TLV_SISTEMA_OPERATIVO: preData.FK_TLV_SISTEMA_OPERATIVO
+              ? preData.FK_TLV_SISTEMA_OPERATIVO
+              : null,
+            FK_TLV_ENCARGADO_LICENCIAS: preData.FK_TLV_ENCARGADO_LICENCIAS
+              ? preData.FK_TLV_ENCARGADO_LICENCIAS
               : null,
           });
         }
@@ -165,25 +163,28 @@ export const useSedeInfra = () => {
         console.log("catch response: ", error);
       });
   };
-const handleFormSubmit = async (values) => {
+  const handleFormSubmit = async (values) => {
     // console.log("Valores del formulario:", values);
-    const dataForm = {
-      data: values,
-    };
+    const dataForm = values;
 
-    console.log(dataForm)
-    console.log(dataSedeInfra.FK_TSEDE)
+    // console.log(dataForm);
+    // console.log(dataSedeInfra.FK_TSEDE);
 
-    await apiPutSedeInfra(dataSedeInfra.FK_TSEDE, dataForm)
-    
+    apiPutSedeInfra(dataSedeInfra.FK_TSEDE, dataForm)
       .then((response) => {
-        console.log(dataForm)
-        // const sendData = response;
-        // console.log(sendData, "response");
+        console.log(response);
+
+        const updateData = response.data;
+
+        console.log(updateData);
+        return updateData;
       })
       .catch((error) => {
-        console.log("catch response: ", error);
+        console.log("Error al obtener los datos actualizados:", error);
       });
+
+    // await  apiGetThunksAsyncSedeInfra(dataForm)
+
     //     // Realizar acciones adicionales con los valores del formulario si es necesario
   };
   // console.log(initialValues);
