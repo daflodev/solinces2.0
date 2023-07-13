@@ -1,23 +1,24 @@
 .side-options-container {
     position: absolute;
     z-index: 9999;
-    margin-left: calc(100vw - 56px);
-    margin-top: calc(100vh - calc(8.2rem + 126px));
-    padding: 0 10px 14px 0;
+    padding-right: 0rem;
+    padding-bottom: 0.85rem;
+    bottom: 0.85rem;
+    right: 0.5rem;
 }
 
 .side-options-element{
     background-color: var(--bg-color);
-    width: 42px;
-    height: 116px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    padding: 20px 0 20px 0;
+    padding: 0.625rem;
     box-shadow: var(--menu-box-shadow);
     border: 1px solid var(--side-menu-border-color);
+    flex-wrap: nowrap;
+    gap: 0.625rem;
 }
 
 .side-option-icon:hover{
