@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Spin } from "antd";
 import { DropdownHeaderFilterEvaluate } from "./DropdownHeaderFilterEvaluate";
 import { DropdownHeaderFilterAcademic } from "./DropdownHeaderFilterAcademic";
@@ -91,6 +93,8 @@ const HeaderComponent = () => {
           label: res[0]?.children[0].label
         } : null;
 
+        console.log(res,"Dato Respuesta")
+
         updateValue([
           {
             element: "currentInstitution",
@@ -100,6 +104,11 @@ const HeaderComponent = () => {
             element: "currentCampus",
             // @ts-ignore
             value: firstCampus
+          },
+          {
+            element: "allCampus",
+            // @ts-ignore
+            value: res[0]?.children
           }
         ])
 

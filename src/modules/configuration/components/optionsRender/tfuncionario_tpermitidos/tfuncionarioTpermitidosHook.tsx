@@ -19,13 +19,17 @@ export const TFuncionarioTPermissionGetDataHook  = (data?: any, rolesToAdd?: any
     const [isRolSelectedToAddValueAvailable, setIsRolSelectedToAddValueAvailable] = useState(false);
 
     const [selectedRol, setSelectedRol] = useState<any>(null);
-
+    const [selectedCampus, setSelectedCampus] = useState<any>(null);
     const[allowedMenuOptions, setAllowedMenuOptions] = useState<object[] | null>(null);
     const[notAllowedMenuOptions, setNotAllowedMenuOptions] = useState<object[] | null>(null);
 
-    const { currentCampus } = sessionInformationStore(
+    const currentTableCampusSelected = localStorage.getItem("campus");
+    console.log(currentTableCampusSelected,"DATA CURRENT CAMPUS")
+
+    const { currentCampus , allCampus} = sessionInformationStore(
         (state) => ({
-            currentCampus: state.currentCampus,
+            currentCampus: state.currentCampus, 
+            allCampus: state.allCampus,
         }),
         shallow
       );
@@ -107,7 +111,7 @@ export const TFuncionarioTPermissionGetDataHook  = (data?: any, rolesToAdd?: any
 
         const prepareValueToAdd =[
             {
-                FK_TSEDE: currentCampus?.value,
+                FK_TSEDE: currentTableCampusSelected == "usuario" ? selectedCampus : currentCampus?.value,
                 FK_TROL: name?.value,
                 FK_TUSUARIO: userID,
                 TLV_ESTADO: "ACTIVO",
@@ -216,6 +220,11 @@ export const TFuncionarioTPermissionGetDataHook  = (data?: any, rolesToAdd?: any
         }
     }
 
+    const onChange = (value: string) => {
+        console.log(`selected ${value}`);
+        setSelectedCampus(value)
+    };
+    
     useEffect(() => {
 
         if(selectedRol){
@@ -225,7 +234,7 @@ export const TFuncionarioTPermissionGetDataHook  = (data?: any, rolesToAdd?: any
 
             (function(){
                 apiGetPermissionOptions({
-                    PK_TSEDE: currentCampus?.value,
+                    PK_TSEDE: selectedCampus != null ? selectedCampus : currentCampus?.value,
                     PK_TUSUARIO: userID,
                     PK_TROL: selectedRol?.value
                 }).then(
@@ -245,7 +254,7 @@ export const TFuncionarioTPermissionGetDataHook  = (data?: any, rolesToAdd?: any
             }());
         }
         
-    }, [selectedRol, currentCampus])
+    }, [selectedRol, currentCampus, selectedCampus])
 
     return {
         items, setItems,
@@ -259,6 +268,11 @@ export const TFuncionarioTPermissionGetDataHook  = (data?: any, rolesToAdd?: any
         getUserRoles,
         addItem,
         name,
-        setName
+        setName,
+        currentCampus,
+        setSelectedCampus,
+        selectedCampus,
+        allCampus,
+        onChange
     }
 }
