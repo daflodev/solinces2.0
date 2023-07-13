@@ -30,6 +30,7 @@ import {
   sedeInfraEstructuraFisicaIcon,
   sedeJornada,
   sedeNivel,
+  sedeTecnologicaIcon,
 } from "../../utils/assets/icon/iconManager";
 import { withPrincipal } from "../../utils/components/content";
 import { EditableCell } from "../../utils/components/editablecells";
@@ -205,6 +206,18 @@ const Settings: React.FC = () => {
                 style={{ cursor: "pointer" }}
               >
                 {sedeInfraEstructuraFisicaIcon}
+              </div>
+
+              <div
+                onClick={() =>
+                  handleOpenSecondaryTable(
+                    selectedTableInformation,
+                    "useSedeTecnology"
+                  )
+                }
+                style={{ cursor: "pointer" }}
+              >
+                {sedeTecnologicaIcon}
               </div>
 
               <Popconfirm

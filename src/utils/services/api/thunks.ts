@@ -12,6 +12,8 @@ import {
   ApiSedeInfra,
   ApiSedeInfraFK,
   ApiSedeAsyncInfraPut,
+  ApiSedeAsyncTecnologyPut,
+  ApiSedeTecnology,
 } from "./services";
 
 export const apiGetThunksAsync = async (data: any) => {
@@ -103,7 +105,7 @@ export const apiGetThunksAsyncSedeNivel = async (data: any) => {
 
   return resp;
 };
-
+// data categorias FK_TLV_
 export const apiFKThunksAsyncSedeInfra = async (data: any) => {
   const resp = await ApiSedeInfraFK(data)
     .then((response) => {
@@ -116,6 +118,10 @@ export const apiFKThunksAsyncSedeInfra = async (data: any) => {
 
   return resp;
 };
+
+
+
+// thunks sede infraestructura
 
 export const apiPostThunksAsyncSedeInfra = async (data: any) => {
   const resp = await ApiSedeInfraPost(data)
@@ -130,8 +136,8 @@ export const apiPostThunksAsyncSedeInfra = async (data: any) => {
   return resp;
 };
 
-export const apiPutSedeInfra = async (FK_TESEDE, data: any) => {
-  const resp = ApiSedeAsyncInfraPut(FK_TESEDE, data)
+export const apiPutSedeInfra = async (FK_TSEDE, data) => {
+  const resp = ApiSedeAsyncInfraPut(FK_TSEDE, data)
     .then((response) => {
       const editData = response;
       return editData;
@@ -154,6 +160,48 @@ export const apiGetThunksAsyncSedeInfra = async (data: any) => {
 
   return resp;
 };
+
+
+// thunks sede tecnologica
+
+export const apiPostThunksAsyncSedeTecnology = async (data: any) => {
+  const resp = await ApiSedeTecnology(data)
+    .then((response) => {
+      const getdata = response;
+      return getdata;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+
+  return resp;
+};
+
+export const apiPutSedeTecnology = async (FK_TSEDE, data) => {
+  const resp = ApiSedeAsyncTecnologyPut(FK_TSEDE, data)
+    .then((response) => {
+      const editData = response;
+      return editData;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+  return resp;
+};
+
+export const apiGetThunksAsyncSedeTecnology = async (data: any) => {
+  const resp = await ApiSedeTecnology(data)
+    .then((response) => {
+      const getdata = response.data;
+      return getdata;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+
+  return resp;
+};
+
 
 // @ts-ignore
 export const apiGetThunksMainMenuAsync = async (data: any) => {

@@ -72,7 +72,7 @@ export const useSedeInfra = () => {
 
   const fkTlvCategoria = [
     "'ESTADO_INFRAESTRUCTURA'",
-    "'TERRENO_ZONA'",
+    "'TERRENA_ZONA'",
     "'TIPO_AULA'",
     "'SISTEMA_OPERATIVO'",
     "'ENCARGADO_LICENCIAS'",
@@ -110,7 +110,7 @@ export const useSedeInfra = () => {
           // console.log(response.data[0], "data")
           const preData = response.data[0];
 
-          console.log(preData, "mergeData");
+          // console.log(preData, "mergeData");
           setDataSedeInfra(preData);
           setInitialValues({
             DISTANCIA_CABECERA_MUNICIPAL: preData.DISTANCIA_CABECERA_MUNICIPAL
@@ -167,23 +167,32 @@ export const useSedeInfra = () => {
     // console.log("Valores del formulario:", values);
     const dataForm = values;
 
+    const convertedData = {
+      data: { ...dataForm, FK_TSEDE: dataSedeInfra.FK_TSEDE },
+    };
+
+    // Convierte el objeto o arreglo a JSON
+    // const jsonData = JSON.stringify(convertedData);
+    // console.log("Datos convertidos a JSON:", jsonData);
+
     // console.log(dataForm);
     // console.log(dataSedeInfra.FK_TSEDE);
 
-    apiPutSedeInfra(dataSedeInfra.FK_TSEDE, dataForm)
+    await apiPutSedeInfra(dataSedeInfra.FK_TSEDE, convertedData.data)
       .then((response) => {
+        if (response.data.status === "success") {
+          apiGetThunksAsyncSedeInfra(dataSedeInfra.FK_TSEDE);
+        }
         console.log(response);
 
-        const updateData = response.data;
+        // const updateData = convertedData;
 
-        console.log(updateData);
-        return updateData;
+        // console.log(updateData);
+        return response;
       })
       .catch((error) => {
         console.log("Error al obtener los datos actualizados:", error);
       });
-
-    // await  apiGetThunksAsyncSedeInfra(dataForm)
 
     //     // Realizar acciones adicionales con los valores del formulario si es necesario
   };

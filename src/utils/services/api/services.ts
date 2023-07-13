@@ -52,6 +52,13 @@ export const ApiSedeNivelPost = async (data) => {
 };
 
 
+
+
+
+
+
+
+
 export const ApiSedeInfra = async (data: any) => {
   const url = `https://apisolinces.colombiaevaluadora.co/infrastructure_headquarters/${data}`;
 
@@ -74,8 +81,8 @@ export const ApiSedeInfraPost = async (data) => {
     });
   return resp;
 };
-export const ApiSedeAsyncInfraPut = async (FK_TESEDE,data) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/infrastructure_headquarters/${FK_TESEDE}`;
+export const ApiSedeAsyncInfraPut = async (FK_TSEDE, data) => {
+  const url = `https://apisolinces.colombiaevaluadora.co/infrastructure_headquarters/${FK_TSEDE}`;
 
   const resp = axios
     .put(url,data)
@@ -91,6 +98,42 @@ export const ApiSedeInfraFK = async (data) => {
 
   const resp = await axios
     .post(url,data )
+    .then((response) => {
+      return response;
+    });
+  return resp;
+};
+
+
+
+
+export const ApiSedeTecnology = async (data: any) => {
+  const url = `https://apisolinces.colombiaevaluadora.co/infrastructure_headquarters/${data}`;
+
+  const resp = await axios.get(url).then((response) => {
+    return response;
+  });
+  return resp;
+};
+
+
+
+
+export const ApiSedeTecnologyPost = async (data) => {
+  const url = `https://apisolinces.colombiaevaluadora.co/computing_headquarters/ID_SEDE`;
+
+  const resp = await axios
+    .post(url,data )
+    .then((response) => {
+      return response;
+    });
+  return resp;
+};
+export const ApiSedeAsyncTecnologyPut = async (FK_TSEDE, data) => {
+  const url = `https://apisolinces.colombiaevaluadora.co/computing_headquarters/${FK_TSEDE}`;
+
+  const resp = axios
+    .put(url,data)
     .then((response) => {
       return response;
     });

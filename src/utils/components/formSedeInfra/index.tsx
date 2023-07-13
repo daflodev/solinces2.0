@@ -1,6 +1,6 @@
 // import "../../../utils/assets/styles/sedeInfra.css";
 
-import { Col, Form, Input, Layout, Row, Select } from "antd";
+import { Col, Form, Input, InputNumber, Layout, Row, Select } from "antd";
 import { saveIcon } from "../../assets/icon/iconManager";
 import { useSedeInfra } from "../../../modules/configuration/components/hooks/useSedeInfra";
 import { FormEvent, useEffect, useState } from "react";
@@ -11,6 +11,7 @@ interface infraProps {
     form?: any;
     initialValues?: any;
     dataselect?: any;
+
 }
 
 const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
@@ -43,6 +44,10 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
         console.log(`Opción seleccionada en ${field}:`, value);
     };
 
+    const filteredFields = Object.entries(props.initialValues).filter(
+        ([fieldName]) => !fieldName.startsWith("FK")
+    );
+
     return (
         <>
             <Form
@@ -61,57 +66,81 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                 <Layout>
                     <Row gutter={[16, 16]}>
                         <Col xs={24} lg={8} xl={12}>
-                            {/* <div className="form-container">
-                            <div className="form-column">
-                                <div className="form-field"> */}
-                            <Form.Item name="PC_LICENCIADOS">
-                                <Input
-                                    style={{ width: 100 }}
-                                    onFocus={() =>
-                                        handleFieldFocus(props.initialValues.PC_LICENCIADOS)
-                                    }
-                                    onBlur={() => handleFieldFocus(null)}
-                                />
-                                {/* <div
-                                            className={`placeholder ${selectedField === "PC_LICENCIADOS" ||
-                                                    (props.initialValues
-                                                        ? props.initialValues.PC_LICENCIADOS != null
-                                                        : false)
-                                                    ? "active"
-                                                    : ""
-                                                }`}
-                                        // style={{ ...(initialValues[columnName] === null ?
-                                        //    { width: "45%",
-                                        //   overflow: "hidden",
-                                        //   textOverflow: "ellipsis",
-                                        //   whiteSpace: "nowrap"} : { width: "40%"})
+                            {filteredFields.map(([fieldName, defaultValue]) => (
+                                <Form.Item key={fieldName} name={fieldName}>
+                                    <Input
+                                        maxLength={fieldName === 'DISTANCIA_CABECERA_MUNICIPAL' ? 3 : 1}
+                                       type="number"
+                                        pattern="/^([0-9])*$/"
 
-                                        // }}
-                                        >
-                                            PC_LICENCIADOS
-                                        </div> */}
-                            </Form.Item>
+                                    />
+                                </Form.Item>
+                            ))}
+                        </Col>
 
-                            <Form.Item name="DISTANCIA_CABECERA_MUNICIPAL">
+                        <Col xs={24} lg={8} xl={12}>
+                            <Layout>
+                                {Object.entries(props.dataselect).map(([field, option]) => {
+                                    //     console.log(option)
+                                    //    console.log(props.initialValues, " valores iniciales")
+                                    //    console.log(`FK_TLV_${field}`, "campos")
+                                    return (
+
+                                        <Form.Item key={field} name={`FK_TLV_${field}`}>
+                                            <Select
+                                                key={field}
+                                                onChange={(value) => handleSelectChange(value, field)}
+                                                style={{ width: 100 }}
+                                                placeholder={field}
+                                            >
+                                                {option.map((option) => (
+                                                    <Select.Option
+                                                        value={option.PK_TLISTA_VALOR}
+                                                        key={option.PK_TLISTA_VALOR}
+
+                                                    >
+                                                        {option.NOMBRE}
+                                                    </Select.Option>
+                                                ))}
+                                            </Select>
+                                        </Form.Item>
+
+                                    );
+                                })}{" "}
+                            </Layout>
+                        </Col>
+                    </Row>
+
+                    <Row gutter={[16, 16]}>
+                        <div className="w-100" style={{ padding: 20 }}>
+                            <button
+                                type="submit"
+                                style={{
+                                    background: "transparent",
+                                    cursor: "pointer",
+                                    border: "none",
+                                    color: "black",
+                                }}
+                            >
+                                {saveIcon}
+                            </button>
+                        </div>
+                    </Row>
+                </Layout>
+            </Form>
+        </>
+    );
+};
+
+export default SedeInfraEstructuraFisica;
+
+
+
+
+
+{/* <Form.Item name="DISTANCIA_CABECERA_MUNICIPAL">
                                 <Input style={{ width: 100 }} />
-                                {/* <div
-                                            className={`placeholder ${selectedField === "DISTANCIA_CABECERA_MUNICIPAL" ||
-                                                    (props.initialValues
-                                                        ? props.initialValues["DISTANCIA_CABECERA_MUNICIPAL"] != null
-                                                        : false)
-                                                    ? "active"
-                                                    : ""
-                                                }`}
-                                        // style={{ ...(initialValues[columnName] === null ?
-                                        //    { width: "45%",
-                                        //   overflow: "hidden",
-                                        //   textOverflow: "ellipsis",
-                                        //   whiteSpace: "nowrap"} : { width: "40%"})
-
-                                        // }}
-                                        >
-                                            DISTANCIA_CABECERA_MUNICIPAL
-                                        </div> */}
+                            
                             </Form.Item>
                             <Form.Item name={"VIA_ACCESO_TRONCAL"}>
                                 <Input
@@ -149,63 +178,4 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                             </Form.Item>
                             <Form.Item name={"VIA_ACCESO_OTROS"}>
                                 <Input style={{ width: 100 }} placeholder="via_acceso_otros" />
-                            </Form.Item>
-                            {/*   </div>
-                            </div>
-                        </div> */}
-                        </Col>
-
-                        <Col xs={24} lg={8} xl={12}>
-                            <Layout>
-                                {Object.entries(props.dataselect).map(([field, option]) => {
-                                    console.log(option)
-                                   console.log(props.initialValues, " valores iniciales")
-                                   console.log(`FK_TLV_${field}`, "campos") 
-                                    return (
-                                        <>
-                                            <Form.Item key={field} name={`FK_TLV_${field}`}>
-                                                <Select
-                                                
-                                                    onChange={(value) => handleSelectChange(value, field)}
-                                                    style={{ width: 100 }}
-                                                    placeholder={field}
-                                                >
-                                                    {option.map((option) => (
-                                                        <Select.Option
-                                                            value={option.PK_TLISTA_VALOR}
-                                                            key={option.PK_TLISTA_VALOR}
-                                                        >
-                                                            {option.NOMBRE}
-                                                        </Select.Option>
-                                                    ))}
-                                                </Select>
-                                            </Form.Item>
-                                        </>
-                                    );
-                                })}{" "}
-                            </Layout>
-                        </Col>
-                    </Row>
-
-                    <Row gutter={[16, 16]}>
-                        <div className="w-100" style={{ padding: 20 }}>
-                            <button
-                                type="submit"
-                                style={{
-                                    background: "transparent",
-                                    cursor: "pointer",
-                                    border: "none",
-                                    color: "black",
-                                }}
-                            >
-                                {saveIcon}
-                            </button>
-                        </div>
-                    </Row>
-                </Layout>
-            </Form>
-        </>
-    );
-};
-
-export default SedeInfraEstructuraFisica;
+                            </Form.Item> */}

@@ -7,6 +7,7 @@ import { equisIcon } from "../../../../utils/assets/icon/iconManager";
 import { useNivelSede } from "./useSedeNivel";
 import SedeInfraEstructuraFisica from "../../../../utils/components/formSedeInfra";
 import { useSedeInfra } from "./useSedeInfra";
+import { useSedeTecnology } from "./useSedeInformatica";
 
 
 export const SideOptionsManagerHook = () => {
@@ -25,17 +26,27 @@ export const SideOptionsManagerHook = () => {
     selectedValues,
     contextHolder,
   }: // handleCheckboxChange,
-  any = useJournySede();
+    any = useJournySede();
   const {
     nivelSedeGetData,
     handleSendDataNivel,
     dataSedeNivel,
     setDataSedeNivel,
     selectedValuesNivel,
-  }:any = useNivelSede();
+  }: any = useNivelSede();
 
 
-  const {dataSedeInfra, infraSedeGetData, initialValues, dataSeelect, resultado, infraFKData, handleFormSubmit} = useSedeInfra()
+  const { dataSedeInfra, infraSedeGetData, initialValues, resultado, infraFKData, handleFormSubmit } = useSedeInfra()
+
+  const {
+    form,
+    dataSedeTecnology,
+    TecnologySedeGetData,
+    initialValuesTec,
+
+
+    TecnologyFKData,
+  } = useSedeTecnology()
 
   // const {onFieldChange, onFinish}=useSedeInfra()
 
@@ -60,7 +71,7 @@ export const SideOptionsManagerHook = () => {
   };
 
 
-  
+
   const handleOpenSecondaryTable = async (record, nameSideOption) => {
     handleCloseSecondaryTable();
     setIsSecondaryTableOpen(true);
@@ -75,13 +86,19 @@ export const SideOptionsManagerHook = () => {
       case "useSedeNivel":
         setTableGridWidth(16);
         nivelSedeGetData(record);
-        
+
         break;
-        case "useSedeInfra":
-          
-          setTableGridWidth(16);
-          infraSedeGetData(record)
-          break
+      case "useSedeInfra":
+
+        setTableGridWidth(16);
+        infraSedeGetData(record)
+
+        break;
+
+      case "useSedeTecnology":
+        setTableGridWidth(16);
+        TecnologySedeGetData(record)
+        break;
 
       default:
         setIsSecondaryTableOpen(false);
@@ -95,7 +112,7 @@ export const SideOptionsManagerHook = () => {
           {contextHolder}
           <Col md={8}>
             <Card
-            style={{width: "100%"}}
+              style={{ width: "100%" }}
               title="Tsede_jornada"
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
             >
@@ -106,7 +123,7 @@ export const SideOptionsManagerHook = () => {
                 selectedValues={selectedValues}
                 // onChange={handleCheckboxChange}
                 onClick={handleCloseSecondaryTable}
-                rowKey="PK_TJORNADA"               
+                rowKey="PK_TJORNADA"
               />
             </Card>
           </Col>
@@ -120,7 +137,7 @@ export const SideOptionsManagerHook = () => {
           {contextHolder}
           <Col md={8}>
             <Card
-            style={{width: "100%"}}
+              style={{ width: "100%" }}
               title="Tsede_nivel"
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
             >
@@ -129,34 +146,51 @@ export const SideOptionsManagerHook = () => {
                 setData={setDataSedeNivel}
                 selectedValues={selectedValuesNivel}
                 // onChange={handleCheckboxChange}
-                handleSendData={handleSendDataNivel}                
+                handleSendData={handleSendDataNivel}
                 onClick={handleCloseSecondaryTable}
                 rowKey="PK_TNIVEL_ENSENANZA"
-                
+
               />
             </Card>
           </Col>
         </>
       );
       setSecondaryTableComponentRender(useSedeNivelComponent);
-    }else if (dataSedeInfra) {
+    } else if (dataSedeInfra) {
       infraFKData()
 
-      const useSedeInfraComponente= (
-    <>
-    {/* {contextHolder} */}
-    
+      const useSedeInfraComponente = (
+        <>
+          {/* {contextHolder} */}
+
           <Col md={8}>
-            <Card style={{width: "100%"}}
+            <Card style={{ width: "100%" }}
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
             >
               <SedeInfraEstructuraFisica initialValues={initialValues} dataselect={resultado} handleFormSubmit={handleFormSubmit} />
             </Card>
           </Col>
-                </>
-  )
-  
+        </>
+      )
+
       setSecondaryTableComponentRender(useSedeInfraComponente);
+    } else if (dataSedeTecnology) {
+
+      const useSedeTecnologyComponente = (
+        <>
+          {/* {contextHolder} */}
+
+          <Col md={8}>
+            <Card style={{ width: "100%" }}
+              extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
+            >
+              <SedeInfraEstructuraFisica initialValues={initialValuesTec} />
+            </Card>
+          </Col>
+        </>
+      )
+
+      setSecondaryTableComponentRender(useSedeTecnologyComponente);
     }
   }, [dataSede, dataSedeNivel, dataSedeInfra]);
 
