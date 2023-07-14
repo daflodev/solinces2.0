@@ -1,6 +1,7 @@
 import { DatePicker } from "antd";
-import moment from "moment";
 
+//@ts-ignore
+import moment from "moment";
 
 const DatePickerAddForm = ({
     field,

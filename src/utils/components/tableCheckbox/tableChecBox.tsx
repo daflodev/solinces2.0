@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Table, Checkbox} from "antd";
 import { saveIcon,} from "../../assets/icon/iconManager";
 import "../../assets/styles/tableChecked.css";

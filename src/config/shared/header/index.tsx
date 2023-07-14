@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Spin } from "antd";
 import { DropdownHeaderFilterEvaluate } from "./DropdownHeaderFilterEvaluate";
 import { DropdownHeaderFilterAcademic } from "./DropdownHeaderFilterAcademic";
@@ -91,6 +93,8 @@ const HeaderComponent = () => {
           label: res[0]?.children[0].label
         } : null;
 
+        console.log(res,"Dato Respuesta")
+
         updateValue([
           {
             element: "currentInstitution",
@@ -100,6 +104,11 @@ const HeaderComponent = () => {
             element: "currentCampus",
             // @ts-ignore
             value: firstCampus
+          },
+          {
+            element: "allCampus",
+            // @ts-ignore
+            value: res[0]?.children
           }
         ])
 
@@ -270,7 +279,6 @@ const HeaderComponent = () => {
 
     }, [currentAcademicYear])
 
-    //TODO: regresar condicion != "SUPER_ADMINISTRADOR" cuando se considere listo el filtrado de opciones relaiconadas con cede
     if(parserTokenInformation?.rol[0] != "SUPER_ADMINISTRADOR"){
 
       return(

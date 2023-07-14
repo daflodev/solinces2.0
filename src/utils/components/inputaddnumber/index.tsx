@@ -111,7 +111,7 @@ const InputAddNumber = ({
                 onChange={onChange}
                 onBlur={field.onBlur}
                 step="1"
-                min="0" //TODO: se debe ajustar a ser parametrizado, lo mismo para la propiedad max
+                min="0"
                 placeholder={placeholder}
             />
         </>

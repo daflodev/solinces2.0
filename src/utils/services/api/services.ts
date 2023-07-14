@@ -152,10 +152,6 @@ export const ApiServicesThunksMainMenu = async () => {
 };
 
 export const ApiServicesThunksMainMenuOptionsItem = async (data: any) => {
-  // // estructura
-  // const exampleJSonFormat = {
-  //   url:"opcion"
-  // }
 
   const url = "https://apisolinces.colombiaevaluadora.co/menu_kids/";
   const resp = await axios.post(url, data).then((response) => {
@@ -182,6 +178,41 @@ export const ApiServicesPasswordChange = async (data: any) => {
   return resp;
 };
 
+export const ApiServicesGetPermissionOptions = async (data: any) => {
+  const url = `https://apisolinces.colombiaevaluadora.co/menu_list/`;
+  const resp = await axios.post(url, data).then((response) => {
+    return response;
+  });
+  return resp;
+};
+
+export const ApiServicesUpdatePermissionOptions = async (data: any) => {
+  const url = `https://apisolinces.colombiaevaluadora.co/menu_list/post/`;
+  const resp = await axios.post(url, data).then((response) => {
+    return response;
+  });
+  return resp;
+};
+
+export const ApiServicesGetAllRoles = async () => {
+  const url = `https://apisolinces.colombiaevaluadora.co/rols/`;
+  const resp = await axios.get(url);
+  return resp;
+};
+
+export const ApiServicesGetUserRoles = async (data: any) => {
+  const url = `https://apisolinces.colombiaevaluadora.co/officer_rols/${data}`;
+  const resp = await axios.get(url);
+  return resp;
+};
+
+export const ApiServicesUpdateUserRoles = async (data: any) => {
+  const url = `https://apisolinces.colombiaevaluadora.co/officer_rols`;
+  const resp = await axios.post(url, data).then((response) => {
+    return response;
+  });
+  return resp;
+};
 export const ApiServicesMembrete = async (data: any) => {
 
     const url = "https://apisolinces.colombiaevaluadora.co/upload_file/";

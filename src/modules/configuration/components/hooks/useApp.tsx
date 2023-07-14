@@ -1,17 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 
-import "../../../../utils/assets/styles/testing.css";
-import { message } from "antd";
 import {
   apiGetThunksAsync,
   apiGetThunksMenuItemsOptionsAsync,
-  apiPostThunksAsync,
-} from "../../../../utils/services/api/thunks";
-import { useParams, useNavigate } from "react-router-dom";
-import { getUserToken } from "../../../../utils/utils";
-import { sessionInformationStore } from "../../../../store/userInformationStore";
+  apiPostThunksAsync
+} from "@/utils/services/api/thunks";
+import { message } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
 import { shallow } from "zustand/shallow";
+import { sessionInformationStore } from "../../../../store/userInformationStore";
+import "../../../../utils/assets/styles/testing.css";
 import { QueryBuilders } from "../../../../utils/orm/queryBuilders";
+import { getUserToken } from "../../../../utils/utils";
 import { QueryManager } from "./queryManager";
 
 export const UseSettigns = () => {
@@ -24,9 +24,9 @@ export const UseSettigns = () => {
   // Estado para el cambio de idioma
   //const [language, setLanguage] = useState(null);
 
-  // TODO: Maneja la data que se renderizara en la lista
+  // Maneja la data que se renderizara en la lista
   const [settingOptions, setSettingOptions] = useState(null);
-  // TODO:  Estado que manjea la lista renderizada
+  // Estado que manjea la lista renderizada
   const [selectedItem, setSelectedItem] = useState({
     key: null,
     nombre: null,
@@ -35,7 +35,7 @@ export const UseSettigns = () => {
   // Estado que maneja la visibilidad delformulario de agregar
   const [visibleForm, setVisibleForm] = useState(false);
 
-  const [dataTable, setDataTable] = useState<any>();
+  const [dataTable, setDataTable] = useState<any>([]);
 
   const [itemsColumnsInformation, setItemsColumnsInformation] = useState([]);
 
@@ -177,20 +177,59 @@ export const UseSettigns = () => {
     );
 
   const apiGet = async (nameTable: any, setDataTable: any) => {
+    setDataTable(null);
     const tableDateBase = select_type(nameTable);
 
     if (currentRol == "RECTOR" && nameTable == "sede") {
+
+      //  TEMPORAL
+      const currentAcademicYearLocal = localStorage.getItem('currentAcademicYear');
+      console.log(currentAcademicYearLocal, 'currentAcademicYearLocal')
+      //  TEMPORAL
+
       // // select con where
       const query = new QueryBuilders(nameTable);
-      const results = await query
-        .select("*")
-        .where('"FK_TESTABLECIMIENTO"', '=', currentInstitution?.value)
+      const getDataTable = await query
+        .select("sede.*")
+        .join('periodo_academico', '"FK_TSEDE"', 'sede."PK_TSEDE"')
+        .where('periodo_academico."PK_TPERIODO_ACADEMICO"', '=', currentAcademicYearLocal)
+        // .where('sede."FK_TESTABLECIMIENTO"', '=', currentInstitution?.value)
         .schema(parserTokenInformation?.dataSchema[0])
         .get()
 
+        const querycolumn = new QueryBuilders(nameTable);
+         const columnInfoData: any = await querycolumn
+                        .schema(parserTokenInformation?.dataSchema[0])
+                        .columninfo()
 
-      console.log(results);
+        ProcessingColumnsInformation(
+          columnInfoData,
+          setInputFilter
+        );
 
+        const filterColumnsInformation: any = filtrarJsonArray(
+              columnInfoData,
+              tableDateBase.table
+              );
+        setItemsColumnsInformation(filterColumnsInformation);
+      console.log(currentInstitution?.value, 'currentInstitution');
+     
+
+      // const dataSede = {
+      //   base: tableDateBase.table,
+      //   schema: parserTokenInformation?.dataSchema[0],
+      //   where: { "sede.FK_TESTABLECIMIENTO": currentInstitution?.value },
+      // };
+      // const getdata = changeKey(dataSede, "base", nameTable);
+
+      // 
+      // const query2 = new QueryBuilders(nameTable);
+      // const getDataTable = await query2
+      //   .schema(parserTokenInformation?.dataSchema[0])
+      //   .limit(10)
+      //   .orderBy(`"PK_T${nameTable.toUpperCase()}"`)
+      //   .get()
+      // console.log(getDataTable, 'data -----')
 
       const dataSede = {
         base: tableDateBase.table,
@@ -242,8 +281,8 @@ export const UseSettigns = () => {
       };
       const getdata = changeKey(prevData, "base", nameTable);
 
-      //
-      // const getQueryManager: any = await QueryManager(nameTable, currentRol, currentAcademicYear, currentCampus, parserTokenInformation?.dataSchema[0])
+      // 
+      const getQueryManager: any = await QueryManager(nameTable, currentRol, currentAcademicYear, currentCampus,currentInstitution, parserTokenInformation?.dataSchema[0])
       // const { data, column } : any  = validate
       // const getDataTable =  getQueryManager?.data
       // const columnInfor =  getQueryManager?.column
@@ -460,7 +499,9 @@ export const UseSettigns = () => {
 
   //funcion para eliminar datos de la tabla y envio de mensjae de exitoso
   const handleDelete = async (key: React.Key) => {
-    const filteredData = data.filter((item) => item?.key == key);
+    const keyTable = selectedItem ? selectedItem.key_table : '';
+    const keyDelete = `PK_T${keyTable?.toUpperCase()}`
+    const filteredData = data.filter((item) => item?.[keyDelete] == key);
 
     const whereUpdate = {
       //@ts-ignore
@@ -593,11 +634,13 @@ export const UseSettigns = () => {
     //   const res = getdata;
     //   return res;
     // });
+
+    
     const query = new QueryBuilders(nameTable);
         const getDataTable = await query
         .select('*')
         .schema(parserTokenInformation?.dataSchema[0])
-        .limit(10)
+        // .limit(10)
         .get()
     return getDataTable;
   };
@@ -701,13 +744,16 @@ export const UseSettigns = () => {
 
   //funcion para guardar la data editada
   const handleSave = (row: any) => {
+    const keyTable = selectedItem ? selectedItem.key_table : '';
+    const key = `PK_T${keyTable?.toUpperCase()}`
     const newData = [...data];
-    const index = newData.findIndex((item) => row.key === item.key);
+    const index = newData.findIndex((item) => row[key] === item[key]);
     const item = newData[index];
     newData.splice(index, 1, {
       ...item,
       ...row,
     });
+
     setDataTable(newData);
     setProcessMessage({
       message: "El registro se edito correctamente",
@@ -760,6 +806,7 @@ export const UseSettigns = () => {
         (getdata["where"] = newWhere),
           (getdata["schema"] = parserTokenInformation?.dataSchema[0]);
 
+
         await apiPostThunksAsync(getdata)
           .then((response) => {
             if (response.success == "OK") {
@@ -780,7 +827,6 @@ export const UseSettigns = () => {
 
       toggleEdit();
     } catch (errInfo) {
-      console.log("save error: ", errInfo);
       messageApi.info("Save failed");
     }
   };
@@ -939,7 +985,6 @@ export const UseSettigns = () => {
         }
       })
       .catch((error) => {
-        //TODO: redireccionar en caso de error
 
         console.log("catch response: ", error);
         navigate("/no_permission");
@@ -978,6 +1023,10 @@ export const UseSettigns = () => {
       FKConsultManager(FKNames);
     }
   }, [inputFilter]);
+
+  useEffect(() => {
+    apiGet(selectedItem?.key_table, setDataTable);
+  }, [currentRol, currentInstitution, currentCampus , currentAcademicPeriod, currentAcademicYear]);
 
   const [hovered, setHovered] = useState(false);
 

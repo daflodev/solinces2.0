@@ -3,8 +3,13 @@ import {
   ApiServicesThunksMainMenu,
   ApiServicesThunksMainMenuOptionsItem,
   ApiServicesPasswordChange,
-  ApiServicesMembrete,
   ApiSedeJornada,
+  ApiServicesGetPermissionOptions,
+  ApiServicesUpdatePermissionOptions,
+  ApiServicesGetAllRoles,
+  ApiServicesGetUserRoles,
+  ApiServicesUpdateUserRoles,
+  ApiServicesMembrete,
   ApiSedeJornadaPost,
   ApiSedeNivelPost,
   ApiSedeNivel,
@@ -30,10 +35,8 @@ export const apiGetThunksAsync = async (data: any) => {
         columnsInformation,
       };
     })
-    // @ts-ignore
     .catch((error) => {
-      // @ts-ignore
-      let results = {
+      const results = {
         status: "error",
         message: "No existen datos para la consulta",
       };
@@ -119,8 +122,6 @@ export const apiFKThunksAsyncSedeInfra = async (data: any) => {
   return resp;
 };
 
-
-
 // thunks sede infraestructura
 
 export const apiPostThunksAsyncSedeInfra = async (data: any) => {
@@ -160,7 +161,6 @@ export const apiGetThunksAsyncSedeInfra = async (data: any) => {
 
   return resp;
 };
-
 
 // thunks sede tecnologica
 
@@ -202,8 +202,6 @@ export const apiGetThunksAsyncSedeTecnology = async (data: any) => {
   return resp;
 };
 
-
-// @ts-ignore
 export const apiGetThunksMainMenuAsync = async (data: any) => {
   const resp = await ApiServicesThunksMainMenu()
     .then((response) => {
@@ -213,45 +211,72 @@ export const apiGetThunksMainMenuAsync = async (data: any) => {
       }));
       return getdata;
     })
-    // @ts-ignore
+
     .catch((error) => {
-      // @ts-ignore
-      let results = {
+      const results = {
         status: "error",
         message: "No existen datos para la consulta",
       };
     });
-
-  return resp;
 };
-
-export const apiGetThunksMenuItemsOptionsAsync = async (data: any) => {
-  const resp = await ApiServicesThunksMainMenuOptionsItem(data)
-    .then((response) => {
-      const getdata = response.data.results.map((d: any, i: any) => ({
-        ...d,
-        key: i,
-      }));
-      return {
-        getdata,
-      };
-    })
-    // @ts-ignore
-    .catch((error) => {
-      // @ts-ignore
-      let results = {
-        status: "error",
-        message: "No existen datos para la consulta",
-      };
+export const apiGetPermissionOptions = async (data: any) => {
+  try {
+    const resp = ApiServicesGetPermissionOptions(data).then((response) => {
+      return response?.data?.data;
     });
 
-  return resp;
+    return resp;
+  } catch (error) {
+    //TODO: abjust action to error
+
+    const results = {
+      status: "error",
+      message: "No existen datos para la consulta",
+    };
+  }
 };
 
-export const apiPostPasswordChange = async (data: any) => {
-  const resp = await ApiServicesPasswordChange(data)
+export const apiUpdatePermissionOptions = async (data: any) => {
+  try {
+    const resp = ApiServicesUpdatePermissionOptions(data).then((response) => {
+      return response?.data?.response;
+    });
+
+    return resp;
+  } catch (error) {
+    //TODO: abjust action to error
+
+    const results = {
+      status: "error",
+      message: "La operacion no se pudo realizar",
+    };
+  }
+};
+
+export const apiGetAllRoles = async () => {
+  try {
+    const { data } = await ApiServicesGetAllRoles();
+    return data;
+  } catch (error) {
+    //TODO: manejo de erroes.
+  }
+};
+
+export const apiGetUserRoles = async (id: any) => {
+  try {
+    const { data } = await ApiServicesGetUserRoles(id);
+    return data;
+  } catch (error) {
+    //TODO: manejo de erroes.
+    //console.warn(results);
+  }
+};
+
+export const apiUpdateUserRoles = async (data: any) => {
+  const resp = await ApiServicesUpdateUserRoles(data)
     .then((response) => {
-      console.log("respuesta cambio contraseña: ", response);
+      const getdata = response.data.response;
+      return getdata;
     })
     .catch((error) => {
       return error.response;
@@ -259,7 +284,6 @@ export const apiPostPasswordChange = async (data: any) => {
 
   return resp;
 };
-
 export const apiGetUrlMembrete = async (data: any) => {
   const resp = await ApiServicesMembrete(data)
     .then((response) => {

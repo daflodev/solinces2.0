@@ -2,10 +2,13 @@ import { SaveOutlined } from "@ant-design/icons";
 
 import { Col, Row } from "antd";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import { shallow } from "zustand/shallow";
+import { sessionInformationStore } from "../../../store/userInformationStore";
 import { Yup } from "../../utils";
 import DatePickerAddForm from "../datepickeraddform";
 import InputAddNumber from "../inputaddnumber";
 import MultiSelect from "../selectedform";
+import { AvalibleSelecteManager } from "./avalibleSelectManager";
 import "./formaddStyle.css";
 
 const FormAdd = ({
@@ -23,7 +26,20 @@ const FormAdd = ({
   handleSubmit: any;
   itemsInformation: any;
 }) => {
-  //
+
+   // @ts-ignore
+   const { currentRol, currentInstitution, currentCampus , currentAcademicPeriod, currentAcademicYear} =
+   sessionInformationStore(
+     (state) => ({
+       currentRol: state.currentRol,
+       currentInstitution: state.currentInstitution,
+       currentCampus: state.currentCampus,
+       currentAcademicPeriod: state.currentAcademicPeriod,
+       currentAcademicYear: state.currentAcademicYear,
+     }),
+     shallow
+   );
+
   const initialValuesGeneraitor = (keys, columInfo) => {
     const cloneKeys = { ...keys };
 
@@ -127,6 +143,10 @@ const FormAdd = ({
 
       if (columnName.startsWith("FK_")) {
         const data = optionsManager(FKGroupData[columnName], columnName);
+        console.log(columnName, 'fkselect')
+
+        const selectConditions = AvalibleSelecteManager(columnName, currentRol, currentAcademicPeriod, currentCampus, currentInstitution, currentAcademicYear);
+
         const columnInformationColor = itemsInformation.filter(
           (item) => item.column_name == columnName
         );
@@ -159,6 +179,8 @@ const FormAdd = ({
                       .toLowerCase()
                       .includes(input.toLowerCase())
                   }
+                  defaultValue={selectConditions?.defaultValue}
+                  isBloqued={selectConditions?.isDisable}
                 />
 
                 <ErrorMessage

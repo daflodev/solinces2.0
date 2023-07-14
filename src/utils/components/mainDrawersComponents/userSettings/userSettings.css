@@ -94,6 +94,10 @@
     padding: 3px 10px;
 }
 
+.ant-select-dropdown{
+    background: var(--bg-color);
+}
+
 .user_settings_save_button{
     padding-top: 2rem;
     padding-left: 1rem;
@@ -140,5 +144,5 @@
         gap: '37px';
         font-weight: '400';
         font-size: '18px';
-        backGround: 'red';
+        background: 'red';
 }

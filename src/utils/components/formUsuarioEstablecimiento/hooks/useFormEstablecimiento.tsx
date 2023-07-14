@@ -7,6 +7,7 @@ import {
 import { useState } from "react";
 import { getUserToken } from "../../../utils";
 import { message } from "antd";
+//@ts-ignore
 import dayjs from "dayjs";
 export const useFormEstablecimiento = () => {
   const [messageApi, contextHolder] = message.useMessage();
