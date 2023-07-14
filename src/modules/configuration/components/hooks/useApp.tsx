@@ -54,7 +54,7 @@ export const UseSettigns = () => {
     style: "",
   });
 
-
+  
 
   const [visibleMessage, setVisibleMessage] = useState(<></>);
 
@@ -231,64 +231,50 @@ export const UseSettigns = () => {
       //   .get()
       // console.log(getDataTable, 'data -----')
 
-      const dataSede = {
-        base: tableDateBase.table,
-        schema: parserTokenInformation?.dataSchema[0],
-        where: { "sede.FK_TESTABLECIMIENTO": currentInstitution?.value },
-      };
-      const getdata = changeKey(dataSede, "base", nameTable);
-      // const query2 = new QueryBuilders(nameTable);
-      // const getDataTable = await query2
-      //   .schema(parserTokenInformation?.dataSchema[0])
-      //   .limit(10)
-      //   .orderBy(`"PK_T${nameTable.toUpperCase()}"`)
-      //   .get()
-      // console.log(getDataTable, 'data -----')
+      // const getDataTable = await apiGetThunksAsync(getdata).then(
+      //   (response: any) => {
+      //     const { getdata, columnsInformation } = response;
+      //     console.log(response)
 
-      const getDataTable = await apiGetThunksAsync(getdata).then(
-        (response: any) => {
-          const { getdata, columnsInformation } = response;
-          console.log(response)
+      //     const filterColumnsInformation: any = filtrarJsonArray(
+      //       columnsInformation,
+      //       tableDateBase.table
+      //     );
+      //     // console.log(resultado, 'nuevo json');
 
-          const filterColumnsInformation: any = filtrarJsonArray(
-            columnsInformation,
-            tableDateBase.table
-          );
-          // console.log(resultado, 'nuevo json');
+      //     // #######################
+      //     // const filtroColumnYes = columnsInformation.filter((item) => item.is_nullable == 'YES')
+      //     // const filtroColumnNO = columnsInformation.filter((item) => item.is_nullable == 'NO')
+      //     // console.log(filtroColumnYes, 'nueva columna YES')
+      //     // console.log(filtroColumnNO, 'nueva columna NO')
+      //     // #######################
+      //     ProcessingColumnsInformation(
+      //       filterColumnsInformation,
+      //       setInputFilter
+      //     );
+      //     setItemsColumnsInformation(filterColumnsInformation);
 
-          // #######################
-          // const filtroColumnYes = columnsInformation.filter((item) => item.is_nullable == 'YES')
-          // const filtroColumnNO = columnsInformation.filter((item) => item.is_nullable == 'NO')
-          // console.log(filtroColumnYes, 'nueva columna YES')
-          // console.log(filtroColumnNO, 'nueva columna NO')
-          // #######################
-          ProcessingColumnsInformation(
-            filterColumnsInformation,
-            setInputFilter
-          );
-          setItemsColumnsInformation(filterColumnsInformation);
-
-          const res = getdata;
-          return res;
-        }
-      );
+      //     const res = getdata;
+      //     return res;
+      //   }
+      // );
 
       setDataTable(getDataTable);
     } else {
-      const prevData = {
-        base: tableDateBase.table,
-        schema: parserTokenInformation?.dataSchema[0],
-      };
-      const getdata = changeKey(prevData, "base", nameTable);
+      // const prevData = {
+      //   base: tableDateBase.table,
+      //   schema: parserTokenInformation?.dataSchema[0],
+      // };
+      // const getdata = changeKey(prevData, "base", nameTable);
 
       // 
       const getQueryManager: any = await QueryManager(nameTable, currentRol, currentAcademicYear, currentCampus,currentInstitution, parserTokenInformation?.dataSchema[0])
       // const { data, column } : any  = validate
-      // const getDataTable =  getQueryManager?.data
-      // const columnInfor =  getQueryManager?.column
+      const getDataTable =  getQueryManager?.data
+      const columnInfor =  getQueryManager?.column
       // console.log(data, '--data--')
       // console.log(column, '--data2--')
-      //
+      // 
 
       // const query2 = new QueryBuilders(nameTable);
       // const getDataTable = await query2
@@ -301,27 +287,27 @@ export const UseSettigns = () => {
       //   .schema(parserTokenInformation?.dataSchema[0])
       //   .columninfo()
 
-      //   ProcessingColumnsInformation(
-      //           columnInfor,
-      //           setInputFilter
-      //         );
-      //   const filterColumnsInformation: any = filtrarJsonArray(
-      //           columnInfor,
-      //           tableDateBase.table
-      //         );
-      //   setItemsColumnsInformation(filterColumnsInformation);
+        ProcessingColumnsInformation(
+                columnInfor,
+                setInputFilter
+              );
+        const filterColumnsInformation: any = filtrarJsonArray(
+                columnInfor,
+                tableDateBase.table
+              );
+        setItemsColumnsInformation(filterColumnsInformation);
 
-      //   console.log(getDataTable, 'data 2-----')
+        console.log(getDataTable, 'data 2-----')
 
-      const getDataTable = await apiGetThunksAsync(getdata).then(
-        (response: any) => {
-          const { getdata, columnsInformation } = response;
+      // const getDataTable = await apiGetThunksAsync(getdata).then(
+      //   (response: any) => {
+      //     const { getdata, columnsInformation } = response;
 
-          const filterColumnsInformation: any = filtrarJsonArray(
-            columnsInformation,
-            tableDateBase.table
-          );
-          // console.log(resultado, 'nuevo json');
+      //     const filterColumnsInformation: any = filtrarJsonArray(
+      //       columnsInformation,
+      //       tableDateBase.table
+      //     );
+      //     // console.log(resultado, 'nuevo json');
 
       //     // #######################
       //     // const filtroColumnYes = columnsInformation.filter((item) => item.is_nullable == 'YES')
@@ -329,16 +315,16 @@ export const UseSettigns = () => {
       //     // console.log(filtroColumnYes, 'nueva columna YES')
       //     // console.log(filtroColumnNO, 'nueva columna NO')
       //     // #######################
-          ProcessingColumnsInformation(
-            filterColumnsInformation,
-            setInputFilter
-          );
-          setItemsColumnsInformation(filterColumnsInformation);
+      //     ProcessingColumnsInformation(
+      //       filterColumnsInformation,
+      //       setInputFilter
+      //     );
+      //     setItemsColumnsInformation(filterColumnsInformation);
 
-          const res = getdata;
-          return res;
-        }
-      );
+      //     const res = getdata;
+      //     return res;
+      //   }
+      // );
 
       setDataTable(getDataTable);
     }
@@ -346,13 +332,13 @@ export const UseSettigns = () => {
 
 
 
-
+  
   const handleSelect = (item: any) => {
     setDataTable(null);
     setSelectedItem(item);
     apiGet(item.key_table, setDataTable);
     handleOcultarForm();
-
+    
 
     // cambio de color de item de la lista
     const items = document.querySelectorAll("#mi-lista li");
@@ -668,7 +654,7 @@ export const UseSettigns = () => {
       schema: parserTokenInformation?.dataSchema[0],
       where: {
         "lista_valor.CATEGORIA": categoryApiGetFKTLVManager(
-          selectedItem?.key_table,   
+          selectedItem?.key_table,
           nameTable
         ),
       },
@@ -1076,6 +1062,6 @@ export const UseSettigns = () => {
     itemsColumnsInformation,
     params,
     parserTokenInformation,
-
+   
   };
 };
