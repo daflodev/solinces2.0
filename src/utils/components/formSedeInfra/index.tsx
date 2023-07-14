@@ -7,11 +7,11 @@ import { FormEvent, useEffect, useState } from "react";
 import { Content } from "antd/es/layout/layout";
 
 interface infraProps {
-    handleFormSubmit?: (event: FormEvent) => void;
+    handleFormSubmit?: (values, onClick) => void;
     form?: any;
     initialValues?: any;
     dataselect?: any;
-
+    onClick?: () => void;
 }
 
 const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
@@ -28,11 +28,6 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
 
     const [form] = Form.useForm();
 
-    // const handleFormSubmit = (values) => {
-    //     console.log("Valores del formulario:", values);
-    //     // Realizar acciones adicionales con los valores del formulario si es necesario
-    // };
-
     const [selectedValues, setSelectedValues] = useState({});
 
     const handleSelectChange = (value, field) => {
@@ -48,15 +43,16 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
         ([fieldName]) => !fieldName.startsWith("FK")
     );
 
+    const onFinish = (values) => {
+        props.handleFormSubmit(values, props.onClick);
+    };
+
     return (
         <>
             <Form
-                // labelCol={{ span: 4 }}
-                // wrapperCol={{ span: 14 }}
-                // layout="horizontal"
                 className="formulario"
                 disabled={false}
-                onFinish={props.handleFormSubmit}
+                onFinish={onFinish}
                 style={{ maxWidth: 600 }}
                 // form={props.form}
                 initialValues={props.initialValues}
@@ -69,10 +65,9 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                             {filteredFields.map(([fieldName, defaultValue]) => (
                                 <Form.Item key={fieldName} name={fieldName}>
                                     <Input
-                                        maxLength={fieldName === 'DISTANCIA_CABECERA_MUNICIPAL' ? 3 : 1}
-                                       type="number"
-                                        pattern="/^([0-9])*$/"
-
+                                        maxLength={
+                                            fieldName === "DISTANCIA_CABECERA_MUNICIPAL" ? 3 : 1
+                                        }
                                     />
                                 </Form.Item>
                             ))}
@@ -85,7 +80,6 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                                     //    console.log(props.initialValues, " valores iniciales")
                                     //    console.log(`FK_TLV_${field}`, "campos")
                                     return (
-
                                         <Form.Item key={field} name={`FK_TLV_${field}`}>
                                             <Select
                                                 key={field}
@@ -97,14 +91,12 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                                                     <Select.Option
                                                         value={option.PK_TLISTA_VALOR}
                                                         key={option.PK_TLISTA_VALOR}
-
                                                     >
                                                         {option.NOMBRE}
                                                     </Select.Option>
                                                 ))}
                                             </Select>
                                         </Form.Item>
-
                                     );
                                 })}{" "}
                             </Layout>
@@ -134,48 +126,46 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
 
 export default SedeInfraEstructuraFisica;
 
-
-
-
-
-{/* <Form.Item name="DISTANCIA_CABECERA_MUNICIPAL">
-                                <Input style={{ width: 100 }} />
-                            
-                            </Form.Item>
-                            <Form.Item name={"VIA_ACCESO_TRONCAL"}>
-                                <Input
-                                    style={{ width: 100 }}
-                                    placeholder="via_acceso_troncal"
-                                />
-                            </Form.Item>
-                            <Form.Item name={"VIA_ACCESO_RIO"}>
-                                <Input style={{ width: 100 }} placeholder="via_acceso_rio" />
-                            </Form.Item>
-                            <Form.Item name={"VIA_ACCESO_TRANSPORTE_ANIMAL"}>
-                                <Input
-                                    style={{ width: 100 }}
-                                    placeholder="via_acceso_transporte_animal"
-                                />
-                            </Form.Item>
-                            <Form.Item name={"DESCRIPCION_OTRO_ACCESO"}>
-                                <Input
-                                    style={{ width: 100 }}
-                                    placeholder="descripcion_otro_acceso"
-                                />
-                            </Form.Item>
-
-                            <Form.Item name={"VIA_ACCESO_PRINCIPAL"}>
-                                <Input
-                                    style={{ width: 100 }}
-                                    placeholder="via_acceso_principal"
-                                />
-                            </Form.Item>
-                            <Form.Item name={"VIA_ACCESO_CARRETEABLE"}>
-                                <Input
-                                    style={{ width: 100 }}
-                                    placeholder="via_acceso_carreteable"
-                                />
-                            </Form.Item>
-                            <Form.Item name={"VIA_ACCESO_OTROS"}>
-                                <Input style={{ width: 100 }} placeholder="via_acceso_otros" />
-                            </Form.Item> */}
+{
+    /* <Form.Item name="DISTANCIA_CABECERA_MUNICIPAL">
+                                  <Input style={{ width: 100 }} />
+                              
+                              </Form.Item>
+                              <Form.Item name={"VIA_ACCESO_TRONCAL"}>
+                                  <Input
+                                      style={{ width: 100 }}
+                                      placeholder="via_acceso_troncal"
+                                  />
+                              </Form.Item>
+                              <Form.Item name={"VIA_ACCESO_RIO"}>
+                                  <Input style={{ width: 100 }} placeholder="via_acceso_rio" />
+                              </Form.Item>
+                              <Form.Item name={"VIA_ACCESO_TRANSPORTE_ANIMAL"}>
+                                  <Input
+                                      style={{ width: 100 }}
+                                      placeholder="via_acceso_transporte_animal"
+                                  />
+                              </Form.Item>
+                              <Form.Item name={"DESCRIPCION_OTRO_ACCESO"}>
+                                  <Input
+                                      style={{ width: 100 }}
+                                      placeholder="descripcion_otro_acceso"
+                                  />
+                              </Form.Item>
+  
+                              <Form.Item name={"VIA_ACCESO_PRINCIPAL"}>
+                                  <Input
+                                      style={{ width: 100 }}
+                                      placeholder="via_acceso_principal"
+                                  />
+                              </Form.Item>
+                              <Form.Item name={"VIA_ACCESO_CARRETEABLE"}>
+                                  <Input
+                                      style={{ width: 100 }}
+                                      placeholder="via_acceso_carreteable"
+                                  />
+                              </Form.Item>
+                              <Form.Item name={"VIA_ACCESO_OTROS"}>
+                                  <Input style={{ width: 100 }} placeholder="via_acceso_otros" />
+                              </Form.Item> */
+}

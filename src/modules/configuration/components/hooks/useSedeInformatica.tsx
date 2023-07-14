@@ -1,34 +1,16 @@
 import { useEffect, useState } from "react";
 import {
     apiFKThunksAsyncSedeInfra,
-   
     apiGetThunksAsyncSedeTecnology,
     apiPutSedeTecnology,
 } from "../../../../utils/services/api/thunks";
-import { QueryBuilders } from "../../../../utils/orm/queryBuilders";
 import { Form } from "antd";
 
 import _ from "lodash";
-// import { apiPostThunksAsyncSedeJornada } from "../../../../utils/services/api/thunks";
+
 
 export const useSedeTecnology = () => {
-    // const tokenInformation = localStorage.getItem("user_token_information");
-    // const parserTokenInformation: any | null = tokenInformation
-    //   ? JSON.parse(tokenInformation)
-    //   : null;
-
-    function changeKey(
-        json: Record<string, any>,
-        llaveActual: string,
-        nuevaLlave: string
-    ): Record<string, any> {
-        if (json.hasOwnProperty(llaveActual)) {
-            json[nuevaLlave] = json[llaveActual];
-            delete json[llaveActual];
-        }
-        return json;
-    }
-
+   
    
 
     //data table for items list FK_TLV
@@ -145,12 +127,6 @@ export const useSedeTecnology = () => {
             data: { ...dataForm, FK_TSEDE: dataSedeTecnology.FK_TSEDE },
         };
 
-        // Convierte el objeto o arreglo a JSON
-        // const jsonData = JSON.stringify(convertedData);
-        // console.log("Datos convertidos a JSON:", jsonData);
-
-        // console.log(dataForm);
-        // console.log(dataSedeTecnology.FK_TSEDE);
 
         await apiPutSedeTecnology(dataSedeTecnology.FK_TSEDE, convertedData.data)
             .then((response) => {
@@ -159,21 +135,18 @@ export const useSedeTecnology = () => {
                 }
                 console.log(response);
 
-                // const updateData = convertedData;
-
-                // console.log(updateData);
                 return response;
             })
             .catch((error) => {
                 console.log("Error al obtener los datos actualizados:", error);
             });
 
-        //     // Realizar acciones adicionales con los valores del formulario si es necesario
+       
     };
    
 
     return {
-        // apiGetFKTLV,
+       
         form,
         dataSedeTecnology,
         TecnologySedeGetData,
@@ -182,5 +155,6 @@ export const useSedeTecnology = () => {
         resultado,
         TecnologyFKData,
         handleFormSubmit,
+        setDataSedeTecnology,
     };
 };

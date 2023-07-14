@@ -36,7 +36,7 @@ export const SideOptionsManagerHook = () => {
   }: any = useNivelSede();
 
 
-  const { dataSedeInfra, infraSedeGetData, initialValues, resultado, infraFKData, handleFormSubmit } = useSedeInfra()
+  const { dataSedeInfra, infraSedeGetData, initialValues, resultado, infraFKData, handleFormSubmit, contextHolderInfra } = useSedeInfra()
 
   const {
     form,
@@ -161,20 +161,20 @@ export const SideOptionsManagerHook = () => {
 
       const useSedeInfraComponente = (
         <>
-          {/* {contextHolder} */}
+          {contextHolderInfra}
 
           <Col md={8}>
             <Card style={{ width: "100%" }}
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
             >
-              <SedeInfraEstructuraFisica initialValues={initialValues} dataselect={resultado} handleFormSubmit={handleFormSubmit} />
+              <SedeInfraEstructuraFisica initialValues={initialValues} dataselect={resultado} handleFormSubmit={handleFormSubmit} onClick={handleCloseSecondaryTable} />
             </Card>
           </Col>
         </>
       )
 
       setSecondaryTableComponentRender(useSedeInfraComponente);
-    } else if (dataSedeTecnology) {
+    } else if (dataSedeTecnology ) {
 
       const useSedeTecnologyComponente = (
         <>
