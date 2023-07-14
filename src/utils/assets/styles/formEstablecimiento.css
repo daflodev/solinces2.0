@@ -5,18 +5,22 @@
 
 .form-container {
     display: flex;
-    width: 251px;
+    width: 100%;
 }
 
 .form-column {
     flex: 1;
-    width: 251px;
+    width: 100%;
 }
 
 
 .form-field {
     position: relative;
-    width: 251px;
+    width: 100%;
+}
+
+:where(.css-1wazalj).ant-form-item {
+    margin-bottom: 0 !important;
 }
 
 
@@ -71,19 +75,17 @@
 
 
 .form-field .ant-select .ant-select-selector{
-   
     border-radius: 8px;
     border: 1px solid #e2e2e2;
-    padding: 5px;
-    background-color: transparent !important;
+    background-color: transparent!important;
     z-index: 2;
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 3px 10px;
     gap: 37px;
-    width: 251px !important;
-    height: 35px !important;
+    width: 100%!important;
+    height: 35px!important;
     left: 0px;
     top: 0px;
 }
@@ -95,11 +97,10 @@
 
 .placeholder.active {
     top: 0px;
-    left: 5px;
+    left: 8px;
     font-size: 12px;
-    background-color: white !important;
+    background-color: #fff!important;
     padding: 0 2px;
-    color: var(--high-gray) !important;
     z-index: 2;
-    text-transform:lowercase ;
+    text-transform: lowercase;
 }

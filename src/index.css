@@ -135,3 +135,76 @@
         box-shadow: 0px 7px 29px rgba(0, 0, 0, 0.3);
       }
       
+      
+span.placeholder.active font font {
+  color: var(--high-gray)!important;
+}
+
+input, p, select, span, textarea {
+  font-family: Roboto !important;
+}
+
+.ant-select {
+  width: 100% !important;
+}
+
+.ant-select-selection-item {
+  padding: 3px 10px !important;
+}
+
+.ant-table-title .ant-row.css-1wazalj {
+  font-size: 1.375rem;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.ant-table-title .ant-row.css-1wazalj:nth-child(1) {
+  margin-bottom: 1rem;
+}
+.ant-table-title .ant-row.css-1wazalj:nth-child(1) {
+  margin-bottom: 1rem;
+}
+.ant-table-title .ant-row.css-1wazalj:nth-child(2n) {
+  gap: 1rem;
+}
+
+.editable-cell-value-wrap:hover {
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  padding: 3px 10px;
+}
+
+.dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-tbody >tr.ant-table-row:hover>th, .dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-tbody >tr.ant-table-row:hover>td, .dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-tbody >tr >th.ant-table-cell-row-hover, .dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-tbody >tr >td.ant-table-cell-row-hover {
+  background: var(--dark-blue-gray);
+}
+.dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-tbody >tr >th,.dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-tbody >tr >td {
+  transition: background 0.2s,border-color 0.2s;
+  border-bottom: 1px solid var(--high-gray);
+}
+.dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-thead >tr>th,.dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-thead >tr>td {
+  position: relative;
+  color: rgba(0, 0, 0, 0.88);
+  font-weight: 600;
+  text-align: start;
+  background: #fafafa;
+  border-bottom: 1px solid var(--high-gray);
+  transition: background 0.2s ease;
+}
+.dark-theme .boton svg path {
+  fill: aliceblue;
+}
+
+.dark-theme .ant-table-title svg path {
+  fill: var(--mid-gray) !important;
+}
+
+#mi-lista>li:hover {
+  background: var(--mid-gray);
+}
+
+.anticon svg {
+  display: inline-block;
+  fill: var(--mid-blue);
+}
