@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   apiFKThunksAsyncSedeInfra,
   apiGetThunksAsyncSedeInfra,
+  apiPostThunksAsyncSedeInfra,
   // apiPostThunksAsyncSedeInfra,
   apiPutSedeInfra,
 } from "../../../../utils/services/api/thunks";
@@ -16,9 +17,9 @@ export const useSedeInfra = () => {
   //   ? JSON.parse(tokenInformation)
   //   : null;
 
- 
 
- 
+
+
   const [dataSedeInfra, setDataSedeInfra] = useState<any>({});
   const [initialValues, setInitialValues] = useState<any>({});
   const [dataSeelect, setDataSelect] = useState<any>();
@@ -127,44 +128,66 @@ export const useSedeInfra = () => {
       data: { ...dataForm, FK_TSEDE: dataSedeInfra.FK_TSEDE },
     };
 
-    // Convierte el objeto o arreglo a JSON
-    // const jsonData = JSON.stringify(convertedData);
-    // console.log("Datos convertidos a JSON:", jsonData);
 
-    // console.log(dataForm);
-    // console.log(dataSedeInfra.FK_TSEDE);
+    let statusValue = false
 
-    await apiPutSedeInfra(dataSedeInfra.FK_TSEDE, convertedData.data)
-      .then((response) => {
-        if (response.data.status === "success") {
-          apiGetThunksAsyncSedeInfra(dataSedeInfra.FK_TSEDE);
-          messageApi.open({
-            type: "success",
-            content: "se ha modificado las infraestructura fisica a la sede",
-          });
-  
-          setTimeout(() => {
-            cerrarTable();
-          }, 2000);
-          
-      
-        } else {
-          messageApi.open({
-            type: "error",
-            content: "no se pudo hacer editar la infraestructura fisica de la sede",
-          });
+    // initialValuesTec.map((item) => {
+    //     if (item != null) {
+    //         statusValue = true
+    //     }
+    // })
+
+    for (let propiedad in initialValues) {
+      if (initialValues.hasOwnProperty(propiedad)) {
+        console.log(`La propiedad ${propiedad} tiene el valor ${initialValues[propiedad]}`);
+        if (initialValues[propiedad] != null) {
+          statusValue = true
+          break
         }
+      }
 
-      
-        return response;
+    }
+
+    if (statusValue) {
+      await apiPutSedeInfra(dataSedeInfra.FK_TSEDE, convertedData.data)
+        .then((response) => {
+          if (response.data.status === "success") {
+            apiGetThunksAsyncSedeInfra(dataSedeInfra.FK_TSEDE);
+            messageApi.open({
+              type: "success",
+              content: "se ha modificado las infraestructura fisica a la sede",
+            });
+
+            setTimeout(() => {
+              cerrarTable();
+            }, 2000);
+
+
+          } else {
+            messageApi.open({
+              type: "error",
+              content: "no se pudo hacer editar la infraestructura fisica de la sede",
+            });
+          }
+
+
+          return response;
+        })
+        .catch((error) => {
+          console.log("Error al obtener los datos actualizados:", error);
+        });
+    } else {
+      await apiPostThunksAsyncSedeInfra(convertedData.data).then((response) => {
+        if (response.data.status === "success") {
+          apiGetThunksAsyncSedeInfra(dataSedeInfra.FK_TSEDE)
+        }
       })
-      .catch((error) => {
-        console.log("Error al obtener los datos actualizados:", error);
-      });
+    }
+
 
     //     // Realizar acciones adicionales con los valores del formulario si es necesario
   };
- 
+
   return {
     // apiGetFKTLV,
     form,

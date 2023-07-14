@@ -21,11 +21,11 @@ export const SideOptionsManagerHook = () => {
 
   const [currentRowInformation, setCurrentRowInformation] = useState<any>(null)
 
-    const {
-        getUserRoles,
-        items, setItems,
-        rollOptions, setRollOptions,
-    } : any = TFuncionarioTPermissionGetDataHook();
+  const {
+    getUserRoles,
+    items, setItems,
+    rollOptions, setRollOptions,
+  }: any = TFuncionarioTPermissionGetDataHook();
 
   const [secondaryTableComponentRender, setSecondaryTableComponentRender] =
     useState(<Spin tip="" size="large" />);
@@ -56,8 +56,8 @@ export const SideOptionsManagerHook = () => {
     TecnologySedeGetData,
     initialValuesTec,
 
-
-    // TecnologyFKData,
+    resultadoInformatifca,
+    TecnologyFKData,
   } = useSedeTecnology()
 
   // const {onFieldChange, onFinish}=useSedeInfra()
@@ -119,20 +119,20 @@ export const SideOptionsManagerHook = () => {
         TecnologySedeGetData(record)
         break;
 
-     
+
 
       case 'useFuncionarioPermission':
-          setOptionTableSelected('useFuncionarioPermission');
-          setCurrentRowInformation(record)
-          setTableGridWidth(10);
-          getUserRoles(record.FK_TUSUARIO ? record?.FK_TUSUARIO : record?.PK_TUSUARIO);
-          break
-    
-        default:
-            setIsSecondaryTableOpen(false);
-            break;
+        setOptionTableSelected('useFuncionarioPermission');
+        setCurrentRowInformation(record)
+        setTableGridWidth(10);
+        getUserRoles(record.FK_TUSUARIO ? record?.FK_TUSUARIO : record?.PK_TUSUARIO);
+        break
+
+      default:
+        setIsSecondaryTableOpen(false);
+        break;
     }
-};
+  };
 
   useEffect(() => {
     if (dataSede) {
@@ -203,8 +203,8 @@ export const SideOptionsManagerHook = () => {
       )
 
       setSecondaryTableComponentRender(useSedeInfraComponente);
-    } else if (dataSedeTecnology ) {
-
+    } else if (dataSedeTecnology) {
+      TecnologyFKData()
       const useSedeTecnologyComponente = (
         <>
           {/* {contextHolder} */}
@@ -213,7 +213,7 @@ export const SideOptionsManagerHook = () => {
             <Card style={{ width: "100%" }}
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
             >
-              <SedeInfraEstructuraFisica initialValues={initialValuesTec} />
+              <SedeInfraEstructuraFisica initialValues={initialValuesTec} dataselect={resultadoInformatifca} />
             </Card>
           </Col>
         </>
@@ -222,24 +222,24 @@ export const SideOptionsManagerHook = () => {
       setSecondaryTableComponentRender(useSedeTecnologyComponente);
     }
 
-    if(items && rollOptions && (optionTableSelected == 'useFuncionarioPermission')){
-    
-        const useFuncionarioPermissionComponent = (
-            <Col md={10}>
-                <Card className="justify-content-center align-items-center " style={{background: 'var(--bg-color)', border: '0'}}>
-                    <FuncionarioPermissionComponent
-                        firstData={items}
-                        rollOptionsToAddFirst={rollOptions}
-                        userID={currentRowInformation.FK_TUSUARIO ? currentRowInformation?.FK_TUSUARIO : currentRowInformation?.PK_TUSUARIO}
-                        onClick={handleCloseSecondaryTable}
-                    />
-                </Card>
-            </Col>
-        );
+    if (items && rollOptions && (optionTableSelected == 'useFuncionarioPermission')) {
 
-        setSecondaryTableComponentRender(useFuncionarioPermissionComponent);
+      const useFuncionarioPermissionComponent = (
+        <Col md={10}>
+          <Card className="justify-content-center align-items-center " style={{ background: 'var(--bg-color)', border: '0' }}>
+            <FuncionarioPermissionComponent
+              firstData={items}
+              rollOptionsToAddFirst={rollOptions}
+              userID={currentRowInformation.FK_TUSUARIO ? currentRowInformation?.FK_TUSUARIO : currentRowInformation?.PK_TUSUARIO}
+              onClick={handleCloseSecondaryTable}
+            />
+          </Card>
+        </Col>
+      );
+
+      setSecondaryTableComponentRender(useFuncionarioPermissionComponent);
     }
-  }, [dataSede, dataSedeNivel, rollOptions, dataSedeInfra]);
+  }, [dataSede, dataSedeNivel, rollOptions, dataSedeInfra, dataSedeTecnology]);
 
   return {
     isSecondaryTableOpen,

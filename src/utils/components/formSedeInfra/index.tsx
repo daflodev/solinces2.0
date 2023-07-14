@@ -1,5 +1,3 @@
-// import "../../../utils/assets/styles/sedeInfra.css";
-
 import { Col, Form, Input, Layout, Row, Select } from "antd";
 import { saveIcon } from "../../assets/icon/iconManager";
 import { useState } from "react";
@@ -7,7 +5,7 @@ import { useState } from "react";
 
 interface infraProps {
     handleFormSubmit?: (values, onClick) => void;
-    form?: any;
+   
     initialValues?: any;
     dataselect?: any;
     onClick?: () => void;
@@ -25,7 +23,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
     //     setSelectedField(fieldName);
     // };
 
-    const [form] = Form.useForm();
+   
 
     const [selectedValues, setSelectedValues] = useState({});
 
@@ -57,7 +55,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                 style={{ maxWidth: 600 }}
                 // form={props.form}
                 initialValues={props.initialValues}
-                form={form}
+               
             >
                 {" "}
                 <Layout>
@@ -66,9 +64,9 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                             {filteredFields.map(([fieldName]) => (
                                 <Form.Item key={fieldName} name={fieldName}>
                                     <Input
-                                        maxLength={
-                                            fieldName === "DISTANCIA_CABECERA_MUNICIPAL" ? 3 : 1
-                                        }
+                                        // maxLength={
+                                        //     fieldName === "DISTANCIA_CABECERA_MUNICIPAL" ? 3 : 1
+                                        // }
                                     />
                                 </Form.Item>
                             ))}
@@ -76,7 +74,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
 
                         <Col xs={24} lg={8} xl={12}>
                             <Layout>
-                                {Object.entries(props.dataselect).map(([field, option]) => {
+                                {Object?.entries(props.dataselect).map(([field, option]) => {
                                    
                                     return (
                                         <Form.Item key={field} name={`FK_TLV_${field}`}>

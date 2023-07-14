@@ -1,7 +1,8 @@
-import {  useState } from "react";
+import { useState } from "react";
 import {
     apiFKThunksAsyncSedeInfra,
     apiGetThunksAsyncSedeTecnology,
+    apiPostThunksAsyncSedeTecnology,
     apiPutSedeTecnology,
 } from "../../../../utils/services/api/thunks";
 import { Form } from "antd";
@@ -10,8 +11,8 @@ import _ from "lodash";
 
 
 export const useSedeTecnology = () => {
-   
-   
+
+
 
     //data table for items list FK_TLV
     const [dataSedeTecnology, setDataSedeTecnology] = useState<any>({});
@@ -21,11 +22,11 @@ export const useSedeTecnology = () => {
     const [form] = Form.useForm();
 
     const fkTlvCategoria = [
-        "'ESTADO_TecnologyESTRUCTURA'",
-        "'TERRENA_ZONA'",
-        "'TIPO_AULA'",
-        "'SISTEMA_OPERATIVO'",
-        "'ENCARGADO_LICENCIAS'",
+        "'ACTIVIDADES_USO_PC'",
+        "'ANCHO_BANDA'",
+        "'ENCARGADO_MANTENIMIENTO'",
+        "'PERIODO_MANTENIMIENTO'",
+        "'TIPO_ACCESO_INTERNET'",
     ];
 
     const TecnologyFKData = async () => {
@@ -46,9 +47,9 @@ export const useSedeTecnology = () => {
 
     // Imprimir los resultados
     // Crear un objeto final con el nombre de la categoría como llave
-    const resultado = {};
+    const resultadoInformatifca = {};
     Object.entries(agrupados).forEach(([categoria, productos]) => {
-        resultado[categoria] = productos;
+        resultadoInformatifca[categoria] = productos;
         // console.log(resultado, "resultado");
     });
 
@@ -57,10 +58,8 @@ export const useSedeTecnology = () => {
         await apiGetThunksAsyncSedeTecnology(record.PK_TSEDE)
             .then((response) => {
                 if (response) {
-                    // console.log(response.data[0], "data")
                     const preData = response.data[0];
 
-                    // console.log(preData, "mergeData");
                     setDataSedeTecnology(preData);
                     setInitialValuesTec({
                         N_EQUIPO_RED: preData.N_EQUIPO_RED
@@ -81,36 +80,42 @@ export const useSedeTecnology = () => {
                         N_PUNTOS_RED_DATO_HABILITADO: preData.N_PUNTOS_RED_DATO_HABILITADO
                             ? preData.N_PUNTOS_RED_DATO_HABILITADO
                             : null,
-                        COSTO_MENSUAL_INTERNET: preData.COSTO_MENSUAL_INTERNET
-                            ? preData.COSTO_MENSUAL_INTERNET
-                            : null,
+                        // COSTO_MENSUAL_INTERNET: preData.COSTO_MENSUAL_INTERNET
+                        //     ? preData.COSTO_MENSUAL_INTERNET
+                        //     : null,
                         N_EQUIPO_EDU: preData.N_EQUIPO_EDU
                             ? preData.N_EQUIPO_EDU
                             : null,
-                        N_EQUIPO_POCESADOR_INF_486: preData.N_EQUIPO_POCESADOR_INF_486
+                        N_EQUIPO_PROCESADOR_INF_486: preData.N_EQUIPO_PROCESADOR_INF_486
                             ? preData.N_EQUIPO_POCESADOR_INF_486
                             : null,
-                            N_EQUIPO_POCESADOR_SUP_486: preData.N_EQUIPO_POCESADOR_SUP_486
-                            ? preData.N_EQUIPO_POCESADOR_SUP_486
+                        N_EQUIPO_PROCESADOR_SUP_486: preData.N_EQUIPO_PROCESADOR_SUP_486
+                            ? preData.N_EQUIPO_PROCESADOR_SUP_486
                             : null,
-                            SUMINISTRO_ENERGIA: preData.SUMINISTRO_ENERGIA
+                        SUMINISTRO_ENERGIA: preData.SUMINISTRO_ENERGIA
                             ? preData.SUMINISTRO_ENERGIA
                             : null,
-                        // FK_TLV_ESTADO_TecnologyESTRUCTURA: preData.FK_TLV_ESTADO_TecnologyESTRUCTURA
-                        //     ? preData.FK_TLV_ESTADO_TecnologyESTRUCTURA
-                        //     : null,
-                        // FK_TLV_TERRENA_ZONA: preData.FK_TLV_TERRENA_ZONA
-                        //     ? preData.FK_TLV_TERRENA_ZONA
-                        //     : null,
-                        // FK_TLV_TIPO_AULA: preData.FK_TLV_TIPO_AULA
-                        //     ? preData.FK_TLV_TIPO_AULA
-                        //     : null,
-                        // FK_TLV_SISTEMA_OPERATIVO: preData.FK_TLV_SISTEMA_OPERATIVO
-                        //     ? preData.FK_TLV_SISTEMA_OPERATIVO
-                        //     : null,
-                        // FK_TLV_ENCARGADO_LICENCIAS: preData.FK_TLV_ENCARGADO_LICENCIAS
-                        //     ? preData.FK_TLV_ENCARGADO_LICENCIAS
-                        //     : null,
+                        FK_TLV_ACTIVIDADES_USO_PC: preData.FK_TLV_ACTIVIDADES_USO_PC ? preData.FK_TLV_ACTIVIDADES_USO_PC : null,
+                        FK_TLV_ANCHO_BANDA: preData.FK_TLV_ANCHO_BANDA ? preData.FK_TLV_ANCHO_BANDA : null,
+                        FK_TLV_ENCARGADO_MANTENIMIENTO: preData.FK_TLV_ENCARGADO_MANTENIMIENTO ? preData.FK_TLV_ENCARGADO_MANTENIMIENTO : null,
+                        FK_TLV_ENCARGADO_PAGO_INTERNET: preData.FK_TLV_ENCARGADO_PAGO_INTERNET ? preData.FK_TLV_ENCARGADO_PAGO_INTERNET : null,
+                        FK_TLV_PERIODO_MANTENIMIENTO: preData.FK_TLV_PERIODO_MANTENIMIENTO ? preData.FK_TLV_PERIODO_MANTENIMIENTO : null,
+                        FK_TLV_TIPO_ACCESO_INTERNET: preData.FK_TLV_TIPO_ACCESO_INTERNET ? preData.FK_TLV_TIPO_ACCESO_INTERNET : null,
+
+
+
+
+
+                        // FK_TLV_TIPO_ACCESO_INTERNET
+                        // : 
+                        // 3
+                        // FK_TLV_TIPO_ENERGIA_ELECTRICA
+                        // : 
+                        // 3
+                        // FK_TLV_TIPO_MANTENIMIENTO
+                        // : 
+                        // 3
+
                     });
                 }
             })
@@ -119,7 +124,9 @@ export const useSedeTecnology = () => {
                 console.log("catch response: ", error);
             });
     };
-    const handleFormSubmit = async (values) => {
+
+
+    const handleFormSubmitTec = async (values) => {
         // console.log("Valores del formulario:", values);
         const dataForm = values;
 
@@ -128,33 +135,64 @@ export const useSedeTecnology = () => {
         };
 
 
-        await apiPutSedeTecnology(dataSedeTecnology.FK_TSEDE, convertedData.data)
-            .then((response) => {
-                if (response.data.status === "success") {
-                    apiGetThunksAsyncSedeTecnology(dataSedeTecnology.FK_TSEDE);
+        let statusValue = false
+
+        // initialValuesTec.map((item) => {
+        //     if (item != null) {
+        //         statusValue = true
+        //     }
+        // })
+
+        for (let propiedad in initialValuesTec) {
+            if (initialValuesTec.hasOwnProperty(propiedad)) {
+                if (initialValuesTec[propiedad] != null) {
+                    statusValue = true
+                    break
                 }
-                console.log(response);
+            }
 
-                return response;
+        }
+
+        if (statusValue) {
+            // actualizar
+            await apiPutSedeTecnology(dataSedeTecnology.FK_TSEDE, convertedData.data)
+                .then((response) => {
+                    if (response.data.status === "success") {
+                        apiGetThunksAsyncSedeTecnology(dataSedeTecnology.FK_TSEDE);
+                    }
+                    console.log(response);
+
+                    return response;
+                })
+                .catch((error) => {
+                    console.log("Error al obtener los datos actualizados:", error);
+                });
+
+
+        } else {
+            // crear
+            await apiPostThunksAsyncSedeTecnology(convertedData.data).then((response) => {
+                if (response.data.status === "success") {
+                    apiGetThunksAsyncSedeTecnology(dataSedeTecnology.FK_TSEDE)
+                }
             })
-            .catch((error) => {
-                console.log("Error al obtener los datos actualizados:", error);
-            });
 
-       
+        }
+
+
     };
-   
+
 
     return {
-       
+
         form,
         dataSedeTecnology,
         TecnologySedeGetData,
         initialValuesTec,
         dataSeelectTec,
-        resultado,
+        resultadoInformatifca,
         TecnologyFKData,
-        handleFormSubmit,
+        handleFormSubmitTec,
         setDataSedeTecnology,
     };
 };

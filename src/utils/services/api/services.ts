@@ -108,7 +108,7 @@ export const ApiSedeInfraFK = async (data) => {
 
 
 export const ApiSedeTecnology = async (data: any) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/infrastructure_headquarters/${data}`;
+  const url = `https://apisolinces.colombiaevaluadora.co/computing_headquarters/${data}`;
 
   const resp = await axios.get(url).then((response) => {
     return response;

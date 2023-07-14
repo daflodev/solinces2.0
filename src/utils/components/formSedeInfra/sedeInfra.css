@@ -17,3 +17,14 @@
 :where(.css-dev-only-do-not-override-15rg2km).ant-row {
     margin-right: 6px;
 } */
+
+.contenedor-principal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .columna {
+    flex-basis: calc(50% - 16px);
+    padding: 16px;
+  }
