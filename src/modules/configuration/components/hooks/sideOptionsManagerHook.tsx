@@ -119,9 +119,7 @@ export const SideOptionsManagerHook = () => {
         TecnologySedeGetData(record)
         break;
 
-      default:
-        setIsSecondaryTableOpen(false);
-        break;
+     
 
       case 'useFuncionarioPermission':
           setOptionTableSelected('useFuncionarioPermission');
