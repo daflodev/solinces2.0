@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
   apiFKThunksAsyncSedeInfra,
   apiGetThunksAsyncSedeInfra,
-  apiPostThunksAsyncSedeInfra,
+  // apiPostThunksAsyncSedeInfra,
   apiPutSedeInfra,
 } from "../../../../utils/services/api/thunks";
 import { Form, message } from "antd";

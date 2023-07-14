@@ -552,7 +552,7 @@ export const UseSettigns = () => {
   };
 
   const handleDeleteGroup = async () => {
-    let whereUpdate = {
+   const whereUpdate = {
       where: selectedRowKeys,
     };
     const newWhere = changeKey(

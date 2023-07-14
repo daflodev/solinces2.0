@@ -1,4 +1,4 @@
-import { Col, DatePicker, Form, Input, Layout, Row, Select, Spin } from "antd";
+import { Col, DatePicker, Form, Input, Row, Select, Spin } from "antd";
 import "../../assets/styles/testing.css";
 import { useEffect, useState } from "react";
 import { useFormEstablecimiento } from "./hooks/useFormEstablecimiento";

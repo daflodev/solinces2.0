@@ -1,10 +1,9 @@
 // import "../../../utils/assets/styles/sedeInfra.css";
 
-import { Col, Form, Input, InputNumber, Layout, Row, Select } from "antd";
+import { Col, Form, Input, Layout, Row, Select } from "antd";
 import { saveIcon } from "../../assets/icon/iconManager";
-import { useSedeInfra } from "../../../modules/configuration/components/hooks/useSedeInfra";
-import { FormEvent, useEffect, useState } from "react";
-import { Content } from "antd/es/layout/layout";
+import { useState } from "react";
+
 
 interface infraProps {
     handleFormSubmit?: (values, onClick) => void;
@@ -20,19 +19,21 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
 
     // },[])
 
-    const [selectedField, setSelectedField] = useState(null);
+    // const [selectedField, setSelectedField] = useState(null);
 
-    const handleFieldFocus = (fieldName) => {
-        setSelectedField(fieldName);
-    };
+    // const handleFieldFocus = (fieldName) => {
+    //     setSelectedField(fieldName);
+    // };
 
     const [form] = Form.useForm();
 
     const [selectedValues, setSelectedValues] = useState({});
 
     const handleSelectChange = (value, field) => {
+       
         console.log(field);
         setSelectedValues((prevSelectedValues) => ({
+            selectedValues,
             ...prevSelectedValues,
             [field]: value,
         }));
@@ -44,7 +45,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
     );
 
     const onFinish = (values) => {
-        props.handleFormSubmit(values, props.onClick);
+        props.handleFormSubmit?.(values, props.onClick);
     };
 
     return (
@@ -62,7 +63,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                 <Layout>
                     <Row gutter={[16, 16]}>
                         <Col xs={24} lg={8} xl={12}>
-                            {filteredFields.map(([fieldName, defaultValue]) => (
+                            {filteredFields.map(([fieldName]) => (
                                 <Form.Item key={fieldName} name={fieldName}>
                                     <Input
                                         maxLength={
@@ -76,9 +77,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                         <Col xs={24} lg={8} xl={12}>
                             <Layout>
                                 {Object.entries(props.dataselect).map(([field, option]) => {
-                                    //     console.log(option)
-                                    //    console.log(props.initialValues, " valores iniciales")
-                                    //    console.log(`FK_TLV_${field}`, "campos")
+                                   
                                     return (
                                         <Form.Item key={field} name={`FK_TLV_${field}`}>
                                             <Select

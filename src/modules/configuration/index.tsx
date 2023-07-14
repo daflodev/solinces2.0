@@ -10,7 +10,7 @@ import {
   Card,
   Col,
   Layout,
-  Menu,
+  // Menu,
   Popconfirm,
   Row,
   Space,
@@ -49,7 +49,7 @@ import { SideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHoo
 type EditableTableProps = Parameters<typeof Table>[0];
 
 type ColumnTypes = Exclude<EditableTableProps[], undefined>;
-const { Header, Sider, Content } = Layout;
+const {  Sider, Content } = Layout;
 
 const Settings: React.FC = () => {
   //funciones y estado del custom hooks personalizado

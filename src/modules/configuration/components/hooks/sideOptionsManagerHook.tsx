@@ -51,13 +51,13 @@ export const SideOptionsManagerHook = () => {
   const { dataSedeInfra, infraSedeGetData, initialValues, resultado, infraFKData, handleFormSubmit, contextHolderInfra } = useSedeInfra()
 
   const {
-    form,
+    // form,
     dataSedeTecnology,
     TecnologySedeGetData,
     initialValuesTec,
 
 
-    TecnologyFKData,
+    // TecnologyFKData,
   } = useSedeTecnology()
 
   // const {onFieldChange, onFinish}=useSedeInfra()

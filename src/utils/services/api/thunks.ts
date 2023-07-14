@@ -35,12 +35,12 @@ export const apiGetThunksAsync = async (data: any) => {
         columnsInformation,
       };
     })
-    .catch((error) => {
-      const results = {
-        status: "error",
-        message: "No existen datos para la consulta",
-      };
-    });
+    // .catch((error) => {
+    //   const results = {
+    //     status: "error",
+    //     message: "No existen datos para la consulta",
+    //   };
+    // });
 
   return resp;
 };
@@ -205,66 +205,114 @@ export const apiGetThunksAsyncSedeTecnology = async (data: any) => {
 export const apiGetThunksMainMenuAsync = async (data: any) => {
   const resp = await ApiServicesThunksMainMenu()
     .then((response) => {
-      const getdata = response.data.results.map((d: any, i: any) => ({
+      data=response
+      const getdata = data.data.results.map((d:any, i:any) => ({
         ...d,
         key: i,
       }));
       return getdata;
     })
+    // @ts-ignore
+    // .catch((error) => {
+    //   // @ts-ignore
+    //   let results = {
+    //     status: "error",
+    //     message: "No existen datos para la consulta",
+    //   };
+    // });
 
+  return resp;
+};
+
+export const apiGetThunksMenuItemsOptionsAsync = async (data: any) => {
+  const resp = await ApiServicesThunksMainMenuOptionsItem(data)
+    .then((response) => {
+      const getdata = response.data.results.map((d: any, i: any) => ({
+        ...d,
+        key: i,
+      }));
+      return {
+        getdata,
+      };
+    })
+    // @ts-ignore
     .catch((error) => {
-      const results = {
+      // @ts-ignore
+      let results = {
         status: "error",
         message: "No existen datos para la consulta",
       };
     });
+
+  return resp;
 };
-export const apiGetPermissionOptions = async (data: any) => {
-  try {
-    const resp = ApiServicesGetPermissionOptions(data).then((response) => {
-      return response?.data?.data;
+
+export const apiPostPasswordChange = async (data: any) => {
+  const resp = await ApiServicesPasswordChange(data)
+    .then((response) => {
+      console.log('respuesta cambio contraseña: ', response)
+    })
+    .catch((error) => {
+      return error.response;
     });
 
-    return resp;
-  } catch (error) {
-    //TODO: abjust action to error
+  return resp;
+};
 
-    const results = {
-      status: "error",
-      message: "No existen datos para la consulta",
-    };
+export const apiGetPermissionOptions = async (data: any) => {
+
+  try {
+    const resp = ApiServicesGetPermissionOptions(data)
+    .then((response) => {
+
+      return response?.data?.data
+    })
+
+    return resp
+  } catch (error) {
+      //TODO: abjust action to error
+      // @ts-ignore
+      let results = {
+        status: "error",
+        message: "No existen datos para la consulta",
+      };
   }
 };
 
 export const apiUpdatePermissionOptions = async (data: any) => {
+
   try {
-    const resp = ApiServicesUpdatePermissionOptions(data).then((response) => {
-      return response?.data?.response;
-    });
+    const resp = ApiServicesUpdatePermissionOptions(data)
+    .then((response) => {
 
-    return resp;
+      return response?.data?.response
+    })
+
+    return resp
   } catch (error) {
-    //TODO: abjust action to error
-
-    const results = {
-      status: "error",
-      message: "La operacion no se pudo realizar",
-    };
+      //TODO: abjust action to error
+      // @ts-ignore
+      let results = {
+        status: "error",
+        message: "La operacion no se pudo realizar",
+      };
   }
 };
 
 export const apiGetAllRoles = async () => {
-  try {
-    const { data } = await ApiServicesGetAllRoles();
-    return data;
-  } catch (error) {
-    //TODO: manejo de erroes.
-  }
+
+    try {
+      const {data} = await ApiServicesGetAllRoles()
+      return data;
+    } catch(error) {
+      //TODO: manejo de erroes.
+    }
 };
 
 export const apiGetUserRoles = async (id: any) => {
+  
   try {
-    const { data } = await ApiServicesGetUserRoles(id);
+    const {data} = await ApiServicesGetUserRoles(id)
     return data;
   } catch (error) {
     //TODO: manejo de erroes.
@@ -287,7 +335,7 @@ export const apiUpdateUserRoles = async (data: any) => {
 export const apiGetUrlMembrete = async (data: any) => {
   const resp = await ApiServicesMembrete(data)
     .then((response) => {
-      return response.data.data;
+      return response.data.data
     })
     .catch((error) => {
       return error.response;
