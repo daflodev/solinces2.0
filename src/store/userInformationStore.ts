@@ -6,7 +6,7 @@ interface CompositeInformation {
 }
 
 interface UpdateValueObject {
-    element: "currentRol" | "currentCampus" | "currentInstitution" | "currentAcademicPeriod" | "currentAcademicYear",
+    element: "currentRol" | "currentCampus" | "allCampus" | "currentInstitution" | "currentAcademicPeriod" | "currentAcademicYear",
     // @ts-ignore
     value: string | CompositeInformation
 }
@@ -14,6 +14,7 @@ interface UpdateValueObject {
 interface SessionInformationInterface {
     currentRol: string | null,
     currentCampus: CompositeInformation | null,
+    allCampus: CompositeInformation[],
     currentInstitution: CompositeInformation | null,
     currentAcademicPeriod: string | null,
     currentAcademicYear: string | null,
@@ -35,6 +36,7 @@ export const sessionInformationStore = create<SessionInformationInterface>((set,
     currentAcademicPeriod: null,
     currentAcademicYear: null,
     currentRoles: [],
+    allCampus: [],
 
     updateValue: (newValue: UpdateValueObject | UpdateValueObject[]) =>{
 

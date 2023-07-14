@@ -473,6 +473,7 @@ const Settings: React.FC = () => {
 
   useEffect(() => {
     handleCloseSecondaryTable();
+    localStorage.setItem("campus", selectedItem?.key_table);
   }, [selectedItem]);
 
   // console.log(selectedItem)

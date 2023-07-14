@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 //@ts-ignore
 import React from 'react';
 
@@ -9,7 +10,7 @@ import { TransferComponentHook } from './transferComponentHook';
 
 import {
     saveIcon
-  } from "@/utils/assets/icon/iconManager";
+} from "@/utils/assets/icon/iconManager";
 
 import "./transferComponent.css";
 
@@ -18,11 +19,12 @@ interface InterfaceToGenerateTransferComponent {
     testDataNoPermission: any, 
     selectedRol: any,
     userID: any,
+    valueCampus : any,
 }
 
-  const TransferComponent: React.FC = (props: InterfaceToGenerateTransferComponent ) => {
+const TransferComponent: React.FC = (props: InterfaceToGenerateTransferComponent ) => {
 
-    const {treeData, testDataNoPermission, selectedRol, userID} = props;
+    const {treeData, testDataNoPermission, selectedRol, userID, valueCampus} = props;
 
     const { Panel } = Collapse;
 
@@ -47,7 +49,7 @@ interface InterfaceToGenerateTransferComponent {
         filterProcess,
         updatePermissions,
         contextHolder
-    } = TransferComponentHook(treeData, testDataNoPermission);
+    } = TransferComponentHook(treeData, testDataNoPermission, valueCampus);
 
     const onChangeRightSearch = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 
@@ -207,6 +209,6 @@ interface InterfaceToGenerateTransferComponent {
             </Row>
         </>
     );
-  };
+};
 
 export {TransferComponent};
