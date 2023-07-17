@@ -26,7 +26,8 @@ export const UseSelectCalification = () => {
     const getGroup = async (pk_grades) => {
         const query = new QueryBuilders('grupo');
         const group = await query
-        .select('DISTINCT grupo."NOMBRE" AS label, grupo."PK_TGRUPO" AS value, 3 as position')
+        .select(`DISTINCT CONCAT(grupo."NOMBRE",' ',jornada."NOMBRE") AS label, grupo."PK_TGRUPO" AS value, 3 as position`)
+        .join('jornada', '"PK_TJORNADA"', 'grupo."FK_TJORNADA"')
         .where('grupo."FK_TGRADO"', '=', pk_grades)
         .schema('ACADEMICO_COL0')
         .get();
