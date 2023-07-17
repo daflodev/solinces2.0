@@ -1,4 +1,5 @@
 import { Select } from "antd";
+import { useEffect } from "react";
 
 
 const MultiSelect = ({
@@ -14,7 +15,13 @@ const MultiSelect = ({
     isBloqued = false,
 }) => {
 
-    console.log('default value: ', typeof defaultValue)
+    useEffect(()=>{
+        if(isBloqued){
+            console.log('ariel pagame')
+            form.setFieldValue(field.name, parseInt(defaultValue!!))
+        }
+    }, [])
+   
 
     return (
         <Select
@@ -30,7 +37,7 @@ const MultiSelect = ({
             placeholder={placeholder}
             filterOption={filterOption}
             disabled={isBloqued}
-            defaultValue={ defaultValue != null ? parseInt(defaultValue) : null}
+            defaultValue={ defaultValue != null ? parseInt(defaultValue) : null}   
         />
     )
 }
