@@ -10,7 +10,7 @@ import { Card, Col, Popconfirm, Row, Space, Spin, Table } from "antd";
 
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
-import shallow from "zustand/shallow";
+import { shallow } from "zustand/shallow";
 import { sessionInformationStore } from "../../store/userInformationStore";
 import {
   MinusOutlined,
@@ -145,11 +145,14 @@ const Settings: React.FC = () => {
 
     const rolesToShowuseFuncionarioPermission = ['SUPER_ADMINISTRADOR', 'DIRECTOR_ENTE_TERRITORIAL', 'JEFE_SISTEMA_ENTE_TERRITORIAL', 'JEFE_AREA_PLANEACION', 'JEFE_AREA_COBERTURA', 'RECTOR'];
 
+    const keyTable = selectedItem ? selectedItem.key_table : '';
+    const keyDelete = `PK_T${keyTable?.toUpperCase()}`
+
     let result = (<>
       {" "}
       <Popconfirm
         title="seguro desea eliminar?"
-        onConfirm={() => handleDelete(selectedTableInformation.key)}
+        onConfirm={() => handleDelete(selectedTableInformation[keyDelete])}
       >
         <div className="iconDelete">{deleteIcon}</div>
       </Popconfirm>
@@ -199,7 +202,7 @@ const Settings: React.FC = () => {
 
               <Popconfirm
                 title="seguro desea eliminar?"
-                onConfirm={() => handleDelete(selectedTableInformation.key)}
+                onConfirm={() => handleDelete(selectedTableInformation[keyDelete])}
               >
                 <div className="iconDelete">{deleteIcon}</div>
               </Popconfirm>
@@ -227,7 +230,7 @@ const Settings: React.FC = () => {
   
             <Popconfirm
               title="seguro desea eliminar?"
-              onConfirm={() => handleDelete(selectedTableInformation.key)}
+              onConfirm={() => handleDelete(selectedTableInformation[keyDelete])}
             >
               <div className="iconDelete">{deleteIcon}</div>
             </Popconfirm>
@@ -280,7 +283,34 @@ const Settings: React.FC = () => {
     
               <Popconfirm
                 title="seguro desea eliminar?"
-                onConfirm={() => handleDelete(selectedTableInformation.key)}
+                onConfirm={() => handleDelete(selectedTableInformation[keyDelete])}
+              >
+                <div className="iconDelete">{deleteIcon}</div>
+              </Popconfirm>
+            </>)
+          }
+          
+          break;
+
+          case 'TUSUARIO':
+
+          if(rolesToShowuseFuncionarioPermission.includes(rol)){
+            result = (<>
+              <div
+                onClick={() => {
+                  if(visibleForm){
+                    handleMostrarForm()
+                  }
+                  handleOpenSecondaryTable(selectedTableInformation, 'useFuncionarioPermission')
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                {funcionarioPermisoIcon}
+              </div>
+    
+              <Popconfirm
+                title="seguro desea eliminar?"
+                onConfirm={() => handleDelete(selectedTableInformation[keyDelete])}
               >
                 <div className="iconDelete">{deleteIcon}</div>
               </Popconfirm>
@@ -295,7 +325,7 @@ const Settings: React.FC = () => {
             {" "}
             <Popconfirm
               title="seguro desea eliminar?"
-              onConfirm={() => handleDelete(selectedTableInformation.key)}
+              onConfirm={() => handleDelete(selectedTableInformation[keyDelete])}
             >
               <div className="iconDelete">{deleteIcon}</div>
             </Popconfirm>
@@ -443,6 +473,7 @@ const Settings: React.FC = () => {
 
   useEffect(() => {
     handleCloseSecondaryTable();
+    localStorage.setItem("campus", selectedItem?.key_table);
   }, [selectedItem]);
 
   // console.log(selectedItem)

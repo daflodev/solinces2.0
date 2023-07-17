@@ -114,7 +114,7 @@ export const SideOptionsManagerHook = () => {
           setOptionTableSelected('useFuncionarioPermission');
           setCurrentRowInformation(record)
           setTableGridWidth(10);
-          getUserRoles(record?.FK_TUSUARIO);
+          getUserRoles(record.FK_TUSUARIO ? record?.FK_TUSUARIO : record?.PK_TUSUARIO);
           break
     
         default:
@@ -184,7 +184,7 @@ export const SideOptionsManagerHook = () => {
                     <FuncionarioPermissionComponent
                         firstData={items}
                         rollOptionsToAddFirst={rollOptions}
-                        userID={currentRowInformation?.FK_TUSUARIO}
+                        userID={currentRowInformation.FK_TUSUARIO ? currentRowInformation?.FK_TUSUARIO : currentRowInformation?.PK_TUSUARIO}
                         onClick={handleCloseSecondaryTable}
                     />
                 </Card>

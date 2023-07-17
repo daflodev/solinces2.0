@@ -30,7 +30,11 @@ const FuncionarioPermissionComponent = (props: funcionarioPermissionProps)=>{
             allowedMenuOptions,
             notAllowedMenuOptions,
             addItem,
-            name, 
+            name,
+            allCampus,
+            currentCampus,
+            selectedCampus,
+            onChange, 
             setName} = TFuncionarioTPermissionGetDataHook(firstData, rollOptionsToAddFirst, userID);
 
     const inputRef = useRef<any>(null);
@@ -43,6 +47,9 @@ const FuncionarioPermissionComponent = (props: funcionarioPermissionProps)=>{
         setRolSelectedToAddValue(selectedOption?.label)
         setName(selectedOption);
     }
+
+    const valueCampus1 = currentCampus?.label
+    const valueCampusParser = valueCampus1
 
     return(
         <div className='funcionario_permission_container'>
@@ -60,56 +67,70 @@ const FuncionarioPermissionComponent = (props: funcionarioPermissionProps)=>{
             </Row>
             <br/>
             <Row>
-                <Select
-                    className='funcionario_permission_Select'
-                    style={{ width: '256px'}}
-                    placeholder="Rol"
-                    onChange={onChangeOptionRolSelected}
-                    showSearch
-                    open={mainSelectStatus}
-                    onFocus={()=>{
-                        setMainSelectStatus(true);
-                    }}
-                    onSelect={()=>{
-                        setMainSelectStatus(false);
-                    }}
-                    dropdownRender={(menu) => (
-                      <>
-                        {menu}
-                        <Divider style={{ margin: '8px 0', borderColor: 'rgb(233, 231, 248)' }} />
-                        <Space style={{ padding: '0 8px 4px' }}>
-                            <Select
-                                style={{ width: '200px'}}
-                                showSearch
-                                placeholder="Agregar Rol"
-                                optionFilterProp="children"
-                                onChange={onNameChange}
-                                ref={inputRef}
-                                filterOption={(input, option) =>
-                                  (option?.label ?? '').toLowerCase().includes(input?.toLowerCase())
-                                }
-                                value={rolSelectedToAddValue}
-                                options={rollOptions ? rollOptions : []}
-                                onClick={()=>{
-                                    setMainSelectStatus(true);
-                                }}
-                                disabled={isRolSelectedToAddValueAvailable}
-                            />
-                                {
-                                    !isRolSelectedToAddValueAvailable
-                                    ?
-                                    <span onClick={name != null ? addItem : ()=> null} style={name != null ? {cursor: 'pointer'} : {cursor: 'not-allowed'}}>
-                                        <PlusOutlined />
-                                    </span>
-                                    :
-                                    <Spin tip="" size="small" />
-                                }
+                <Col span={8}>
+                    <Select
+                        className='funcionario_permission_Select'
+                        style={{ width: '256px'}}
+                        placeholder="Rol"
+                        onChange={onChangeOptionRolSelected}
+                        showSearch
+                        open={mainSelectStatus}
+                        onFocus={()=>{
+                            setMainSelectStatus(true);
+                        }}
+                        onSelect={()=>{
+                            setMainSelectStatus(false);
+                        }}
+                        dropdownRender={(menu) => (
+                        <>
+                            {menu}
+                            <Divider style={{ margin: '8px 0', borderColor: 'rgb(233, 231, 248)' }} />
+                            <Space style={{ padding: '0 8px 4px' }}>
+                                <Select
+                                    style={{ width: '200px'}}
+                                    showSearch
+                                    placeholder="Agregar Rol"
+                                    optionFilterProp="children"
+                                    onChange={onNameChange}
+                                    ref={inputRef}
+                                    filterOption={(input, option) =>
+                                    (option?.label ?? '').toLowerCase().includes(input?.toLowerCase())
+                                    }
+                                    value={rolSelectedToAddValue}
+                                    options={rollOptions ? rollOptions : []}
+                                    onClick={()=>{
+                                        setMainSelectStatus(true);
+                                    }}
+                                    disabled={isRolSelectedToAddValueAvailable}
+                                />
+                                    {
+                                        !isRolSelectedToAddValueAvailable
+                                        ?
+                                        <span onClick={name != null ? addItem : ()=> null} style={name != null ? {cursor: 'pointer'} : {cursor: 'not-allowed'}}>
+                                            <PlusOutlined />
+                                        </span>
+                                        :
+                                        <Spin tip="" size="small" />
+                                    }
 
-                        </Space>
-                    </>
-                    )}
-                    options={items?.map((item) => ({ label: item?.label, value: item?.value }))}
-                />
+                            </Space>
+                        </>
+                        )}
+                        options={items?.map((item) => ({ label: item?.label, value: item?.value }))}
+                    />
+                </Col>
+                <Col span={8} offset={2}>
+                <Select
+                    showSearch
+                    placeholder="Sede"
+                    defaultValue={valueCampusParser}
+                    optionFilterProp="children"
+                    onChange={onChange}
+                    options={
+                        allCampus
+                    }   
+                    />
+                </Col>
             </Row>
             { selectedRol ?
                 (allowedMenuOptions != null) && (notAllowedMenuOptions != null) 
@@ -119,6 +140,7 @@ const FuncionarioPermissionComponent = (props: funcionarioPermissionProps)=>{
                         testDataNoPermission={notAllowedMenuOptions}
                         selectedRol={selectedRol}
                         userID={userID}
+                        valueCampus={selectedCampus}
                         />
                     :
                         <div style={{

@@ -1,19 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 
-import "../../../../utils/assets/styles/testing.css";
-import { message } from "antd";
 import {
   apiGetThunksAsync,
   apiGetThunksMenuItemsOptionsAsync,
-  apiPostThunksAsync,
-  // @ts-ignore
-  apiPostThunksAsyncSedeJornada,
+  apiPostThunksAsync
 } from "@/utils/services/api/thunks";
-import { useParams, useNavigate } from "react-router-dom";
-import { getUserToken } from "../../../../utils/utils";
-import { sessionInformationStore } from "../../../../store/userInformationStore";
+import { message } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
 import { shallow } from "zustand/shallow";
+import { sessionInformationStore } from "../../../../store/userInformationStore";
+import "../../../../utils/assets/styles/testing.css";
 import { QueryBuilders } from "../../../../utils/orm/queryBuilders";
+import { getUserToken } from "../../../../utils/utils";
 import { QueryManager } from "./queryManager";
 
 export const UseSettigns = () => {
@@ -487,7 +485,9 @@ export const UseSettigns = () => {
 
   //funcion para eliminar datos de la tabla y envio de mensjae de exitoso
   const handleDelete = async (key: React.Key) => {
-    const filteredData = data.filter((item) => item?.key == key);
+    const keyTable = selectedItem ? selectedItem.key_table : '';
+    const keyDelete = `PK_T${keyTable?.toUpperCase()}`
+    const filteredData = data.filter((item) => item?.[keyDelete] == key);
 
     const whereUpdate = {
       //@ts-ignore
@@ -730,13 +730,16 @@ export const UseSettigns = () => {
 
   //funcion para guardar la data editada
   const handleSave = (row: any) => {
+    const keyTable = selectedItem ? selectedItem.key_table : '';
+    const key = `PK_T${keyTable?.toUpperCase()}`
     const newData = [...data];
-    const index = newData.findIndex((item) => row.key === item.key);
+    const index = newData.findIndex((item) => row[key] === item[key]);
     const item = newData[index];
     newData.splice(index, 1, {
       ...item,
       ...row,
     });
+
     setDataTable(newData);
     setProcessMessage({
       message: "El registro se edito correctamente",
@@ -789,6 +792,7 @@ export const UseSettigns = () => {
         (getdata["where"] = newWhere),
           (getdata["schema"] = parserTokenInformation?.dataSchema[0]);
 
+
         await apiPostThunksAsync(getdata)
           .then((response) => {
             if (response.success == "OK") {
@@ -817,7 +821,6 @@ export const UseSettigns = () => {
     let answer = {};
 
     FKNameList.map((name) => {
-
       let tableName = name.replace("FK_T", "");
 
       if (tableName.startsWith("LV_") || tableName.startsWith("LISTA_VALOR_")) {

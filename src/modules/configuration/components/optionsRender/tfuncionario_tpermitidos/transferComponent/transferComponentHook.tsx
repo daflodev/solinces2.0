@@ -1,12 +1,12 @@
-import { useState } from "react";
 import { message } from "antd";
+import { useState } from "react";
 
 import { sessionInformationStore } from "@/store/userInformationStore";
-import shallow from "zustand/shallow";
+import { shallow } from "zustand/shallow";
 
 import { apiUpdatePermissionOptions } from '@/utils/services/api/thunks';
 
-export const TransferComponentHook  = (fullData, noPermissionFullData) =>{
+export const TransferComponentHook  = (fullData, noPermissionFullData, valueCampus) =>{
 
     const [optionsColumnData, setOptionsColumnData] = useState(fullData)
     const [noPermissionColumnData, setNoPermissionColumnData] = useState(noPermissionFullData)
@@ -23,12 +23,14 @@ export const TransferComponentHook  = (fullData, noPermissionFullData) =>{
     const [checkAllNoPermission, setCheckAllNoPermission] = useState(false);
     const [leftSearchBarValue, setLeftSearchBarValue] = useState('');
 
+    const currentTableCampusSelected = localStorage.getItem("campus");
+
     const { currentCampus } = sessionInformationStore(
         (state) => ({
             currentCampus: state.currentCampus,
         }),
         shallow
-      );
+    );
 
     const [messageApi, contextHolder] = message.useMessage();
 
@@ -274,7 +276,7 @@ export const TransferComponentHook  = (fullData, noPermissionFullData) =>{
         const formattedAllowedOptions = allowedOptions?.map(option => {
 
             const answer = {
-                PK_TSEDE: currentCampus?.value ? parseInt(currentCampus.value): null,
+                PK_TSEDE: currentTableCampusSelected == "usuario" ? (valueCampus != null ? valueCampus : currentCampus?.value) : currentCampus?.value,
                 PK_TUSUARIO: userID,
                 PK_TMENU: option?.key,
                 PK_TROL: currentRol?.value,
@@ -287,7 +289,7 @@ export const TransferComponentHook  = (fullData, noPermissionFullData) =>{
         const formattedNotAllowedOptions = notAllowedParentFiltered?.map(option => {
 
             const answer = {
-                PK_TSEDE: currentCampus?.value ? parseInt(currentCampus.value): null,
+                PK_TSEDE: currentTableCampusSelected == "usuario" ? (valueCampus != null ? valueCampus : currentCampus?.value) : currentCampus?.value,
                 PK_TUSUARIO: userID,
                 PK_TMENU: option?.key,
                 PK_TROL: currentRol?.value,
