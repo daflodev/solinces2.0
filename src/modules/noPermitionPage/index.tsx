@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
-import { Card, Row, Col, Dropdown, Space, MenuProps, Cascader } from "antd";
-import { DownOutlined } from '@ant-design/icons';
+import { useEffect } from "react";
+import { Card, Row, Col } from "antd";
 
 import { withPrincipal } from "../../utils/components/content";
 
 import "../../utils/assets/noPermitionPage/noPermitionPage.css";
-import { SelectCalificationComponent } from "@/utils/components/selectCalification";
 
 
 const mainImageNoPermissionPage = (
@@ -104,10 +102,6 @@ const NoPermissionPage: React.FC = () => {
      
     }
 
-    const clickMenu = (e) => {
-        console.log(e)
-    }
-
     useEffect(() => {
         getData()
     }, []);
@@ -118,13 +112,13 @@ const NoPermissionPage: React.FC = () => {
                 <div className="no-permission-sub-container">
                     <Row>
                         <Col span={24} offset={10}>
-                            {/* {mainImageNoPermissionPage} */}
+                            {mainImageNoPermissionPage}
                         </Col>
                         <Col span={12} offset={6} style={{ width: '550px' }}>
-                            {/* <p className="no-permission-text">
+                            <p className="no-permission-text">
                                 Lo sentimos, pero no está autorizado para acceder a esta página.
-                            </p> */}
-                            <SelectCalificationComponent />
+                            </p>
+                            {/* <SelectCalificationComponent /> */}
                         </Col>
                     </Row>
                 </div>

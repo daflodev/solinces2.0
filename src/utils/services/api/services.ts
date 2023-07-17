@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const ApiServicesThunks = async (data: any) => {
-  const url = "https://apisolinces.colombiaevaluadora.co/base/";
+  const url = "https://api.colombiaevaluadora.edu.co/coleva4i/base/";
 
   const resp = await axios.post(url, data).then((response) => {
     return response;
@@ -10,7 +10,7 @@ export const ApiServicesThunks = async (data: any) => {
 };
 
 export const ApiSedeJornada = async (data: any) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/journy_sede/${data}`;
+  const url = `https://api.colombiaevaluadora.edu.co/coleva4i/journy_sede/${data}`;
 
   const resp = await axios.get(url).then((response) => {
     return response;
@@ -19,7 +19,7 @@ export const ApiSedeJornada = async (data: any) => {
 };
 
 export const ApiSedeJornadaPost = async (data) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/journy_sede/`;
+  const url = `https://api.colombiaevaluadora.edu.co/coleva4i/journy_sede/`;
 
   const resp = await axios
     .post(url,data )
@@ -32,7 +32,7 @@ export const ApiSedeJornadaPost = async (data) => {
 
 
 export const ApiSedeNivel = async (data: any) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/level_sede/${data}`;
+  const url = `https://api.colombiaevaluadora.edu.co/coleva4i/level_sede/${data}`;
 
   const resp = await axios.get(url).then((response) => {
     return response;
@@ -41,7 +41,7 @@ export const ApiSedeNivel = async (data: any) => {
 };
 
 export const ApiSedeNivelPost = async (data) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/level_sede/`;
+  const url = `https://api.colombiaevaluadora.edu.co/coleva4i/level_sede/`;
 
   const resp = await axios
     .post(url,data )
@@ -52,7 +52,7 @@ export const ApiSedeNivelPost = async (data) => {
 };
 
 export const ApiServicesThunksMainMenu = async () => {
-  const url = "https://apisolinces.colombiaevaluadora.co/menu/";
+  const url = "https://api.colombiaevaluadora.edu.co/coleva4i/menu/";
   const resp = await axios.get(url).then((response) => {
     return response;
   });
@@ -61,7 +61,7 @@ export const ApiServicesThunksMainMenu = async () => {
 
 export const ApiServicesThunksMainMenuOptionsItem = async (data: any) => {
 
-  const url = "https://apisolinces.colombiaevaluadora.co/menu_kids/";
+  const url = "https://api.colombiaevaluadora.edu.co/coleva4i/menu_kids/";
   const resp = await axios.post(url, data).then((response) => {
     return response;
   });
@@ -87,7 +87,7 @@ export const ApiServicesPasswordChange = async (data: any) => {
 };
 
 export const ApiServicesGetPermissionOptions = async (data: any) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/menu_list/`;
+  const url = `https://api.colombiaevaluadora.edu.co/coleva4i/menu_list/`;
   const resp = await axios.post(url, data).then((response) => {
     return response;
   });
@@ -95,7 +95,7 @@ export const ApiServicesGetPermissionOptions = async (data: any) => {
 };
 
 export const ApiServicesUpdatePermissionOptions = async (data: any) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/menu_list/post/`;
+  const url = `https://api.colombiaevaluadora.edu.co/coleva4i/menu_list/post/`;
   const resp = await axios.post(url, data).then((response) => {
     return response;
   });
@@ -103,19 +103,19 @@ export const ApiServicesUpdatePermissionOptions = async (data: any) => {
 };
 
 export const ApiServicesGetAllRoles = async () => {
-  const url = `https://apisolinces.colombiaevaluadora.co/rols/`;
+  const url = `https://api.colombiaevaluadora.edu.co/coleva4i/rols/`;
   const resp = await axios.get(url);
   return resp;
 };
 
 export const ApiServicesGetUserRoles = async (data: any) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/officer_rols/${data}`;
+  const url = `https://api.colombiaevaluadora.edu.co/coleva4i/officer_rols/${data}`;
   const resp = await axios.get(url);
   return resp;
 };
 
 export const ApiServicesUpdateUserRoles = async (data: any) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/officer_rols`;
+  const url = `https://api.colombiaevaluadora.edu.co/coleva4i/officer_rols`;
   const resp = await axios.post(url, data).then((response) => {
     return response;
   });
@@ -123,7 +123,7 @@ export const ApiServicesUpdateUserRoles = async (data: any) => {
 };
 export const ApiServicesMembrete = async (data: any) => {
 
-    const url = "https://apisolinces.colombiaevaluadora.co/upload_file/";
+    const url = "https://api.colombiaevaluadora.edu.co/coleva4i/upload_file/";
     const formData = new FormData();
     
     formData.append('file', data.file);
