@@ -62,6 +62,8 @@ export const SideOptionsManagerHook = () => {
     setDataSedeTecnology,
     resultadoInformatifca,
     TecnologyFKData,
+    handleFormSubmitTec,
+    contextHolderTecnology
   } = useSedeTecnology();
 
   // const {onFieldChange, onFinish}=useSedeInfra()
@@ -111,13 +113,13 @@ export const SideOptionsManagerHook = () => {
 
         break;
       case "useSedeInfra":
-        setTableGridWidth(16);
+        setTableGridWidth(12);
         infraSedeGetData(record);
 
         break;
 
       case "useSedeTecnology":
-        setTableGridWidth(16);
+        setTableGridWidth(12);
         TecnologySedeGetData(record);
         break;
 
@@ -193,7 +195,7 @@ export const SideOptionsManagerHook = () => {
         <>
           {contextHolderInfra}
 
-          <Col md={8}>
+          <Col md={12}>
             <Card
               style={{ width: "100%" }}
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
@@ -214,9 +216,9 @@ export const SideOptionsManagerHook = () => {
       TecnologyFKData();
       const useSedeTecnologyComponente = (
         <>
-          {/* {contextHolder} */}
+          {contextHolderTecnology}
 
-          <Col md={8}>
+          <Col md={12}>
             <Card
               style={{ width: "100%" }}
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
@@ -224,6 +226,8 @@ export const SideOptionsManagerHook = () => {
               <SedeInfraEstructuraFisica
                 initialValues={initialValuesTec}
                 dataselect={resultadoInformatifca}
+                handleFormSubmit={handleFormSubmitTec}
+                onClick={handleCloseSecondaryTable}
               />
             </Card>
           </Col>

@@ -29,7 +29,7 @@ export const useSedeInfra = () => {
 
   const fkTlvCategoria = [
     "'ESTADO_INFRAESTRUCTURA'",
-    "'TERRENA_ZONA'",
+    "'TERRENO_ZONA'",
     "'TIPO_AULA'",
     "'SISTEMA_OPERATIVO'",
     "'ENCARGADO_LICENCIAS'",
@@ -55,7 +55,8 @@ export const useSedeInfra = () => {
   // Crear un objeto final con el nombre de la categoría como llave
   const resultado = {};
   Object.entries(agrupados).forEach(([categoria, productos]) => {
-    resultado[categoria] = productos;
+  // if(categoria ===  )
+    resultado[`FK_TLV_${categoria}`] = productos;
     // console.log(resultado, "resultado");
   });
 
@@ -100,9 +101,9 @@ export const useSedeInfra = () => {
             FK_TLV_ESTADO_INFRAESTRUCTURA: preData.FK_TLV_ESTADO_INFRAESTRUCTURA
               ? preData.FK_TLV_ESTADO_INFRAESTRUCTURA
               : null,
-            FK_TLV_TERRENA_ZONA: preData.FK_TLV_TERRENA_ZONA
-              ? preData.FK_TLV_TERRENA_ZONA
-              : null,
+            // FK_TLV_TERRENA_ZONA: preData.FK_TLV_TERRENO_ZONA
+            //   ? preData.FK_TLV_TERRENO_ZONA
+            //   : null,
             FK_TLV_TIPO_AULA: preData.FK_TLV_TIPO_AULA
               ? preData.FK_TLV_TIPO_AULA
               : null,

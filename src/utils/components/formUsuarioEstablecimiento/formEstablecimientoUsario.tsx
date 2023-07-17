@@ -48,7 +48,7 @@ const FormEstablecimiento = ({
     setSelectedOption(value);
   };
   const handleDateChange = (date) => {
-    console.log("Date changed:", date);
+    // console.log("Date changed:", date);
   };
 
   const optionsManager = (data: any, columnName: any) => {

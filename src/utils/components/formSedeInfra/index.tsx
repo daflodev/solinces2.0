@@ -5,7 +5,7 @@ import { useState } from "react";
 
 interface infraProps {
     handleFormSubmit?: (values, onClick) => void;
-   
+
     initialValues?: any;
     dataselect?: any;
     onClick?: () => void;
@@ -17,61 +17,125 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
 
     // },[])
 
-    // const [selectedField, setSelectedField] = useState(null);
+    const [selectedField, setSelectedField] = useState(null);
 
-    // const handleFieldFocus = (fieldName) => {
-    //     setSelectedField(fieldName);
-    // };
+    const handleFieldFocus = (fieldName) => {
+        setSelectedField(fieldName);
+    };
 
-   
+
 
     const [selectedValues, setSelectedValues] = useState({});
 
     const handleSelectChange = (value, field) => {
-       
-        console.log(field);
+
+        // console.log(field);
         setSelectedValues((prevSelectedValues) => ({
             selectedValues,
             ...prevSelectedValues,
             [field]: value,
         }));
-        console.log(`Opción seleccionada en ${field}:`, value);
+        // console.log(`Opción seleccionada en ${field}:`, value);
     };
 
-    const filteredFields = Object.entries(props.initialValues).filter(
-        ([fieldName]) => !fieldName.startsWith("FK")
-    );
+    // const filteredFields = Object.entries(props.initialValues).filter(
+    //     ([fieldName]) => !fieldName.startsWith("FK")
+    // );
 
     const onFinish = (values) => {
         props.handleFormSubmit?.(values, props.onClick);
     };
 
 
-const renderForm = () =>{
-    return Object.keys(props.initialValues).map((fieldName)=>{
-        const formFieldName = fieldName.startsWith('FK_') ? fieldName : `FK_${fieldName}`;
-        if (fieldName.startsWith('FK_') && props.dataselect[formFieldName]) {
+
+    const formItems = Object.keys(props.initialValues).map((fieldName) => {
+        // console.log(props.dataselect[fieldName])
+        if (fieldName.startsWith('FK_TLV_')) {
+
             return (
-                <Form.Item key={fieldName}>
-                <Select defaultValue={props.initialValues[fieldName]} >
-                    {props.dataselect[fieldName]?.map((option)=>(
-                        <Select.Option key={option.PK_TLISTA_VALOR} value={option.PK_TLISTA_VALOR}>
-                            {option.NOMBRE}
-                        </Select.Option>
-    ))}
-                </Select>
-            </Form.Item>
-            )
-            
-        }else{
+                <div className="form-container">
+                    {/* Primera columna */}
+                    <div className="form-column">
+                        <div className="form-field">
+
+                            <Form.Item key={fieldName} name={fieldName}>
+                                <Select onChange={(value) => handleSelectChange(value, fieldName)} key={fieldName}
+                                    onFocus={() => handleFieldFocus(fieldName)}
+                                    onBlur={() => handleFieldFocus(null)}
+                                >
+                                    {props.dataselect[fieldName]?.map((option) => (
+                                        <Select.Option key={option.PK_TLISTA_VALOR} value={option.PK_TLISTA_VALOR}>
+                                            {option.NOMBRE}
+                                        </Select.Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+
+                            <div
+                                className={`placeholder ${selectedField === fieldName ||
+                                    (props.initialValues
+                                        ? props.initialValues[fieldName] != null
+                                        : false)
+                                    ? "active"
+                                    : ""
+                                    }`}
+                                style={{
+                                    ...(props.initialValues[fieldName] === null ?
+                                        {
+                                            width: "45%",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            whiteSpace: "nowrap"
+                                        } : { width: "40%" })
+
+                                }}
+                            >
+                                {fieldName}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            );
+        } else {
             return (
-                <Form.Item key={fieldName}>
-                    <Input defaultValue={props.initialValues[fieldName]}/>
-                </Form.Item>
-            )
+                <div className="form-container">
+                    {/* Primera columna */}
+                    <div className="form-column">
+                        <div className="form-field">
+                            <Form.Item key={fieldName} name={fieldName}>
+                                <Input onFocus={() => handleFieldFocus(fieldName)}
+                                    onBlur={() => handleFieldFocus(null)} autoComplete="off" />
+                            </Form.Item>
+                            <div
+                                className={`placeholder ${selectedField === fieldName ||
+                                    (props.initialValues
+                                        ? props.initialValues[fieldName] != null
+                                        : false)
+                                    ? "active"
+                                    : ""
+                                    }`}
+                                style={{
+                                    ...(props.initialValues[fieldName] === null ?
+                                        {
+                                            width: "45%",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            whiteSpace: "nowrap"
+                                        } : { width: "40%" })
+
+                                }}
+                            >
+                                {fieldName}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            );
         }
-    })
-}
+    });
 
 
     return (
@@ -83,13 +147,12 @@ const renderForm = () =>{
                 style={{ maxWidth: 600 }}
                 // form={props.form}
                 initialValues={props.initialValues}
-               
+
             >
                 {" "}
                 <Layout>
-                    <Row gutter={[16, 16]}>
-                        <Col xs={24} lg={8} xl={12}>
-                            {/* {filteredFields.map(([fieldName]) => (
+
+                    {/* {filteredFields.map(([fieldName]) => (
                                 <Form.Item key={fieldName} name={fieldName}>
                                     <Input
                                         // maxLength={
@@ -100,12 +163,16 @@ const renderForm = () =>{
                             ))} */}
 
 
-{renderForm()}
+                    <Row gutter={16}>
+
+                        <Col span={12}>{formItems.slice(0, Math.ceil(formItems.length / 2))}</Col>
+                        <Col span={12}>{formItems.slice(Math.ceil(formItems.length / 2))}</Col>
+                    </Row>
 
 
-                        </Col>
 
-                        {/* <Col xs={24} lg={8} xl={12}>
+
+                    {/* <Col xs={24} lg={8} xl={12}>
                             <Layout>
                                 {Object?.entries(props.dataselect).map(([field, option]) => {
                                    
@@ -131,7 +198,7 @@ const renderForm = () =>{
                                 })}{" "}
                             </Layout>
                         </Col> */}
-                    </Row>
+
 
                     <Row gutter={[16, 16]}>
                         <div className="w-100" style={{ padding: 20 }}>

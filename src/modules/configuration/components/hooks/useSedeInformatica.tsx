@@ -5,7 +5,7 @@ import {
   apiPostThunksAsyncSedeTecnology,
   apiPutSedeTecnology,
 } from "../../../../utils/services/api/thunks";
-import { Form } from "antd";
+import { Form, message } from "antd";
 
 import _ from "lodash";
 
@@ -14,17 +14,19 @@ export const useSedeTecnology = () => {
   const [dataSedeTecnology, setDataSedeTecnology] = useState<any>({});
   const [initialValuesTec, setInitialValuesTec] = useState<any>({});
   const [dataSeelectTec, setDataSelectTec] = useState<any>();
+  const [messageApi, contextHolderTecnology] = message.useMessage();
 
   const [form] = Form.useForm();
 
   const fkTlvCategoria = [
     "'ACTIVIDADES_USO_PC'",
     "'ANCHO_BANDA'",
-    "'ENCARGADO_MANTENIMIENTO'",
+   
     "'PERIODO_MANTENIMIENTO'",
     "'TIPO_ACCESO_INTERNET'",
     // "'TIPO_ENERGIA_ELECTRICA'",
-    // "TIPO_MANTENIMIENTO'",
+    // "TIPO_MANTENIMIENTO'", 
+    // "'ENCARGADO_MANTENIMIENTO'",
   ];
 
   const TecnologyFKData = async () => {
@@ -47,7 +49,7 @@ export const useSedeTecnology = () => {
   // Crear un objeto final con el nombre de la categoría como llave
   const resultadoInformatifca = {};
   Object.entries(agrupados).forEach(([categoria, productos]) => {
-    resultadoInformatifca[categoria] = productos;
+    resultadoInformatifca[`FK_TLV_${categoria}`] = productos;
     // console.log(resultado, "resultado");
   });
 
@@ -93,26 +95,26 @@ export const useSedeTecnology = () => {
             FK_TLV_ANCHO_BANDA: preData.FK_TLV_ANCHO_BANDA
               ? preData.FK_TLV_ANCHO_BANDA
               : null,
-            FK_TLV_ENCARGADO_MANTENIMIENTO:
-              preData.FK_TLV_ENCARGADO_MANTENIMIENTO
-                ? preData.FK_TLV_ENCARGADO_MANTENIMIENTO
-                : null,
-            FK_TLV_ENCARGADO_PAGO_INTERNET:
-              preData.FK_TLV_ENCARGADO_PAGO_INTERNET
-                ? preData.FK_TLV_ENCARGADO_PAGO_INTERNET
-                : null,
+            // FK_TLV_ENCARGADO_MANTENIMIENTO:
+            //   preData.FK_TLV_ENCARGADO_MANTENIMIENTO
+            //     ? preData.FK_TLV_ENCARGADO_MANTENIMIENTO
+            //     : null,
+            // FK_TLV_ENCARGADO_PAGO_INTERNET:
+            //   preData.FK_TLV_ENCARGADO_PAGO_INTERNET
+            //     ? preData.FK_TLV_ENCARGADO_PAGO_INTERNET
+            //     : null,
             FK_TLV_PERIODO_MANTENIMIENTO: preData.FK_TLV_PERIODO_MANTENIMIENTO
               ? preData.FK_TLV_PERIODO_MANTENIMIENTO
               : null,
             FK_TLV_TIPO_ACCESO_INTERNET: preData.FK_TLV_TIPO_ACCESO_INTERNET
               ? preData.FK_TLV_TIPO_ACCESO_INTERNET
               : null,
-            FK_TLV_TIPO_ENERGIA_ELECTRICA: preData.FK_TLV_TIPO_ENERGIA_ELECTRICA
-              ? preData.FK_TLV_TIPO_ENERGIA_ELECTRICA
-              : null,
-            FK_TLV_TIPO_MANTENIMIENTO: preData.FK_TLV_TIPO_MANTENIMIENTO
-              ? preData.FK_TLV_TIPO_MANTENIMIENTO
-              : null,
+            // FK_TLV_TIPO_ENERGIA_ELECTRICA: preData.FK_TLV_TIPO_ENERGIA_ELECTRICA
+            //   ? preData.FK_TLV_TIPO_ENERGIA_ELECTRICA
+            //   : null,
+            // FK_TLV_TIPO_MANTENIMIENTO: preData.FK_TLV_TIPO_MANTENIMIENTO
+            //   ? preData.FK_TLV_TIPO_MANTENIMIENTO
+            //   : null,
           });
         }
       })
@@ -122,7 +124,7 @@ export const useSedeTecnology = () => {
       });
   };
 
-  const handleFormSubmitTec = async (values) => {
+  const handleFormSubmitTec = async (values, cerrarTable) => {
     // console.log("Valores del formulario:", values);
     const dataForm = values;
 
@@ -153,8 +155,23 @@ export const useSedeTecnology = () => {
         .then((response) => {
           if (response.data.status === "success") {
             apiGetThunksAsyncSedeTecnology(dataSedeTecnology.FK_TSEDE);
+            messageApi.open({
+              type: "success",
+              content: "se ha modificado las infraestructura fisica a la sede",
+            });
+
+            setTimeout(() => {
+              cerrarTable();
+            }, 2000);
+
+
+          } else {
+            messageApi.open({
+              type: "error",
+              content: "no se pudo hacer editar la infraestructura fisica de la sede",
+            });
           }
-          console.log(response);
+          
 
           return response;
         })
@@ -183,5 +200,6 @@ export const useSedeTecnology = () => {
     TecnologyFKData,
     handleFormSubmitTec,
     setDataSedeTecnology,
+    contextHolderTecnology
   };
 };

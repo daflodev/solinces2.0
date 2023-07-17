@@ -24,7 +24,7 @@ export const TFuncionarioTPermissionGetDataHook  = (data?: any, rolesToAdd?: any
     const[notAllowedMenuOptions, setNotAllowedMenuOptions] = useState<object[] | null>(null);
 
     const currentTableCampusSelected = localStorage.getItem("campus");
-    console.log(currentTableCampusSelected,"DATA CURRENT CAMPUS")
+    // console.log(currentTableCampusSelected,"DATA CURRENT CAMPUS")
 
     const { currentCampus , allCampus} = sessionInformationStore(
         (state) => ({
@@ -221,7 +221,7 @@ export const TFuncionarioTPermissionGetDataHook  = (data?: any, rolesToAdd?: any
     }
 
     const onChange = (value: string) => {
-        console.log(`selected ${value}`);
+        // console.log(`selected ${value}`);
         setSelectedCampus(value)
     };
     

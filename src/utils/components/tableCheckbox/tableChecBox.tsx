@@ -20,7 +20,7 @@ const MyForm: React.FC<propsJourny> = (props) => {
   const [checkAll, setCheckAll] = useState(false);
 
   const handleCheckboxChange = (index) => {
-    console.log(index, "index");
+    // console.log(index, "index");
     setSelectedValues(index);
     setIndeterminate(!!index.length && index.length < props.data.length);
     setCheckAll(index.length === props.data.length);
@@ -45,7 +45,7 @@ const MyForm: React.FC<propsJourny> = (props) => {
   };
 
   useEffect(() => {
-    console.log(selectedValues, "cambio");
+    // console.log(selectedValues, "cambio");
   }, [selectedValues]);
 
   const columns = [

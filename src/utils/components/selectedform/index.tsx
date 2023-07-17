@@ -14,7 +14,7 @@ const MultiSelect = ({
     isBloqued = false,
 }) => {
 
-    console.log('default value: ', typeof defaultValue)
+    // console.log('default value: ', typeof defaultValue)
 
     return (
         <Select

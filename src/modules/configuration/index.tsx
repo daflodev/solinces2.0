@@ -32,6 +32,7 @@ import {
   sedeJornada,
   sedeNivel,
   sedeTecnologicaIcon,
+  perifericosMediosIcon,
 } from "../../utils/assets/icon/iconManager";
 import { withPrincipal } from "../../utils/components/content";
 import { EditableCell } from "../../utils/components/editablecells";
@@ -222,6 +223,18 @@ const Settings: React.FC = () => {
                 style={{ cursor: "pointer" }}
               >
                 {sedeTecnologicaIcon}
+              </div>
+
+              <div
+                onClick={() =>
+                  handleOpenSecondaryTable(
+                    selectedTableInformation,
+                    "useSedeTecnology"
+                  )
+                }
+                style={{ cursor: "pointer" }}
+              >
+                {perifericosMediosIcon}
               </div>
 
               <Popconfirm
@@ -425,7 +438,8 @@ const Settings: React.FC = () => {
           title: "operacion",
           dataIndex: "operation",
           align: "center",
-          width: 150,
+          width: 250,
+          
           render: (_, record: { key: React.Key }) => (
             <>
               {settingOptions?.length >= 1 ? (

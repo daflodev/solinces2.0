@@ -184,7 +184,7 @@ export const UseSettigns = () => {
 
       //  TEMPORAL
       const currentAcademicYearLocal = localStorage.getItem('currentAcademicYear');
-      console.log(currentAcademicYearLocal, 'currentAcademicYearLocal')
+      // console.log(currentAcademicYearLocal, 'currentAcademicYearLocal')
       //  TEMPORAL
 
       // // select con where
