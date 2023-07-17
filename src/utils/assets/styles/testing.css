@@ -170,10 +170,10 @@ tr.ant-table-row-selected.editable-row {
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
-    line-height: 2px;
-    display: flex;
-    vertical-align: middle;
-    align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 0 10px;
 }
 
 .iconConfiguration {
@@ -184,10 +184,6 @@ tr.ant-table-row-selected.editable-row {
     font-weight: 700;
     font-size: 20px !important;
     line-height: 21px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    padding-bottom: 40px;
 }
 
 
@@ -238,11 +234,22 @@ tr.ant-table-row-selected.editable-row {
     padding: 8px 20px;
 }
 
+:where(.css-dev-only-do-not-override-15rg2km).ant-table-wrapper table {
+    width: auto !important;
+}
 
+:where(.css-dev-only-do-not-override-15rg2km).ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover .ant-checkbox-checked:not(.ant-checkbox-disabled) .ant-checkbox-inner {
+    background-color: var(--mid-blue);
+    border-color: transparent;
+}
 
+:where(.css-dev-only-do-not-override-15rg2km).ant-checkbox-checked .ant-checkbox-inner {
+    background-color: var(--mid-blue);
+    border-color: var(--mid-blue);
+}
 
 .ant-checkbox-inner {
-    border: 2px solid #9396AA !important;
+    /* border: 2px solid #9396AA !important; Eliminar*/
     border-radius: 4px !important;
 }
 
