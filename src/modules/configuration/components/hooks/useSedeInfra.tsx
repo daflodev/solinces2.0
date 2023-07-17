@@ -198,6 +198,6 @@ export const useSedeInfra = () => {
     resultado,
     infraFKData,
     handleFormSubmit,
-    contextHolderInfra
+    contextHolderInfra, setDataSedeInfra
   };
 };

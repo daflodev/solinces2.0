@@ -46,6 +46,34 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
         props.handleFormSubmit?.(values, props.onClick);
     };
 
+
+const renderForm = () =>{
+    return Object.keys(props.initialValues).map((fieldName)=>{
+        const formFieldName = fieldName.startsWith('FK_') ? fieldName : `FK_${fieldName}`;
+        if (fieldName.startsWith('FK_') && props.dataselect[formFieldName]) {
+            return (
+                <Form.Item key={fieldName}>
+                <Select defaultValue={props.initialValues[fieldName]} >
+                    {props.dataselect[fieldName]?.map((option)=>(
+                        <Select.Option key={option.PK_TLISTA_VALOR} value={option.PK_TLISTA_VALOR}>
+                            {option.NOMBRE}
+                        </Select.Option>
+    ))}
+                </Select>
+            </Form.Item>
+            )
+            
+        }else{
+            return (
+                <Form.Item key={fieldName}>
+                    <Input defaultValue={props.initialValues[fieldName]}/>
+                </Form.Item>
+            )
+        }
+    })
+}
+
+
     return (
         <>
             <Form
@@ -61,7 +89,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                 <Layout>
                     <Row gutter={[16, 16]}>
                         <Col xs={24} lg={8} xl={12}>
-                            {filteredFields.map(([fieldName]) => (
+                            {/* {filteredFields.map(([fieldName]) => (
                                 <Form.Item key={fieldName} name={fieldName}>
                                     <Input
                                         // maxLength={
@@ -69,10 +97,15 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                                         // }
                                     />
                                 </Form.Item>
-                            ))}
+                            ))} */}
+
+
+{renderForm()}
+
+
                         </Col>
 
-                        <Col xs={24} lg={8} xl={12}>
+                        {/* <Col xs={24} lg={8} xl={12}>
                             <Layout>
                                 {Object?.entries(props.dataselect).map(([field, option]) => {
                                    
@@ -97,7 +130,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                                     );
                                 })}{" "}
                             </Layout>
-                        </Col>
+                        </Col> */}
                     </Row>
 
                     <Row gutter={[16, 16]}>

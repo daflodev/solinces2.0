@@ -31,6 +31,7 @@ const MultiSelect = ({
             filterOption={filterOption}
             disabled={isBloqued}
             defaultValue={ defaultValue != null ? parseInt(defaultValue) : null}
+            style={{width: 100}}
         />
     )
 }
