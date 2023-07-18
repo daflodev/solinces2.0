@@ -173,7 +173,7 @@ input, p, select, span, textarea {
 .editable-cell-value-wrap:hover {
   border: 1px solid #d9d9d9;
   border-radius: 6px;
-  padding: 3px 10px;
+  padding: 0px 4px;
 }
 
 .dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-tbody >tr.ant-table-row:hover>th, .dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-tbody >tr.ant-table-row:hover>td, .dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-tbody >tr >th.ant-table-cell-row-hover, .dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-tbody >tr >td.ant-table-cell-row-hover {
@@ -231,4 +231,61 @@ input, p, select, span, textarea {
 }
 .p-iconos svg:hover path {
   fill: var(--mid-blue);
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--low-gray); 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--high-gray); 
+  border-radius: 50px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #828495; 
+}
+
+.ant-card.ant-card-bordered.cardInfra .ant-select .ant-select-selector {
+  border-radius: 8px;
+  border: 1px solid var(--mid-gray) !important;
+  background-color: transparent!important;
+  z-index: 2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 3px 10px !important;
+  gap: 37px;
+  width: 100%!important;
+  height: 35px!important;
+  left: 0px;
+  top: 0px;
+}
+
+.ps__thumb-x {
+  background-color: #aaa;
+  border-radius: 6px;
+  transition: background-color .2s linear, height .2s ease-in-out;
+  -webkit-transition: background-color .2s linear, height .2s ease-in-out;
+  height: 6px;
+  bottom: 0px;
+  position: absolute;
+}
+
+.ps_rail-x:hover > .psthumb-x, .psrail-x:focus > .ps_thumb-x, .ps__rail-x.ps--clicking .ps__thumb-x {
+  background-color: var(--high-gray);
+  height: 6px;
+}
+
+.ant-table-tbody>tr>td {
+  padding: 8px 8px !important;
 }
