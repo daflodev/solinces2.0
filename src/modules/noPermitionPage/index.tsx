@@ -31,6 +31,7 @@ const mainImageNoPermissionPage = (
     </svg>
 )
 
+
 const NoPermissionPage: React.FC = () => {
 
     const getData = async () => {
@@ -113,10 +114,11 @@ const NoPermissionPage: React.FC = () => {
                         <Col span={24} offset={10}>
                             {mainImageNoPermissionPage}
                         </Col>
-                        <Col span={12} offset={6}>
+                        <Col span={12} offset={6} style={{ width: '550px' }}>
                             <p className="no-permission-text">
                                 Lo sentimos, pero no está autorizado para acceder a esta página.
                             </p>
+                            {/* <SelectCalificationComponent /> */}
                         </Col>
                     </Row>
                 </div>

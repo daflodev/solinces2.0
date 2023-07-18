@@ -66,7 +66,7 @@ const FuncionarioPermissionComponent = (props: funcionarioPermissionProps)=>{
                 </Col>
             </Row>
             <br/>
-            <Row>
+            <Row className='tpermitidos'>
                 <Col span={8}>
                     <Select
                         className='funcionario_permission_Select'

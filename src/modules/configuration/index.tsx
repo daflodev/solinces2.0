@@ -551,8 +551,8 @@ const Settings: React.FC = () => {
             title={() => {
               return (
                 <>
-                  <Row>{selectedItem.nombre}</Row>
-                  <Row gutter={[16, 16]}>
+                  <Row className='titulo-act'>{selectedItem.nombre}</Row>
+                  <Row className='p-iconos' gutter={[16, 16]}>
                     {selectedItem && (!selectedItem?.nombre?.startsWith('THISTORY_') && !(selectedItem?.nombre == 'TSESION')) ? (
                       <div
                         className="mostrarOcultarForm"
