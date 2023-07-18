@@ -16,6 +16,15 @@ export function AvalibleSelecteManager(selectName: string, currentRol: any, curr
                 }
                 
                 break;
+            
+            case 'FK_TPERIODO_ACADEMICO':
+
+                answer = {
+                    defaultValue: currentAcademicYear,
+                    isDisable: true
+                }
+                
+                break;
 
             default:
                 answer = {
