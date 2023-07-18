@@ -104,7 +104,37 @@ export const ApiSedeInfraFK = async (data) => {
   return resp;
 };
 
+export const ApiSedePeripherls = async (data: any) => {
+  const url = `https://apisolinces.colombiaevaluadora.co/mid_peripherals_headquarters/${data}`;
 
+  const resp = await axios.get(url).then((response) => {
+    return response;
+  });
+  return resp;
+};
+
+export const ApiSedePeripherlsPost = async (data) => {
+  const url = `https://apisolinces.colombiaevaluadora.co/mid_peripherals_headquarters`;
+
+  const resp = await axios
+    .post(url,data )
+    .then((response) => {
+      return response;
+    });
+  return resp;
+};
+
+
+export const ApiSedeAsyncPeripheralsPut = async (FK_TSEDE, data) => {
+  const url = `https://apisolinces.colombiaevaluadora.co/mid_peripherals_headquarters/${FK_TSEDE}`;
+
+  const resp = axios
+    .put(url,data)
+    .then((response) => {
+      return response;
+    });
+  return resp;
+};
 
 
 export const ApiSedeTecnology = async (data: any) => {
@@ -117,10 +147,10 @@ export const ApiSedeTecnology = async (data: any) => {
 };
 
 
-
+// mid_peripherals_headquarters
 
 export const ApiSedeTecnologyPost = async (data) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/computing_headquarters/ID_SEDE`;
+  const url = `https://apisolinces.colombiaevaluadora.co/computing_headquarters`;
 
   const resp = await axios
     .post(url,data )

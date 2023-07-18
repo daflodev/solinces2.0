@@ -229,7 +229,7 @@ const Settings: React.FC = () => {
                 onClick={() =>
                   handleOpenSecondaryTable(
                     selectedTableInformation,
-                    "useSedeTecnology"
+                    "useSedePerifericos"
                   )
                 }
                 style={{ cursor: "pointer" }}

@@ -19,6 +19,9 @@ import {
   ApiSedeAsyncInfraPut,
   ApiSedeAsyncTecnologyPut,
   ApiSedeTecnology,
+  ApiSedePeripherls,
+  ApiSedeAsyncPeripheralsPut,
+  ApiSedePeripherlsPost,
 } from "./services";
 
 export const apiGetThunksAsync = async (data: any) => {
@@ -201,6 +204,50 @@ export const apiGetThunksAsyncSedeTecnology = async (data: any) => {
 
   return resp;
 };
+
+
+//perifericos medios
+
+export const apiPostThunksAsyncPeripherals = async (data: any) => {
+  const resp = await ApiSedePeripherlsPost(data)
+    .then((response) => {
+      const getdata = response;
+      return getdata;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+
+  return resp;
+};
+
+export const apiPutSedePeripherals = async (FK_TSEDE, data) => {
+  const resp = ApiSedeAsyncPeripheralsPut(FK_TSEDE, data)
+    .then((response) => {
+      const editData = response;
+      return editData;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+  return resp;
+};
+
+export const apiGetThunksAsyncSedePeripherals = async (data: any) => {
+  const resp = await ApiSedePeripherls(data)
+    .then((response) => {
+      const getdata = response.data;
+      return getdata;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+
+  return resp;
+};
+
+//------------------------------------------------------//--------------------------------------------------------------------
+
 
 export const apiGetThunksMainMenuAsync = async (data: any) => {
   const resp = await ApiServicesThunksMainMenu()

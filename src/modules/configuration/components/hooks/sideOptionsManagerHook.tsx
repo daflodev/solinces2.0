@@ -10,6 +10,7 @@ import { useNivelSede } from "./useSedeNivel";
 import SedeInfraEstructuraFisica from "../../../../utils/components/formSedeInfra";
 import { useSedeInfra } from "./useSedeInfra";
 import { useSedeTecnology } from "./useSedeInformatica";
+import { useSedePerifericos } from "./usePerifericosMedios";
 
 export const SideOptionsManagerHook = () => {
   const [optionTableSelected, setOptionTableSelected] = useState("");
@@ -63,9 +64,19 @@ export const SideOptionsManagerHook = () => {
     resultadoInformatifca,
     TecnologyFKData,
     handleFormSubmitTec,
-    contextHolderTecnology
+    contextHolderTecnology,
   } = useSedeTecnology();
 
+  const {
+    dataSedePerifericos,
+    perifericosSedeGetData,
+    initialValuesPerifericos,
+    handleFormSubmitPerifericos,
+    resultadoPerifericos,
+    infraFKDataPerifericos,
+    setDataSedePerifericos,
+    contextHolderPerifericos,
+  } = useSedePerifericos();
   // const {onFieldChange, onFinish}=useSedeInfra()
 
   const handleCloseSecondaryTable = () => {
@@ -89,7 +100,8 @@ export const SideOptionsManagerHook = () => {
     setDataSede(null);
     setDataSedeNivel(null);
     setDataSedeInfra(null);
-    setDataSedeTecnology(null)
+    setDataSedeTecnology(null);
+    setDataSedePerifericos(null)
     setIsSecondaryTableOpen(false);
 
     //permission view close status
@@ -123,6 +135,10 @@ export const SideOptionsManagerHook = () => {
         TecnologySedeGetData(record);
         break;
 
+      case "useSedePerifericos":
+        setTableGridWidth(12);
+        perifericosSedeGetData(record);
+        break;
       case "useFuncionarioPermission":
         setOptionTableSelected("useFuncionarioPermission");
         setCurrentRowInformation(record);
@@ -188,7 +204,8 @@ export const SideOptionsManagerHook = () => {
         </>
       );
       setSecondaryTableComponentRender(useSedeNivelComponent);
-    } if (dataSedeInfra) {
+    }
+    if (dataSedeInfra) {
       infraFKData();
 
       const useSedeInfraComponente = (
@@ -212,7 +229,8 @@ export const SideOptionsManagerHook = () => {
       );
 
       setSecondaryTableComponentRender(useSedeInfraComponente);
-    } if (dataSedeTecnology) {
+    }
+    if (dataSedeTecnology) {
       TecnologyFKData();
       const useSedeTecnologyComponente = (
         <>
@@ -235,6 +253,29 @@ export const SideOptionsManagerHook = () => {
       );
 
       setSecondaryTableComponentRender(useSedeTecnologyComponente);
+    }
+    if (dataSedePerifericos) {
+      infraFKDataPerifericos();
+      const useSedePerifericos = (
+        <>
+          {contextHolderPerifericos}
+          <Col md={8}>
+            <Card
+              style={{ width: "100%" }}
+              title="Tsede_nivel"
+              extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
+            >
+              <SedeInfraEstructuraFisica
+                initialValues={initialValuesPerifericos}
+                dataselect={resultadoPerifericos}
+                handleFormSubmit={handleFormSubmitPerifericos}
+                onClick={handleCloseSecondaryTable}
+              />
+            </Card>
+          </Col>
+        </>
+      );
+      setSecondaryTableComponentRender(useSedePerifericos);
     }
 
     if (
@@ -264,7 +305,7 @@ export const SideOptionsManagerHook = () => {
 
       setSecondaryTableComponentRender(useFuncionarioPermissionComponent);
     }
-  }, [dataSede, dataSedeNivel, rollOptions, dataSedeInfra, dataSedeTecnology]);
+  }, [dataSede, dataSedeNivel, rollOptions, dataSedeInfra, dataSedeTecnology, dataSedePerifericos]);
 
   return {
     isSecondaryTableOpen,
