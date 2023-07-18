@@ -259,7 +259,7 @@ export const SideOptionsManagerHook = () => {
       const useSedePerifericos = (
         <>
           {contextHolderPerifericos}
-          <Col md={8}>
+          <Col md={12}>
             <Card
               style={{ width: "100%" }}
               title="Tsede_nivel"

@@ -21,12 +21,12 @@ export const useSedeTecnology = () => {
   const fkTlvCategoria = [
     "'ACTIVIDADES_USO_PC'",
     "'ANCHO_BANDA'",
-   
+    "'ENCARGADO_PAGO_INTERNET'",
     "'PERIODO_MANTENIMIENTO'",
     "'TIPO_ACCESO_INTERNET'",
-    // "'TIPO_ENERGIA_ELECTRICA'",
-    // "TIPO_MANTENIMIENTO'", 
-    // "'ENCARGADO_MANTENIMIENTO'",
+    "'TIPO_ENERGIA_ELECTRICA'",
+    "'TIPO_MANTENIMIENTO'",
+    "'ENCARGADO_MANTENIMIENTO'",
   ];
 
   const TecnologyFKData = async () => {
@@ -62,62 +62,119 @@ export const useSedeTecnology = () => {
 
           setDataSedeTecnology(preData);
           setInitialValuesTec({
-            N_EQUIPO_RED: preData.N_EQUIPO_RED ? preData.N_EQUIPO_RED : null,
-            N_RED_DATOS: preData.N_RED_DATOS ? preData.N_RED_DATOS : null,
-            N_EQUIPO_ADMIN: preData.N_EQUIPO_ADMIN
-              ? preData.N_EQUIPO_ADMIN
+            COMPUTADORES_DOTADO_MENI: preData.COMPUTADORES_DOTADO_MENI
+              ? preData.COMPUTADORES_DOTADO_MENI
               : null,
-            N_EQUIPO_PROCESADOR_CON_486: preData.N_EQUIPO_PROCESADOR_CON_486
-              ? preData.N_EQUIPO_PROCESADOR_CON_486
+            COMPUTADORES_DOTADO_MENII: preData.COMPUTADORES_DOTADO_MENII
+              ? preData.COMPUTADORES_DOTADO_MENII
               : null,
-            N_AULA_INFORMATICA: preData.N_AULA_INFORMATICA
-              ? preData.N_AULA_INFORMATICA
+            COMP_DOTADO_COMP_EDUCAR: preData.COMP_DOTADO_COMP_EDUCAR
+              ? preData.COMP_DOTADO_COMP_EDUCAR
               : null,
-            N_PUNTOS_RED_DATO_HABILITADO: preData.N_PUNTOS_RED_DATO_HABILITADO
-              ? preData.N_PUNTOS_RED_DATO_HABILITADO
+            COMP_DOTADO_OTRA_ENTIDAD: preData.COMP_DOTADO_OTRA_ENTIDAD
+              ? preData.COMP_DOTADO_OTRA_ENTIDAD
+              : null,
+            COMP_DOTADO_SECRE_EDUCACION: preData.COMP_DOTADO_SECRE_EDUCACION
+              ? preData.COMP_DOTADO_SECRE_EDUCACION
+              : null,
+            CONTRATO_MANT_EQUIPOS_COMPUTO: preData.CONTRATO_MANT_EQUIPOS_COMPUTO
+              ? preData.CONTRATO_MANT_EQUIPOS_COMPUTO
               : null,
             COSTO_MENSUAL_INTERMET: preData.COSTO_MENSUAL_INTERMET
-                ? preData.COSTO_MENSUAL_INTERMET
-                : null,
-            N_EQUIPO_EDU: preData.N_EQUIPO_EDU ? preData.N_EQUIPO_EDU : null,
-            N_EQUIPO_PROCESADOR_INF_486: preData.N_EQUIPO_PROCESADOR_INF_486
-              ? preData.N_EQUIPO_POCESADOR_INF_486
+              ? preData.COSTO_MENSUAL_INTERMET
               : null,
-            N_EQUIPO_PROCESADOR_SUP_486: preData.N_EQUIPO_PROCESADOR_SUP_486
-              ? preData.N_EQUIPO_PROCESADOR_SUP_486
-              : null,
-            SUMINISTRO_ENERGIA: preData.SUMINISTRO_ENERGIA
-              ? preData.SUMINISTRO_ENERGIA
-              : null,
+
             FK_TLV_ACTIVIDADES_USO_PC: preData.FK_TLV_ACTIVIDADES_USO_PC
               ? preData.FK_TLV_ACTIVIDADES_USO_PC
               : null,
             FK_TLV_ANCHO_BANDA: preData.FK_TLV_ANCHO_BANDA
               ? preData.FK_TLV_ANCHO_BANDA
               : null,
-            // FK_TLV_ENCARGADO_MANTENIMIENTO:
-            //   preData.FK_TLV_ENCARGADO_MANTENIMIENTO
-            //     ? preData.FK_TLV_ENCARGADO_MANTENIMIENTO
-            //     : null,
-            // FK_TLV_ENCARGADO_PAGO_INTERNET:
-            //   preData.FK_TLV_ENCARGADO_PAGO_INTERNET
-            //     ? preData.FK_TLV_ENCARGADO_PAGO_INTERNET
-            //     : null,
+            FK_TLV_ENCARGADO_MANTENIMIENTO:
+              preData.FK_TLV_ENCARGADO_MANTENIMIENTO
+                ? preData.FK_TLV_ENCARGADO_MANTENIMIENTO
+                : null,
+            FK_TLV_ENCARGADO_PAGO_INTERNET:
+              preData.FK_TLV_ENCARGADO_PAGO_INTERNET
+                ? preData.FK_TLV_ENCARGADO_PAGO_INTERNET
+                : null,
             FK_TLV_PERIODO_MANTENIMIENTO: preData.FK_TLV_PERIODO_MANTENIMIENTO
               ? preData.FK_TLV_PERIODO_MANTENIMIENTO
               : null,
             FK_TLV_TIPO_ACCESO_INTERNET: preData.FK_TLV_TIPO_ACCESO_INTERNET
               ? preData.FK_TLV_TIPO_ACCESO_INTERNET
               : null,
-            // FK_TLV_TIPO_ENERGIA_ELECTRICA: preData.FK_TLV_TIPO_ENERGIA_ELECTRICA
-            //   ? preData.FK_TLV_TIPO_ENERGIA_ELECTRICA
-            //   : null,
-            // FK_TLV_TIPO_MANTENIMIENTO: preData.FK_TLV_TIPO_MANTENIMIENTO
-            //   ? preData.FK_TLV_TIPO_MANTENIMIENTO
-            //   : null,
+            FK_TLV_TIPO_ENERGIA_ELECTRICA: preData.FK_TLV_TIPO_ENERGIA_ELECTRICA
+              ? preData.FK_TLV_TIPO_ENERGIA_ELECTRICA
+              : null,
+            FK_TLV_TIPO_MANTENIMIENTO: preData.FK_TLV_TIPO_MANTENIMIENTO
+              ? preData.FK_TLV_TIPO_MANTENIMIENTO
+              : null,
+
+            N_AULA_INFORMATICA: preData.N_AULA_INFORMATICA
+              ? preData.N_AULA_INFORMATICA
+              : null,
+            N_EQUIPO_ADMIN: preData.N_EQUIPO_ADMIN
+              ? preData.N_EQUIPO_ADMIN
+              : null,
+            N_EQUIPO_EDU: preData.N_EQUIPO_EDU ? preData.N_EQUIPO_EDU : null,
+            N_EQUIPO_PROCESADOR_CON_486: preData.N_EQUIPO_PROCESADOR_CON_486
+              ? preData.N_EQUIPO_PROCESADOR_CON_486
+              : null,
+            N_EQUIPO_PROCESADOR_INF_486: preData.N_EQUIPO_PROCESADOR_INF_486
+              ? preData.N_EQUIPO_PROCESADOR_INF_486
+              : null,
+            N_EQUIPO_PROCESADOR_SUP_486: preData.N_EQUIPO_PROCESADOR_SUP_486
+              ? preData.N_EQUIPO_PROCESADOR_SUP_486
+              : null,
+            N_EQUIPO_RED: preData.N_EQUIPO_RED ? preData.N_EQUIPO_RED : null,
+            N_PUNTOS_RED_DATO_HABILITADO: preData.N_PUNTOS_RED_DATO_HABILITADO
+              ? preData.N_PUNTOS_RED_DATO_HABILITADO
+              : null,
+            N_RED_DATOS: preData.N_RED_DATOS ? preData.N_RED_DATOS : null,
+            OFRECE_ACCESO_COMUNIDAD: preData.OFRECE_ACCESO_COMUNIDAD
+              ? preData.OFRECE_ACCESO_COMUNIDAD
+              : null,
+            SUMINISTRO_ENERGIA: preData.SUMINISTRO_ENERGIA
+              ? preData.SUMINISTRO_ENERGIA
+              : null,
+
+            TIENE_ACCESO_INTERNET: preData.TIENE_ACCESO_INTERNET
+              ? preData.TIENE_ACCESO_INTERNET
+              : null,
+            USO_PC_CONSULTA_CONTENIDO_DIGI:
+              preData.USO_PC_CONSULTA_CONTENIDO_DIGI
+                ? preData.USO_PC_CONSULTA_CONTENIDO_DIGI
+                : null,
+            USO_PC_DOCENTE_EDUCATIVO: preData.USO_PC_DOCENTE_EDUCATIVO
+              ? preData.USO_PC_DOCENTE_EDUCATIVO
+              : null,
+            USO_PC_ENS_SOFT_PEDA_ESP: preData.USO_PC_ENS_SOFT_PEDA_ESP
+              ? preData.USO_PC_ENS_SOFT_PEDA_ESP
+              : null,
+
+            USO_PC_HORARIO_CLASE: preData.USO_PC_HORARIO_CLASE
+              ? preData.USO_PC_HORARIO_CLASE
+              : null,
           });
         }
       })
+
+      // TIENE_ACCESO_INTERNET
+      // :
+      // "3"
+      // USO_PC_CONSULTA_CONTENIDO_DIGI
+      // :
+      // "3"
+      // USO_PC_DOCENTE_EDUCATIVO
+      // :
+      // "3"
+      // USO_PC_ENS_SOFT_PEDA_ESP
+      // :
+      // "3"
+      // USO_PC_HORARIO_CLASE
+      // :
+      // "3"
 
       .catch((error) => {
         console.log("catch response: ", error);
@@ -163,15 +220,13 @@ export const useSedeTecnology = () => {
             setTimeout(() => {
               cerrarTable();
             }, 2000);
-
-
           } else {
             messageApi.open({
               type: "error",
-              content: "no se pudo hacer editar la infraestructura fisica de la sede",
+              content:
+                "no se pudo hacer editar la infraestructura fisica de la sede",
             });
           }
-          
 
           return response;
         })
@@ -200,6 +255,6 @@ export const useSedeTecnology = () => {
     TecnologyFKData,
     handleFormSubmitTec,
     setDataSedeTecnology,
-    contextHolderTecnology
+    contextHolderTecnology,
   };
 };

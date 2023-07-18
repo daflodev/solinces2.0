@@ -66,6 +66,12 @@ export const useSedePerifericos = () => {
                     // console.log(preData, "mergeData");
                     setDataSedePerifericos(preData);
                     setInitialValuesPerifericos({
+                        FK_TLV_ALCANCE_EMISORA: preData.FK_TLV_ALCANCE_EMISORA
+                            ? preData.FK_TLV_ALCANCE_EMISORA
+                            : null,
+                        FK_TLV_TIPO_BIBLIOTECA: preData.FK_TLV_TIPO_BIBLIOTECA
+                            ? preData.FK_TLV_TIPO_BIBLIOTECA
+                            : null,
                         NUMERO_DVD: preData.NUMERO_DVD ? preData.NUMERO_DVD : null,
                         NUMERO_LINEA_TELEFONICA: preData.NUMERO_LINEA_TELEFONICA
                             ? preData.NUMERO_LINEA_TELEFONICA
@@ -87,9 +93,6 @@ export const useSedePerifericos = () => {
                         TIENEN_BIBLIOTECA: preData.TIENEN_BIBLIOTECA
                             ? preData.TIENEN_BIBLIOTECA
                             : null,
-                        // FK_TLV_TERRENA_ZONA: preData.FK_TLV_TERRENO_ZONA
-                        //   ? preData.FK_TLV_TERRENO_ZONA
-                        //   : null,
                         TIENEN_DVD: preData.TIENEN_DVD ? preData.TIENEN_DVD : null,
                         TIENEN_EMISORA_ESTUDIANTIL: preData.TIENEN_EMISORA_ESTUDIANTIL
                             ? preData.TIENEN_EMISORA_ESTUDIANTIL
@@ -114,12 +117,6 @@ export const useSedePerifericos = () => {
                         TIENE_UPS: preData.TIENE_UPS ? preData.TIENE_UPS : null,
                         TIENE_VIDEOBEAM: preData.TIENE_VIDEOBEAM
                             ? preData.TIENE_VIDEOBEAM
-                            : null,
-                        FK_TLV_ALCANCE_EMISORA: preData.FK_TLV_ALCANCE_EMISORA
-                            ? preData.FK_TLV_ALCANCE_EMISORA
-                            : null,
-                        FK_TLV_TIPO_BIBLIOTECA: preData.FK_TLV_TIPO_BIBLIOTECA
-                            ? preData.FK_TLV_TIPO_BIBLIOTECA
                             : null,
                     });
                 }

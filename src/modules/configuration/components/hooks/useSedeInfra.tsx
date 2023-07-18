@@ -92,8 +92,8 @@ export const useSedeInfra = () => {
             VIA_ACCESO_OTROS: preData.PC_LICENCIADOS
               ? preData.PC_LICENCIADOS
               : null,
-            DESCRIPCION_OTRO_ACCESO: preData.VIA_ACCESO_OTROS
-              ? preData.VIA_ACCESO_OTROS
+            DESCRIPCION_OTRO_ACCESO: preData.DESCRIPCION_OTRO_ACCESO
+              ? preData.DESCRIPCION_OTRO_ACCESO
               : null,
             PC_LICENCIADOS: preData.PC_LICENCIADOS
               ? preData.PC_LICENCIADOS
