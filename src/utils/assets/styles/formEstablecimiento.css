@@ -3,6 +3,14 @@
     padding-top: 20px;
 }
 
+.formulario .ant-row.css-dev-only-do-not-override-15rg2km {
+    row-gap: 14px !important;
+}
+
+.formulario .ant-form-item.css-dev-only-do-not-override-15rg2km {
+    margin: 0 !important;
+}
+
 .form-container {
     display: flex;
     width: 100%;

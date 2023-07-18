@@ -8,6 +8,31 @@
     padding-left: 1.5rem;
 }
 
+:where(.css-dev-only-do-not-override-15rg2km).ant-collapse .ant-collapse-content>.ant-collapse-content-box {
+    padding-right: 0px;
+}
+
+label.ant-checkbox-wrapper span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.transfer_component_table_container {
+    overflow-y: hidden !important;
+}
+
+.transfer_component_table_container:hover {
+    overflow-y: auto !important;
+}
+
+label.ant-checkbox-wrapper.css-dev-only-do-not-override-15rg2km {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
 .transfer_component .ant-collapse-item .ant-collapse-header{
     padding-left: 0.2rem;
 }
@@ -27,6 +52,7 @@
 
 .transfer_component .transfer_component_table_container .ant-row{
     width: 100%;
+    overflow: auto;
 }
 
 .transfer_component .transfer_component_icons_transfer_container{

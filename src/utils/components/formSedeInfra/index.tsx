@@ -28,7 +28,6 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = () => {
             <>
             <Form
                 labelCol={{ span: 4 }}
-                wrapperCol={{ span: 14 }}
                 layout="horizontal"
                 disabled={false}
                 style={{ maxWidth: 600 }}
