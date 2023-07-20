@@ -29,7 +29,7 @@ export const useJournySede = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const journySedeGetData = async (record) => {
-    console.log("record: ", record);
+    // console.log("record: ", record);
     // const getPK = record["PK_TSEDE"]
 
     setPksede(record);
@@ -37,7 +37,7 @@ export const useJournySede = () => {
     await apiGetThunksAsyncSedeJornada(record.PK_TSEDE)
       .then((response) => {
         if (response) {
-          console.log(response.data, "respuesta");
+          // console.log(response.data, "respuesta");
           const preData = response.data;
           setDataSede(preData);
           setSelectedValues(
@@ -75,13 +75,13 @@ export const useJournySede = () => {
       if (selectedValues.includes(objeto.PK_TJORNADA)) {
         const newObeject = { ...objeto };
         newObeject.BOOLEAN_FIELD = true;
-        console.log(newObeject);
+        // console.log(newObeject);
 
         return newObeject;
       } else {
         const newObeject = { ...objeto };
         newObeject.BOOLEAN_FIELD = false;
-        console.log(newObeject);
+        // console.log(newObeject); 
 
         return newObeject;
       }

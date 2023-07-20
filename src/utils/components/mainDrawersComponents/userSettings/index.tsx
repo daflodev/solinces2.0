@@ -67,7 +67,7 @@ const UserSettings: React.FC = () => {
   };
 
     const ListaItems = () => {
-      console.log('roles: ', roles)
+      // console.log('roles: ', roles)
         return (
           <div style={{ padding: '10px', backgroundColor: 'var(--bg-color)' }}>
             <ul>
