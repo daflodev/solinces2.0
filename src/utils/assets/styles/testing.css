@@ -4,17 +4,18 @@
     left: 14px;
     border-radius: 8px;
     width: calc(100vw - 2.5rem);
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
     border: none;
 }
 
+.card-container .ant-layout{
+    min-height: calc(100vh - 8.2rem) !important;
+    background-color: transparent;
+}
 
 .card-body {
     background-color: var(--bg-color);
     border: none;
-    min-height: calc(93vh - 5.2rem) !important;
+    min-height: calc(93vh - 6.2rem) !important;
 }
 
 :where(.css-dev-only-do-not-override-15rg2km).ant-card .ant-card-body {
@@ -155,9 +156,9 @@ tr.ant-table-row-selected.editable-row {
     line-height: 21px!important;
     cursor: pointer;
     color: var(--high-gray);
-    overflow: hidden;
+    /* overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis; */
     padding: 0.25rem 0.625rem;
     width: 100%;
     margin-bottom: 0.375rem;
@@ -178,9 +179,9 @@ tr.ant-table-row-selected.editable-row {
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
-    overflow: hidden;
+    /* overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis; */
     padding: 0 10px;
 }
 

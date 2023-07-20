@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useState } from "react";
 
 import { message } from 'antd';
@@ -8,6 +9,7 @@ import { mainDrawerStore } from "../../../../../store/mainDrawerStore";
 
 export const mainHook = () =>{
 
+   
     const [bloodType, setBloodType] = useState<object[]>([]);
     const [municipalResidence, setMunicipalResidence] = useState<object[]>([]);
     const [documentType, setDocumentType] = useState<object[]>([]);

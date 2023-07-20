@@ -6,7 +6,17 @@ import "../../utils/assets/styles/testing.css";
 import { useEffect } from "react";
 
 import { CloseOutlined, SettingOutlined } from "@ant-design/icons";
-import { Card, Col, Popconfirm, Row, Space, Spin, Table } from "antd";
+import {
+  Card,
+  Col,
+  Layout,
+  // Menu,
+  Popconfirm,
+  Row,
+  Space,
+  Spin,
+  Table,
+} from "antd";
 
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
@@ -21,6 +31,9 @@ import {
   sedeInfraEstructuraFisicaIcon,
   sedeJornada,
   sedeNivel,
+  sedeTecnologicaIcon,
+  perifericosMediosIcon,
+  TperiodoConfig,
 } from "../../utils/assets/icon/iconManager";
 import { withPrincipal } from "../../utils/components/content";
 import { EditableCell } from "../../utils/components/editablecells";
@@ -38,6 +51,7 @@ import { SideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHoo
 type EditableTableProps = Parameters<typeof Table>[0];
 
 type ColumnTypes = Exclude<EditableTableProps[], undefined>;
+const { Sider, Content } = Layout;
 
 const Settings: React.FC = () => {
   //funciones y estado del custom hooks personalizado
@@ -122,7 +136,10 @@ const Settings: React.FC = () => {
   };
 
   const renderContentManager = () => {
-    if (currentRol != "SUPER_ADMINISTRADOR" && selectedItem?.nombre == "TESTABLECIMIENTO") {
+    if (
+      currentRol != "SUPER_ADMINISTRADOR" &&
+      selectedItem?.nombre == "TESTABLECIMIENTO"
+    ) {
       return (
         <FormEstablecimiento
           setTitleState={setDataTable}
@@ -142,21 +159,29 @@ const Settings: React.FC = () => {
   };
 
   const iconOptionsManager = (rol, selectedTable, selectedTableInformation) => {
+    const rolesToShowuseFuncionarioPermission = [
+      "SUPER_ADMINISTRADOR",
+      "DIRECTOR_ENTE_TERRITORIAL",
+      "JEFE_SISTEMA_ENTE_TERRITORIAL",
+      "JEFE_AREA_PLANEACION",
+      "JEFE_AREA_COBERTURA",
+      "RECTOR",
+    ];
 
-    const rolesToShowuseFuncionarioPermission = ['SUPER_ADMINISTRADOR', 'DIRECTOR_ENTE_TERRITORIAL', 'JEFE_SISTEMA_ENTE_TERRITORIAL', 'JEFE_AREA_PLANEACION', 'JEFE_AREA_COBERTURA', 'RECTOR'];
+    const keyTable = selectedItem ? selectedItem.key_table : "";
+    const keyDelete = `PK_T${keyTable?.toUpperCase()}`;
 
-    const keyTable = selectedItem ? selectedItem.key_table : '';
-    const keyDelete = `PK_T${keyTable?.toUpperCase()}`
-
-    let result = (<>
-      {" "}
-      <Popconfirm
-        title="seguro desea eliminar?"
-        onConfirm={() => handleDelete(selectedTableInformation[keyDelete])}
-      >
-        <div className="iconDelete">{deleteIcon}</div>
-      </Popconfirm>
-    </>);
+    let result = (
+      <>
+        {" "}
+        <Popconfirm
+          title="seguro desea eliminar?"
+          onConfirm={() => handleDelete(selectedTableInformation[keyDelete])}
+        >
+          <div className="iconDelete">{deleteIcon}</div>
+        </Popconfirm>
+      </>
+    );
 
     switch (selectedTable) {
       case "TSEDE":
@@ -200,9 +225,35 @@ const Settings: React.FC = () => {
                 {sedeInfraEstructuraFisicaIcon}
               </div>
 
+              <div
+                onClick={() =>
+                  handleOpenSecondaryTable(
+                    selectedTableInformation,
+                    "useSedeTecnology"
+                  )
+                }
+                style={{ cursor: "pointer" }}
+              >
+                {sedeTecnologicaIcon}
+              </div>
+
+              <div
+                onClick={() =>
+                  handleOpenSecondaryTable(
+                    selectedTableInformation,
+                    "useSedePerifericos"
+                  )
+                }
+                style={{ cursor: "pointer" }}
+              >
+                {perifericosMediosIcon}
+              </div>
+
               <Popconfirm
                 title="seguro desea eliminar?"
-                onConfirm={() => handleDelete(selectedTableInformation[keyDelete])}
+                onConfirm={() =>
+                  handleDelete(selectedTableInformation[keyDelete])
+                }
               >
                 <div className="iconDelete">{deleteIcon}</div>
               </Popconfirm>
@@ -212,112 +263,167 @@ const Settings: React.FC = () => {
 
         break;
 
-      case 'TFUNCIONARIO':
-
-        if(rolesToShowuseFuncionarioPermission.includes(rol)){
-          result = (<>
+      case "TPERIODO_ACADEMICO":
+        if (rol == "RECTOR") {
+          result = (
+            <>
             <div
-              onClick={() => {
-                if(visibleForm){
-                  handleMostrarForm()
+            onClick={() => {
+              if (visibleForm) {
+                handleMostrarForm();
+              }
+              handleOpenSecondaryTable(
+                selectedTableInformation,
+                "useSedeJornada"
+              );
+            }}
+            style={{ cursor: "pointer" }}
+          >
+            {TperiodoConfig}
+          </div>
+
+          <Popconfirm
+                title="seguro desea eliminar?"
+                onConfirm={() =>
+                  handleDelete(selectedTableInformation[keyDelete])
                 }
-                handleOpenSecondaryTable(selectedTableInformation, 'useFuncionarioPermission')
-              }}
-              style={{ cursor: "pointer" }}
-            >
-              {funcionarioPermisoIcon}
-            </div>
-  
-            <Popconfirm
-              title="seguro desea eliminar?"
-              onConfirm={() => handleDelete(selectedTableInformation[keyDelete])}
-            >
-              <div className="iconDelete">{deleteIcon}</div>
-            </Popconfirm>
-          </>)
+              >
+                <div className="iconDelete">{deleteIcon}</div>
+              </Popconfirm>
+            </>
+          )
+          
         }
-
         break;
-
-        case 'TPADRE':
-
-          if(rolesToShowuseFuncionarioPermission.includes(rol)){
-            result = (<>
+      case "TFUNCIONARIO":
+        if (rolesToShowuseFuncionarioPermission.includes(rol)) {
+          result = (
+            <>
               <div
                 onClick={() => {
-                  if(visibleForm){
-                    handleMostrarForm()
+                  if (visibleForm) {
+                    handleMostrarForm();
                   }
-                  handleOpenSecondaryTable(selectedTableInformation, 'useFuncionarioPermission')
+                  handleOpenSecondaryTable(
+                    selectedTableInformation,
+                    "useFuncionarioPermission"
+                  );
                 }}
                 style={{ cursor: "pointer" }}
               >
                 {funcionarioPermisoIcon}
               </div>
-    
+
+              <Popconfirm
+                title="seguro desea eliminar?"
+                onConfirm={() =>
+                  handleDelete(selectedTableInformation[keyDelete])
+                }
+              >
+                <div className="iconDelete">{deleteIcon}</div>
+              </Popconfirm>
+            </>
+          );
+        }
+
+        break;
+
+      case "TPADRE":
+        if (rolesToShowuseFuncionarioPermission.includes(rol)) {
+          result = (
+            <>
+              <div
+                onClick={() => {
+                  if (visibleForm) {
+                    handleMostrarForm();
+                  }
+                  handleOpenSecondaryTable(
+                    selectedTableInformation,
+                    "useFuncionarioPermission"
+                  );
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                {funcionarioPermisoIcon}
+              </div>
+
               <Popconfirm
                 title="seguro desea eliminar?"
                 onConfirm={() => handleDelete(selectedTableInformation.key)}
               >
                 <div className="iconDelete">{deleteIcon}</div>
               </Popconfirm>
-            </>)
-          }
-          
-          break;
+            </>
+          );
+        }
 
-        case 'TESTUDIANTE':
-          if(rolesToShowuseFuncionarioPermission.includes(rol)){
-            result = (<>
+        break;
+
+      case "TESTUDIANTE":
+        if (rolesToShowuseFuncionarioPermission.includes(rol)) {
+          result = (
+            <>
               <div
                 onClick={() => {
-                  if(visibleForm){
-                    handleMostrarForm()
+                  if (visibleForm) {
+                    handleMostrarForm();
                   }
-                  handleOpenSecondaryTable(selectedTableInformation, 'useFuncionarioPermission')
+                  handleOpenSecondaryTable(
+                    selectedTableInformation,
+                    "useFuncionarioPermission"
+                  );
                 }}
                 style={{ cursor: "pointer" }}
               >
                 {funcionarioPermisoIcon}
               </div>
-    
+
               <Popconfirm
                 title="seguro desea eliminar?"
-                onConfirm={() => handleDelete(selectedTableInformation[keyDelete])}
+                onConfirm={() =>
+                  handleDelete(selectedTableInformation[keyDelete])
+                }
               >
                 <div className="iconDelete">{deleteIcon}</div>
               </Popconfirm>
-            </>)
-          }
-          
-          break;
+            </>
+          );
+        }
 
-          case 'TUSUARIO':
+        break;
 
-          if(rolesToShowuseFuncionarioPermission.includes(rol)){
-            result = (<>
+      case "TUSUARIO":
+        if (rolesToShowuseFuncionarioPermission.includes(rol)) {
+          result = (
+            <>
               <div
                 onClick={() => {
-                  if(visibleForm){
-                    handleMostrarForm()
+                  if (visibleForm) {
+                    handleMostrarForm();
                   }
-                  handleOpenSecondaryTable(selectedTableInformation, 'useFuncionarioPermission')
+                  handleOpenSecondaryTable(
+                    selectedTableInformation,
+                    "useFuncionarioPermission"
+                  );
                 }}
                 style={{ cursor: "pointer" }}
               >
                 {funcionarioPermisoIcon}
               </div>
-    
+
               <Popconfirm
                 title="seguro desea eliminar?"
-                onConfirm={() => handleDelete(selectedTableInformation[keyDelete])}
+                onConfirm={() =>
+                  handleDelete(selectedTableInformation[keyDelete])
+                }
               >
                 <div className="iconDelete">{deleteIcon}</div>
               </Popconfirm>
-            </>)
-          }
-          
-          break;
+            </>
+          );
+        }
+
+        break;
 
       default:
         result = (
@@ -325,14 +431,16 @@ const Settings: React.FC = () => {
             {" "}
             <Popconfirm
               title="seguro desea eliminar?"
-              onConfirm={() => handleDelete(selectedTableInformation[keyDelete])}
+              onConfirm={() =>
+                handleDelete(selectedTableInformation[keyDelete])
+              }
             >
               <div className="iconDelete">{deleteIcon}</div>
             </Popconfirm>
           </>
         );
         break;
-    };
+    }
 
     return result;
   };
@@ -343,7 +451,7 @@ const Settings: React.FC = () => {
 
     const result: any[] = keys.map((item) => {
       const ifSelected = item.startsWith("FK_");
-      
+
       if (ifSelected) {
         const options = filterSelectOnColumnGenerator(
           item,
@@ -395,33 +503,33 @@ const Settings: React.FC = () => {
     });
 
     {
-      selectedItem && (!selectedItem?.nombre?.startsWith('THISTORY_') && !(selectedItem?.nombre == 'TSESION')) 
-      ?
-        result.push({
-          title: "operacion",
-          dataIndex: "operation",
-          align: "center",
-          width: 150,
-          render: (_, record: { key: React.Key }) => (
-            <>
-              {settingOptions?.length >= 1 ? (
-                <>
-                  <Space size="middle" className="boton">
-                    {iconOptionsManager(
-                      currentRol,
-                      selectedItem?.nombre,
-                      record,
-                    )}
-                  </Space>
-                </>
-              ) : null}
+      selectedItem &&
+      !selectedItem?.nombre?.startsWith("THISTORY_") &&
+      !(selectedItem?.nombre == "TSESION")
+        ? result.push({
+            title: "operacion",
+            dataIndex: "operation",
+            align: "center",
+            width: 250,
 
-            </>
-          ),
-        }) 
-      : 
-        null
-    };
+            render: (_, record: { key: React.Key }) => (
+              <>
+                {settingOptions?.length >= 1 ? (
+                  <>
+                    <Space size="middle" className="boton">
+                      {iconOptionsManager(
+                        currentRol,
+                        selectedItem?.nombre,
+                        record
+                      )}
+                    </Space>
+                  </>
+                ) : null}
+              </>
+            ),
+          })
+        : null;
+    }
 
     return result;
   };
@@ -453,7 +561,11 @@ const Settings: React.FC = () => {
       ...col,
       onCell: (record: any) => ({
         record,
-        editable: (!selectedItem?.nombre?.startsWith('THISTORY_') && !(selectedItem?.nombre == 'TSESION')) ? col.editable : false ,
+        editable:
+          !selectedItem?.nombre?.startsWith("THISTORY_") &&
+          !(selectedItem?.nombre == "TSESION")
+            ? col.editable
+            : false,
         dataIndex: col.dataIndex,
         title: col.title,
         render: col.render,
@@ -513,9 +625,11 @@ const Settings: React.FC = () => {
             title={() => {
               return (
                 <>
-                  <Row className='titulo-act'>{selectedItem.nombre}</Row>
-                  <Row className='p-iconos' gutter={[16, 16]}>
-                    {selectedItem && (!selectedItem?.nombre?.startsWith('THISTORY_') && !(selectedItem?.nombre == 'TSESION')) ? (
+                  <Row className="titulo-act">{selectedItem.nombre}</Row>
+                  <Row className="p-iconos" gutter={[16, 16]}>
+                    {selectedItem &&
+                    !selectedItem?.nombre?.startsWith("THISTORY_") &&
+                    !(selectedItem?.nombre == "TSESION") ? (
                       <div
                         className="mostrarOcultarForm"
                         onClick={() => {
@@ -555,98 +669,106 @@ const Settings: React.FC = () => {
   return (
     <>
       {contextHolder}
+
       <div>
         <Card className="card-container">
-          <div className="row justify-content-center">
-            <div className="col-12">
-              <Row gutter={[16, 16]}>
-                <Col span="4">
-                  <Row style={{ paddingBottom: '12px' }}>
-                    <Col span="2">
+          <Layout>
+            <Row gutter={[16, 16]}>
+              <Col xs={24} md={2} lg={6} xl={4}>
+                <Sider style={{ background: "transparent" }}>
+                  <Row>
+                    <Col span={2}>
                       <div className="iconConfiguration">
                         {<SettingOutlined />}
                       </div>
                     </Col>
-                    <Col xs={24} md={22}>
+                    <Col span={10}>
                       <div className="configuration">
                         {params?.option ? (params?.option).toUpperCase() : null}
                       </div>
                     </Col>
                   </Row>
-                  <Row gutter={[16, 16]}>
-                    <Col span={24}>
-                      {settingOptions ? (
-                        <ul id="mi-lista">
-                          {/* @ts-ignore */}
-                          {settingOptions?.map((item: any) => (
-                            // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-                            <li
-                              key={`${item.nombre}_${item.key}`}
-                              onClick={() => handleSelect(item)}
-                            >
-                              {item.nombre}
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <Spin tip="" size="large" />
-                      )}
-                    </Col>
-                  </Row>
-                </Col>
-                <Col
-                  xs={24}
-                  md={
-                    visibleForm
-                      ? 14
-                      : isSecondaryTableOpen
-                      ? tableGridWidth
-                      : 20
-                  }
-                >
-                  <Card className="card-body">
-                    {selectedItem && renderContentManager()}
-                  </Card>
-                </Col>
-                {visibleForm ? (
-                  <Col md={4}>
-                    <Card
-                      className="justify-content-center align-items-center "
-                      title={
-                        <>
-                          <Row gutter={[16, 16]}>
-                            <Col xs={12} md={10}>
-                              <div className="titleForm">Agregar</div>
-                            </Col>
-                            <Col xs={12} md={12}>
-                              <div className="closeCardForm">
-                                <CloseOutlined
-                                  onClick={() => {
-                                    handleMostrarForm();
-                                  }}
-                                />
-                              </div>
-                            </Col>
-                          </Row>
-                        </>
-                      }
-                    >
-                      <FormAdd
-                        setTitleState={setDataTable}
-                        keyValues={inputFilter}
-                        selectItem={selectedItem}
-                        FKGroupData={fkGroup}
-                        handleSubmit={handleSubmit}
-                        itemsInformation={itemsColumnsInformation}
-                      />
-                    </Card>
-                  </Col>
-                ) : null}
 
-                {isSecondaryTableOpen ? secondaryTableComponentRender : null}
-              </Row>
-            </div>
-          </div>
+                  {settingOptions ? (
+                    <ul id="mi-lista">
+                      {/* @ts-ignore */}
+                      {settingOptions?.map((item: any) => (
+                        // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+                        <li
+                          key={`${item.nombre}_${item.key}`}
+                          onClick={() => handleSelect(item)}
+                        >
+                          {item.nombre}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <Spin tip="" size="large" />
+                  )}
+                </Sider>
+              </Col>
+              <Col xs={24} md={24} lg={18} xl={20}>
+                <Layout>
+                  <Content style={{ margin: "16px" }}>
+                    <Row gutter={[16, 16]}>
+                      <Col
+                        xs={24}
+                        md={
+                          visibleForm
+                            ? 20
+                            : isSecondaryTableOpen
+                            ? tableGridWidth
+                            : 24
+                        }
+                      >
+                        <Card className="card-body">
+                          {selectedItem && renderContentManager()}
+                        </Card>
+                      </Col>
+                      {visibleForm ? (
+                        <Col md={4}>
+                          <Card
+                            className="justify-content-center align-items-center "
+                            title={
+                              <>
+                                <Row gutter={[16, 16]}>
+                                  <Col xs={12} md={10}>
+                                    <div className="titleForm">Agregar</div>
+                                  </Col>
+                                  <Col xs={12} md={12}>
+                                    <div className="closeCardForm">
+                                      <CloseOutlined
+                                        onClick={() => {
+                                          handleMostrarForm();
+                                        }}
+                                      />
+                                    </div>
+                                  </Col>
+                                </Row>
+                              </>
+                            }
+                          >
+                            <FormAdd
+                              setTitleState={setDataTable}
+                              keyValues={inputFilter}
+                              selectItem={selectedItem}
+                              FKGroupData={fkGroup}
+                              handleSubmit={handleSubmit}
+                              itemsInformation={itemsColumnsInformation}
+                            />
+                          </Card>
+                        </Col>
+                      ) : null}
+
+                      {isSecondaryTableOpen
+                        ? secondaryTableComponentRender
+                        : null}
+                    </Row>
+                  </Content>
+                </Layout>
+              </Col>
+            </Row>
+          </Layout>
         </Card>
       </div>
     </>

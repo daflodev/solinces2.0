@@ -7,7 +7,7 @@ export const GetMenu = () => {
   const dataKCToken : any =  JSON.parse(getItem) ?? null;
     
 
-  const [dataSource, setDataSource] = useState([]);
+  const [dataSource, setDataSource] = useState<any>([]);
 
   const apiGet = async () => {
 

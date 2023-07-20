@@ -184,7 +184,7 @@ export const UseSettigns = () => {
 
       //  TEMPORAL
       const currentAcademicYearLocal = localStorage.getItem('currentAcademicYear');
-      console.log(currentAcademicYearLocal, 'currentAcademicYearLocal')
+      // console.log(currentAcademicYearLocal, 'currentAcademicYearLocal')
       //  TEMPORAL
 
       // // select con where
@@ -552,7 +552,7 @@ export const UseSettigns = () => {
   };
 
   const handleDeleteGroup = async () => {
-    let whereUpdate = {
+   const whereUpdate = {
       where: selectedRowKeys,
     };
     const newWhere = changeKey(
@@ -711,8 +711,8 @@ export const UseSettigns = () => {
     const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
       //@ts-ignore
       const { getdata } = response;
-
       const res = getdata;
+      console.log(res, "data")
       return res;
     });
     return getDataTable;

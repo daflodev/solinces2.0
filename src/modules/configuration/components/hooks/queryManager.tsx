@@ -3,7 +3,7 @@ import { QueryBuilders } from "../../../../utils/orm/queryBuilders";
 // @ts-ignore
 export async function QueryManager(table: string, currentRol: any, currentAcademicPeriod: any, currentCampus: any, currentInstitution: any, schema?: any){
 
-    console.log(table, 'query_manage')
+    // console.log(table, 'query_manage')
     let answerQuery: any;
     const query = new QueryBuilders(table);
     const currentAcademicPeriodLocal = localStorage.getItem('currentAcademicYear')
