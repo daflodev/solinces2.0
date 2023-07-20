@@ -32,7 +32,7 @@ export const useSedeTecnology = () => {
   const TecnologyFKData = async () => {
     try {
       const response = await apiFKThunksAsyncSedeInfra(fkTlvCategoria);
-      const predata = response.data;
+      const predata = response;
 
       setDataSelectTec(predata);
 
@@ -58,7 +58,7 @@ export const useSedeTecnology = () => {
     await apiGetThunksAsyncSedeTecnology(record.PK_TSEDE)
       .then((response) => {
         if (response) {
-          const preData = response.data[0];
+          const preData =response;
 
           setDataSedeTecnology(preData);
           setInitialValuesTec({
@@ -80,8 +80,8 @@ export const useSedeTecnology = () => {
             CONTRATO_MANT_EQUIPOS_COMPUTO: preData.CONTRATO_MANT_EQUIPOS_COMPUTO
               ? preData.CONTRATO_MANT_EQUIPOS_COMPUTO
               : null,
-            COSTO_MENSUAL_INTERMET: preData.COSTO_MENSUAL_INTERMET
-              ? preData.COSTO_MENSUAL_INTERMET
+            COSTO_MENSUAL_INTERNET: preData.COSTO_MENSUAL_INTERNET
+              ? preData.COSTO_MENSUAL_INTERNET
               : null,
 
             FK_TLV_ACTIVIDADES_USO_PC: preData.FK_TLV_ACTIVIDADES_USO_PC
@@ -160,21 +160,6 @@ export const useSedeTecnology = () => {
         }
       })
 
-      // TIENE_ACCESO_INTERNET
-      // :
-      // "3"
-      // USO_PC_CONSULTA_CONTENIDO_DIGI
-      // :
-      // "3"
-      // USO_PC_DOCENTE_EDUCATIVO
-      // :
-      // "3"
-      // USO_PC_ENS_SOFT_PEDA_ESP
-      // :
-      // "3"
-      // USO_PC_HORARIO_CLASE
-      // :
-      // "3"
 
       .catch((error) => {
         console.log("catch response: ", error);
@@ -214,7 +199,7 @@ export const useSedeTecnology = () => {
             apiGetThunksAsyncSedeTecnology(dataSedeTecnology.FK_TSEDE);
             messageApi.open({
               type: "success",
-              content: "se ha modificado las infraestructura fisica a la sede",
+              content: "se ha modificado la infraestructura tecnologia a la sede",
             });
 
             setTimeout(() => {
@@ -224,7 +209,7 @@ export const useSedeTecnology = () => {
             messageApi.open({
               type: "error",
               content:
-                "no se pudo hacer editar la infraestructura fisica de la sede",
+                "no se pudo hacer editar la infraestructura  tecnologia de la sede",
             });
           }
 

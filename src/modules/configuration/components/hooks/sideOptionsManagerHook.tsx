@@ -11,6 +11,7 @@ import SedeInfraEstructuraFisica from "../../../../utils/components/formSedeInfr
 import { useSedeInfra } from "./useSedeInfra";
 import { useSedeTecnology } from "./useSedeInformatica";
 import { useSedePerifericos } from "./usePerifericosMedios";
+// import { useTperiodo } from "./useTperiodoAcademico"
 
 export const SideOptionsManagerHook = () => {
   const [optionTableSelected, setOptionTableSelected] = useState("");
@@ -77,6 +78,9 @@ export const SideOptionsManagerHook = () => {
     setDataSedePerifericos,
     contextHolderPerifericos,
   } = useSedePerifericos();
+
+
+  // const {PostData} = useTperiodo
   // const {onFieldChange, onFinish}=useSedeInfra()
 
   const handleCloseSecondaryTable = () => {
@@ -215,6 +219,7 @@ export const SideOptionsManagerHook = () => {
           <Col md={12}>
             <Card
               style={{ width: "100%" }}
+              title="Tsede_infraestructura_fisica"
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
             >
               <SedeInfraEstructuraFisica
@@ -239,6 +244,7 @@ export const SideOptionsManagerHook = () => {
           <Col md={12}>
             <Card
               style={{ width: "100%" }}
+              title= "Tsede_informatica"
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
             >
               <SedeInfraEstructuraFisica
@@ -262,7 +268,7 @@ export const SideOptionsManagerHook = () => {
           <Col md={12}>
             <Card
               style={{ width: "100%" }}
-              title="Tsede_nivel"
+              title="Tperifericos_medios"
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
             >
               <SedeInfraEstructuraFisica

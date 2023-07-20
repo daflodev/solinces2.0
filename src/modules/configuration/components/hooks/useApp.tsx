@@ -711,8 +711,8 @@ export const UseSettigns = () => {
     const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
       //@ts-ignore
       const { getdata } = response;
-
       const res = getdata;
+      console.log(res, "data")
       return res;
     });
     return getDataTable;

@@ -10,15 +10,11 @@ import { Form, message } from "antd";
 
 import _ from "lodash";
 
-
 export const useSedeInfra = () => {
   // const tokenInformation = localStorage.getItem("user_token_information");
   // const parserTokenInformation: any | null = tokenInformation
   //   ? JSON.parse(tokenInformation)
   //   : null;
-
-
-
 
   const [dataSedeInfra, setDataSedeInfra] = useState<any>({});
   const [initialValues, setInitialValues] = useState<any>({});
@@ -38,7 +34,7 @@ export const useSedeInfra = () => {
   const infraFKData = async () => {
     try {
       const response = await apiFKThunksAsyncSedeInfra(fkTlvCategoria);
-      const predata = response.data;
+      const predata = response;
 
       setDataSelect(predata);
 
@@ -55,7 +51,7 @@ export const useSedeInfra = () => {
   // Crear un objeto final con el nombre de la categoría como llave
   const resultado = {};
   Object.entries(agrupados).forEach(([categoria, productos]) => {
-  // if(categoria ===  )
+    // if(categoria ===  )
     resultado[`FK_TLV_${categoria}`] = productos;
     // console.log(resultado, "resultado");
   });
@@ -66,7 +62,7 @@ export const useSedeInfra = () => {
       .then((response) => {
         if (response) {
           // console.log(response.data[0], "data")
-          const preData = response.data[0];
+          const preData = response;
 
           // console.log(preData, "mergeData");
           setDataSedeInfra(preData);
@@ -92,8 +88,8 @@ export const useSedeInfra = () => {
             VIA_ACCESO_OTROS: preData.PC_LICENCIADOS
               ? preData.PC_LICENCIADOS
               : null,
-            DESCRIPCION_OTRO_ACCESO: preData.DESCRIPCION_OTRO_ACCESO
-              ? preData.DESCRIPCION_OTRO_ACCESO
+            DESCRIPCION_OTRO_ACCESO: preData.VIA_ACCESO_OTROS
+              ? preData.VIA_ACCESO_OTROS
               : null,
             PC_LICENCIADOS: preData.PC_LICENCIADOS
               ? preData.PC_LICENCIADOS
@@ -129,8 +125,7 @@ export const useSedeInfra = () => {
       data: { ...dataForm, FK_TSEDE: dataSedeInfra.FK_TSEDE },
     };
 
-
-    let statusValue = false
+    let statusValue = false;
 
     // initialValuesTec.map((item) => {
     //     if (item != null) {
@@ -140,13 +135,14 @@ export const useSedeInfra = () => {
 
     for (let propiedad in initialValues) {
       if (initialValues.hasOwnProperty(propiedad)) {
-        console.log(`La propiedad ${propiedad} tiene el valor ${initialValues[propiedad]}`);
+        console.log(
+          `La propiedad ${propiedad} tiene el valor ${initialValues[propiedad]}`
+        );
         if (initialValues[propiedad] != null) {
-          statusValue = true
-          break
+          statusValue = true;
+          break;
         }
       }
-
     }
 
     if (statusValue) {
@@ -162,15 +158,13 @@ export const useSedeInfra = () => {
             setTimeout(() => {
               cerrarTable();
             }, 2000);
-
-
           } else {
             messageApi.open({
               type: "error",
-              content: "no se pudo hacer editar la infraestructura fisica de la sede",
+              content:
+                "no se pudo editar la infraestructura fisica de la sede",
             });
           }
-
 
           return response;
         })
@@ -180,11 +174,10 @@ export const useSedeInfra = () => {
     } else {
       await apiPostThunksAsyncSedeInfra(convertedData.data).then((response) => {
         if (response.data.status === "success") {
-          apiGetThunksAsyncSedeInfra(dataSedeInfra.FK_TSEDE)
+          apiGetThunksAsyncSedeInfra(dataSedeInfra.FK_TSEDE);
         }
-      })
+      });
     }
-
 
     //     // Realizar acciones adicionales con los valores del formulario si es necesario
   };
@@ -199,6 +192,7 @@ export const useSedeInfra = () => {
     resultado,
     infraFKData,
     handleFormSubmit,
-    contextHolderInfra, setDataSedeInfra
+    contextHolderInfra,
+    setDataSedeInfra,
   };
 };

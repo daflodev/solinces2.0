@@ -13,20 +13,21 @@ import {
   ApiSedeJornadaPost,
   ApiSedeNivelPost,
   ApiSedeNivel,
-  ApiSedeInfraPost,
-  ApiSedeInfra,
-  ApiSedeInfraFK,
-  ApiSedeAsyncInfraPut,
-  ApiSedeAsyncTecnologyPut,
-  ApiSedeTecnology,
   ApiSedePeripherls,
   ApiSedeAsyncPeripheralsPut,
+  ApiSedeAsyncInfraPut,
+  ApiSedeAsyncTecnologyPut,
+  ApiSedeInfra,
+  ApiSedeInfraFK,
+  ApiSedeInfraPost,
   ApiSedePeripherlsPost,
+  ApiSedeTecnology
 } from "./services";
 
 export const apiGetThunksAsync = async (data: any) => {
   const resp = await ApiServicesThunks(data)
     .then((response) => {
+      console.log(response)
       const getdata = response.data.results.map((d: any, i: any) => ({
         ...d,
         key: i,
@@ -38,12 +39,14 @@ export const apiGetThunksAsync = async (data: any) => {
         columnsInformation,
       };
     })
-    // .catch((error) => {
-    //   const results = {
-    //     status: "error",
-    //     message: "No existen datos para la consulta",
-    //   };
-    // });
+    // @ts-ignore
+    .catch((error) => {
+      // @ts-ignore
+      let results = {
+        status: "error",
+        message: "No existen datos para la consulta",
+      };
+    });
 
   return resp;
 };
@@ -74,19 +77,8 @@ export const apiGetThunksAsyncSedeJornada = async (data: any) => {
   return resp;
 };
 
-export const apiPostThunksAsyncSedeJornada = async (data: any) => {
-  const resp = await ApiSedeJornadaPost(data)
-    .then((response) => {
-      const getdata = response.data;
-      return getdata;
-    })
-    .catch((error) => {
-      return error.response;
-    });
 
-  return resp;
-};
-export const apiPostThunksAsyncSedeNivel = async (data: any) => {
+export const apiPostThunksAsyncSedeNivel= async (data: any) => {
   const resp = await ApiSedeNivelPost(data)
     .then((response) => {
       const getdata = response.data;
@@ -98,6 +90,7 @@ export const apiPostThunksAsyncSedeNivel = async (data: any) => {
 
   return resp;
 };
+
 
 export const apiGetThunksAsyncSedeNivel = async (data: any) => {
   const resp = await ApiSedeNivel(data)
@@ -111,9 +104,10 @@ export const apiGetThunksAsyncSedeNivel = async (data: any) => {
 
   return resp;
 };
-// data categorias FK_TLV_
-export const apiFKThunksAsyncSedeInfra = async (data: any) => {
-  const resp = await ApiSedeInfraFK(data)
+
+
+export const apiPostThunksAsyncSedeJornada= async (data: any) => {
+  const resp = await ApiSedeJornadaPost(data)
     .then((response) => {
       const getdata = response.data;
       return getdata;
@@ -123,150 +117,168 @@ export const apiFKThunksAsyncSedeInfra = async (data: any) => {
     });
 
   return resp;
+};
+
+// data categorias FK_TLV_
+export const apiFKThunksAsyncSedeInfra = async (data: any) => {
+const resp = await ApiSedeInfraFK(data)
+  .then((response) => {
+    const getdata = response.data;
+    return getdata;
+  })
+  .catch((error) => {
+    return error.response;
+  });
+
+return resp;
 };
 
 // thunks sede infraestructura
 
 export const apiPostThunksAsyncSedeInfra = async (data: any) => {
-  const resp = await ApiSedeInfraPost(data)
-    .then((response) => {
-      const getdata = response;
-      return getdata;
-    })
-    .catch((error) => {
-      return error.response;
-    });
+const resp = await ApiSedeInfraPost(data)
+  .then((response) => {
+   
+    const getdata = response;
+    return getdata;
+  })
+  .catch((error) => {
+    return error.response;
+  });
 
-  return resp;
+return resp;
 };
 
 export const apiPutSedeInfra = async (FK_TSEDE, data) => {
-  const resp = ApiSedeAsyncInfraPut(FK_TSEDE, data)
-    .then((response) => {
-      const editData = response;
-      return editData;
-    })
-    .catch((error) => {
-      return error.response;
-    });
-  return resp;
+const resp = ApiSedeAsyncInfraPut(FK_TSEDE, data)
+  .then((response) => {
+    const editData = response;
+    return editData;
+  })
+  .catch((error) => {
+    return error.response;
+  });
+return resp;
 };
 
 export const apiGetThunksAsyncSedeInfra = async (data: any) => {
-  const resp = await ApiSedeInfra(data)
-    .then((response) => {
-      const getdata = response.data;
-      return getdata;
-    })
-    .catch((error) => {
-      return error.response;
-    });
+const resp = await ApiSedeInfra(data)
+  .then((response) => {
+    console.log(response)
+    const getdata = response.data.data[0];
+    return getdata;
+  })
+  .catch((error) => {
+    return error.response;
+  });
 
-  return resp;
+return resp;
 };
 
 // thunks sede tecnologica
 
 export const apiPostThunksAsyncSedeTecnology = async (data: any) => {
-  const resp = await ApiSedeTecnology(data)
-    .then((response) => {
-      const getdata = response;
-      return getdata;
-    })
-    .catch((error) => {
-      return error.response;
-    });
+const resp = await ApiSedeTecnology(data)
+  .then((response) => {
+    const getdata = response;
+    return getdata;
+  })
+  .catch((error) => {
+    return error.response;
+  });
 
-  return resp;
+return resp;
 };
 
 export const apiPutSedeTecnology = async (FK_TSEDE, data) => {
-  const resp = ApiSedeAsyncTecnologyPut(FK_TSEDE, data)
-    .then((response) => {
-      const editData = response;
-      return editData;
-    })
-    .catch((error) => {
-      return error.response;
-    });
-  return resp;
+const resp = ApiSedeAsyncTecnologyPut(FK_TSEDE, data)
+  .then((response) => {
+    const editData = response;
+    return editData;
+  })
+  .catch((error) => {
+    return error.response;
+  });
+return resp;
 };
 
 export const apiGetThunksAsyncSedeTecnology = async (data: any) => {
-  const resp = await ApiSedeTecnology(data)
-    .then((response) => {
-      const getdata = response.data;
-      return getdata;
-    })
-    .catch((error) => {
-      return error.response;
-    });
+const resp = await ApiSedeTecnology(data)
+  .then((response) => {
+    const getdata = response.data.data[0];
+    return getdata;
+  })
+  .catch((error) => {
+    return error.response;
+  });
 
-  return resp;
+return resp;
 };
 
 
 //perifericos medios
 
 export const apiPostThunksAsyncPeripherals = async (data: any) => {
-  const resp = await ApiSedePeripherlsPost(data)
-    .then((response) => {
-      const getdata = response;
-      return getdata;
-    })
-    .catch((error) => {
-      return error.response;
-    });
+const resp = await ApiSedePeripherlsPost(data)
+  .then((response) => {
+    const getdata = response;
+    return getdata;
+  })
+  .catch((error) => {
+    return error.response;
+  });
 
-  return resp;
+return resp;
 };
 
 export const apiPutSedePeripherals = async (FK_TSEDE, data) => {
-  const resp = ApiSedeAsyncPeripheralsPut(FK_TSEDE, data)
-    .then((response) => {
-      const editData = response;
-      return editData;
-    })
-    .catch((error) => {
-      return error.response;
-    });
-  return resp;
+const resp = ApiSedeAsyncPeripheralsPut(FK_TSEDE, data)
+  .then((response) => {
+    const editData = response;
+    return editData;
+  })
+  .catch((error) => {
+    return error.response;
+  });
+return resp;
 };
 
 export const apiGetThunksAsyncSedePeripherals = async (data: any) => {
-  const resp = await ApiSedePeripherls(data)
-    .then((response) => {
-      const getdata = response.data;
-      return getdata;
-    })
-    .catch((error) => {
-      return error.response;
-    });
+const resp = await ApiSedePeripherls(data)
+  .then((response) => {
+    const getdata = response.data.data[0];
+    return getdata;
+  })
+  .catch((error) => {
+    return error.response;
+  });
 
-  return resp;
+return resp;
 };
 
 //------------------------------------------------------//--------------------------------------------------------------------
 
 
+
+// @ts-ignore
 export const apiGetThunksMainMenuAsync = async (data: any) => {
   const resp = await ApiServicesThunksMainMenu()
     .then((response) => {
-      data=response
-      const getdata = data.data.results.map((d:any, i:any) => ({
+      
+      const getdata = response.data.results.map((d:any, i:any) => ({
         ...d,
         key: i,
       }));
       return getdata;
     })
     // @ts-ignore
-    // .catch((error) => {
-    //   // @ts-ignore
-    //   let results = {
-    //     status: "error",
-    //     message: "No existen datos para la consulta",
-    //   };
-    // });
+    .catch((error) => {
+      // @ts-ignore
+      let results = {
+        status: "error",
+        message: "No existen datos para la consulta",
+      };
+    });
 
   return resp;
 };
@@ -297,7 +309,7 @@ export const apiGetThunksMenuItemsOptionsAsync = async (data: any) => {
 export const apiPostPasswordChange = async (data: any) => {
   const resp = await ApiServicesPasswordChange(data)
     .then((response) => {
-      // console.log('respuesta cambio contraseña: ', response)
+      console.log('respuesta cambio contraseña: ', response)
     })
     .catch((error) => {
       return error.response;

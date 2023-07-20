@@ -4,9 +4,8 @@ import {
     apiGetThunksAsyncSedeInfra,
     apiGetThunksAsyncSedePeripherals,
     apiPostThunksAsyncPeripherals,
-    apiPostThunksAsyncSedeInfra,
-    // apiPostThunksAsyncSedeInfra,
-    apiPutSedeInfra,
+
+    // apiPostThunksAsyncSedeInfra
     apiPutSedePeripherals,
 } from "../../../../utils/services/api/thunks";
 import { Form, message } from "antd";
@@ -33,7 +32,7 @@ export const useSedePerifericos = () => {
     const infraFKDataPerifericos = async () => {
         try {
             const response = await apiFKThunksAsyncSedeInfra(fkTlvCategoria);
-            const predata = response.data;
+            const predata = response;
 
             setDataSelectPerifericos(predata);
 
@@ -59,9 +58,10 @@ export const useSedePerifericos = () => {
         // const getPK = record["PK_TSEDE"]
         await apiGetThunksAsyncSedePeripherals(record.PK_TSEDE)
             .then((response) => {
+                console.log(response, "iperifericos")
                 if (response) {
                     // console.log(response.data[0], "data")
-                    const preData = response.data[0];
+                    const preData = response;
 
                     // console.log(preData, "mergeData");
                     setDataSedePerifericos(preData);
@@ -164,7 +164,7 @@ export const useSedePerifericos = () => {
                         apiGetThunksAsyncSedePeripherals(dataSedePerifericos.FK_TSEDE);
                         messageApi.open({
                             type: "success",
-                            content: "se ha modificado las infraestructura fisica a la sede",
+                            content: "se ha modificado los perifericos medios a la sede",
                         });
 
                         setTimeout(() => {
@@ -174,7 +174,7 @@ export const useSedePerifericos = () => {
                         messageApi.open({
                             type: "error",
                             content:
-                                "no se pudo hacer editar la infraestructura fisica de la sede",
+                                "no se pudo hacer editar los perifericos medios de la sede",
                         });
                     }
 

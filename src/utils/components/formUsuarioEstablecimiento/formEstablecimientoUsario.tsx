@@ -47,7 +47,7 @@ const FormEstablecimiento = ({
   const handleOptionChange = (value) => {
     setSelectedOption(value);
   };
-  const handleDateChange = (date) => {
+  const handleDateChange = () => {
     // console.log("Date changed:", date);
   };
 
