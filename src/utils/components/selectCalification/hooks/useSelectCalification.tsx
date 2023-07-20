@@ -32,6 +32,8 @@ export const UseSelectCalification = () => {
     shallow
   );
 
+  let currentAcademicYearLocal = currentAcademicYear ?? localStorage.getItem('currentAcademicYear');
+
   const { updateValueCalification } = calificationStore();
 
   const onChange = (value: (string | number)[], selectedOptions: any) => {
@@ -102,7 +104,7 @@ export const UseSelectCalification = () => {
       const asignature = await query
       .select('DISTINCT area."NOMBRE" AS label, area."PK_TAREA" AS value, false AS "isLeaf", 1 as position')
       .join('area', '"PK_TAREA"', 'asignatura."FK_TAREA"')
-      .where('area."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
+      .where('area."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYearLocal)
       .orderBy('area."PK_TAREA"', 'asc')
       // .limit(10)
       .schema('ACADEMICO_COL0')
@@ -115,7 +117,7 @@ export const UseSelectCalification = () => {
     const query = new QueryBuilders('periodo_evaluacion');
     const periodo_evaluacion = await query
     .select('"PK_TPERIODO_EVALUACION" AS value, "NOMBRE" as label')
-    .where('"FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
+    .where('"FK_TPERIODO_ACADEMICO"', '=', currentAcademicYearLocal)
     .orderBy('"PK_TPERIODO_EVALUACION"', 'asc')
     .schema('ACADEMICO_COL0')
     .get();
@@ -126,7 +128,7 @@ export const UseSelectCalification = () => {
   useEffect(() => {
       getDataAsignature()
       getDataEvaluationPeriod()
-  }, [currentAcademicYear])
+  }, [currentAcademicYearLocal])
 
   return {
       options,
