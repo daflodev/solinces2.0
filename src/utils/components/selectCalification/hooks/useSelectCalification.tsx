@@ -38,7 +38,7 @@ export const UseSelectCalification = () => {
 
   const onChange = (value: (string | number)[], selectedOptions: any) => {
     if(selectedOptions.length == 3){
-      console.log(selectedOptions[2].value,'currentGroup')
+      console.log(selectedOptions[2].value,'currentGroup', value)
       updateValueCalification({ element: 'currentGroup', value: selectedOptions[2].value})
     }
   };
