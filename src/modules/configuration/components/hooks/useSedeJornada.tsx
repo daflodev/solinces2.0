@@ -119,7 +119,7 @@ export const useJournySede = () => {
       return newObj;
     });
 
-    console.log(modifiedArray);
+    // console.log(modifiedArray);
     await apiPostThunksAsyncSedeJornada(modifiedArray).then((response) => {
       if (response.status == "success") {
         messageApi.open({

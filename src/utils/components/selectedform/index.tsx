@@ -17,7 +17,7 @@ const MultiSelect = ({
 
     useEffect(()=>{
         if(isBloqued){
-            console.log('ariel pagame')
+            // console.log('ariel pagame')
             form.setFieldValue(field.name, parseInt(defaultValue!!))
         }
     }, [])

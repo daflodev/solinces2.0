@@ -5,7 +5,6 @@ import { useState } from "react";
 
 interface infraProps {
     handleFormSubmit?: (values, onClick) => void;
-
     initialValues?: any;
     dataselect?: any;
     onClick?: () => void;
@@ -70,7 +69,6 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                                     ))}
                                 </Select>
                             </Form.Item>
-
                             <div
                                 className={`placeholder ${selectedField === fieldName ||
                                     (props.initialValues

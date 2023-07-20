@@ -58,7 +58,7 @@ export const useSedePerifericos = () => {
         // const getPK = record["PK_TSEDE"]
         await apiGetThunksAsyncSedePeripherals(record.PK_TSEDE)
             .then((response) => {
-                console.log(response, "iperifericos")
+                // console.log(response, "iperifericos")
                 if (response) {
                     // console.log(response.data[0], "data")
                     const preData = response;

@@ -4,7 +4,7 @@ import { Card, Row, Col } from "antd";
 import { withPrincipal } from "../../utils/components/content";
 
 import "../../utils/assets/noPermitionPage/noPermitionPage.css";
-import { SelectCalificationComponent } from "@/utils/components/selectCalification";
+// import { SelectCalificationComponent } from "@/utils/components/selectCalification";
 
 
 const mainImageNoPermissionPage = (

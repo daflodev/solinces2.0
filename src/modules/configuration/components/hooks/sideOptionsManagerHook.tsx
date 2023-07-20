@@ -79,7 +79,6 @@ export const SideOptionsManagerHook = () => {
     contextHolderPerifericos,
   } = useSedePerifericos();
 
-
   // const {PostData} = useTperiodo
   // const {onFieldChange, onFinish}=useSedeInfra()
 

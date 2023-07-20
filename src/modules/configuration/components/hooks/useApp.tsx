@@ -712,7 +712,7 @@ export const UseSettigns = () => {
       //@ts-ignore
       const { getdata } = response;
       const res = getdata;
-      console.log(res, "data")
+      // console.log(res, "data")
       return res;
     });
     return getDataTable;
