@@ -310,7 +310,7 @@ export const apiGetThunksMenuItemsOptionsAsync = async (data: any) => {
 export const apiPostPasswordChange = async (data: any) => {
   const resp = await ApiServicesPasswordChange(data)
     .then((response) => {
-      // console.log('respuesta cambio contraseña: ', response)
+      console.log('respuesta cambio contraseña: ', response)
     })
     .catch((error) => {
       return error.response;
