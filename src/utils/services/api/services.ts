@@ -50,6 +50,7 @@ export const ApiSedeInfraFK = async (data) => {
   const resp = await axios
     .post(url,data )
     .then((response) => {
+     
       return response;
     });
   return resp;

@@ -122,7 +122,7 @@ const MyForm: React.FC<propsJourny> = (props) => {
         </tbody>
       </table> */}
 
-      <Table dataSource={props.data} columns={columns} rowKey={props.rowKey}/>
+      <Table dataSource={props.data} columns={columns} rowKey={props.rowKey} pagination={false}/>
 
       <div
         onClick={() => {

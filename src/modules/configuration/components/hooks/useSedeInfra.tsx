@@ -34,6 +34,7 @@ export const useSedeInfra = () => {
   const infraFKData = async () => {
     try {
       const response = await apiFKThunksAsyncSedeInfra(fkTlvCategoria);
+      console.log(response, "useInfra")
       const predata = response;
 
       setDataSelect(predata);
