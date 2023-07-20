@@ -1,18 +1,21 @@
 import { QueryBuilders } from "../../../../utils/orm/queryBuilders";
 
 // @ts-ignore
-export async function QueryManager(table: string, currentRol: any, currentAcademicPeriod: any, currentCampus: any, currentInstitution: any, schema?: any){
+export async function QueryManager(table: string, currentRol: any, currentAcademicYear: any, currentCampus: any, currentInstitution: any, schema?: any){
 
-    // console.log(table, 'query_manage')
     let answerQuery: any;
     const query = new QueryBuilders(table);
-    const currentAcademicPeriodLocal = localStorage.getItem('currentAcademicYear')
+    // const currentAcademicYear = localStorage.getItem('currentAcademicYear')
+    currentAcademicYear = currentAcademicYear ?? localStorage.getItem('currentAcademicYear');
+    let columnInfoData: any;
 
-
-    const querycolumn = new QueryBuilders(table);
-    const columnInfoData: any = await querycolumn
+    if(table){
+        const querycolumn = new QueryBuilders(table);
+        columnInfoData = await querycolumn
                         .schema(schema)
                         .columninfo()
+    }
+    
 
     if(currentRol == 'RECTOR'){
         switch (table) {
@@ -53,7 +56,7 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                     .join('grupo', '"PK_TGRUPO"', 'matricula."FK_TGRUPO"')
                     .join('grado', '"PK_TGRADO"', 'grupo."FK_TGRADO"')
                     .join('lista_valor', '"PK_TLISTA_VALOR"', 'matricula."FK_TLV_TIPO_MATRICULA"')
-                    .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicPeriodLocal)
+                    .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
                     .where('lista_valor."NOMBRE"', '=', 'Matricula')
                     .limit(20)
                     .orderBy(`"PK_T${table.toUpperCase()}"`)
@@ -70,7 +73,7 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                     .join('grupo', '"PK_TGRUPO"', 'matricula."FK_TGRUPO"')
                     .join('grado', '"PK_TGRADO"', 'grupo."FK_TGRADO"')
                     .join('lista_valor', '"PK_TLISTA_VALOR"', 'matricula."FK_TLV_TIPO_MATRICULA"')
-                    .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicPeriodLocal)
+                    .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
                     .where('lista_valor."NOMBRE"', '=', 'Traslado')
                     .limit(20)
                     .orderBy(`"PK_T${table.toUpperCase()}"`)
@@ -88,7 +91,7 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                     .join('grupo', '"PK_TGRUPO"', 'matricula."FK_TGRUPO"')
                     .join('grado', '"PK_TGRADO"', 'grupo."FK_TGRADO"')
                     .join('lista_valor', '"PK_TLISTA_VALOR"', 'matricula."FK_TLV_TIPO_MATRICULA"')
-                    .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicPeriodLocal)
+                    .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
                     .where('lista_valor."NOMBRE"', '=', 'Prematricula')
                     .limit(20)
                     .orderBy(`"PK_TMATRICULA"`)
@@ -103,7 +106,7 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                     .schema(schema)
                     .join('grado', '"PK_TGRADO"', 'acta_grado."FK_TGRADO"')
                     .join('lista_valor', '"PK_TLISTA_VALOR"', 'matricula."FK_TLV_TIPO_MATRICULA"')
-                    .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicPeriodLocal)
+                    .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
                     .limit(20)
                     .orderBy(`"PK_T${table.toUpperCase()}"`)
                     .get()
@@ -115,7 +118,7 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                     answerQuery = await query
                         .select('*')
                         .schema(schema)
-                        .where('"FK_TPERIODO_ACADEMICO"', '=', currentAcademicPeriodLocal)
+                        .where('"FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
                         .limit(20)
                         .orderBy(`"PK_T${table.toUpperCase()}"`)
                         .get()
@@ -127,7 +130,7 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                     answerQuery = await query
                         .select('*')
                         .schema(schema)
-                        .where('"PK_TPERIODO_ACADEMICO"', '=', currentAcademicPeriodLocal)
+                        .where('"PK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
                         .limit(20)
                         .orderBy(`"PK_T${table.toUpperCase()}"`)
                         .get()
@@ -139,7 +142,7 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                     answerQuery = await query
                         .select('*')
                         .schema(schema)
-                        .where('"FK_TPERIODO_ACADEMICO"', '=', currentAcademicPeriodLocal)
+                        .where('"FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
                         .limit(20)
                         .orderBy(`"PK_T${table.toUpperCase()}"`)
                         .get()
@@ -164,7 +167,7 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                     .select('grupo.*')
                     .schema(schema)
                     .join('grado', '"PK_TGRADO"', 'grupo."FK_TGRADO"')
-                    .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicPeriodLocal)
+                    .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
                     .limit(20)
                     .orderBy(`"PK_T${table.toUpperCase()}"`)
                     .get()
@@ -173,19 +176,29 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
 
             default:
 
-                answerQuery = await query
-                    .schema(schema)
-                    .limit(20)
-                    .orderBy(`"PK_T${table.toUpperCase()}"`)
-                    .get()
+                    if(table){
+                        answerQuery = await query
+                        .schema(schema)
+                        .limit(20)
+                        .orderBy(`"PK_T${table.toUpperCase()}"`)
+                        .get()
+                    }else{
+                        answerQuery = []
+                    }
+
                 break;
         }
     }else{
-        answerQuery = await query
-        .schema(schema)
-        .limit(20)
-        .orderBy(`"PK_T${table.toUpperCase()}"`)
-        .get()
+        if(table){
+            answerQuery = await query
+            .schema(schema)
+            .limit(20)
+            .orderBy(`"PK_T${table.toUpperCase()}"`)
+            .get()
+        }else{
+            answerQuery = []
+        }
+        
     }
 
     const data: object = {

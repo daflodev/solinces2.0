@@ -4,6 +4,7 @@ import { Card, Row, Col } from "antd";
 import { withPrincipal } from "../../utils/components/content";
 
 import "../../utils/assets/noPermitionPage/noPermitionPage.css";
+import { SelectCalificationComponent } from "@/utils/components/selectCalification";
 
 
 const mainImageNoPermissionPage = (
@@ -118,7 +119,6 @@ const NoPermissionPage: React.FC = () => {
                             <p className="no-permission-text">
                                 Lo sentimos, pero no está autorizado para acceder a esta página.
                             </p>
-                            {/* <SelectCalificationComponent /> */}
                         </Col>
                     </Row>
                 </div>

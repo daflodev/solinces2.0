@@ -23,6 +23,15 @@ const FuncionarioPermissionComponent = (props: funcionarioPermissionProps)=>{
             rollOptions, 
             mainSelectStatus, 
             setMainSelectStatus,
+            mainSelectCampusStatus, 
+            setMainSelectCampusStatus,
+            campusSelectedToAddValue, 
+            setCampusSelectedToAddValue,
+            isCampusSelectedToAddValueAvailable, 
+            //setIsCampusSelectedToAddValueAvailable,
+            addItemCampus,
+            nameCampus, 
+            setNameCampus,
             rolSelectedToAddValue, 
             setRolSelectedToAddValue,
             isRolSelectedToAddValueAvailable,
@@ -32,9 +41,10 @@ const FuncionarioPermissionComponent = (props: funcionarioPermissionProps)=>{
             addItem,
             name,
             allCampus,
-            currentCampus,
+            //currentCampus,
             selectedCampus,
-            onChange, 
+            userCampus,
+            onChange,
             setName} = TFuncionarioTPermissionGetDataHook(firstData, rollOptionsToAddFirst, userID);
 
     const inputRef = useRef<any>(null);
@@ -48,12 +58,16 @@ const FuncionarioPermissionComponent = (props: funcionarioPermissionProps)=>{
         setName(selectedOption);
     }
 
-    const valueCampus1 = currentCampus?.label
-    const valueCampusParser = valueCampus1
+    const onCampusChange = (_,selectedOption) => {
+        setCampusSelectedToAddValue(selectedOption?.label)
+        setNameCampus(selectedOption)
+    }
+
+    const currentTableCampusSelected = localStorage.getItem("campus");
 
     return(
         <div className='funcionario_permission_container'>
-             <Row>
+            <Row>
                 <Col span={4}>
                     <span className='funcionario_permission_container_title'>
                         tpermitidos
@@ -65,13 +79,72 @@ const FuncionarioPermissionComponent = (props: funcionarioPermissionProps)=>{
                     </div>
                 </Col>
             </Row>
-            <br/>
             <Row className='tpermitidos'>
-                <Col span={8}>
+                {currentTableCampusSelected == "usuario" ? 
+                    (
+                    userCampus != null ?
+                    <Col span={8}>
+                    <Select
+                        className='funcionario_permission_Select'
+                        style={{ width: '256px'}}
+                        showSearch
+                        placeholder="Sede"
+                        optionFilterProp="children"
+                        onChange={onChange}
+                        options={userCampus?.map((item) => ({ label: item?.label, value: item?.value }))}
+                        open={mainSelectCampusStatus}
+                        onFocus={()=>{
+                            setMainSelectCampusStatus(true);
+                        }}
+                        onSelect={()=>{
+                            setMainSelectCampusStatus(false);
+                        }}
+                        dropdownRender={(menu) => (
+                            <>
+                                {menu}
+                                <Divider style={{ margin: '8px 0', borderColor: 'rgb(233, 231, 248)' }} />
+                                <Space style={{ padding: '0 8px 4px' }}>
+                                    <Select
+                                        style={{ width: '200px'}}
+                                        showSearch
+                                        placeholder="Agregar Sede"
+                                        optionFilterProp="children"
+                                        onChange={onCampusChange}
+                                        ref={inputRef}
+                                        filterOption={(input, option) =>
+                                        (option?.label ?? '').toLowerCase().includes(input?.toLowerCase())
+                                        }
+                                        value={campusSelectedToAddValue}
+                                        options={allCampus ? allCampus : []}
+                                        onClick={()=>{
+                                            setMainSelectCampusStatus(true);
+                                        }}
+                                        disabled={isCampusSelectedToAddValueAvailable}
+                                    />
+                                        {
+                                            !isCampusSelectedToAddValueAvailable
+                                            ?
+                                            <span onClick={nameCampus != null ? addItemCampus : ()=> null} style={nameCampus != null ? {cursor: 'pointer'} : {cursor: 'not-allowed'}}>
+                                                <PlusOutlined />
+                                            </span>
+                                            :
+                                            <Spin tip="" size="small" />
+                                        }
+                                </Space>
+                            </>
+                            )}
+                        />
+                    </Col>
+                    :
+                    <Spin tip="" size="small" />
+                    )
+                    : null}
+                <Col span={8} offset={currentTableCampusSelected == "usuario" ? 2 : 0}>
                     <Select
                         className='funcionario_permission_Select'
                         style={{ width: '256px'}}
                         placeholder="Rol"
+                        disabled = {selectedCampus == null ? true : false}
                         onChange={onChangeOptionRolSelected}
                         showSearch
                         open={mainSelectStatus}
@@ -112,23 +185,10 @@ const FuncionarioPermissionComponent = (props: funcionarioPermissionProps)=>{
                                         :
                                         <Spin tip="" size="small" />
                                     }
-
                             </Space>
                         </>
                         )}
                         options={items?.map((item) => ({ label: item?.label, value: item?.value }))}
-                    />
-                </Col>
-                <Col span={8} offset={2}>
-                <Select
-                    showSearch
-                    placeholder="Sede"
-                    defaultValue={valueCampusParser}
-                    optionFilterProp="children"
-                    onChange={onChange}
-                    options={
-                        allCampus
-                    }   
                     />
                 </Col>
             </Row>

@@ -7,9 +7,6 @@ export const ApiServicesThunks = async (data: any) => {
   return resp;
 };
 
-
-
-
 export const ApiSedeInfra = async (data: any) => {
   const url = `https://apisolinces.colombiaevaluadora.co/infrastructure_headquarters/${data}`;
 
