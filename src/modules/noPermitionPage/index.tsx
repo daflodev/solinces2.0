@@ -4,7 +4,7 @@ import { Card, Row, Col } from "antd";
 import { withPrincipal } from "../../utils/components/content";
 
 import "../../utils/assets/noPermitionPage/noPermitionPage.css";
-import { TabletAsistencia } from "@/utils/components/tabletAsistencia";
+import { RecursosCompartidos } from "@/utils/components/recursosCompartidos";
 // import { SelectCalificationComponent } from "@/utils/components/selectCalification";
 
 
@@ -114,23 +114,15 @@ const NoPermissionPage: React.FC = () => {
         <div>
             <Card className="card-container">
                 <div className="no-permission-sub-container">
-                    <Row>
-                        <Col span={24} offset={10}>
+                    <Row  >
+                        <Col span={24} offset={10} style={{ marginTop: '20px' }}>
                             {mainImageNoPermissionPage}
                         </Col>
-                        <Col span={12} offset={6} style={{ width: '550px' }}>
+                        <Col span={24} offset={6} style={{ width: '550px', height: '150px' }}>
                             <p className="no-permission-text">
                                 Lo sentimos, pero no está autorizado para acceder a esta página.
                             </p>
-                        
-                            
                         </Col>
-                        <Col span={24} offset={6} style={{ width: '550px' }}>
-
-                        <TabletAsistencia/>
-                        
-                        </Col>
-
                     </Row>
                 </div>
             </Card>
