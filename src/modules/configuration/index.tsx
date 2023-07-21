@@ -274,7 +274,7 @@ const Settings: React.FC = () => {
               }
               handleOpenSecondaryTable(
                 selectedTableInformation,
-                "useSedeJornada"
+                "useTperiodo"
               );
             }}
             style={{ cursor: "pointer" }}

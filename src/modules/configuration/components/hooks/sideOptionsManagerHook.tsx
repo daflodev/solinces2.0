@@ -11,6 +11,7 @@ import SedeInfraEstructuraFisica from "../../../../utils/components/formSedeInfr
 import { useSedeInfra } from "./useSedeInfra";
 import { useSedeTecnology } from "./useSedeInformatica";
 import { useSedePerifericos } from "./usePerifericosMedios";
+import { useFormTperiodo } from "./useTperiodoAcademico";
 // import { useTperiodo } from "./useTperiodoAcademico"
 
 export const SideOptionsManagerHook = () => {
@@ -36,7 +37,7 @@ export const SideOptionsManagerHook = () => {
     selectedValues,
     contextHolder,
   }: // handleCheckboxChange,
-  any = useJournySede();
+    any = useJournySede();
   const {
     nivelSedeGetData,
     handleSendDataNivel,
@@ -78,6 +79,8 @@ export const SideOptionsManagerHook = () => {
     setDataSedePerifericos,
     contextHolderPerifericos,
   } = useSedePerifericos();
+
+  const { apiGet, initialValuesPeriodo } = useFormTperiodo()
 
   // const {PostData} = useTperiodo
   // const {onFieldChange, onFinish}=useSedeInfra()
@@ -141,6 +144,11 @@ export const SideOptionsManagerHook = () => {
       case "useSedePerifericos":
         setTableGridWidth(12);
         perifericosSedeGetData(record);
+        break;
+      case "useTperiodo":
+        setOptionTableSelected("useTperiodo")
+        setTableGridWidth(12);
+        apiGet(record)
         break;
       case "useFuncionarioPermission":
         setOptionTableSelected("useFuncionarioPermission");
@@ -243,7 +251,7 @@ export const SideOptionsManagerHook = () => {
           <Col md={12}>
             <Card
               style={{ width: "100%" }}
-              title= "Tsede_informatica"
+              title="Tsede_informatica"
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
             >
               <SedeInfraEstructuraFisica
@@ -283,6 +291,18 @@ export const SideOptionsManagerHook = () => {
       setSecondaryTableComponentRender(useSedePerifericos);
     }
 
+    if (initialValuesPeriodo && optionTableSelected == "useTperiodo") {
+      const tPerido = (
+        <>
+          <Card>
+            holaaaa
+          </Card>
+        </>
+
+      );
+      setSecondaryTableComponentRender(tPerido)
+    }
+
     if (
       items &&
       rollOptions &&
@@ -310,7 +330,7 @@ export const SideOptionsManagerHook = () => {
 
       setSecondaryTableComponentRender(useFuncionarioPermissionComponent);
     }
-  }, [dataSede, dataSedeNivel, rollOptions, dataSedeInfra, dataSedeTecnology, dataSedePerifericos]);
+  }, [dataSede, dataSedeNivel, rollOptions, dataSedeInfra, dataSedeTecnology, dataSedePerifericos, initialValuesPeriodo]);
 
   return {
     isSecondaryTableOpen,
