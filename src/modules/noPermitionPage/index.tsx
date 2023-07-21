@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { Card, Row, Col, Pagination, PaginationProps } from "antd";
+import { Card, Row, Col } from "antd";
 
 import { withPrincipal } from "../../utils/components/content";
 
 import "../../utils/assets/noPermitionPage/noPermitionPage.css";
-import { QueryBuilders } from "@/utils/orm/queryBuilders";
+import { SelectCalificationComponent } from "@/utils/components/selectCalification";
 // import { SelectCalificationComponent } from "@/utils/components/selectCalification";
 
 
@@ -108,15 +108,7 @@ const NoPermissionPage: React.FC = () => {
         getData()
     }, []);
 
-    const paginate: PaginationProps['onChange'] = async (page: any=1) => {
-        console.log(page, '---')
-        const query = new QueryBuilders('sede');
-        const results = await query
-        .select('*')
-        .schema('ACADEMICO_COL0')
-        .paginate(page, 20)
-
-    }
+   
     
     return(
         <div>
@@ -135,13 +127,7 @@ const NoPermissionPage: React.FC = () => {
                         </Col>
                         <Col span={24} offset={6} style={{ width: '550px' }}>
 
-                        <Pagination
-                            onChange={paginate}
-                            total={300}
-                            showTotal={(total) => `Total ${total} items`}
-                            defaultPageSize={20}
-                            defaultCurrent={1}
-                            />
+                        <SelectCalificationComponent/>
                         </Col>
 
                     </Row>

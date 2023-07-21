@@ -8,12 +8,8 @@ export const SelectCalificationComponent = () => {
         options,
         onChange,
         loadData,
-        currentAsignature,
-        currentGrade,
-        currentGroup,
         evaluacion,
         onChangeSelect,
-        currentEvaluationPeriod
     } = UseSelectCalification();
     
 
@@ -32,7 +28,6 @@ export const SelectCalificationComponent = () => {
                 options={evaluacion}
                 onChange={onChangeSelect}
                 />
-            <p> {currentAsignature} {currentGrade} {currentGroup} {currentEvaluationPeriod} </p>
         </>
         
     )
