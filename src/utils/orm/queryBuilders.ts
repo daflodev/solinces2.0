@@ -102,7 +102,7 @@ class QueryBuilders {
   }
 
   async paginate(page: number, perPage: number): Promise<string> {
-    const offset = (page - 1) * perPage;
+    const offset = page;
     this.query.offset = offset;
     this.query.limit = perPage;
     const getData = await apiPostThunksAsync(this.query);
