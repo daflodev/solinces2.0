@@ -4,7 +4,7 @@ import { Card, Row, Col } from "antd";
 import { withPrincipal } from "../../utils/components/content";
 
 import "../../utils/assets/noPermitionPage/noPermitionPage.css";
-import { SelectCalificationComponent } from "@/utils/components/selectCalification";
+import { TabletAsistencia } from "@/utils/components/tabletAsistencia";
 // import { SelectCalificationComponent } from "@/utils/components/selectCalification";
 
 
@@ -127,7 +127,8 @@ const NoPermissionPage: React.FC = () => {
                         </Col>
                         <Col span={24} offset={6} style={{ width: '550px' }}>
 
-                        <SelectCalificationComponent/>
+                        <TabletAsistencia/>
+                        
                         </Col>
 
                     </Row>
