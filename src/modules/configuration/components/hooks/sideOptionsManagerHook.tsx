@@ -7,11 +7,11 @@ import MyForm from "@/utils/components/tableCheckbox/tableChecBox";
 import { Card, Col, Spin } from "antd";
 import { equisIcon } from "../../../../utils/assets/icon/iconManager";
 import { useNivelSede } from "./useSedeNivel";
-import SedeInfraEstructuraFisica from "../../../../utils/components/formSedeInfra";
 import { useSedeInfra } from "./useSedeInfra";
 import { useSedeTecnology } from "./useSedeInformatica";
 import { useSedePerifericos } from "./usePerifericosMedios";
 import { useFormTperiodo } from "./useTperiodoAcademico";
+import SedeInfraEstructuraFisica from "@/utils/components/formSedeInfra";
 // import { useTperiodo } from "./useTperiodoAcademico"
 
 export const SideOptionsManagerHook = () => {
@@ -80,7 +80,7 @@ export const SideOptionsManagerHook = () => {
     contextHolderPerifericos,
   } = useSedePerifericos();
 
-  const { apiGet, initialValuesPeriodo } = useFormTperiodo()
+  const { apiGet, initialValuesPeriodo, periodoFKData, resultadoPeriodo, dataTperiodo, handleSubmitPeriodo } = useFormTperiodo()
 
   // const {PostData} = useTperiodo
   // const {onFieldChange, onFinish}=useSedeInfra()
@@ -146,7 +146,6 @@ export const SideOptionsManagerHook = () => {
         perifericosSedeGetData(record);
         break;
       case "useTperiodo":
-        setOptionTableSelected("useTperiodo")
         setTableGridWidth(12);
         apiGet(record)
         break;
@@ -233,8 +232,7 @@ export const SideOptionsManagerHook = () => {
                 initialValues={initialValues}
                 dataselect={resultado}
                 handleFormSubmit={handleFormSubmit}
-                onClick={handleCloseSecondaryTable}
-              />
+                onClick={handleCloseSecondaryTable} />
             </Card>
           </Col>
         </>
@@ -291,12 +289,24 @@ export const SideOptionsManagerHook = () => {
       setSecondaryTableComponentRender(useSedePerifericos);
     }
 
-    if (initialValuesPeriodo && optionTableSelected == "useTperiodo") {
+    if (dataTperiodo) {
+      periodoFKData();
       const tPerido = (
         <>
-          <Card>
-            holaaaa
-          </Card>
+          <Col md={12}>
+            <Card
+              style={{ width: "100%" }}
+              title="Tperifericos_medios"
+              extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}>
+              <SedeInfraEstructuraFisica 
+              initialValues={initialValuesPeriodo} 
+              dataselect={resultadoPeriodo} 
+              onClick={handleCloseSecondaryTable}
+              handleFormSubmit={handleSubmitPeriodo}
+              />
+            </Card>
+          </Col>
+
         </>
 
       );

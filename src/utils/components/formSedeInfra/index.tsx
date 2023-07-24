@@ -8,6 +8,7 @@ interface infraProps {
     initialValues?: any;
     dataselect?: any;
     onClick?: () => void;
+    selectTable?:string
 }
 
 const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
@@ -50,7 +51,6 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
     const formItems = Object.keys(props.initialValues).map((fieldName) => {
         // console.log(props.dataselect[fieldName])
         if (fieldName.startsWith('FK_TLV_')) {
-
             return (
                 <div className="form-container">
                     {/* Primera columna */}

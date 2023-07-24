@@ -1,19 +1,19 @@
-import { shallow } from "zustand/shallow";
-import { sessionInformationStore } from "../../../../store/userInformationStore";
 import { message } from "antd";
 //@ts-ignore
 import dayjs from "dayjs";
 import { useState } from "react";
-import { getUserToken } from "@/utils/utils";
-import { apiGetThunksAsync, apiPostThunksAsync } from "@/utils/services/api/thunks";
+import { apiFKThunksAsyncSedeInfra, } from "@/utils/services/api/thunks";
 import { QueryBuilders } from "@/utils/orm/queryBuilders";
+import _ from "lodash";
 export const useFormTperiodo = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   // const [itemsColumnsInformation, setItemsColumnsInformation] = useState([]);
 
   // const [inputFilter, setInputFilter] = useState({});
-  const [initialValuesPeriodo, setInitialValuePeriodo] = useState<object | null>(null);
+  const [initialValuesPeriodo, setInitialValuePeriodo] = useState<any>({});
+  const [dataTperiodo, setDataTperiodo] = useState<any>({});
+  const [dataSeelectPeriodo, setDataSelect] = useState<any>();
 
   function changeKey(
     json: Record<string, any>,
@@ -28,46 +28,18 @@ export const useFormTperiodo = () => {
     return json;
   }
 
-  const select_type = (params: any) => {
-    const type: any = {
-      establecimiento: {
-        table: [
-          "PK_TESTABLECIMIENTO",
-          "CODIGO",
-          "NOMBRE",
-          "NIT",
-          "FK_TMUNICIPIO",
-          "FK_TLISTA_VALOR_ZONA",
-          "FK_TPROPIEDAD_JURIDICA",
-          "FK_TLV_CALENDARIO",
-          "FK_TLV_ESTADO_ESTABLECIMIENTO",
-        ],
-      },
-      defauld: {
-        table: "",
-      },
-    };
-
-    const user = getUserToken();
-    let validate: any = type["defauld"];
-    if (user.rol[0] == "SUPER_ADMINISTRADOR") {
-      validate = type[params] ?? type["defauld"];
-    }
-    // validate = params == 'establecimiento' ? type[params] : type['defauld'];
-    return validate;
-  };
 
   const tokenInformation = localStorage.getItem("user_token_information");
   const parserTokenInformation: any | null = tokenInformation
     ? JSON.parse(tokenInformation)
     : null;
 
-  const { currentInstitution } = sessionInformationStore(
-    (state) => ({
-      currentInstitution: state.currentInstitution,
-    }),
-    shallow
-  );
+  // const { currentInstitution } = sessionInformationStore(
+  //   (state) => ({
+  //     currentInstitution: state.currentInstitution,
+  //   }),
+  //   shallow
+  // );
 
   // const query = new QueryBuilders('periodo_academico_config');
   // const results = await query.select(['*'])
@@ -75,185 +47,136 @@ export const useFormTperiodo = () => {
   //                            .schema(`${schema}`)
   //                            .get();
 
+  const fkTlvCategoria = [
+    "'CRITERIO_AREA'",
+    "'CRITERIO_DESEMPENO'",
+    "'CRITERIO_FINAL_PERACA'",
+    "'MODIF_FINAL_PERACA'",
+    "'CALCULO_DEFINITIVA'",
+    "'CALCULO_DESCRIPTOR'",
+    "'ORDEN_PLANTILLA'",
+    "'ELEMENTO_CALCULO_DEF'",
+    "'FORMATO_BOLETIN'",
+    "'MODO_REDONDEAR'",
+  ];
 
-  const apiGet = async ( key_table) => {
-    const tableDateBase = "periodo_academico_config";
-    const dataSede = {
-      base: tableDateBase,
-      schema: parserTokenInformation?.dataSchema[0],
-      where: {
-        "periodo_academico_config.FK_TPERIODO_ACADEMICO": key_table,
-      },
-    };
-console.log(key_table, "FK")
+  const periodoFKData = async () => {
+    try {
+      const response = await apiFKThunksAsyncSedeInfra(fkTlvCategoria);
+      console.log(response, "useInfra")
+      const predata = response;
+
+      setDataSelect(predata);
+
+      return predata;
+    } catch (error) {
+      console.log("catch response: ", error);
+      return null;
+    }
+  };
+  // Agrupar por la propiedad 'categoria'
+  const agrupados = _.groupBy(dataSeelectPeriodo, "CATEGORIA");
+
+  // Imprimir los resultadoPeriodos
+  // Crear un objeto final con el nombre de la categoría como llave
+  const resultadoPeriodo = {};
+  Object.entries(agrupados).forEach(([categoria, productos]) => {
+    // if(categoria ===  )
+    resultadoPeriodo[`FK_TLV_${categoria}`] = productos;
+    // console.log(resultadoPeriodo, "resultadoPeriodo");
+  });
+
+
+
+
+
+
+
+
+
+
+  const apiGet = async (key_table) => {
     const query = new QueryBuilders('periodo_academico_config');
 
     // const getdata = changeKey(dataSede, "base", "periodo_academico_config");
 
     const getDataTable = await query.select(['*'])
-                                .where('periodo_academico_config."FK_TPERIODO_ACADEMICO"', '=', key_table?.PK_TPERIODO_ACADEMICO)
-                                .schema(parserTokenInformation?.dataSchema[0])
-                               .get();
-  console.log(getDataTable[0])
-    setInitialValuePeriodo(getDataTable)
-    return getDataTable
+      .where('periodo_academico_config."FK_TPERIODO_ACADEMICO"', '=', key_table?.PK_TPERIODO_ACADEMICO)
+      .schema(parserTokenInformation?.dataSchema[0])
+      .get();
+    console.log(getDataTable)
 
-    // const initialValuesPeriodo = {
-    //   BARRIO: getDataTable.BARRIO ? getDataTable.BARRIO : null,
+    const preData = getDataTable[0]
+    setDataTperiodo(preData)
 
-    //   CODIGO: getDataTable.CODIGO ? getDataTable.CODIGO : null,
-    //   COMUNA: getDataTable.COMUNA ? getDataTable.COMUNA : null,
+    setInitialValuePeriodo(
+      {
+        CALIFICAR_ACTIVIDADES: preData.CALIFICAR_ACTIVIDADES ? preData.CALIFICAR_ACTIVIDADES : null,
+        CALIFICAR_CRITERIOS: preData.CALIFICAR_CRITERIOS ? preData.CALIFICAR_CRITERIOS : null,
 
-    //   CORREO_ELECTRONICO: getDataTable.CORREO_ELECTRONICO
-    //     ? getDataTable.CORREO_ELECTRONICO
-    //     : null,
-    //   DIRECCION: getDataTable.DIRECCION ? getDataTable.DIRECCION : null,
-    //   ETNIAS: getDataTable.ETNIAS ? getDataTable.ETNIAS : null,
-    //   FAX: getDataTable.FAX ? getDataTable.FAX : null,
-    //   FECHA_LICENCIA: dayjs(
-    //     getDataTable.FECHA_LICENCIA ? getDataTable.FECHA_LICENCIA : null
-    //   ),
-    //   FK_TARCHIVO: getDataTable.FK_TARCHIVO ? getDataTable.FK_TARCHIVO : null,
 
-    //   FK_TFUNCIONARIO_RECTOR: getDataTable.FK_TFUNCIONARIO_RECTOR
-    //     ? getDataTable.FK_TFUNCIONARIO_RECTOR
-    //     : null,
-    //   FK_TFUNCIONARIO_SECRETARIA: getDataTable.FK_TFUNCIONARIO_SECRETARIA
-    //     ? getDataTable.FK_TFUNCIONARIO_SECRETARIA
-    //     : null,
-    //   FK_TLISTA_VALOR_ZONA: getDataTable.FK_TLISTA_VALOR_ZONA
-    //     ? getDataTable.FK_TLISTA_VALOR_ZONA
-    //     : null,
-    //   FK_TLV_ASOCIACION_NACIONAL: getDataTable.FK_TLV_ASOCIACION_NACIONAL
-    //     ? getDataTable.FK_TLV_ASOCIACION_NACIONAL
-    //     : null,
-    //   FK_TLV_CALENDARIO: getDataTable.FK_TLV_CALENDARIO
-    //     ? getDataTable.FK_TLV_CALENDARIO
-    //     : null,
-    //   FK_TLV_DISCAPACIDAD: getDataTable.FK_TLV_DISCAPACIDAD
-    //     ? getDataTable.FK_TLV_DISCAPACIDAD
-    //     : null,
-
-    //   FK_TLV_ESTADO_ESTABLECIMIENTO: getDataTable.FK_TLV_ESTADO_ESTABLECIMIENTO
-    //     ? getDataTable.FK_TLV_ESTADO_ESTABLECIMIENTO
-    //     : null,
-    //   FK_TLV_GENERO_EST: getDataTable.FK_TLV_GENERO_EST
-    //     ? getDataTable.FK_TLV_GENERO_EST
-    //     : null,
-
-    //   FK_TLV_IDIOMA: getDataTable.FK_TLV_IDIOMA
-    //     ? getDataTable.FK_TLV_IDIOMA
-    //     : null,
-
-    //   FK_TLV_RANGO_TARIFA: getDataTable.FK_TLV_RANGO_TARIFA
-    //     ? getDataTable.FK_TLV_RANGO_TARIFA
-    //     : null,
-
-    //   FK_TLV_REGIMEN_CATCOSTO: getDataTable.FK_TLV_REGIMEN_CATCOSTO
-    //     ? getDataTable.FK_TLV_REGIMEN_CATCOSTO
-    //     : null,
-
-    //   FK_TMUNICIPIO: getDataTable.FK_TMUNICIPIO
-    //     ? getDataTable.FK_TMUNICIPIO
-    //     : null,
-
-    //   FK_TPROPIEDAD_JURIDICA: getDataTable.FK_TPROPIEDAD_JURIDICA
-    //     ? getDataTable.FK_TPROPIEDAD_JURIDICA
-    //     : null,
-
-    //   LICENCIA_FUNCIONAMIENTO: getDataTable.LICENCIA_FUNCIONAMIENTO
-    //     ? getDataTable.LICENCIA_FUNCIONAMIENTO
-    //     : null,
-
-    //   LOCALIDAD: getDataTable.LOCALIDAD ? getDataTable.LOCALIDAD : null,
-
-    //   NIT: getDataTable.NIT ? getDataTable.NIT : null,
-
-    //   NOMBRE: getDataTable.NOMBRE ? getDataTable.NOMBRE : null,
-
-    //   PAGINA_WEB: getDataTable.PAGINA_WEB ? getDataTable.PAGINA_WEB : null,
-
-    //   PK_TESTABLECIMIENTO: getDataTable.PK_TESTABLECIMIENTO
-    //     ? getDataTable.PK_TESTABLECIMIENTO
-    //     : null,
-
-    //   RESOLUCION_APROBACION: getDataTable.RESOLUCION_APROBACION
-    //     ? getDataTable.RESOLUCION_APROBACION
-    //     : null,
-
-    //   SUBSIDIO: getDataTable.SUBSIDIO ? getDataTable.SUBSIDIO : null,
-
-    //   TALENTO: getDataTable.TALENTO ? getDataTable.TALENTO : null,
-
-    //   TELEFONO: getDataTable.TELEFONO ? getDataTable.TELEFONO : null,
-    // };
-
-    // setDataTable(initialValuesPeriodo);
+        CALIFICAR_DESCRIPTORES: preData.CALIFICAR_DESCRIPTORES ? preData.CALIFICAR_DESCRIPTORES : null,
+        COMPARTIR_DESCRIPTORES: preData.COMPARTIR_DESCRIPTORES ? preData.COMPARTIR_DESCRIPTORES : null,
+        DATOS_ESTUDIANTE: preData.DATOS_ESTUDIANTE ? preData.DATOS_ESTUDIANTE : null,
+        DESCARGA_BOLETIN: preData.DESCARGA_BOLETIN ? preData.DESCARGA_BOLETIN : null,
+        DESEMPENO_SUGERIDO: preData.DESEMPENO_SUGERIDO ? preData.DESEMPENO_SUGERIDO : null,
+        DOCENTE_CREAR_CRITERIO: preData.DOCENTE_CREAR_CRITERIO ? preData.DOCENTE_CREAR_CRITERIO : null,
+        FK_TFORMATO_CALIFICACION_ACT: preData.FK_TFORMATO_CALIFICACION_ACT ? preData.FK_TFORMATO_CALIFICACION_ACT : null,
+        FK_TFORMATO_CALIFICACION_DEF: preData.FK_TFORMATO_CALIFICACION_DEF ? preData.FK_TFORMATO_CALIFICACION_DEF : null,
+        FK_TLV_CALCULO_DEFINITIVA: preData.FK_TLV_CALCULO_DEFINITIVA ? preData.FK_TLV_CALCULO_DEFINITIVA : null,
+        FK_TLV_CALCULO_DESCRIPTOR: preData.FK_TLV_CALCULO_DESCRIPTOR ? preData.FK_TLV_CALCULO_DESCRIPTOR : null,
+        FK_TLV_CRITERIO_AREA: preData.CALIFICAR_CRITERIOS ? preData.CALIFICAR_CRITERIOS : null,
+        FK_TLV_CRITERIO_DESEMPENO: preData.FK_TLV_CRITERIO_DESEMPENO ? preData.FK_TLV_CRITERIO_DESEMPENO : null,
+        FK_TLV_CRITERIO_FINAL_PERACA: preData.FK_TLV_CRITERIO_FINAL_PERACA ? preData.FK_TLV_CRITERIO_FINAL_PERACA : null,
+        FK_TLV_ELEMENTO_CALCULO_DEF: preData.FK_TLV_ELEMENTO_CALCULO_DEF ? preData.FK_TLV_ELEMENTO_CALCULO_DEF : null,
+        FK_TLV_FORMATO_BOLETIN: preData.FK_TLV_FORMATO_BOLETIN ? preData.FK_TLV_FORMATO_BOLETIN : null,
+        FK_TLV_MODIF_FINAL_PERACA: preData.FK_TLV_MODIF_FINAL_PERACA ? preData.FK_TLV_MODIF_FINAL_PERACA : null,
+        FK_TLV_MODO_REDONDEAR: preData.FK_TLV_MODO_REDONDEAR ? preData.FK_TLV_MODO_REDONDEAR : null,
+        FK_TLV_ORDEN_PLANTILLA: preData.FK_TLV_ORDEN_PLANTILLA ? preData.FK_TLV_ORDEN_PLANTILLA : null,
+        INGERESO_ESTUDIANTES: preData.INGERESO_ESTUDIANTES ? preData.INGERESO_ESTUDIANTES : null,
+        NOTAS_ACTIVIDADES: preData.NOTAS_ACTIVIDADES ? preData.NOTAS_ACTIVIDADES : null,
+        PER_JEFE_ELIMINAR_CALIFICACION: preData.PER_JEFE_ELIMINAR_CALIFICACION ? preData.PER_JEFE_ELIMINAR_CALIFICACION : null,
+        PORCENTAJE_FINAL_CALIF: preData.PORCENTAJE_FINAL_CALIF ? preData.PORCENTAJE_FINAL_CALIF : null,
+        PORCENTAJE_INICIAL_CALIF: preData.PORCENTAJE_INICIAL_CALIF ? preData.PORCENTAJE_INICIAL_CALIF : null,
+        VALIDA_CALIFICACION_PERACA: preData.VALIDA_CALIFICACION_PERACA ? preData.VALIDA_CALIFICACION_PERACA : null,
+      })
   };
 
-  // const handleSubmit = async (values: any) => {
-  //   const getdata = {
-  //     update_ESTABLECIMIENTO: values,
-  //     where: {
-  //       PK_TESTABLECIMIENTO: currentInstitution?.value,
-  //     },
-  //     schema: parserTokenInformation?.dataSchema[0],
-  //   };
 
-  //   setInitialValuePeriodo(null);
+  const isValuesEmpty = (values: any) => {
+    return Object.values(values).every(value => value === null || value === undefined);
+  };
 
-  //   await apiPostThunksAsync(getdata)
-  //     .then((response) => {
-  //       if (response.success == "OK") {
-  //         messageApi.open({
-  //           type: "success",
-  //           content: "Los datos fueron actualizados correctamente",
-  //           duration: 2,
-  //         });
-  //       }
 
-  //       if (response.status == 400) {
-  //         const messageResponse = response?.data?.message;
+  const handleSubmitPeriodo = async (values: any) => {
+    console.log(values)
+    const updateForm = new QueryBuilders('periodo_academico_config');
+    if (isValuesEmpty(values)) {
 
-  //         if (messageResponse.includes("already exists")) {
-  //           messageApi.open({
-  //             type: "warning",
-  //             content:
-  //               "Uno o mas campos de valores unicos ya se encuentran registrado.",
-  //             duration: 2,
-  //           });
-
-  //         } else {
-  //           messageApi.open({
-  //             type: "error",
-  //             content: "Ocurrio un error inesperado, intentelo mas tarde.",
-  //             duration: 2,
-  //           });
-  //         }
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       messageApi.open({
-  //         type: "error",
-  //         content: "Ocurrio un error inesperado, intentelo mas tarde.",
-  //         duration: 2,
-  //       });
-
-  //       console.log(error);
-  //     })
-  //     .finally(() => {
-  //       setTimeout(() => close(), 2500);
-  //       apiGet("establecimiento", setInitialValuePeriodo);
-  //     });
-  // };
+      const results = await updateForm.create(values).schema(parserTokenInformation?.dataSchema[0]).save();
+      console.log(results);
+      setInitialValuePeriodo(results);
+    } else {
+      // If values are not empty, perform the update operation
+      const results = await updateForm.update(values)
+        .where('"FK_TPERIODO_ACADEMICO"', '=', dataTperiodo.FK_TPERIODO_ACADEMICO)
+        .schema(parserTokenInformation?.dataSchema[0])
+        .save();
+      console.log(results);
+      setInitialValuePeriodo(results);
+    }
+  };
 
   return {
 
     apiGet,
     initialValuesPeriodo,
     setInitialValuePeriodo,
-
-    // handleSubmit,
+    periodoFKData,
+    dataSeelectPeriodo,
+    resultadoPeriodo,
+    dataTperiodo,
+    handleSubmitPeriodo,
     contextHolder,
   };
 };
