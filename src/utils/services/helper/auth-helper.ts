@@ -38,7 +38,6 @@ export const endSesionClose = () => {
   const pk_sesion = localStorage.getItem('pk_sesion');
   const token = localStorage.getItem("tk_sesion");
 
-  debugger
       const data = {
         "pk_sesion": pk_sesion
       }
