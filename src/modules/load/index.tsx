@@ -38,6 +38,9 @@ const LoadPages = () => {
             })
           }
 
+          // save token in local store
+          localStorage.setItem("tk_sesion", user.access_token);
+
           localStorage.setItem("user_token_information", JSON.stringify(myDecodedToken))
 
           // login, session record in db
