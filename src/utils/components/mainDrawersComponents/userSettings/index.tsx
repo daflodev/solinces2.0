@@ -1,20 +1,24 @@
-import { Popover, Col, Row, Spin } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
+import { Col, Popover, Row, Spin } from 'antd';
 
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useEffect } from 'react';
-import { sessionInformationStore } from '../../../../store/userInformationStore';
 import { shallow } from 'zustand/shallow';
-import { logout } from "../../../../utils/services/helper/auth-helper";
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { sessionInformationStore } from '../../../../store/userInformationStore';
+import { endSesionClose, logout } from "../../../../utils/services/helper/auth-helper";
 import { mainHook } from "./hooks/mainHook";
+import NumericInputUserSettings from './numericInput';
 import MultiSelectUserSettings from './selectInput';
-import NumericInputUserSettings from './numericInput'
 
-import { userIcon, logOutIcon, changeRolIcon, saveIcon } from "../../../assets/icon/iconManager";
+import { changeRolIcon, logOutIcon, saveIcon, userIcon } from "../../../assets/icon/iconManager";
 import icon_four from "../../../assets/nav/images/rectangle-25.png";
 
-import "./userSettings.css";
 import { Yup } from '../../../utils';
+import "./userSettings.css";
+
+
+// run counter
+let counter = 0;
 
 const UserSettings: React.FC = () => {
 
@@ -180,6 +184,13 @@ const UserSettings: React.FC = () => {
                     <span className="user_settings_log_out_icon" onClick={() =>{
                       localStorage.setItem('current_rol', '');
                       logout();
+
+                      // Validating that the function is only called 1 time
+                      if (counter <= 0) {
+                        endSesionClose();
+                        counter++;
+                      }
+
                       }}>
                       {logOutIcon}
                     </span>
@@ -563,4 +574,4 @@ const UserSettings: React.FC = () => {
     )
 };
 
-export{UserSettings};
+export { UserSettings };
