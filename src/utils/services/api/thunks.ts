@@ -123,7 +123,6 @@ export const apiPostThunksAsyncSedeJornada= async (data: any) => {
 export const apiFKThunksAsyncSedeInfra = async (data: any) => {
 const resp = await ApiSedeInfraFK(data)
   .then((response) => {
-    console.log(response)
     const getdata = response.data.data;
     return getdata;
   })

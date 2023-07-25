@@ -4,9 +4,6 @@ import { Card, Row, Col } from "antd";
 import { withPrincipal } from "../../utils/components/content";
 
 import "../../utils/assets/noPermitionPage/noPermitionPage.css";
-// import { SelectCalificationComponent } from "@/utils/components/selectCalification";
-
-import TActivityView from './tActivityView'
 
 const mainImageNoPermissionPage = (
     <svg width="172" height="149" viewBox="0 0 172 149" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -35,28 +32,23 @@ const mainImageNoPermissionPage = (
 
 
 const NoPermissionPage: React.FC = () => {
-
-    // return(
-    //     <div>
-    //         <Card className="card-container">
-    //             <div className="no-permission-sub-container">
-    //                 <Row>
-    //                     <Col span={24} offset={10}>
-    //                         {mainImageNoPermissionPage}
-    //                     </Col>
-    //                     <Col span={12} offset={6}>
-    //                         <p className="no-permission-text">
-    //                             Lo sentimos, pero no está autorizado para acceder a esta página.
-    //                         </p>
-    //                     </Col>
-    //                 </Row>
-    //             </div>
-    //         </Card>
-    //     </div>
-    // )
-
-    return (
-        <TActivityView/>
+    return(
+        <div>
+            <Card className="card-container">
+                <div className="no-permission-sub-container">
+                    <Row>
+                        <Col span={24} offset={10}>
+                            {mainImageNoPermissionPage}
+                        </Col>
+                        <Col span={12} offset={6}>
+                            <p className="no-permission-text">
+                                Lo sentimos, pero no está autorizado para acceder a esta página.
+                            </p>
+                        </Col>
+                    </Row>
+                </div>
+            </Card>
+        </div>
     )
 };
 

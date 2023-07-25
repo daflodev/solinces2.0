@@ -14,10 +14,9 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
         columnInfoData = await querycolumn
                         .schema(schema)
                         .columninfo()
-    }
-    
+    }    
 
-    if(currentRol == 'RECTOR'){
+    if(currentRol != "SUPER_ADMINISTRADOR"){
         switch (table) {
             case 'estudiante':
 

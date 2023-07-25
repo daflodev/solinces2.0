@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Input, Table, Tag, Col, Row } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
-import { alertExclamationIcon, attachFileIcon, deleteIcon, duplicateIcon, editIcon, massiveScoreIcon, PlusOutlined } from '@/utils/assets/icon/iconManager';
+import { alertExclamationIcon, attachFileIcon, deleteIcon, duplicateIcon, editIcon, massiveScoreIcon, PlusOutlined } from '../../../../../../utils/assets/icon/iconManager';
 
 import "./testingStyles.css";
-import { searchIcon } from '@/config/shared/header/menu/menu-icons';
+import { searchIcon } from '../../../../../../utils/assets/icon/iconManager';
 
 const TActivityView: React.FC = () => {
 
@@ -129,7 +129,7 @@ const TActivityView: React.FC = () => {
                 )
             },
           },{
-            title: <div className='activity_container_final_grade_column_title'>Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>,
+            title: <div className='activity_container_final_grade_column_title'>DEFINITIVA PROYECTADA</div>,
             key: 'scoreDefinitiveInformation',
             dataIndex: 'scoreDefinitiveInformation',
             width: '150',

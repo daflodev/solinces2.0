@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { optionTableSelectedStore } from "../../../../store/optionTableSelectedStore";
-import { shallow } from "zustand/shallow";
+import { SelectCalificationComponent } from '@/utils/components/selectCalification';
+import TActivityView from './qualificationView/activityView/tActivityView';
 
 interface QualificationOptionComponentInterface{
     optionToRender: string;
@@ -9,33 +9,33 @@ interface QualificationOptionComponentInterface{
 export const QualificationOptionComponent: React.FC<QualificationOptionComponentInterface> = (props) => {
 
     const { optionToRender } = props;
-
-     // @ts-ignore
-  const { optionSelectedName } =
-  optionTableSelectedStore(
-    (state) => ({
-        optionSelectedName: state.optionSelectedName,
-    }),
-    shallow
-  );
-
-  console.log('from the principal: ', optionToRender)
+    console.log('from the principal: ', optionToRender)
 
     const [currentOptionSelectedRender, setCurrentOptionSelectedRender] = useState(<span>{optionToRender}...</span>);
-
 
     useEffect(() => {
 
         //TODO: switch case para controlar el elemento a renderizar.
+        console.log('a change: ', optionToRender)
 
-    }, [optionSelectedName])
+        switch (optionToRender) {
+            case 'TACTIVIDAD':
+                setCurrentOptionSelectedRender(<TActivityView/>)
+                break;
+        
+            default:
+                setCurrentOptionSelectedRender(<span>nothing to show...</span>)
+                break;
+        }
 
-
+    }, [optionToRender])
+    
     return (
         <div>
-            <span>Asignatura, gardo, grupo y jornada selectro</span>
             <br/>
-            <span>Periodo de evaluacion</span>
+            <br/>
+            <SelectCalificationComponent/>
+            <br/>
 
             <div>
                 {currentOptionSelectedRender}

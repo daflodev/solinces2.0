@@ -455,7 +455,6 @@ const Settings: React.FC = () => {
 
   useEffect(() => {
     handleCloseSecondaryTable();
-    console.log('iten: ', selectedItem)
     setCurrentOptionName(selectedItem?.nombre);
   }, [selectedItem]);
 
@@ -566,7 +565,7 @@ const Settings: React.FC = () => {
                             <li
                               key={`${item.nombre}_${item.key}`}
                               onClick={() => {
-                                handleSelect(item)
+                                handleSelect(item, isOnEvaluationView)
                                 setCurrentOptionName(item?.nombre)
                               }}
                             >
