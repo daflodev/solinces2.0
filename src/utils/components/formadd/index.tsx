@@ -2,14 +2,14 @@ import { SaveOutlined } from "@ant-design/icons";
 
 import { Col, Row } from "antd";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import { shallow } from "zustand/shallow";
+import { sessionInformationStore } from "../../../store/userInformationStore";
 import { Yup } from "../../utils";
 import DatePickerAddForm from "../datepickeraddform";
 import InputAddNumber from "../inputaddnumber";
 import MultiSelect from "../selectedform";
-import "./formaddStyle.css";
-import { sessionInformationStore } from "../../../store/userInformationStore";
-import { shallow } from 'zustand/shallow';
 import { AvalibleSelecteManager } from "./avalibleSelectManager";
+import "./formaddStyle.css";
 
 const FormAdd = ({
   setTitleState,
@@ -143,7 +143,7 @@ const FormAdd = ({
 
       if (columnName.startsWith("FK_")) {
         const data = optionsManager(FKGroupData[columnName], columnName);
-        console.log(columnName, 'fkselect')
+        // console.log(columnName, 'fkselect')
 
         const selectConditions = AvalibleSelecteManager(columnName, currentRol, currentAcademicPeriod, currentCampus, currentInstitution, currentAcademicYear);
 

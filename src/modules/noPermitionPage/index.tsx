@@ -4,6 +4,7 @@ import { Card, Row, Col } from "antd";
 import { withPrincipal } from "../../utils/components/content";
 
 import "../../utils/assets/noPermitionPage/noPermitionPage.css";
+// import { SelectCalificationComponent } from "@/utils/components/selectCalification";
 
 import TActivityView from './tActivityView'
 
@@ -31,6 +32,7 @@ const mainImageNoPermissionPage = (
         <path d="M158 15H157" stroke="var(--font-color)" stroke-width="5" stroke-linecap="round"/>
     </svg>
 )
+
 
 const NoPermissionPage: React.FC = () => {
 

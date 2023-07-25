@@ -38,4 +38,4 @@ const CascaderHeaderFilter: React.FC<CampusOptions[]> = (options, onChange) => {
   )
 };
 
-export{CascaderHeaderFilter};
+export { CascaderHeaderFilter };

@@ -58,7 +58,7 @@
     /* Main menu */
     --menu-icon: var(--black);
     --bg-options-header-filters: var(--white);
-    --menu-box-shadow: 0px 10px 15px rgba(100, 100, 111, 0.16);
+    --menu-box-shadow: 0 15px 15px rgba(100, 100, 111, 0.16);
     --bottom-line-separate-logo: var(--mid-gray);
     --side-menu-border-color: var(--mid-gray);
   
@@ -103,7 +103,7 @@
     /* Main menu */
     --menu-icon: var(--white);
     --bg-options-header-filters: var(--dark-blue-gray);
-    --menu-box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.08);
+    --menu-box-shadow:  0 15px 15px rgba(0, 0, 0, 0.08);
     --background-rows-hover: var(--mid-blue);
 
       /* -> activity section */
@@ -141,3 +141,157 @@
         box-shadow: 0px 7px 29px rgba(0, 0, 0, 0.3);
       }
       
+      
+span.placeholder.active font font {
+  color: var(--high-gray)!important;
+}
+
+input, p, select, span, textarea {
+  font-family: Roboto !important;
+}
+
+.ant-select {
+  width: 100% !important;
+}
+
+.ant-select-selection-item {
+  padding: 3px 10px !important;
+}
+
+.ant-table-title .ant-row.css-1wazalj {
+  font-size: 1.375rem;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.ant-table-title .ant-row.css-1wazalj:nth-child(1) {
+  margin-bottom: 1rem;
+}
+.ant-table-title .ant-row.css-1wazalj:nth-child(1) {
+  margin-bottom: 1rem;
+}
+.ant-table-title .ant-row.css-1wazalj:nth-child(2n) {
+  gap: 1rem;
+}
+
+.editable-cell-value-wrap:hover {
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  padding: 0px 4px;
+}
+
+.dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-tbody >tr.ant-table-row:hover>th, .dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-tbody >tr.ant-table-row:hover>td, .dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-tbody >tr >th.ant-table-cell-row-hover, .dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-tbody >tr >td.ant-table-cell-row-hover {
+  background: var(--dark-blue-gray);
+}
+.dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-tbody >tr >th,.dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-tbody >tr >td {
+  transition: background 0.2s,border-color 0.2s;
+  border-bottom: 1px solid var(--high-gray);
+}
+.dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-thead >tr>th,.dark-theme :where(.css-1wazalj).ant-table-wrapper .ant-table-thead >tr>td {
+  position: relative;
+  color: rgba(0, 0, 0, 0.88);
+  font-weight: 600;
+  text-align: start;
+  background: #fafafa;
+  border-bottom: 1px solid var(--high-gray);
+  transition: background 0.2s ease;
+}
+.dark-theme .boton svg path {
+  fill: aliceblue;
+}
+
+.dark-theme .ant-table-title svg path {
+  fill: var(--mid-gray) !important;
+}
+
+#mi-lista>li:hover {
+  background: var(--mid-gray);
+}
+
+.anticon svg {
+  display: inline-block;
+  fill: var(--mid-blue);
+}
+
+.mostrarOcultarForm {
+  cursor: pointer;
+}
+
+.ant-row.css-dev-only-do-not-override-15rg2km.titulo-act {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.ant-row.css-dev-only-do-not-override-15rg2km.p-iconos {
+  gap: 16px;
+}
+
+.iconDelete svg:hover path {
+  fill: var(--red-status) !important;
+}
+.p-iconos .iconDelete svg {
+  height: 22px;
+}
+.p-iconos svg:hover path {
+  fill: var(--mid-blue);
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--low-gray); 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--high-gray); 
+  border-radius: 50px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #828495; 
+}
+
+.ant-card.ant-card-bordered.cardInfra .ant-select .ant-select-selector {
+  border-radius: 8px;
+  border: 1px solid var(--mid-gray) !important;
+  background-color: transparent!important;
+  z-index: 2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 3px 10px !important;
+  gap: 37px;
+  width: 100%!important;
+  height: 35px!important;
+  left: 0px;
+  top: 0px;
+}
+
+.ps__thumb-x {
+  background-color: #aaa;
+  border-radius: 6px;
+  transition: background-color .2s linear, height .2s ease-in-out;
+  -webkit-transition: background-color .2s linear, height .2s ease-in-out;
+  height: 6px;
+  bottom: 0px;
+  position: absolute;
+}
+
+.ps_rail-x:hover > .psthumb-x, .psrail-x:focus > .ps_thumb-x, .ps__rail-x.ps--clicking .ps__thumb-x {
+  background-color: var(--high-gray);
+  height: 6px;
+}
+
+.ant-table-tbody>tr>td {
+  padding: 8px 8px !important;
+}

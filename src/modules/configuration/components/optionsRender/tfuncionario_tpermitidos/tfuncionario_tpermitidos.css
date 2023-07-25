@@ -1,5 +1,5 @@
 .funcionario_permission_container{
-    max-height: calc(93vh - 5.2rem);
+    /*max-height: calc(93vh - 5.2rem);*/
     overflow: auto;
     background: var(--bg-color);
 }

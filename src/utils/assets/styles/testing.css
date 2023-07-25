@@ -4,21 +4,30 @@
     left: 14px;
     border-radius: 8px;
     width: calc(100vw - 2.5rem);
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
     border: none;
 }
 
+.card-container .ant-layout{
+    min-height: calc(100vh - 8.2rem) !important;
+    background-color: transparent;
+}
 
 .card-body {
     background-color: var(--bg-color);
     border: none;
-    min-height: calc(93vh - 5.2rem) !important;
+    min-height: calc(93vh - 6.2rem) !important;
 }
 
+:where(.css-dev-only-do-not-override-15rg2km).ant-card .ant-card-body {
+    padding: 20px 15px;
+    border-radius: 0 0 8px 8px;
+}
 
-
+.funcionario_permission_container {
+    /* max-height: calc(93vh - 5.2rem); */
+    /*overflow: auto;*/
+    background: var(--bg-color);
+ }
 
 .card-body .ant-card-body {
     padding-top: 0px !important;
@@ -76,7 +85,7 @@ tr.editable-row:hover td.ant-table-cell {
 .editable-cell-value-wrap:hover {
     border: 1px solid #d9d9d9;
     border-radius: 6px;
-
+    padding: 0px 4px;
 }
 
 .ant-form-item .ant-input {
@@ -140,18 +149,19 @@ tr.ant-table-row-selected.editable-row {
 }
 
 #mi-lista>li {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 217px;
     height: 24px;
-    font-weight: 400 !important;
-    font-size: 14px !important;
-    line-height: 21px !important;
+    font-family: Poppins;
+    font-weight: 400!important;
+    font-size: 14px!important;
+    line-height: 21px!important;
     cursor: pointer;
     color: var(--high-gray);
-
-
+    /* overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; */
+    padding: 0.25rem 0.625rem;
+    width: 100%;
+    margin-bottom: 0.375rem;
 }
 
 .ant-pagination-item.ant-pagination-item-active {
@@ -165,34 +175,24 @@ tr.ant-table-row-selected.editable-row {
 
 
 .configuration {
-    width: 104px;
-    height: 21px;
-    font-family: 'Poppins';
+    font-family: Poppins;
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
-    line-height: 21px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    padding-bottom: 40px;
-
+    /* overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; */
+    padding: 0 10px;
 }
 
 .iconConfiguration {
     width: 20px;
     height: 20px;
-
-    font-family: 'Poppins';
+    font-family: normal;
     font-style: normal;
     font-weight: 700;
-    font-size: 14px !important;
+    font-size: 20px !important;
     line-height: 21px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    padding-bottom: 40px;
-
 }
 
 
@@ -243,11 +243,22 @@ tr.ant-table-row-selected.editable-row {
     padding: 8px 20px;
 }
 
+:where(.css-dev-only-do-not-override-15rg2km).ant-table-wrapper table {
+    width: auto !important;
+}
 
+:where(.css-dev-only-do-not-override-15rg2km).ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover .ant-checkbox-checked:not(.ant-checkbox-disabled) .ant-checkbox-inner {
+    background-color: var(--mid-blue);
+    border-color: transparent;
+}
 
+:where(.css-dev-only-do-not-override-15rg2km).ant-checkbox-checked .ant-checkbox-inner {
+    background-color: var(--mid-blue);
+    border-color: var(--mid-blue);
+}
 
 .ant-checkbox-inner {
-    border: 2px solid #9396AA !important;
+    /* border: 2px solid #9396AA !important; Eliminar*/
     border-radius: 4px !important;
 }
 
@@ -261,31 +272,22 @@ tr.ant-table-row-selected.editable-row {
     background-color: var(--backgorund-color-list-activate) !important;
 }
 
-
-
-
-
-
-
-
-
 .rowf:hover .boton {
     visibility: visible;
 }
 
 .boton {
     right: 10px;
-   
     height: 0px;
     background: #e7e7e7;
     color: #fffdfd;
     z-index: 90080;
     display: flex;
     align-content: center;
-    justify-content: center;
+    justify-content: end;
     text-align: center;
     align-items: center;
-    transition: all 0.1s;
+    transition: all .1s;
     visibility: hidden;
 }
 
@@ -294,4 +296,63 @@ td.ant-table-cell:last-child {
     position: sticky !important;
     z-index: 2;
     right: 0;
+}
+
+.ant-row.css-dev-only-do-not-override-15rg2km.tpermitidos {
+    gap: 20px;
+    flex-flow: nowrap !important;
+}
+
+.ant-row.tpermitidos .ant-col.ant-col-8.css-dev-only-do-not-override-15rg2km {
+    width: 50% !important;
+    max-width: 50% !important;
+    flex: auto !important;
+    margin: 0;
+}
+
+.ant-row.transfer_component .ant-checkbox-group .ant-divider-horizontal {
+    margin: 2px 0px !important;
+}
+
+.ant-row.transfer_component input.ant-input {
+    padding-left: 5px !important;
+    border-left: 0;
+}
+
+
+:where(.css-dev-only-do-not-override-15rg2km).ant-collapse>.ant-collapse-item >.ant-collapse-header {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    padding: 2px 4px;
+    color: rgba(0, 0, 0, 0.88);
+    line-height: 1.5714285714285714;
+    cursor: pointer;
+    transition: all 0.3s,visibility 0s;
+}
+
+:where(.css-dev-only-do-not-override-15rg2km).ant-collapse>.ant-collapse-item >.ant-collapse-header .ant-collapse-expand-icon {
+    height: 22px;
+    display: flex;
+    align-items: center;
+    padding-inline-end: 8px;
+}
+
+:where(.css-dev-only-do-not-override-15rg2km).ant-collapse>.ant-collapse-item >.ant-collapse-header .ant-collapse-header-text span {
+    font-size: 14px;
+}
+
+:where(.css-dev-only-do-not-override-15rg2km).ant-input-group .ant-input-group-addon {
+    position: relative;
+    padding: 0px 5px 0 10px;
+    color: rgba(0, 0, 0, 0.88);
+    font-weight: normal;
+    font-size: 14px;
+    text-align: center;
+    background-color: rgb(0 0 0 / 0%);
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    transition: all 0.3s;
+    line-height: 1;
 }

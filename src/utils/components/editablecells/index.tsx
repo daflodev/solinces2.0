@@ -20,12 +20,12 @@ interface EditableCellProps {
 //@ts-ignore
 import moment from 'moment-timezone';
 
+import { sessionInformationStore } from "@/store/userInformationStore";
 import { DatePicker, Form, Input, InputNumber, InputRef, Select } from "antd";
 import 'moment/locale/es';
+import { shallow } from "zustand/shallow";
 import { EditableCellsHooks } from "../../../config/hooks/editableCellsHooks";
 import { EditableContext } from "../inputcells";
-import { sessionInformationStore } from "@/store/userInformationStore";
-import { shallow } from 'zustand/shallow';
 
 const columnConditionsExtractor = (allColumnInformation:any, columnName:any) => {
 

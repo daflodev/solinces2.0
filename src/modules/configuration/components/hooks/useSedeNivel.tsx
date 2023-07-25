@@ -28,7 +28,7 @@ export const useNivelSede = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const nivelSedeGetData = async (record) => {
-    console.log("record: ", record);
+    // console.log("record: ", record);
     // const getPK = record["PK_TSEDE"]
 
     setPksede(record);
@@ -36,7 +36,7 @@ export const useNivelSede = () => {
     await apiGetThunksAsyncSedeNivel(record.PK_TSEDE)
       .then((response) => {
         if (response) {
-          console.log(response.data, "respuesta");
+          // console.log(response.data, "respuesta");
           const preData = response.data;
           setDataSedeNivel(preData);
           setSelectedValuesNivel(
@@ -74,13 +74,13 @@ export const useNivelSede = () => {
       if (selectedValues.includes(objeto.PK_TNIVEL_ENSENANZA)) {
         const newObeject = { ...objeto };
         newObeject.BOOLEAN_FIELD = true;
-        console.log(newObeject);
+        // console.log(newObeject);
 
         return newObeject;
       } else {
         const newObeject = { ...objeto };
         newObeject.BOOLEAN_FIELD = false;
-        console.log(newObeject);
+        // console.log(newObeject);
 
         return newObeject;
       }
@@ -118,7 +118,7 @@ export const useNivelSede = () => {
       return newObj;
     });
 
-    console.log(modifiedArray);
+    // console.log(modifiedArray);
     await apiPostThunksAsyncSedeNivel(modifiedArray).then((response) => {
       if (response.status == "success") {
         messageApi.open({

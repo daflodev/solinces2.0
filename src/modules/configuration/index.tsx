@@ -455,6 +455,7 @@ const Settings: React.FC = () => {
 
   useEffect(() => {
     handleCloseSecondaryTable();
+    console.log('iten: ', selectedItem)
     setCurrentOptionName(selectedItem?.nombre);
   }, [selectedItem]);
 
