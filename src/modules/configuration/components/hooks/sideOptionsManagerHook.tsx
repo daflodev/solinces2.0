@@ -48,15 +48,16 @@ export const SideOptionsManagerHook = () => {
 
   const {
     dataSedeInfra,
-    infraSedeGetData,
     initialValues,
     resultado,
     infraFKData,
     handleFormSubmit,
     contextHolderInfra,
-    setDataSedeInfra,
+    colunmField,
+    dataSeelect,
     newApiget,
-    columInfoPeriodo,
+    setDataSedeInfra,
+    columnInfoINFRA,
   } = useSedeInfra();
 
   const {
@@ -82,7 +83,7 @@ export const SideOptionsManagerHook = () => {
     contextHolderPerifericos,
   } = useSedePerifericos();
 
-  const { apiGet, initialValuesPeriodo, periodoFKData, resultadoPeriodo, dataTperiodo, handleSubmitPeriodo } = useFormTperiodo()
+  const { apiGet, initialValuesPeriodo, periodoFKData, resultadoPeriodo, dataTperiodo, handleSubmitPeriodo, columInfoPeriodo, colunmFieldPeriodo } = useFormTperiodo()
 
   // const {PostData} = useTperiodo
   // const {onFieldChange, onFinish}=useSedeInfra()
@@ -134,9 +135,10 @@ export const SideOptionsManagerHook = () => {
         break;
       case "useSedeInfra":
         setTableGridWidth(12);
-        infraSedeGetData(record);
         newApiget(record)
-        columInfoPeriodo(record)
+        infraFKData();
+        columnInfoINFRA(record)
+        setOptionTableSelected("useSedeInfra")
 
         break;
 
@@ -152,6 +154,10 @@ export const SideOptionsManagerHook = () => {
       case "useTperiodo":
         setTableGridWidth(12);
         apiGet(record)
+        columInfoPeriodo(record)
+        setOptionTableSelected('useTperiodo')
+        setCurrentRowInformation(record)
+        
         break;
       case "useFuncionarioPermission":
         setOptionTableSelected("useFuncionarioPermission");
@@ -219,9 +225,9 @@ export const SideOptionsManagerHook = () => {
       );
       setSecondaryTableComponentRender(useSedeNivelComponent);
     }
-    if (dataSedeInfra) {
-      infraFKData();
+    if (dataSedeInfra && optionTableSelected === 'useSedeInfra' && colunmField) {
 
+      infraFKData();
       const useSedeInfraComponente = (
         <>
           {contextHolderInfra}
@@ -236,7 +242,8 @@ export const SideOptionsManagerHook = () => {
                 initialValues={initialValues}
                 dataselect={resultado}
                 handleFormSubmit={handleFormSubmit}
-                onClick={handleCloseSecondaryTable} />
+                onClick={handleCloseSecondaryTable}
+                columnInfo={colunmField} />
             </Card>
           </Col>
         </>
@@ -292,8 +299,9 @@ export const SideOptionsManagerHook = () => {
       );
       setSecondaryTableComponentRender(useSedePerifericos);
     }
-
-    if (dataTperiodo && dataTperiodo == null) {
+console.log(dataTperiodo)
+console.log(colunmFieldPeriodo)
+    if (dataTperiodo  && optionTableSelected === 'useTperiodo' && colunmFieldPeriodo ) {
       periodoFKData();
       const tPerido = (
         <>
@@ -302,11 +310,13 @@ export const SideOptionsManagerHook = () => {
               style={{ width: "100%" }}
               title="Tperifericos_medios"
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}>
-              <SedeInfraEstructuraFisica 
-              initialValues={initialValuesPeriodo} 
-              dataselect={resultadoPeriodo} 
-              onClick={handleCloseSecondaryTable}
-              handleFormSubmit={handleSubmitPeriodo}
+              <SedeInfraEstructuraFisica
+                initialValues={initialValuesPeriodo}
+                dataselect={resultadoPeriodo}
+                onClick={handleCloseSecondaryTable}
+                handleFormSubmit={handleSubmitPeriodo}
+                columnInfo={colunmFieldPeriodo}
+                record={currentRowInformation}
               />
             </Card>
           </Col>
@@ -344,7 +354,7 @@ export const SideOptionsManagerHook = () => {
 
       setSecondaryTableComponentRender(useFuncionarioPermissionComponent);
     }
-  }, [dataSede, dataSedeNivel, rollOptions, dataSedeInfra, dataSedeTecnology, dataSedePerifericos, initialValuesPeriodo]);
+  }, [dataSede, dataSedeNivel, rollOptions, dataSedeInfra, dataSedeTecnology, dataSedePerifericos, dataTperiodo, colunmFieldPeriodo]);
 
   return {
     isSecondaryTableOpen,

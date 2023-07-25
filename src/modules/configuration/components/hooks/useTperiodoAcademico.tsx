@@ -5,6 +5,8 @@ import { useState } from "react";
 import { apiFKThunksAsyncSedeInfra, } from "@/utils/services/api/thunks";
 import { QueryBuilders } from "@/utils/orm/queryBuilders";
 import _ from "lodash";
+import { sessionInformationStore } from "@/store/userInformationStore";
+import shallow from "zustand/shallow";
 export const useFormTperiodo = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -14,6 +16,7 @@ export const useFormTperiodo = () => {
   const [initialValuesPeriodo, setInitialValuePeriodo] = useState<any | null>(null);
   const [dataTperiodo, setDataTperiodo] = useState<any>(null);
   const [dataSeelectPeriodo, setDataSelect] = useState<any>();
+  const [colunmFieldPeriodo, setColumnFieldPeriodo] = useState<any>([]);
 
   function changeKey(
     json: Record<string, any>,
@@ -34,9 +37,10 @@ export const useFormTperiodo = () => {
     ? JSON.parse(tokenInformation)
     : null;
 
-  // const { currentInstitution } = sessionInformationStore(
+  // const { currentInstitution, currentAcademicPeriod } = sessionInformationStore(
   //   (state) => ({
   //     currentInstitution: state.currentInstitution,
+  //     currentAcademicPeriod:state.currentAcademicPeriod
   //   }),
   //   shallow
   // );
@@ -87,8 +91,22 @@ export const useFormTperiodo = () => {
   });
 
 
+  const columInfoPeriodo = async (key_table) => {
+    const query = new QueryBuilders('periodo_academico_config');
 
+    // const getdata = changeKey(dataSede, "base", "sede_infraestructura");
 
+    const getDataTable = await query.select(['*'])
+      .where('periodo_academico_config."FK_TPERIODO_ACADEMICO"', '=', key_table?.PK_TPERIODO_ACADEMICO)
+      .schema(parserTokenInformation?.dataSchema[0])
+      .columninfo();
+
+      const preData =  Object.values(getDataTable)
+      const filteredData = preData.filter((obj) => obj.column_name !== "FK_TPERIODO_ACADEMICO" && obj.column_name !== "AUTHOR_RC" && obj.column_name !== "CLIENTS_RC");
+
+    console.log(filteredData, "COLUMN_INFO")
+    setColumnFieldPeriodo(filteredData)
+  }
 
 
 
@@ -106,15 +124,13 @@ export const useFormTperiodo = () => {
       .get();
     console.log(getDataTable)
 
-    const preData = getDataTable[0]
+    const preData = getDataTable[0] ? getDataTable[0] : []
     setDataTperiodo(preData)
 
     setInitialValuePeriodo(
       {
         CALIFICAR_ACTIVIDADES: preData.CALIFICAR_ACTIVIDADES ? preData.CALIFICAR_ACTIVIDADES : null,
         CALIFICAR_CRITERIOS: preData.CALIFICAR_CRITERIOS ? preData.CALIFICAR_CRITERIOS : null,
-
-
         CALIFICAR_DESCRIPTORES: preData.CALIFICAR_DESCRIPTORES ? preData.CALIFICAR_DESCRIPTORES : null,
         COMPARTIR_DESCRIPTORES: preData.COMPARTIR_DESCRIPTORES ? preData.COMPARTIR_DESCRIPTORES : null,
         DATOS_ESTUDIANTE: preData.DATOS_ESTUDIANTE ? preData.DATOS_ESTUDIANTE : null,
@@ -148,7 +164,7 @@ export const useFormTperiodo = () => {
   };
 
 
-  const handleSubmitPeriodo = async (values: any) => {
+  const handleSubmitPeriodo = async (values?: any, record?: any) => {
     // console.log(values)
 
     const updateForm = new QueryBuilders('periodo_academico_config');
@@ -160,7 +176,7 @@ export const useFormTperiodo = () => {
     } else {
       // If values are not empty, perform the update operation
         await updateForm.update(values)
-        .where('"FK_TPERIODO_ACADEMICO"', '=', dataTperiodo.FK_TPERIODO_ACADEMICO)
+        .where('"FK_TPERIODO_ACADEMICO"', '=', record?.FK_TPERIODO_ACADEMICO)
         .schema(parserTokenInformation?.dataSchema[0])
         .save();
       // console.log(results);
@@ -179,5 +195,7 @@ export const useFormTperiodo = () => {
     dataTperiodo,
     handleSubmitPeriodo,
     contextHolder,
+    columInfoPeriodo, 
+    colunmFieldPeriodo,
   };
 };
