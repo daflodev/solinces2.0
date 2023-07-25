@@ -1,5 +1,6 @@
 import { UserManager } from "oidc-client";
 
+
 const currentUrl = new URL(window.location.href);
 // @ts-ignore
 const getDomaine = (hostName : any) => {
@@ -30,4 +31,3 @@ export const login = () => {
 export const logout = () => {
   return userManager.signoutRedirect();
 };
-
