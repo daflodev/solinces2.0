@@ -8,7 +8,7 @@ import InputAddNumber from "../inputaddnumber";
 import MultiSelect from "../selectedform";
 import "./formaddStyle.css";
 import { sessionInformationStore } from "../../../store/userInformationStore";
-import shallow from "zustand/shallow";
+import { shallow } from 'zustand/shallow';
 import { AvalibleSelecteManager } from "./avalibleSelectManager";
 
 const FormAdd = ({

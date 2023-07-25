@@ -1,6 +1,6 @@
 import { Cascader } from 'antd';
 
-import shallow from "zustand/shallow";
+import { shallow } from 'zustand/shallow'
 import { downDirectionVector } from "./menu/menu-icons";
 
 import { sessionInformationStore } from "../../../store/userInformationStore";

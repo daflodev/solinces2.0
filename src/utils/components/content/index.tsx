@@ -3,7 +3,7 @@ import HeaderComponent from "../../../config/shared/header";
 
 import { DrawerRender } from "./drawerRender";
 
-import shallow from "zustand/shallow";
+import { shallow } from 'zustand/shallow';
 import { mainDrawerStore } from "../../../store/mainDrawerStore";
 
 import './drawerRender.css'

@@ -29,6 +29,7 @@ const MultiSelect = ({
             onBlur={field.onBlur}
             placeholder={placeholder}
             filterOption={filterOption}
+            showSearch
             disabled={isBloqued}
             defaultValue={ defaultValue != null ? parseInt(defaultValue) : null}
         />

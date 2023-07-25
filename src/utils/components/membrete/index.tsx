@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import "./styles.css"
 import { ApiServicesMembrete } from "../../services/api/services";
 import { sessionInformationStore } from "../../../store/userInformationStore";
-import shallow from "zustand/shallow";
+import { shallow } from 'zustand/shallow';
 import { QueryBuilders } from "../../orm/queryBuilders";
 import { saveIcon } from "../../assets/icon/iconManager";
 

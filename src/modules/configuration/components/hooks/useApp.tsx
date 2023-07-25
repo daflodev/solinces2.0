@@ -299,8 +299,6 @@ export const UseSettigns = () => {
               );
         setItemsColumnsInformation(filterColumnsInformation);
 
-        console.log(getDataTable, 'data 2-----')
-
       // const getDataTable = await apiGetThunksAsync(getdata).then(
       //   (response: any) => {
       //     const { getdata, columnsInformation } = response;
@@ -331,9 +329,6 @@ export const UseSettigns = () => {
       setDataTable(getDataTable);
     }
   };
-
-
-
   
   const handleSelect = (item: any) => {
     setDataTable(null);
@@ -487,6 +482,7 @@ export const UseSettigns = () => {
 
   //funcion para eliminar datos de la tabla y envio de mensjae de exitoso
   const handleDelete = async (key: React.Key) => {
+
     const filteredData = data.filter((item) => item?.key == key);
 
     const whereUpdate = {

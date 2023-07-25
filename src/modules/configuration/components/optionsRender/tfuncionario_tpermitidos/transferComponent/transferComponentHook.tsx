@@ -2,7 +2,7 @@ import { useState } from "react";
 import { message } from "antd";
 
 import { sessionInformationStore } from "@/store/userInformationStore";
-import shallow from "zustand/shallow";
+import { shallow } from 'zustand/shallow';
 
 import { apiUpdatePermissionOptions } from '@/utils/services/api/thunks';
 

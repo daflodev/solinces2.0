@@ -2,8 +2,6 @@ import { QueryBuilders } from "../../../../utils/orm/queryBuilders";
 
 // @ts-ignore
 export async function QueryManager(table: string, currentRol: any, currentAcademicPeriod: any, currentCampus: any, currentInstitution: any, schema?: any){
-
-    console.log(table, 'query_manage')
     let answerQuery: any;
     const query = new QueryBuilders(table);
     const currentAcademicPeriodLocal = localStorage.getItem('currentAcademicYear')
@@ -117,7 +115,7 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                         .schema(schema)
                         .where('"FK_TPERIODO_ACADEMICO"', '=', currentAcademicPeriodLocal)
                         .limit(20)
-                        .orderBy(`"PK_T${table.toUpperCase()}"`)
+                        .orderBy(`"PK_T${table?.toUpperCase()}"`)
                         .get()
         
                     break;

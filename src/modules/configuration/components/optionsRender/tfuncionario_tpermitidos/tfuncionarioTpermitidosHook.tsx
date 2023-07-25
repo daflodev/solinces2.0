@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { apiGetUserRoles, apiGetAllRoles, apiUpdateUserRoles, apiGetPermissionOptions } from "@/utils/services/api/thunks";
 import { sessionInformationStore } from "@/store/userInformationStore";
-import shallow from "zustand/shallow";
+import { shallow } from 'zustand/shallow';
 
 import type { InputRef } from 'antd';
 

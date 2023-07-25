@@ -10,7 +10,7 @@ import { Card, Col, Popconfirm, Row, Space, Spin, Table } from "antd";
 
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
-import shallow from "zustand/shallow";
+import { shallow } from 'zustand/shallow'
 import { sessionInformationStore } from "../../store/userInformationStore";
 import {
   MinusOutlined,
@@ -34,6 +34,8 @@ import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimien
 
 import MembreteComponent from "../../utils/components/membrete";
 import { SideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHook";
+import { useEvaluationViewHook } from './components/hooks/useEvaluationViewHook';
+import { QualificationOptionComponent } from "./components/qualificationOption";
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
@@ -73,6 +75,11 @@ const Settings: React.FC = () => {
     handleCloseSecondaryTable,
     tableGridWidth,
   }: any = SideOptionsManagerHook();
+
+  const {
+    isOnEvaluationView,
+    setCurrentOptionName
+  }: any = useEvaluationViewHook()
 
   const { currentRol } = sessionInformationStore(
     (state) => ({
@@ -122,6 +129,11 @@ const Settings: React.FC = () => {
   };
 
   const renderContentManager = () => {
+
+    if(isOnEvaluationView){
+      return(<QualificationOptionComponent optionToRender={selectedItem?.nombre}/>)
+    }
+
     if (currentRol != "SUPER_ADMINISTRADOR" && selectedItem?.nombre == "TESTABLECIMIENTO") {
       return (
         <FormEstablecimiento
@@ -443,6 +455,7 @@ const Settings: React.FC = () => {
 
   useEffect(() => {
     handleCloseSecondaryTable();
+    setCurrentOptionName(selectedItem?.nombre);
   }, [selectedItem]);
 
   // console.log(selectedItem)
@@ -520,7 +533,7 @@ const Settings: React.FC = () => {
       </div>
     </>
   );
-
+  
   return (
     <>
       {contextHolder}
@@ -551,7 +564,10 @@ const Settings: React.FC = () => {
                             // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
                             <li
                               key={`${item.nombre}_${item.key}`}
-                              onClick={() => handleSelect(item)}
+                              onClick={() => {
+                                handleSelect(item)
+                                setCurrentOptionName(item?.nombre)
+                              }}
                             >
                               {item.nombre}
                             </li>

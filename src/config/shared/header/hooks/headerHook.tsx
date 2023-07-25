@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { CampusOptions, AcademicPeriodAndEvaluatePeriodOptions } from "../headerGInterfaces";
 
-import { shallow } from "zustand/shallow";
+import { shallow } from 'zustand/shallow'
 import { sessionInformationStore } from "../../../../store/userInformationStore";
 
 export const HeaderHook = () => {
@@ -25,7 +25,7 @@ export const HeaderHook = () => {
         }),
         shallow
     );
-
+    
     const { updateValue, addToArray, clearArray } = sessionInformationStore();
 
     const capitalizeWords = (str) => {

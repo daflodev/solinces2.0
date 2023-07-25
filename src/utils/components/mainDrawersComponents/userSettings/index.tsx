@@ -3,7 +3,7 @@ import { CloseOutlined } from '@ant-design/icons';
 
 import { useEffect } from 'react';
 import { sessionInformationStore } from '../../../../store/userInformationStore';
-import shallow from 'zustand/shallow';
+import { shallow } from 'zustand/shallow';
 import { logout } from "../../../../utils/services/helper/auth-helper";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { mainHook } from "./hooks/mainHook";
@@ -67,7 +67,6 @@ const UserSettings: React.FC = () => {
   };
 
     const ListaItems = () => {
-      console.log('roles: ', roles)
         return (
           <div style={{ padding: '10px', backgroundColor: 'var(--bg-color)' }}>
             <ul>

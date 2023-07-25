@@ -25,7 +25,7 @@ import 'moment/locale/es';
 import { EditableCellsHooks } from "../../../config/hooks/editableCellsHooks";
 import { EditableContext } from "../inputcells";
 import { sessionInformationStore } from "@/store/userInformationStore";
-import shallow from "zustand/shallow";
+import { shallow } from 'zustand/shallow';
 
 const columnConditionsExtractor = (allColumnInformation:any, columnName:any) => {
 
