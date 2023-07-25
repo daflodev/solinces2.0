@@ -48,7 +48,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
 
 
 
-    const formItems = Object.keys(props.initialValues).map((fieldName) => {
+    const formItems = Object.keys(props.initialValues)?.map((fieldName) => {
         // console.log(props.dataselect[fieldName])
         if (fieldName.startsWith('FK_TLV_')) {
             return (

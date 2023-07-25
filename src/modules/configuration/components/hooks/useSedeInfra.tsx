@@ -9,6 +9,7 @@ import {
 import { Form, message } from "antd";
 
 import _ from "lodash";
+import { QueryBuilders } from "@/utils/orm/queryBuilders";
 
 export const useSedeInfra = () => {
   // const tokenInformation = localStorage.getItem("user_token_information");
@@ -34,7 +35,6 @@ export const useSedeInfra = () => {
   const infraFKData = async () => {
     try {
       const response = await apiFKThunksAsyncSedeInfra(fkTlvCategoria);
-      console.log(response, "useInfra")
       const predata = response;
 
       setDataSelect(predata);
@@ -57,10 +57,56 @@ export const useSedeInfra = () => {
     // console.log(resultado, "resultado");
   });
 
+  const tokenInformation = localStorage.getItem("user_token_information");
+  const parserTokenInformation: any | null = tokenInformation
+    ? JSON.parse(tokenInformation)
+    : null;
+
+
+
+
+
+    const columInfoPeriodo = async (key_table) =>{
+      const query = new QueryBuilders('sede_infraestructura');
+
+      // const getdata = changeKey(dataSede, "base", "sede_infraestructura");
+  
+      const getDataTable = await query.select(['*'])
+        .where('sede_infraestructura."FK_TPERIODO_ACADEMICO"', '=', key_table?.PK_TPERIODO_ACADEMICO)
+        .schema(parserTokenInformation?.dataSchema[0])
+        .columninfo();
+        console.log(getDataTable)
+    }
+
+
+
+const newApiget = async (key_table)=>{
+  console.log(key_table)
+  const query = new QueryBuilders('sede_infraestructura')
+
+
+  const getDataTable = await query.select(['*'])
+    .where('sede_infraestructura."FK_TSEDE"', '=', key_table?.PK_TSEDE)
+    .schema(parserTokenInformation?.dataSchema[0])
+    .get();
+  console.log(getDataTable)
+
+  const preData = getDataTable
+  console.log(preData)
+}
+
+
+
   const infraSedeGetData = async (record) => {
     // const getPK = record["PK_TSEDE"]
+
+   
+    
+
+
     await apiGetThunksAsyncSedeInfra(record.PK_TSEDE)
       .then((response) => {
+        console.log(response)
         if (response) {
           // console.log(response.data[0], "data")
           const preData = response;
@@ -136,9 +182,7 @@ export const useSedeInfra = () => {
 
     for (let propiedad in initialValues) {
       if (initialValues.hasOwnProperty(propiedad)) {
-        console.log(
-          `La propiedad ${propiedad} tiene el valor ${initialValues[propiedad]}`
-        );
+        // console.log(`La propiedad ${propiedad} tiene el valor ${initialValues[propiedad]}`);
         if (initialValues[propiedad] != null) {
           statusValue = true;
           break;
@@ -195,5 +239,7 @@ export const useSedeInfra = () => {
     handleFormSubmit,
     contextHolderInfra,
     setDataSedeInfra,
+    newApiget,
+    columInfoPeriodo,
   };
 };

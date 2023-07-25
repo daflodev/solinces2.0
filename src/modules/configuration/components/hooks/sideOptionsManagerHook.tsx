@@ -55,6 +55,8 @@ export const SideOptionsManagerHook = () => {
     handleFormSubmit,
     contextHolderInfra,
     setDataSedeInfra,
+    newApiget,
+    columInfoPeriodo,
   } = useSedeInfra();
 
   const {
@@ -133,6 +135,8 @@ export const SideOptionsManagerHook = () => {
       case "useSedeInfra":
         setTableGridWidth(12);
         infraSedeGetData(record);
+        newApiget(record)
+        columInfoPeriodo(record)
 
         break;
 
@@ -289,7 +293,7 @@ export const SideOptionsManagerHook = () => {
       setSecondaryTableComponentRender(useSedePerifericos);
     }
 
-    if (dataTperiodo) {
+    if (dataTperiodo && dataTperiodo == null) {
       periodoFKData();
       const tPerido = (
         <>

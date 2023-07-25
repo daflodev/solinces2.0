@@ -123,7 +123,6 @@ export const apiPostThunksAsyncSedeJornada= async (data: any) => {
 export const apiFKThunksAsyncSedeInfra = async (data: any) => {
 const resp = await ApiSedeInfraFK(data)
   .then((response) => {
-    console.log(response)
     const getdata = response.data.data;
     return getdata;
   })
@@ -165,7 +164,6 @@ return resp;
 export const apiGetThunksAsyncSedeInfra = async (data: any) => {
 const resp = await ApiSedeInfra(data)
   .then((response) => {
-    console.log(response, "infra")
     const getdata = response.data.data[0];
     return getdata;
   })
@@ -310,7 +308,7 @@ export const apiGetThunksMenuItemsOptionsAsync = async (data: any) => {
 export const apiPostPasswordChange = async (data: any) => {
   const resp = await ApiServicesPasswordChange(data)
     .then((response) => {
-      console.log('respuesta cambio contraseña: ', response)
+      // console.log('respuesta cambio contraseña: ', response)
     })
     .catch((error) => {
       return error.response;

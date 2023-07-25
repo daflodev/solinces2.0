@@ -11,8 +11,8 @@ export const useFormTperiodo = () => {
   // const [itemsColumnsInformation, setItemsColumnsInformation] = useState([]);
 
   // const [inputFilter, setInputFilter] = useState({});
-  const [initialValuesPeriodo, setInitialValuePeriodo] = useState<any>({});
-  const [dataTperiodo, setDataTperiodo] = useState<any>({});
+  const [initialValuesPeriodo, setInitialValuePeriodo] = useState<any | null>(null);
+  const [dataTperiodo, setDataTperiodo] = useState<any>(null);
   const [dataSeelectPeriodo, setDataSelect] = useState<any>();
 
   function changeKey(
@@ -63,7 +63,7 @@ export const useFormTperiodo = () => {
   const periodoFKData = async () => {
     try {
       const response = await apiFKThunksAsyncSedeInfra(fkTlvCategoria);
-      console.log(response, "useInfra")
+      // console.log(response, "usePeriodo")
       const predata = response;
 
       setDataSelect(predata);
@@ -149,21 +149,22 @@ export const useFormTperiodo = () => {
 
 
   const handleSubmitPeriodo = async (values: any) => {
-    console.log(values)
+    // console.log(values)
+
     const updateForm = new QueryBuilders('periodo_academico_config');
     if (isValuesEmpty(values)) {
 
-      const results = await updateForm.create(values).schema(parserTokenInformation?.dataSchema[0]).save();
-      console.log(results);
-      setInitialValuePeriodo(results);
+      await updateForm.create(values).schema(parserTokenInformation?.dataSchema[0]).save();
+      // console.log(results);
+      setInitialValuePeriodo(values);
     } else {
       // If values are not empty, perform the update operation
-      const results = await updateForm.update(values)
+        await updateForm.update(values)
         .where('"FK_TPERIODO_ACADEMICO"', '=', dataTperiodo.FK_TPERIODO_ACADEMICO)
         .schema(parserTokenInformation?.dataSchema[0])
         .save();
-      console.log(results);
-      setInitialValuePeriodo(results);
+      // console.log(results);
+      setInitialValuePeriodo(values);
     }
   };
 

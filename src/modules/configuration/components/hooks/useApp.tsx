@@ -297,7 +297,7 @@ export const UseSettigns = () => {
               );
         setItemsColumnsInformation(filterColumnsInformation);
 
-        console.log(getDataTable, 'data 2-----')
+        // console.log(getDataTable, 'data 2-----')
 
       // const getDataTable = await apiGetThunksAsync(getdata).then(
       //   (response: any) => {

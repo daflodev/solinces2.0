@@ -38,7 +38,7 @@ export const UseSelectCalification = () => {
 
   const onChange = (value: (string | number)[], selectedOptions: any) => {
     if(selectedOptions.length == 3){
-      console.log(selectedOptions[2].value,'currentGroup', value)
+      // console.log(selectedOptions[2].value,'currentGroup', value)
       updateValueCalification({ element: 'currentGroup', value: selectedOptions[2].value})
     }
   };
@@ -77,7 +77,7 @@ export const UseSelectCalification = () => {
       await getGrades(targetOption.value)
       .then((data) => {
           updateValueCalification({ element: 'currentAsignature', value: targetOption.value})
-          console.log(targetOption.value,'currentAsignature')
+          // console.log(targetOption.value,'currentAsignature')
 
           targetOption.children = data
           setOptions([...options]);
@@ -85,7 +85,7 @@ export const UseSelectCalification = () => {
     }else if(targetOption.position == '2'){
       await getGroup(targetOption.value)
       .then((data) => {
-          console.log(targetOption.value,'currentGrade')
+          // console.log(targetOption.value,'currentGrade')
           updateValueCalification({ element: 'currentGrade', value: targetOption.value})
           targetOption.children = data
           setOptions([...options]);
