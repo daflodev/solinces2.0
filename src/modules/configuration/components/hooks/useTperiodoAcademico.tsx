@@ -64,12 +64,43 @@ export const useFormTperiodo = () => {
     "'MODO_REDONDEAR'",
   ];
 
+
+
+const apiGetFK = async (nameTable: any) => {
+    // const prevData = {
+    //   base: "",
+    //   schema: parserTokenInformation?.dataSchema[0],
+    // };
+
+    // const getdata = changeKey(prevData, "base", nameTable);
+
+    // const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
+    //   //@ts-ignore
+    //   const { getdata } = response;
+
+    //   const res = getdata;
+    //   return res;
+    // });
+
+    
+    const query = new QueryBuilders(nameTable);
+        const getDataTable = await query
+        .select('*')
+        .schema(parserTokenInformation?.dataSchema[0])
+        // .limit(10)
+        .get()
+        console.log(getDataTable)
+    return getDataTable;
+  };
+
+
+const getFk = apiGetFK("FORMATO_CALIFICACION_DEF".toLocaleLowerCase())
   const periodoFKData = async () => {
     try {
       const response = await apiFKThunksAsyncSedeInfra(fkTlvCategoria);
       // console.log(response, "usePeriodo")
       const predata = response;
-console.log(predata, "consulta")
+// console.log(predata, "consulta")
       setDataSelectPeriodo(predata);
 
       return predata;
@@ -89,7 +120,7 @@ console.log(predata, "consulta")
     resultadoPeriodo[`FK_TLV_${categoria}`] = productos;
     // console.log(resultadoPeriodo, "resultadoPeriodo");
   });
-console.log(resultadoPeriodo)
+// console.log(resultadoPeriodo)
 
   const columInfoPeriodo = async (key_table) => {
     const query = new QueryBuilders('periodo_academico_config');
@@ -172,11 +203,11 @@ console.log(resultadoPeriodo)
 
       await updateForm.create(values).schema(parserTokenInformation?.dataSchema[0]).save();
       // console.log(results);
-      setInitialValuePeriodo(values);
+      setInitialValuePeriodo(null);
     } else {
       // If values are not empty, perform the update operation
         await updateForm.update(values)
-        .where('"FK_TPERIODO_ACADEMICO"', '=', record?.FK_TPERIODO_ACADEMICO)
+        .where('"FK_TPERIODO_ACADEMICO"', '=', record)
         .schema(parserTokenInformation?.dataSchema[0])
         .save();
       // console.log(results);

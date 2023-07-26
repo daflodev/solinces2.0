@@ -63,15 +63,17 @@ export const SideOptionsManagerHook = () => {
   const {
     // form,
     dataSedeTecnology,
+    dataSeelectTec,
     sedeTecnologyGet,
     initialValuesTec,
     setDataSedeTecnology,
     resultadoInformatifca,
     TecnologyFKData,
-    handleFormSubmitTec,
+    // handleFormSubmitTec,
     contextHolderTecnology,
     columInfoPeriodoTecnology,
     colunmFieldTecnology,
+    onSubmitTecnology,
   } = useSedeTecnology();
 
   const {
@@ -151,7 +153,7 @@ export const SideOptionsManagerHook = () => {
         infraFKData();
         columnInfoINFRA(record);
         setOptionTableSelected("useSedeInfra");
-
+        setCurrentRowInformation(record);
         break;
 
       case "useSedeTecnology":
@@ -160,6 +162,7 @@ export const SideOptionsManagerHook = () => {
         TecnologyFKData();
         columInfoPeriodoTecnology(record);
         setOptionTableSelected("useSedeTecnology");
+        setCurrentRowInformation(record)
         break;
 
       case "useSedePerifericos":
@@ -168,11 +171,13 @@ export const SideOptionsManagerHook = () => {
         break;
       case "useTperiodo":
         setTableGridWidth(12);
-        periodoFKData();
+       
         apiGet(record);
         columInfoPeriodo(record);
         setOptionTableSelected("useTperiodo");
-        setCurrentRowInformation(record.FK_TPERIODO_ACADEMICO);
+        setCurrentRowInformation(record);
+        periodoFKData()
+ 
 
         break;
       case "useFuncionarioPermission":
@@ -244,9 +249,9 @@ export const SideOptionsManagerHook = () => {
     if (
       dataSedeInfra &&
       optionTableSelected === "useSedeInfra" &&
-      colunmField
+      colunmField && dataSeelect
     ) {
-      infraFKData();
+     
       const useSedeInfraComponente = (
         <>
           {contextHolderInfra}
@@ -263,6 +268,7 @@ export const SideOptionsManagerHook = () => {
                 handleFormSubmit={handleFormSubmit}
                 onClick={handleCloseSecondaryTable}
                 columnInfo={colunmField}
+                record={currentRowInformation.PK_TSEDE}
               />
             </Card>
           </Col>
@@ -274,9 +280,9 @@ export const SideOptionsManagerHook = () => {
     if (
       dataSedeTecnology &&
       optionTableSelected === "useSedeTecnology" &&
-      colunmFieldTecnology
+      colunmFieldTecnology && dataSeelectTec
     ) {
-      TecnologyFKData();
+      
       const useSedeTecnologyComponente = (
         <>
           {contextHolderTecnology}
@@ -290,9 +296,10 @@ export const SideOptionsManagerHook = () => {
               <SedeInfraEstructuraFisica
                 initialValues={initialValuesTec}
                 dataselect={resultadoInformatifca}
-                handleFormSubmit={handleFormSubmitTec}
+                handleFormSubmit={onSubmitTecnology}
                 onClick={handleCloseSecondaryTable}
                 columnInfo={colunmFieldTecnology}
+                record={currentRowInformation.PK_TSEDE}
               />
             </Card>
           </Col>
@@ -324,16 +331,16 @@ export const SideOptionsManagerHook = () => {
       );
       setSecondaryTableComponentRender(useSedePerifericos);
     }
-    console.log(dataTperiodo);
-    console.log(colunmFieldPeriodo);
-    console.log(resultadoPeriodo);
-    console.log(dataSeelectPeriodo);
+    // console.log(dataTperiodo);
+    // console.log(colunmFieldPeriodo);
+    // console.log(resultadoPeriodo);
+    // console.log(dataSeelectPeriodo);
     if (
       dataTperiodo &&
       optionTableSelected === "useTperiodo" &&
       colunmFieldPeriodo
     ) {
-      periodoFKData();
+      
       const tPerido = (
         <>
           <Col md={12}>
@@ -348,7 +355,7 @@ export const SideOptionsManagerHook = () => {
                 onClick={handleCloseSecondaryTable}
                 handleFormSubmit={handleSubmitPeriodo}
                 columnInfo={colunmFieldPeriodo}
-                record={currentRowInformation}
+                record={currentRowInformation.FK_TPERIODO_ACADEMICO}
               />
             </Card>
           </Col>
@@ -389,11 +396,14 @@ export const SideOptionsManagerHook = () => {
     dataSedeNivel,
     rollOptions,
     dataSedeInfra,
+    dataSeelect,
     dataSedeTecnology,
     colunmFieldTecnology,
+    dataSeelectTec,
     dataSedePerifericos,
     dataTperiodo,
     colunmFieldPeriodo,
+    dataSeelectPeriodo,
   ]);
 
   return {

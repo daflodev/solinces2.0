@@ -215,21 +215,62 @@ export const useSedeInfra = () => {
   //       console.log("catch response: ", error);
   //     });
   // };
-  const handleFormSubmit = async (values) => {
- 
+  const handleFormSubmit = async (values: any, cerrarTable: any, record: any) => {
     const updateForm = new QueryBuilders('sede_infraestructura');
     if (isValuesEmpty(values)) {
 
       await updateForm.create(values).schema(parserTokenInformation?.dataSchema[0]).save();
       // console.log(results);
+      setTimeout(() => {
+        cerrarTable();
+    }, 2000);
       
     } else {
       // If values are not empty, perform the update operation
         await updateForm.update(values)
-        .where('"FK_TSEDE"', '=', dataSedeInfra.FK_TSEDE)
+        .where('"FK_TSEDE"', '=', record)
         .schema(parserTokenInformation?.dataSchema[0])
-        .save();
-      // console.log(results);
+        .save()
+        .then((response) => {
+          console.log(response)
+          let isSuccess = false;
+
+          for (const key in response) {
+            if (Object.hasOwnProperty.call(response, key)) {
+              const value = response[key];
+              console.log(`${key}: ${value}`);
+
+              if (key === 'message' && value === 'Success') {
+                isSuccess = true;
+                break;
+              }
+            }
+          }
+
+          if (isSuccess) {
+            console.log('La solicitud fue exitosa.');
+            messageApi.open({
+              type: "success",
+              content: "se ha modificado la infraestructura fisica a la sede",
+            });
+
+            setTimeout(() => {
+              cerrarTable();
+            }, 2000);
+          } else {
+            console.log('La solicitud no fue exitosa.');
+            messageApi.open({
+              type: "error",
+              content:
+                "no se pudo hacer editar la infraestructura  fisica de la sede",
+            });
+            setTimeout(() => {
+              cerrarTable();
+            }, 2000);
+          }
+
+
+        })
     }
 
       setInitialValues(values);
