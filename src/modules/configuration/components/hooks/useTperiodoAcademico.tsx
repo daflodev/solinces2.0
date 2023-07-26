@@ -5,8 +5,8 @@ import { useState } from "react";
 import { apiFKThunksAsyncSedeInfra, } from "@/utils/services/api/thunks";
 import { QueryBuilders } from "@/utils/orm/queryBuilders";
 import _ from "lodash";
-import { sessionInformationStore } from "@/store/userInformationStore";
-import shallow from "zustand/shallow";
+// import { sessionInformationStore } from "@/store/userInformationStore";
+// import shallow from "zustand/shallow";
 export const useFormTperiodo = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
@@ -15,7 +15,7 @@ export const useFormTperiodo = () => {
   // const [inputFilter, setInputFilter] = useState({});
   const [initialValuesPeriodo, setInitialValuePeriodo] = useState<any | null>(null);
   const [dataTperiodo, setDataTperiodo] = useState<any>(null);
-  const [dataSeelectPeriodo, setDataSelect] = useState<any>();
+  const [dataSeelectPeriodo, setDataSelectPeriodo] = useState<any>();
   const [colunmFieldPeriodo, setColumnFieldPeriodo] = useState<any>([]);
 
   function changeKey(
@@ -69,8 +69,8 @@ export const useFormTperiodo = () => {
       const response = await apiFKThunksAsyncSedeInfra(fkTlvCategoria);
       // console.log(response, "usePeriodo")
       const predata = response;
-
-      setDataSelect(predata);
+console.log(predata, "consulta")
+      setDataSelectPeriodo(predata);
 
       return predata;
     } catch (error) {
@@ -89,7 +89,7 @@ export const useFormTperiodo = () => {
     resultadoPeriodo[`FK_TLV_${categoria}`] = productos;
     // console.log(resultadoPeriodo, "resultadoPeriodo");
   });
-
+console.log(resultadoPeriodo)
 
   const columInfoPeriodo = async (key_table) => {
     const query = new QueryBuilders('periodo_academico_config');
@@ -164,7 +164,7 @@ export const useFormTperiodo = () => {
   };
 
 
-  const handleSubmitPeriodo = async (values?: any, record?: any) => {
+  const handleSubmitPeriodo = async (values: any, record: any) => {
     // console.log(values)
 
     const updateForm = new QueryBuilders('periodo_academico_config');

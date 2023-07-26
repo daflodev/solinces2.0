@@ -47,11 +47,12 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
         props.handleFormSubmit?.(values, props.onClick, props.record);
     };
 
-
+console.log(props.dataselect)
 
     const formItems = props.columnInfo?.map((fieldName) => {
         // console.log(props.dataselect[fieldName])
         const { column_name } = fieldName
+        // console.log(column_name)
         if (column_name.startsWith('FK_TLV_')) {
             return (
                 <div className="form-container">
@@ -65,6 +66,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                                     onBlur={() => handleFieldFocus(null)}
                                 >
                                     {props.dataselect[column_name]?.map((option) => (
+                                        
                                         <Select.Option key={option.PK_TLISTA_VALOR} value={option.PK_TLISTA_VALOR}>
                                             {option.NOMBRE}
                                         </Select.Option>
