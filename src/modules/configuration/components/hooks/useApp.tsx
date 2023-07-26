@@ -713,6 +713,43 @@ export const UseSettigns = () => {
     return getDataTable;
   };
 
+  const apiGetFKTUsuario = async () => {
+
+    const tokenInformation = localStorage.getItem("user_token_information");
+    const parserTokenInformation: any | null = tokenInformation
+      ? JSON.parse(tokenInformation)
+      : null;
+
+    const prevData = {
+      sesion: "",
+      schema: parserTokenInformation?.dataSchema[0],
+      concat: [
+        [
+          "usuario.'PRIMER_NOMBRE'",
+          "usuario.'SEGUNDO_NOMBRE'",
+          "usuario.'PRIMER_APELLIDO'",
+          "usuario.'SEGUNDO_APELLIDO'",
+        ],
+        ["AS 'NOMBRE'"],
+      ],
+      join: [
+        {
+          table: "usuario",
+          columns: "",
+          on: ["PK_TUSUARIO", "sesion.FK_TUSUARIO"],
+        }
+      ],
+    };
+
+    const getDataTable = await apiGetThunksAsync(prevData).then((response) => {
+      //@ts-ignore
+      const { getdata } = response;
+      const res = getdata;
+      return res;
+    });
+    return getDataTable;
+  };
+
   //funcion que va capturando los caracteres uno a uno en el input filter
   const handleFilterChange = ({ target }) => {
     const { name, value } = target;
@@ -880,7 +917,30 @@ export const UseSettigns = () => {
 
             console.log(` error en ${name}: `, e);
           });
-      } else {
+      } 
+
+      else if (tableName.startsWith("USUARIO")) {
+        apiGetFKTUsuario()
+          .then((response) => {
+            const res = response;
+
+            answer = {
+              ...answer,
+              [name]: res,
+            };
+          })
+          .then(() => {
+            setFkGroup({
+              ...fkGroup,
+              ...answer,
+            });
+          })
+          .catch((e) => {
+            console.log(` error en ${name}: `, e);
+          });
+      }
+
+      else {
         if (tableName.includes("_PADRE")) {
           tableName = tableName.replace("_PADRE", "");
         }
