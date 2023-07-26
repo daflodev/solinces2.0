@@ -9,8 +9,6 @@ interface DataType {
 
 export const TabletAsistencia = () => {
 
-    
-      
       const columns: ColumnsType<DataType> = [
         {
           title: 'Name',
