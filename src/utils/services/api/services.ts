@@ -16,9 +16,6 @@ export const ApiSedeInfra = async (data: any) => {
   return resp;
 };
 
-
-
-
 export const ApiSedeInfraPost = async (data) => {
   const url = `https://apisolinces.colombiaevaluadora.co/infrastructure_headquarters/`;
 
@@ -39,7 +36,6 @@ export const ApiSedeAsyncInfraPut = async (FK_TSEDE, data) => {
     });
   return resp;
 };
-
 
 export const ApiSedeInfraFK = async (data) => {
   const url = `https://apisolinces.colombiaevaluadora.co/value_list/`;
@@ -73,7 +69,6 @@ export const ApiSedePeripherlsPost = async (data) => {
   return resp;
 };
 
-
 export const ApiSedeAsyncPeripheralsPut = async (FK_TSEDE, data) => {
   const url = `https://apisolinces.colombiaevaluadora.co/mid_peripherals_headquarters/${FK_TSEDE}`;
 
@@ -85,7 +80,6 @@ export const ApiSedeAsyncPeripheralsPut = async (FK_TSEDE, data) => {
   return resp;
 };
 
-
 export const ApiSedeTecnology = async (data: any) => {
   const url = `https://apisolinces.colombiaevaluadora.co/computing_headquarters/${data}`;
 
@@ -94,7 +88,6 @@ export const ApiSedeTecnology = async (data: any) => {
   });
   return resp;
 };
-
 
 // mid_peripherals_headquarters
 
@@ -108,6 +101,7 @@ export const ApiSedeTecnologyPost = async (data) => {
     });
   return resp;
 };
+
 export const ApiSedeAsyncTecnologyPut = async (FK_TSEDE, data) => {
   const url = `https://apisolinces.colombiaevaluadora.co/computing_headquarters/${FK_TSEDE}`;
 
@@ -126,6 +120,7 @@ export const ApiSedeJornada = async (data: any) => {
   });
   return resp;
 };
+
 export const ApiSedeJornadaPost = async (data) => {
   const url = `https://apisolinces.colombiaevaluadora.co/journy_sede/`;
   const resp = await axios
@@ -135,6 +130,7 @@ export const ApiSedeJornadaPost = async (data) => {
     });
   return resp;
 };
+
 export const ApiSedeNivel = async (data: any) => {
   const url = `https://apisolinces.colombiaevaluadora.co/level_sede/${data}`;
   const resp = await axios.get(url).then((response) => {
@@ -142,6 +138,7 @@ export const ApiSedeNivel = async (data: any) => {
   });
   return resp;
 };
+
 export const ApiSedeNivelPost = async (data) => {
   const url = `https://apisolinces.colombiaevaluadora.co/level_sede/`;
   const resp = await axios
@@ -151,6 +148,7 @@ export const ApiSedeNivelPost = async (data) => {
     });
   return resp;
 };
+
 export const ApiServicesThunksMainMenu = async () => {
   const url = "https://apisolinces.colombiaevaluadora.co/menu/";
   const resp = await axios.get(url).then((response) => {
@@ -158,6 +156,7 @@ export const ApiServicesThunksMainMenu = async () => {
   });
   return resp;
 };
+
 export const ApiServicesThunksMainMenuOptionsItem = async (data: any) => {
   const url = "https://apisolinces.colombiaevaluadora.co/menu_kids/";
   const resp = await axios.post(url, data).then((response) => {

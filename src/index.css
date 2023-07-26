@@ -79,6 +79,9 @@
     --backgorund-color-list-activate: var(--mid-gray);
   
     --input-select-activate: var(--dark-black-blue);
+
+    /* -> activity section */
+    --font-color-activity-section: var(--mid-blue);
   }
   
   .dark-theme {
@@ -102,6 +105,9 @@
     --bg-options-header-filters: var(--dark-blue-gray);
     --menu-box-shadow:  0 15px 15px rgba(0, 0, 0, 0.08);
     --background-rows-hover: var(--mid-blue);
+
+      /* -> activity section */
+      --font-color-activity-section: var(--dark-light-blue);
   }
 
     .box.shadow.card.dark {

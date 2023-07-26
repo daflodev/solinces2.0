@@ -2,7 +2,7 @@ import { message } from "antd";
 import { useState } from "react";
 
 import { sessionInformationStore } from "@/store/userInformationStore";
-import { shallow } from "zustand/shallow";
+import { shallow } from 'zustand/shallow';
 
 import { apiUpdatePermissionOptions } from '@/utils/services/api/thunks';
 
@@ -323,7 +323,7 @@ export const TransferComponentHook  = (fullData, noPermissionFullData, valueCamp
                     messageApi.open({
                         type: 'success',
                         content: 'Permisos actualizados correctamente',
-                      });
+                    });
                 }
             )
             

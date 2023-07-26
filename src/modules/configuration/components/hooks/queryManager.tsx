@@ -14,10 +14,9 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
         columnInfoData = await querycolumn
                         .schema(schema)
                         .columninfo()
-    }
-    
+    }    
 
-    if(currentRol == 'RECTOR'){
+    if(currentRol != "SUPER_ADMINISTRADOR"){
         switch (table) {
             case 'estudiante':
 
@@ -120,7 +119,7 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                         .schema(schema)
                         .where('"FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
                         .limit(20)
-                        .orderBy(`"PK_T${table.toUpperCase()}"`)
+                        .orderBy(`"PK_T${table?.toUpperCase()}"`)
                         .get()
         
                     break;

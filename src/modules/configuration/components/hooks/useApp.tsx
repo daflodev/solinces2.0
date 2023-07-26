@@ -179,7 +179,7 @@ export const UseSettigns = () => {
   const apiGet = async (nameTable: any, setDataTable: any) => {
     setDataTable(null);
     const tableDateBase = select_type(nameTable);
-
+    
     if (currentRol == "RECTOR" && nameTable == "sede") {
 
       //  TEMPORAL
@@ -212,8 +212,6 @@ export const UseSettigns = () => {
               tableDateBase.table
               );
         setItemsColumnsInformation(filterColumnsInformation);
-      console.log(currentInstitution?.value, 'currentInstitution');
-     
 
       // const dataSede = {
       //   base: tableDateBase.table,
@@ -297,8 +295,6 @@ export const UseSettigns = () => {
               );
         setItemsColumnsInformation(filterColumnsInformation);
 
-        console.log(getDataTable, 'data 2-----')
-
       // const getDataTable = await apiGetThunksAsync(getdata).then(
       //   (response: any) => {
       //     const { getdata, columnsInformation } = response;
@@ -330,15 +326,14 @@ export const UseSettigns = () => {
     }
   };
 
+  const handleSelect = (item: any, isGeneralConsultRequired) => {
 
-
-  
-  const handleSelect = (item: any) => {
     setDataTable(null);
     setSelectedItem(item);
-    apiGet(item.key_table, setDataTable);
+    if(isGeneralConsultRequired == false){
+      apiGet(item.key_table, setDataTable);
+    }
     handleOcultarForm();
-    
 
     // cambio de color de item de la lista
     const items = document.querySelectorAll("#mi-lista li");
@@ -1020,7 +1015,7 @@ export const UseSettigns = () => {
           if (formatedOptions && formatedOptions.length > 0) {
             ListNameTables(formatedOptions);
 
-            handleSelect(formatedOptions[0]);
+            handleSelect(formatedOptions[0], false);
           } else {
             console.log("por algun motivo ninguna opcion es visible");
             navigate("/no_permission");

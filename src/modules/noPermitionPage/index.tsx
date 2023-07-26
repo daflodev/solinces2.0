@@ -4,8 +4,6 @@ import { Card, Row, Col } from "antd";
 import { withPrincipal } from "../../utils/components/content";
 
 import "../../utils/assets/noPermitionPage/noPermitionPage.css";
-// import { SelectCalificationComponent } from "@/utils/components/selectCalification";
-
 
 const mainImageNoPermissionPage = (
     <svg width="172" height="149" viewBox="0 0 172 149" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -34,90 +32,15 @@ const mainImageNoPermissionPage = (
 
 
 const NoPermissionPage: React.FC = () => {
-
-    const getData = async () => {
-        
-
-        // column
-        // const query = new QueryBuilders('sede');
-        // const results = await query
-        // .schema('ACADEMICO_COL0')
-        // .columninfo()
-
-        // select
-        // const query = new QueryBuilders('sede');
-        // const results = await query
-        // .select('*')
-        // .schema('ACADEMICO_COL0')
-        // .get()
-
-        // select con where
-        // const query = new QueryBuilders('ano_lectivo');
-        // const results = await query
-        // .select('*')
-        // .where('"NOMBRE"', '=', '2014')
-        // .where('"FK_TESTABLECIMIENTO"', '=', 745)
-        // .schema('ACADEMICO_COL0')
-        // .get()
-
-        // // select con join
-        // const query = new QueryBuilders('ano_lectivo');
-        // const results = await query
-        // .select('*')
-        // .join('establecimiento', '"PK_TESTABLECIMIENTO"', 'ano_lectivo."FK_TESTABLECIMIENTO"')
-        // // .where('ano_lectivo."FK_TESTABLECIMIENTO"', '=', 748)
-        // .orderBy('ano_lectivo."PK_TANO_LECTIVO"', 'asc')
-        // .limit(10)
-        // .schema('ACADEMICO_COL0')
-        // .get();
-
-        // console.log(results, 'data')
-
-        // // create    
-        // const query = new QueryBuilders('jornada');
-        // const results = await query
-        //  .create({
-        //     codigo: 'daniel',
-        //     nombre: 'daniel',
-        //     AUTHOR_RC: 'probando daniel'
-        // })
-        // .schema('ACADEMICO_COL0')
-        // .save()
-
-        // // update    
-        // const query = new QueryBuilders('jornada');
-        // const results = await query
-        //  .update({
-        //     nombre: 'daniel 111',
-        // })
-        // .where('"PK_TJORNADA"', '=', 14)
-        // .schema('ACADEMICO_COL0')
-        // .save()
-
-        // // delete    
-        // const query = new QueryBuilders('jornada');
-        // const results = await query
-        // .where('"PK_TJORNADA"', '=', 14)
-        // .schema('ACADEMICO_COL0')
-        // .delete()
-     
-    }
-
-    useEffect(() => {
-        getData()
-    }, []);
-
-   
-    
     return(
         <div>
             <Card className="card-container">
                 <div className="no-permission-sub-container">
-                    <Row  >
-                        <Col span={24} offset={10} style={{ marginTop: '20px' }}>
+                    <Row>
+                        <Col span={24} offset={10}>
                             {mainImageNoPermissionPage}
                         </Col>
-                        <Col span={24} offset={6} style={{ width: '550px', height: '150px' }}>
+                        <Col span={12} offset={6}>
                             <p className="no-permission-text">
                                 Lo sentimos, pero no está autorizado para acceder a esta página.
                             </p>

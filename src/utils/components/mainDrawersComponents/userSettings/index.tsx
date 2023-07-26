@@ -3,7 +3,7 @@ import { Col, Popover, Row, Spin } from 'antd';
 
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useEffect } from 'react';
-import shallow from 'zustand/shallow';
+import { shallow } from 'zustand/shallow';
 import { sessionInformationStore } from '../../../../store/userInformationStore';
 import { endSesionClose, logout } from "../../../../utils/services/helper/auth-helper";
 import { mainHook } from "./hooks/mainHook";
@@ -71,7 +71,6 @@ const UserSettings: React.FC = () => {
   };
 
     const ListaItems = () => {
-      // console.log('roles: ', roles)
         return (
           <div style={{ padding: '10px', backgroundColor: 'var(--bg-color)' }}>
             <ul>
