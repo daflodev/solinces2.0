@@ -7,26 +7,18 @@ export const RecursosCompartidos = () => {
 
     const dataSource = [
         {
-          key: '1',
-          name: (
-            <Space size="middle">
-                <FilePdfOutlined />
-                lorem lorem
-            </Space>
-            ),
-          age: 'lorem lorem',
-          address: '10/01/2023',
+          id: '1',
+          name: 'lorem lorem',
+          description: 'lorem lorem',
+          date: '10/01/2023',
+          type: 'pdf'
         },
         {
-          key: '2',
-          name: (
-            <Space size="middle">
-                <FilePdfOutlined />
-                lorem lorem
-            </Space>
-            ),
-          age: 'lorem lorem',
-          address: '10/01/2023',
+          id: '2',
+          name: 'lorem lorem',
+          description: 'lorem lorem',
+          date: '10/01/2023',
+          type: 'word'
         },
       ];
       
@@ -38,13 +30,13 @@ export const RecursosCompartidos = () => {
         },
         {
           title: 'Descripcion',
-          dataIndex: 'age',
-          key: 'age',
+          dataIndex: 'description',
+          key: 'description',
         },
         {
           title: 'Fecha de publicacion',
-          dataIndex: 'address',
-          key: 'address',
+          dataIndex: 'date',
+          key: 'date',
         },
       ];
       
