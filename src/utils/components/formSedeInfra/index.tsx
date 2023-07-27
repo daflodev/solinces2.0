@@ -10,7 +10,6 @@ interface infraProps {
     onClick?: () => void;
     columnInfo?:any;
     record?: any;
-    dataFKT?:any;
 }
 
 const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
@@ -44,13 +43,14 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
         props.handleFormSubmit?.(values, props.onClick, props.record);
     };
 
-console.log(props.dataselect)
+// console.log(props.dataselect)
+// console.log(props.dataFKT)
 
     const formItems = props.columnInfo?.map((fieldName) => {
         // console.log(props.dataselect[fieldName])
         const { column_name, data_type, longitud, numeric_precision } = fieldName
         // console.log(column_name)
-        if (column_name.startsWith('FK_TLV_')) {
+        if (column_name.startsWith('FK_T')) {
             return (
                 <div className="form-container">
                     {/* Primera columna */}
@@ -149,16 +149,16 @@ console.log(props.dataselect)
         //         </div>
         //     )
 
-        // } 
-                            }else if (data_type === "integer" || data_type=== 'numeric'){
+        // }
+            }else if (data_type === "integer" || data_type=== 'numeric'){
             return (
                 <div className="form-container">
                     {/* Primera columna */}
                     <div className="form-column">
                         <div className="form-field">
                             <Form.Item key={column_name} name={column_name}>
-                                <InputNumber onFocus={() => handleFieldFocus(column_name)}
-                                    onBlur={() => handleFieldFocus(null)} autoComplete="off" />
+                                <Input onFocus={() => handleFieldFocus(column_name)}
+                                    onBlur={() => handleFieldFocus(null)} autoComplete="off" type="number" />
                             </Form.Item>
                             <div
                                 className={`placeholder ${selectedField === column_name ||

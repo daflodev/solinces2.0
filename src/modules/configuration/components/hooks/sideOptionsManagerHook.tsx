@@ -82,9 +82,12 @@ export const SideOptionsManagerHook = () => {
     initialValuesPerifericos,
     handleFormSubmitPerifericos,
     resultadoPerifericos,
-    infraFKDataPerifericos,
+    FKDataPerifericos,
     setDataSedePerifericos,
     contextHolderPerifericos,
+    columInfoPerifericos,
+    colunmFieldPerifericos,
+    dataSelectPerifericos,
   } = useSedePerifericos();
 
   const {
@@ -97,6 +100,7 @@ export const SideOptionsManagerHook = () => {
     dataSeelectPeriodo,
     columInfoPeriodo,
     colunmFieldPeriodo,
+   
   } = useFormTperiodo();
 
   // const {PostData} = useTperiodo
@@ -168,6 +172,11 @@ export const SideOptionsManagerHook = () => {
       case "useSedePerifericos":
         setTableGridWidth(12);
         perifericosSedeGetData(record);
+        FKDataPerifericos()
+        columInfoPerifericos(record)
+        setOptionTableSelected("useSedePerifericos")
+        setCurrentRowInformation(record)
+        
         break;
       case "useTperiodo":
         setTableGridWidth(12);
@@ -176,8 +185,7 @@ export const SideOptionsManagerHook = () => {
         columInfoPeriodo(record);
         setOptionTableSelected("useTperiodo");
         setCurrentRowInformation(record);
-        periodoFKData()
- 
+        periodoFKData() 
 
         break;
       case "useFuncionarioPermission":
@@ -308,8 +316,8 @@ export const SideOptionsManagerHook = () => {
 
       setSecondaryTableComponentRender(useSedeTecnologyComponente);
     }
-    if (dataSedePerifericos) {
-      infraFKDataPerifericos();
+    if (dataSedePerifericos && optionTableSelected === "useSedePerifericos" && colunmFieldPerifericos  && dataSelectPerifericos) {
+     
       const useSedePerifericos = (
         <>
           {contextHolderPerifericos}
@@ -324,6 +332,8 @@ export const SideOptionsManagerHook = () => {
                 dataselect={resultadoPerifericos}
                 handleFormSubmit={handleFormSubmitPerifericos}
                 onClick={handleCloseSecondaryTable}
+                columnInfo={colunmFieldPerifericos}
+                record={currentRowInformation.PK_TSEDE}
               />
             </Card>
           </Col>
@@ -396,11 +406,14 @@ export const SideOptionsManagerHook = () => {
     dataSedeNivel,
     rollOptions,
     dataSedeInfra,
+    colunmField,
     dataSeelect,
     dataSedeTecnology,
     colunmFieldTecnology,
     dataSeelectTec,
     dataSedePerifericos,
+    dataSelectPerifericos,
+    colunmFieldPerifericos,
     dataTperiodo,
     colunmFieldPeriodo,
     dataSeelectPeriodo,
