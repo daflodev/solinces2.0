@@ -495,8 +495,8 @@ const Settings: React.FC = () => {
             title={() => {
               return (
                 <>
-                  <Row>{selectedItem.nombre}</Row>
-                  <Row gutter={[16, 16]}>
+                  <Row className="ttitulo-central">{selectedItem.nombre}</Row>
+                  <Row className="tbotones-central">
                     {selectedItem && (!selectedItem?.nombre?.startsWith('THISTORY_') && !(selectedItem?.nombre == 'TSESION')) ? (
                       <div
                         className="mostrarOcultarForm"
@@ -543,7 +543,7 @@ const Settings: React.FC = () => {
             <div className="col-12">
               <Row gutter={[16, 16]}>
                 <Col span="4">
-                  <Row gutter={[16, 16]}>
+                  <Row className="titulo-mein">
                     <Col span="2">
                       <div className="iconConfiguration">
                         {<SettingOutlined />}

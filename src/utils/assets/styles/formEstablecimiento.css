@@ -4,6 +4,16 @@
     width: auto;
 }
 
+.formulario .ant-row {
+    row-gap: 10px !important;
+}
+.formulario .ant-form-item {
+    margin-bottom: 0;
+}
+.formulario .ant-form-item .ant-form-item-control-input-content input, .formulario .ant-form-item .ant-form-item-control-input-content .ant-select, .formulario .ant-form-item .ant-form-item-control-input-content .ant-select .ant-select-selector, .ant-form-item-control-input-content .ant-picker {
+    width: 100% !important;
+}
+
 .layout-establecimeinto .ant-layout {
     background-color: white;
 }

@@ -434,4 +434,13 @@ input {
   vertical-align: top;
   border-radius: 0.8rem;
 }
+.tcompo-insti {
+  gap: 8px;
+}
+.tcompo-insti .ant-select-selection-item {
+  padding-left: 0px !important;
+}
+.tcompo-insti .ant-select-selector {
+  padding-right: 22px !important;
+}
 
