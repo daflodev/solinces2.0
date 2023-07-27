@@ -3,7 +3,7 @@ import axios from "axios";
 import { getUser, login } from "../helper/auth-helper";
 
 import { sessionInformationStore } from '../../../store/userInformationStore';
-import shallow from 'zustand/shallow';
+import { shallow } from 'zustand/shallow';
 
 const loginMethod = () => {
   localStorage.setItem('current_rol', '')

@@ -1,7 +1,7 @@
 import { UserSettings } from "../mainDrawersComponents/userSettings"
 
 import { mainDrawerStore } from '../../../store/mainDrawerStore';
-import shallow from 'zustand/shallow';
+import { shallow } from 'zustand/shallow';
 import './drawerRender.css'
 
 

@@ -1,4 +1,7 @@
+import { URL_BACKEND } from "@/utils/constants";
+import axios from "axios";
 import { UserManager } from "oidc-client";
+
 
 const currentUrl = new URL(window.location.href);
 // @ts-ignore
@@ -31,3 +34,24 @@ export const logout = () => {
   return userManager.signoutRedirect();
 };
 
+export const endSesionClose = () => {
+  const pk_sesion = localStorage.getItem('pk_sesion');
+  const token = localStorage.getItem("tk_sesion");
+
+      const data = {
+        "pk_sesion": pk_sesion
+      }
+
+      axios
+      .put(URL_BACKEND + "/sesion", data, {
+        headers: {
+          "Authorization": "Bearer " + token,
+        }
+      })
+      .then((response) => {
+        console.log("Respuesta del endpoint:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error al llamar al endpoint:", error);
+      });
+}
