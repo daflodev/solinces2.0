@@ -137,6 +137,7 @@ export const SideOptionsManagerHook = () => {
   };
 
   const handleOpenSecondaryTable = async (record, nameSideOption) => {
+    console.log(record)
     handleCloseSecondaryTable();
     setIsSecondaryTableOpen(true);
 
@@ -180,7 +181,6 @@ export const SideOptionsManagerHook = () => {
         break;
       case "useTperiodo":
         setTableGridWidth(12);
-       
         apiGet(record);
         columInfoPeriodo(record);
         setOptionTableSelected("useTperiodo");
@@ -356,7 +356,7 @@ export const SideOptionsManagerHook = () => {
           <Col md={12}>
             <Card
               style={{ width: "100%" }}
-              title="Tperifericos_medios"
+              title="Periodo_academico_config"
               extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
             >
               <SedeInfraEstructuraFisica
@@ -365,7 +365,7 @@ export const SideOptionsManagerHook = () => {
                 onClick={handleCloseSecondaryTable}
                 handleFormSubmit={handleSubmitPeriodo}
                 columnInfo={colunmFieldPeriodo}
-                record={currentRowInformation.FK_TPERIODO_ACADEMICO}
+                record={currentRowInformation.PK_TPERIODO_ACADEMICO}
               />
             </Card>
           </Col>

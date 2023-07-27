@@ -167,6 +167,7 @@ const Settings: React.FC = () => {
       "JEFE_AREA_COBERTURA",
       "RECTOR",
     ];
+    console.log(selectedTableInformation)
 
     const keyTable = selectedItem ? selectedItem.key_table : "";
     const keyDelete = `PK_T${keyTable?.toUpperCase()}`;

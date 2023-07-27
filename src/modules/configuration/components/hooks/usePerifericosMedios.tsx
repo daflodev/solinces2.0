@@ -151,7 +151,7 @@ export const useSedePerifericos = () => {
     };
 
     const handleFormSubmitPerifericos = async (values: any, cerrarTable: any, record: any) => {
-        const updateForm = new QueryBuilders('sede_infraestructura');
+        const updateForm = new QueryBuilders('sede_perifericos_medios');
         if (isValuesEmpty(values)) {
 
             await updateForm.create(values).schema(parserTokenInformation?.dataSchema[0]).save();

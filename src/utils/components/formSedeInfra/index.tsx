@@ -50,7 +50,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
         // console.log(props.dataselect[fieldName])
         const { column_name, data_type, longitud, numeric_precision } = fieldName
         // console.log(column_name)
-        if (column_name.startsWith('FK_T')) {
+        if (column_name.startsWith('FK_TLV_')) {
             return (
                 <div className="form-container">
                     {/* Primera columna */}
@@ -99,57 +99,57 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
             );
 
 
-        // }else if(column_name.startsWith("FK_T")){
-        //     return(
-        //         <div className="form-container">
-        //             {/* Primera columna */}
-        //             <div className="form-column">
-        //                 <div className="form-field">
+        }else if(column_name.startsWith("FK_T")){
+            return(
+                <div className="form-container">
+                    {/* Primera columna */}
+                    <div className="form-column">
+                        <div className="form-field">
 
-        //                     <Form.Item key={column_name} name={column_name}>
-        //                         <Select onChange={(value) => handleSelectChange(value, column_name)} key={column_name}
-        //                             onFocus={() => handleFieldFocus(column_name)}
-        //                             onBlur={() => handleFieldFocus(null)}
-        //                         >
-        //                             {props.dataFKT[column_name]?.map((option) => (
-        //                                 <div>
+                            <Form.Item key={column_name} name={column_name}>
+                                <Select onChange={(value) => handleSelectChange(value, column_name)} key={column_name}
+                                    onFocus={() => handleFieldFocus(column_name)}
+                                    onBlur={() => handleFieldFocus(null)}
+                                >
+                                    {props.dataselect[column_name]?.map((option) => (
+                                        <div>
 
-        //                                     {option}
-        //                                 </div>
-        //                                 // <Select.Option key={option.PK_TLISTA_VALOR} value={option.PK_TLISTA_VALOR}>
-        //                                 //     {option.NOMBRE}
-        //                                 // </Select.Option>
-        //                             ))}
-        //                         </Select>
-        //                     </Form.Item>
-        //                     <div
-        //                         className={`placeholder ${selectedField === column_name ||
-        //                             (props.initialValues
-        //                                 ? props.initialValues[column_name] != null
-        //                                 : false)
-        //                             ? "active"
-        //                             : ""
-        //                             }`}
-        //                         style={{
-        //                             ...(props.initialValues[column_name] === null ?
-        //                                 {
-        //                                     width: "45%",
-        //                                     overflow: "hidden",
-        //                                     textOverflow: "ellipsis",
-        //                                     whiteSpace: "nowrap"
-        //                                 } : { width: "40%" })
+                                            {option}
+                                        </div>
+                                        // <Select.Option key={option.PK_TLISTA_VALOR} value={option.PK_TLISTA_VALOR}>
+                                        //     {option.NOMBRE}
+                                        // </Select.Option>
+                                    ))}
+                                </Select>
+                            </Form.Item>
+                            <div
+                                className={`placeholder ${selectedField === column_name ||
+                                    (props.initialValues
+                                        ? props.initialValues[column_name] != null
+                                        : false)
+                                    ? "active"
+                                    : ""
+                                    }`}
+                                style={{
+                                    ...(props.initialValues[column_name] === null ?
+                                        {
+                                            width: "45%",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            whiteSpace: "nowrap"
+                                        } : { width: "40%" })
 
-        //                         }}
-        //                     >
-        //                         {column_name}
-        //                     </div>
+                                }}
+                            >
+                                {column_name}
+                            </div>
 
-        //                 </div>
-        //             </div>
-        //         </div>
-        //     )
+                        </div>
+                    </div>
+                </div>
+            )
 
-        // }
+        
             }else if (data_type === "integer" || data_type=== 'numeric'){
             return (
                 <div className="form-container">

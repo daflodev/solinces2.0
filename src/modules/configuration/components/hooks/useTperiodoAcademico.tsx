@@ -63,33 +63,33 @@ export const useFormTperiodo = () => {
     "'MODO_REDONDEAR'",
   ];
 
-//   const apiGetFK = async (fkNames: any) => {
-//     // const prevData = {
-//     //   base: "",
-//     //   schema: parserTokenInformation?.dataSchema[0],
-//     // };
+  const apiGetFK = async (fkNames: any) => {
+    // const prevData = {
+    //   base: "",
+    //   schema: parserTokenInformation?.dataSchema[0],
+    // };
 
-//     // const getdata = changeKey(prevData, "base", nameTable);
+    // const getdata = changeKey(prevData, "base", nameTable);
 
-//     // const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
-//     //   //@ts-ignore
-//     //   const { getdata } = response;
+    // const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
+    //   //@ts-ignore
+    //   const { getdata } = response;
 
-//     //   const res = getdata;
-//     //   return res;
-//     // });
+    //   const res = getdata;
+    //   return res;
+    // });
 
-//     const query = new QueryBuilders("formato_calificacion_def");
-//     const getDataTable = await query
-//       .select("*")
-//       .schema(parserTokenInformation?.dataSchema[0])
-//       // .limit(10)
-//       .get();
-//     console.log(getDataTable);
-//     return getDataTable;
-//   };
+    const query = new QueryBuilders("formato_calificacion_act");
+    const getDataTable = await query
+      .select("*")
+      .schema(parserTokenInformation?.dataSchema[0])
+      // .limit(10)
+      .get();
+    console.log(getDataTable);
+    return getDataTable;
+  };
 
-// const getFK =  apiGetFK(['formato_calificacion_act', 'formato_calificacion_def'])
+const getFK =  apiGetFK('formato_calificacion_act')
 
 
 
@@ -199,6 +199,9 @@ export const useFormTperiodo = () => {
       FK_TFORMATO_CALIFICACION_DEF: preData.FK_TFORMATO_CALIFICACION_DEF
         ? preData.FK_TFORMATO_CALIFICACION_DEF
         : null,
+        FK_TESCALA: preData.FK_TESCALA
+        ? preData.FK_TESCALA
+        : null,
       FK_TLV_CALCULO_DEFINITIVA: preData.FK_TLV_CALCULO_DEFINITIVA
         ? preData.FK_TLV_CALCULO_DEFINITIVA
         : null,
@@ -250,30 +253,122 @@ export const useFormTperiodo = () => {
     });
   };
 
-  const isValuesEmpty = (values: any) => {
-    return Object.values(values).every(
-      (value) => value === null || value === undefined
+  const isValuesEmpty = () => {
+    return Object.values(initialValuesPeriodo).every(
+      (value) => value === null || value === undefined || value === ''
     );
   };
 
-  const handleSubmitPeriodo = async (values: any, record: any) => {
-    // console.log(values)
+  const handleSubmitPeriodo = async (values: any, cerrarTable: any, record: any)=> {
 
-    const updateForm = new QueryBuilders("periodo_academico_config");
-    if (isValuesEmpty(values)) {
+    
+
+      for( const llave in values){
+        if(values.hasOwnProperty(llave)){
+          if(values[llave] === null) {
+            delete  values[llave] 
+          }
+        }
+      }
+
+   values["FK_TPERIODO_ACADEMICO"] = record
+// console.log(values)
+
+    const updateForm = new QueryBuilders("periodo_academico_config")
+    if (isValuesEmpty()) {
       await updateForm
         .create(values)
         .schema(parserTokenInformation?.dataSchema[0])
-        .save();
+        .save().then((response) => {
+          // console.log(response)
+          let isSuccess = false;
+
+          for (const key in response) {
+            if (Object.hasOwnProperty.call(response, key)) {
+              const value = response[key];
+              // console.log(`${key}: ${value}`);
+
+              if (key === 'message' && value === 'Success') {
+                isSuccess = true;
+                break;
+              }
+            }
+          }
+
+          if (isSuccess) {
+            console.log('La solicitud fue exitosa.');
+            messageApi.open({
+              type: "success",
+              content: "se ha modificado la infraestructura tecnologia a la sede",
+            });
+
+            setTimeout(() => {
+              cerrarTable();
+            }, 2000);
+          } else {
+            console.log('La solicitud no fue exitosa.');
+            messageApi.open({
+              type: "error",
+              content:
+                "no se pudo hacer editar la infraestructura  tecnologia de la sede",
+            });
+            setTimeout(() => {
+              cerrarTable();
+            }, 2000);
+          }
+
+
+        })
       // console.log(results);
-      setInitialValuePeriodo(null);
+      setInitialValuePeriodo(values);
     } else {
       // If values are not empty, perform the update operation
       await updateForm
         .update(values)
-        .where('"FK_TPERIODO_ACADEMICO"', "=", record)
+        .where('periodo_academico_config."FK_TPERIODO_ACADEMICO"', "=", record)
         .schema(parserTokenInformation?.dataSchema[0])
-        .save();
+        .save()
+        .then((response) => {
+          // console.log(response)
+          let isSuccess = false;
+
+          for (const key in response) {
+            if (Object.hasOwnProperty.call(response, key)) {
+              const value = response[key];
+              console.log(`${key}: ${value}`);
+
+              if (key === 'message' && value === 'Success') {
+                isSuccess = true;
+                break;
+              }
+            }
+          }
+
+          if (isSuccess) {
+            console.log('La solicitud fue exitosa.');
+            messageApi.open({
+              type: "success",
+              content: "se ha modificado la infraestructura tecnologia a la sede",
+            });
+
+            setTimeout(() => {
+              cerrarTable();
+            }, 2000);
+          } else {
+            console.log('La solicitud no fue exitosa.');
+            messageApi.open({
+              type: "error",
+              content:
+                "no se pudo hacer editar la infraestructura  tecnologia de la sede",
+            });
+            setTimeout(() => {
+              cerrarTable();
+            }, 2000);
+          }
+
+
+        })
+
       // console.log(results);
       setInitialValuePeriodo(values);
     }
