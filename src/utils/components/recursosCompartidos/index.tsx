@@ -6,6 +6,7 @@ import {shallow} from "zustand/shallow";
 import { QueryBuilders } from "@/utils/orm/queryBuilders";
 import { sessionInformationStore } from "@/store/userInformationStore";
 import { ApiServicesMembrete } from "@/utils/services/api/services";
+import { linkIcon } from "@/utils/assets/icon/iconManager";
 
 export const RecursosCompartidos = () => {
 
@@ -223,7 +224,7 @@ export const RecursosCompartidos = () => {
             <div onClick={addColumUpload} style={{ cursor:'pointer', width: '20px' }} ><CloudUploadOutlined /></div>
           </Col>
           <Col span={1}>
-            <div onClick={addColum} style={{ cursor:'pointer', width: '20px' }} ><LinkOutlined /></div> 
+            <div onClick={addColum} style={{ cursor:'pointer', width: '20px' }} >{linkIcon}</div> 
           </Col>
         </Row>
         <Table 
