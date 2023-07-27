@@ -210,8 +210,8 @@ export const ApiServicesUpdateUserRoles = async (data: any) => {
   return resp;
 };
 export const ApiServicesMembrete = async (data: any) => {
-    // const url = "https://apisolinces.colombiaevaluadora.co/upload_file/";
-    const url = "http://localhost:3001/upload_file/";
+    const url = "https://apisolinces.colombiaevaluadora.co/upload_file/";
+    // const url = "http://localhost:3001/upload_file/";
     const formData = new FormData();
     formData.append('file', data.file);
     formData.append('idsede', data.idsede);
