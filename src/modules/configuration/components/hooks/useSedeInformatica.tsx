@@ -79,7 +79,7 @@ export const useSedeTecnology = () => {
     const preData = Object.values(getDataTable)
     const filteredData = preData.filter((obj) => obj.column_name !== "FK_TSEDE" && obj.column_name !== "AUTHOR_RC" && obj.column_name !== "CLIENTS_RC");
 
-    console.log(filteredData, "COLUMN_INFO")
+    // console.log(filteredData, "COLUMN_INFO")
     setColumnFieldTecnology(filteredData)
   }
 
@@ -94,7 +94,7 @@ export const useSedeTecnology = () => {
       .schema(parserTokenInformation?.dataSchema[0])
       .get()
 
-    console.log(getDataTable)
+    // console.log(getDataTable)
 
     const preData = getDataTable[0] ? getDataTable[0] : []
 
@@ -216,13 +216,13 @@ export const useSedeTecnology = () => {
         .schema(parserTokenInformation?.dataSchema[0])
         .save()
         .then((response) => {
-          console.log(response)
+          // console.log(response)
           let isSuccess = false;
 
           for (const key in response) {
             if (Object.hasOwnProperty.call(response, key)) {
               const value = response[key];
-              console.log(`${key}: ${value}`);
+              // console.log(`${key}: ${value}`);
 
               if (key === 'message' && value === 'Success') {
                 isSuccess = true;
@@ -232,7 +232,7 @@ export const useSedeTecnology = () => {
           }
 
           if (isSuccess) {
-            console.log('La solicitud fue exitosa.');
+            // console.log('La solicitud fue exitosa.');
             messageApi.open({
               type: "success",
               content: "se ha modificado la infraestructura tecnologia a la sede",
@@ -242,7 +242,7 @@ export const useSedeTecnology = () => {
               cerrarTable();
             }, 2000);
           } else {
-            console.log('La solicitud no fue exitosa.');
+            // console.log('La solicitud no fue exitosa.');
             messageApi.open({
               type: "error",
               content:

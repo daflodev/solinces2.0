@@ -85,7 +85,7 @@ export const useFormTperiodo = () => {
       .schema(parserTokenInformation?.dataSchema[0])
       // .limit(10)
       .get();
-    console.log(getDataTable);
+    // console.log(getDataTable);
     return getDataTable;
   };
 
@@ -145,7 +145,7 @@ const getFK =  apiGetFK('formato_calificacion_act')
         obj.column_name !== "CLIENTS_RC"
     );
 
-    console.log(filteredData, "COLUMN_INFO");
+    // console.log(filteredData, "COLUMN_INFO");
     setColumnFieldPeriodo(filteredData);
   };
 
@@ -163,7 +163,7 @@ const getFK =  apiGetFK('formato_calificacion_act')
       )
       .schema(parserTokenInformation?.dataSchema[0])
       .get();
-    console.log(getDataTable);
+    // console.log(getDataTable);
 
     const preData = getDataTable[0] ? getDataTable[0] : [];
     setDataTperiodo(preData);
@@ -296,7 +296,7 @@ const getFK =  apiGetFK('formato_calificacion_act')
           }
 
           if (isSuccess) {
-            console.log('La solicitud fue exitosa.');
+            // console.log('La solicitud fue exitosa.');
             messageApi.open({
               type: "success",
               content: "se ha modificado la infraestructura tecnologia a la sede",
@@ -306,7 +306,7 @@ const getFK =  apiGetFK('formato_calificacion_act')
               cerrarTable();
             }, 2000);
           } else {
-            console.log('La solicitud no fue exitosa.');
+            // console.log('La solicitud no fue exitosa.');
             messageApi.open({
               type: "error",
               content:
@@ -335,7 +335,7 @@ const getFK =  apiGetFK('formato_calificacion_act')
           for (const key in response) {
             if (Object.hasOwnProperty.call(response, key)) {
               const value = response[key];
-              console.log(`${key}: ${value}`);
+              // console.log(`${key}: ${value}`);
 
               if (key === 'message' && value === 'Success') {
                 isSuccess = true;
@@ -345,7 +345,7 @@ const getFK =  apiGetFK('formato_calificacion_act')
           }
 
           if (isSuccess) {
-            console.log('La solicitud fue exitosa.');
+            // console.log('La solicitud fue exitosa.');
             messageApi.open({
               type: "success",
               content: "se ha modificado la infraestructura tecnologia a la sede",
@@ -354,8 +354,8 @@ const getFK =  apiGetFK('formato_calificacion_act')
             setTimeout(() => {
               cerrarTable();
             }, 2000);
-          } else {
-            console.log('La solicitud no fue exitosa.');
+          // } else {
+          //   console.log('La solicitud no fue exitosa.');
             messageApi.open({
               type: "error",
               content:

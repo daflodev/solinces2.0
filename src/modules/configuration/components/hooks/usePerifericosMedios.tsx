@@ -75,7 +75,7 @@ export const useSedePerifericos = () => {
                 obj.column_name !== "CLIENTS_RC"
         );
 
-        console.log(filteredData, "COLUMN_INFO");
+        // console.log(filteredData, "COLUMN_INFO");
         setColumnFieldPerifericos(filteredData);
     };
 
@@ -167,13 +167,13 @@ export const useSedePerifericos = () => {
                 .schema(parserTokenInformation?.dataSchema[0])
                 .save()
                 .then((response) => {
-                    console.log(response)
+                    // console.log(response)
                     let isSuccess = false;
 
                     for (const key in response) {
                         if (Object.hasOwnProperty.call(response, key)) {
                             const value = response[key];
-                            console.log(`${key}: ${value}`);
+                            // console.log(`${key}: ${value}`);
 
                             if (key === 'message' && value === 'Success') {
                                 isSuccess = true;
@@ -183,7 +183,7 @@ export const useSedePerifericos = () => {
                     }
 
                     if (isSuccess) {
-                        console.log('La solicitud fue exitosa.');
+                        // console.log('La solicitud fue exitosa.');
                         messageApi.open({
                             type: "success",
                             content: "se ha modificado la perifericos medios a la sede",
@@ -193,7 +193,7 @@ export const useSedePerifericos = () => {
                             cerrarTable();
                         }, 2000);
                     } else {
-                        console.log('La solicitud no fue exitosa.');
+                        // console.log('La solicitud no fue exitosa.');
                         messageApi.open({
                             type: "error",
                             content:

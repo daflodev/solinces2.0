@@ -179,7 +179,7 @@ export const UseSettigns = () => {
   const apiGet = async (nameTable: any, setDataTable: any) => {
     setDataTable(null);
     const tableDateBase = select_type(nameTable);
-    
+
     if (currentRol == "RECTOR" && nameTable == "sede") {
 
       //  TEMPORAL
@@ -212,6 +212,8 @@ export const UseSettigns = () => {
               tableDateBase.table
               );
         setItemsColumnsInformation(filterColumnsInformation);
+      console.log(currentInstitution?.value, 'currentInstitution');
+     
 
       // const dataSede = {
       //   base: tableDateBase.table,
@@ -295,6 +297,8 @@ export const UseSettigns = () => {
               );
         setItemsColumnsInformation(filterColumnsInformation);
 
+        // console.log(getDataTable, 'data 2-----')
+
       // const getDataTable = await apiGetThunksAsync(getdata).then(
       //   (response: any) => {
       //     const { getdata, columnsInformation } = response;
@@ -326,14 +330,15 @@ export const UseSettigns = () => {
     }
   };
 
-  const handleSelect = (item: any, isGeneralConsultRequired) => {
 
+
+  
+  const handleSelect = (item: any) => {
     setDataTable(null);
     setSelectedItem(item);
-    if(isGeneralConsultRequired == false){
-      apiGet(item.key_table, setDataTable);
-    }
+    apiGet(item.key_table, setDataTable);
     handleOcultarForm();
+    
 
     // cambio de color de item de la lista
     const items = document.querySelectorAll("#mi-lista li");
@@ -713,43 +718,6 @@ export const UseSettigns = () => {
     return getDataTable;
   };
 
-  const apiGetFKTUsuario = async () => {
-
-    const tokenInformation = localStorage.getItem("user_token_information");
-    const parserTokenInformation: any | null = tokenInformation
-      ? JSON.parse(tokenInformation)
-      : null;
-
-    const prevData = {
-      sesion: "",
-      schema: parserTokenInformation?.dataSchema[0],
-      concat: [
-        [
-          "usuario.'PRIMER_NOMBRE'",
-          "usuario.'SEGUNDO_NOMBRE'",
-          "usuario.'PRIMER_APELLIDO'",
-          "usuario.'SEGUNDO_APELLIDO'",
-        ],
-        ["AS 'NOMBRE'"],
-      ],
-      join: [
-        {
-          table: "usuario",
-          columns: "",
-          on: ["PK_TUSUARIO", "sesion.FK_TUSUARIO"],
-        }
-      ],
-    };
-
-    const getDataTable = await apiGetThunksAsync(prevData).then((response) => {
-      //@ts-ignore
-      const { getdata } = response;
-      const res = getdata;
-      return res;
-    });
-    return getDataTable;
-  };
-
   //funcion que va capturando los caracteres uno a uno en el input filter
   const handleFilterChange = ({ target }) => {
     const { name, value } = target;
@@ -917,30 +885,7 @@ export const UseSettigns = () => {
 
             console.log(` error en ${name}: `, e);
           });
-      } 
-
-      else if (tableName.startsWith("USUARIO")) {
-        apiGetFKTUsuario()
-          .then((response) => {
-            const res = response;
-
-            answer = {
-              ...answer,
-              [name]: res,
-            };
-          })
-          .then(() => {
-            setFkGroup({
-              ...fkGroup,
-              ...answer,
-            });
-          })
-          .catch((e) => {
-            console.log(` error en ${name}: `, e);
-          });
-      }
-
-      else {
+      } else {
         if (tableName.includes("_PADRE")) {
           tableName = tableName.replace("_PADRE", "");
         }
@@ -1015,7 +960,7 @@ export const UseSettigns = () => {
           if (formatedOptions && formatedOptions.length > 0) {
             ListNameTables(formatedOptions);
 
-            handleSelect(formatedOptions[0], false);
+            handleSelect(formatedOptions[0]);
           } else {
             console.log("por algun motivo ninguna opcion es visible");
             navigate("/no_permission");
