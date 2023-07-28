@@ -370,3 +370,7 @@ td.ant-table-cell:last-child {
     gap: 16px;
     margin-bottom: 4px;
 }
+
+.tbotones-central .iconDelete svg {
+    height: 21px;
+}

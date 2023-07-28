@@ -583,7 +583,7 @@ const Settings: React.FC = () => {
                   xs={24}
                   md={
                     visibleForm
-                      ? 14
+                      ? 16
                       : isSecondaryTableOpen
                       ? tableGridWidth
                       : 20
@@ -594,7 +594,7 @@ const Settings: React.FC = () => {
                   </Card>
                 </Col>
                 {visibleForm ? (
-                  <Col md={4}>
+                  <Col md={4}  className="card-agregar">
                     <Card
                       className="justify-content-center align-items-center "
                       title={
