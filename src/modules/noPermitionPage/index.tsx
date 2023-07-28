@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Card, Row, Col } from "antd";
 
 import { withPrincipal } from "../../utils/components/content";

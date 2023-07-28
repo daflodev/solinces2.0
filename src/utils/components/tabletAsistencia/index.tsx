@@ -9,8 +9,6 @@ interface DataType {
 
 export const TabletAsistencia = () => {
 
-    
-      
       const columns: ColumnsType<DataType> = [
         {
           title: 'Name',
@@ -59,7 +57,7 @@ export const TabletAsistencia = () => {
       ];
       
       const data: DataType[] = [];
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 3; i++) {
         data.push({
           key: i,
           name: 'John Brown',
