@@ -37,7 +37,7 @@ export const SideOptionsManagerHook = () => {
     selectedValues,
     contextHolder,
   }: // handleCheckboxChange,
-  any = useJournySede();
+    any = useJournySede();
   const {
     nivelSedeGetData,
     handleSendDataNivel,
@@ -100,7 +100,8 @@ export const SideOptionsManagerHook = () => {
     dataSeelectPeriodo,
     columInfoPeriodo,
     colunmFieldPeriodo,
-   
+    FKConsultManager
+
   } = useFormTperiodo();
 
   // const {PostData} = useTperiodo
@@ -177,7 +178,7 @@ export const SideOptionsManagerHook = () => {
         columInfoPerifericos(record)
         setOptionTableSelected("useSedePerifericos")
         setCurrentRowInformation(record)
-        
+
         break;
       case "useTperiodo":
         setTableGridWidth(12);
@@ -185,7 +186,8 @@ export const SideOptionsManagerHook = () => {
         columInfoPeriodo(record);
         setOptionTableSelected("useTperiodo");
         setCurrentRowInformation(record);
-        periodoFKData() 
+        periodoFKData()
+        FKConsultManager(['FK_TESCALA','FK_TFORMATO_CALIFICACION'], record)
 
         break;
       case "useFuncionarioPermission":
@@ -259,7 +261,7 @@ export const SideOptionsManagerHook = () => {
       optionTableSelected === "useSedeInfra" &&
       colunmField && dataSeelect
     ) {
-     
+
       const useSedeInfraComponente = (
         <>
           {contextHolderInfra}
@@ -290,7 +292,7 @@ export const SideOptionsManagerHook = () => {
       optionTableSelected === "useSedeTecnology" &&
       colunmFieldTecnology && dataSeelectTec
     ) {
-      
+
       const useSedeTecnologyComponente = (
         <>
           {contextHolderTecnology}
@@ -316,8 +318,8 @@ export const SideOptionsManagerHook = () => {
 
       setSecondaryTableComponentRender(useSedeTecnologyComponente);
     }
-    if (dataSedePerifericos && optionTableSelected === "useSedePerifericos" && colunmFieldPerifericos  && dataSelectPerifericos) {
-     
+    if (dataSedePerifericos && optionTableSelected === "useSedePerifericos" && colunmFieldPerifericos && dataSelectPerifericos) {
+
       const useSedePerifericos = (
         <>
           {contextHolderPerifericos}
@@ -350,7 +352,7 @@ export const SideOptionsManagerHook = () => {
       optionTableSelected === "useTperiodo" &&
       colunmFieldPeriodo
     ) {
-      
+     
       const tPerido = (
         <>
           <Col md={12}>

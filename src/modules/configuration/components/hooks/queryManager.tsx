@@ -173,6 +173,7 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
     
                 break;
 
+
             default:
 
                     if(table){

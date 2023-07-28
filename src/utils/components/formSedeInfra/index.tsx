@@ -10,6 +10,7 @@ interface infraProps {
     onClick?: () => void;
     columnInfo?:any;
     record?: any;
+    dataSelectFK?: any
 }
 
 const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
@@ -99,7 +100,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
             );
 
 
-        }else if(column_name.startsWith("FK_T")){
+        }else if(column_name.startsWith("FK_TE")){
             return(
                 <div className="form-container">
                     {/* Primera columna */}
@@ -112,13 +113,10 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                                     onBlur={() => handleFieldFocus(null)}
                                 >
                                     {props.dataselect[column_name]?.map((option) => (
-                                        <div>
-
-                                            {option}
-                                        </div>
-                                        // <Select.Option key={option.PK_TLISTA_VALOR} value={option.PK_TLISTA_VALOR}>
-                                        //     {option.NOMBRE}
-                                        // </Select.Option>
+                                       <Select.Option key={option.CODIGO} value={option.CODIGO}>
+                                       {option.NOMBRE}
+                                   </Select.Option>
+                                        
                                     ))}
                                 </Select>
                             </Form.Item>

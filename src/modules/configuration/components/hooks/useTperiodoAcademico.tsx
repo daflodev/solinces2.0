@@ -63,7 +63,7 @@ export const useFormTperiodo = () => {
     "'MODO_REDONDEAR'",
   ];
 
-  const apiGetFK = async (fkNames: any) => {
+  const apiGetFK = async (fkNames: any, key_table) => {
     // const prevData = {
     //   base: "",
     //   schema: parserTokenInformation?.dataSchema[0],
@@ -78,22 +78,109 @@ export const useFormTperiodo = () => {
     //   const res = getdata;
     //   return res;
     // });
+console.log(fkNames)
+    const query = new QueryBuilders(fkNames);
+    // console.log(fkNames)
+    if (fkNames === "escala") {
+      const getDataTable = await query
+        .select(["*"])
+        .schema(parserTokenInformation?.dataSchema[0])
+        .where(
+          `${fkNames}."FK_TPERIODO_ACADEMICO"`,
+          "=",
+          key_table?.PK_TPERIODO_ACADEMICO
+        )
+        // .limit(10)
+        .get();
+      // console.log(getDataTable);
+      return getDataTable;
+    } if (fkNames === "formato_calificacion") {
+      const getDataTable = await query
+      .select('formato_calificacion."PK_TFORMATO_CALIFICACION", formato_calificacion."CODIGO", formato_calificacion."NOMBRE"')
+        .schema(parserTokenInformation?.dataSchema[0])
+        .join('periodo_academico_config','"FK_TFORMATO_CALIFICACION_DEF"' , 
+        'formato_calificacion."PK_TFORMATO_CALIFICACION"')
+        .get();
 
-    const query = new QueryBuilders("formato_calificacion_act");
-    const getDataTable = await query
-      .select("*")
-      .schema(parserTokenInformation?.dataSchema[0])
+
+        // select('sesion.*')
+        // .schema(schema)
+        // .join('sede_usuario', '"FK_TUSUARIO"', 'sesion."FK_TUSUARIO"')
+        // .where('sede_usuario."FK_TSEDE"', '=', currentCampus?.value)
+        // .limit(20)
+        // .get()
+
+
+
+      
+        // const query = new QueryBuilders('formato_calificacion');
+        // const results = await query.select(['*'])
+        //                            .join('periodo_academico_config', '"FK_TFORMATO_CALIFICACION_ACT"', 'formato_calificacion."PK_TFORMATO_CALIFICACION"')
+        //                            .schema(`${schema}`)
+        //                            .get();
+      
+      
+        //  .where(
+      //    `${fkNames}."FK_TPERIODO_ACADEMICO"`,
+      //    "=",
+      //    key_table?.PK_TPERIODO_ACADEMICO
+      //  )
       // .limit(10)
-      .get();
-    // console.log(getDataTable);
-    return getDataTable;
+
+      // console.log(getDataTable);
+      return getDataTable;
+    }
+
   };
 
-const getFK =  apiGetFK('formato_calificacion_act')
+
+  //Grupo de informacion par ala FK
+  const [fkGroup, setFkGroup] = useState({});
+
+  const FKConsultManager = (FKNameList: any, key_table: any) => {
+    let answer = {};
+
+    FKNameList.map((name) => {
+      let tableName = name
+
+      if (tableName.startsWith("FK_TE") || tableName.startsWith("FK_TF")) {
+        console.log(tableName, "table name")
+        const parserTablename = tableName.replace("FK_T", "");
+        console.log(parserTablename, "parse table")
+        apiGetFK(parserTablename.toLowerCase(), key_table)
+          .then((response) => {
+            const res = response;
+
+            answer = {
+              ...answer,
+              [name]: res,
+            };
+          })
+          .then(() => {
+            setFkGroup({
+              ...fkGroup,
+              ...answer,
+            });
+          })
+          .catch((e) => {
+            // const pre = {
+            //   [name]: []
+            // }
+
+            // setFkGroup({
+            //   ... fkGroup,
+            //   ...pre
+            // })
+
+            console.log(` error en ${name}: `, e);
+          });
+      }
+    });
+    return answer;
+  };
 
 
 
-  // const getFk = apiGetFK("FORMATO_CALIFICACION_DEF".toLocaleLowerCase())
 
   const periodoFKData = async () => {
     try {
@@ -199,7 +286,7 @@ const getFK =  apiGetFK('formato_calificacion_act')
       FK_TFORMATO_CALIFICACION_DEF: preData.FK_TFORMATO_CALIFICACION_DEF
         ? preData.FK_TFORMATO_CALIFICACION_DEF
         : null,
-        FK_TESCALA: preData.FK_TESCALA
+      FK_TESCALA: preData.FK_TESCALA
         ? preData.FK_TESCALA
         : null,
       FK_TLV_CALCULO_DEFINITIVA: preData.FK_TLV_CALCULO_DEFINITIVA
@@ -259,20 +346,20 @@ const getFK =  apiGetFK('formato_calificacion_act')
     );
   };
 
-  const handleSubmitPeriodo = async (values: any, cerrarTable: any, record: any)=> {
+  const handleSubmitPeriodo = async (values: any, cerrarTable: any, record: any) => {
 
-    
 
-      for( const llave in values){
-        if(values.hasOwnProperty(llave)){
-          if(values[llave] === null) {
-            delete  values[llave] 
-          }
+
+    for (const llave in values) {
+      if (values.hasOwnProperty(llave)) {
+        if (values[llave] === null) {
+          delete values[llave]
         }
       }
+    }
 
-   values["FK_TPERIODO_ACADEMICO"] = record
-// console.log(values)
+    values["FK_TPERIODO_ACADEMICO"] = record
+    // console.log(values)
 
     const updateForm = new QueryBuilders("periodo_academico_config")
     if (isValuesEmpty()) {
@@ -354,8 +441,8 @@ const getFK =  apiGetFK('formato_calificacion_act')
             setTimeout(() => {
               cerrarTable();
             }, 2000);
-          // } else {
-          //   console.log('La solicitud no fue exitosa.');
+            // } else {
+            //   console.log('La solicitud no fue exitosa.');
             messageApi.open({
               type: "error",
               content:
@@ -386,6 +473,7 @@ const getFK =  apiGetFK('formato_calificacion_act')
     contextHolder,
     columInfoPeriodo,
     colunmFieldPeriodo,
+    FKConsultManager
     // getFK
   };
 };
