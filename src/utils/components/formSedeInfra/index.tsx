@@ -1,13 +1,16 @@
-import { Col, Form, Input, Layout, Row, Select } from "antd";
+import { Col, Form, Input, InputNumber, Layout, Row, Select } from "antd";
 import { saveIcon } from "../../assets/icon/iconManager";
 import { useState } from "react";
 
 
 interface infraProps {
-    handleFormSubmit?: (values, onClick) => void;
+    handleFormSubmit?: (values, onClick, key) => void;
     initialValues?: any;
     dataselect?: any;
     onClick?: () => void;
+    columnInfo?:any;
+    record?: any;
+    dataSelectFK?: any
 }
 
 const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
@@ -34,35 +37,34 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
             ...prevSelectedValues,
             [field]: value,
         }));
-        // console.log(`Opción seleccionada en ${field}:`, value);
+      
     };
-
-    // const filteredFields = Object.entries(props.initialValues).filter(
-    //     ([fieldName]) => !fieldName.startsWith("FK")
-    // );
 
     const onFinish = (values) => {
-        props.handleFormSubmit?.(values, props.onClick);
+        props.handleFormSubmit?.(values, props.onClick, props.record);
     };
 
+// console.log(props.dataselect)
+// console.log(props.dataFKT)
 
-
-    const formItems = Object.keys(props.initialValues).map((fieldName) => {
+    const formItems = props.columnInfo?.map((fieldName) => {
         // console.log(props.dataselect[fieldName])
-        if (fieldName.startsWith('FK_TLV_')) {
-
+        const { column_name, data_type, longitud, numeric_precision } = fieldName
+        // console.log(column_name)
+        if (column_name.startsWith('FK_TLV_')) {
             return (
                 <div className="form-container">
                     {/* Primera columna */}
                     <div className="form-column">
                         <div className="form-field">
 
-                            <Form.Item key={fieldName} name={fieldName}>
-                                <Select onChange={(value) => handleSelectChange(value, fieldName)} key={fieldName}
-                                    onFocus={() => handleFieldFocus(fieldName)}
+                            <Form.Item key={column_name} name={column_name}>
+                                <Select onChange={(value) => handleSelectChange(value, column_name)} key={column_name}
+                                    onFocus={() => handleFieldFocus(column_name)}
                                     onBlur={() => handleFieldFocus(null)}
                                 >
-                                    {props.dataselect[fieldName]?.map((option) => (
+                                    {props.dataselect[column_name]?.map((option) => (
+                                        
                                         <Select.Option key={option.PK_TLISTA_VALOR} value={option.PK_TLISTA_VALOR}>
                                             {option.NOMBRE}
                                         </Select.Option>
@@ -70,15 +72,15 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                                 </Select>
                             </Form.Item>
                             <div
-                                className={`placeholder ${selectedField === fieldName ||
+                                className={`placeholder ${selectedField === column_name ||
                                     (props.initialValues
-                                        ? props.initialValues[fieldName] != null
+                                        ? props.initialValues[column_name] != null
                                         : false)
                                     ? "active"
                                     : ""
                                     }`}
                                 style={{
-                                    ...(props.initialValues[fieldName] === null ?
+                                    ...(props.initialValues[column_name] === null ?
                                         {
                                             width: "45%",
                                             overflow: "hidden",
@@ -88,7 +90,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
 
                                 }}
                             >
-                                {fieldName}
+                                {column_name}
                             </div>
 
                         </div>
@@ -96,26 +98,38 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
                 </div>
 
             );
-        } else {
-            return (
+
+
+        }else if(column_name.startsWith("FK_TE")){
+            return(
                 <div className="form-container">
                     {/* Primera columna */}
                     <div className="form-column">
                         <div className="form-field">
-                            <Form.Item key={fieldName} name={fieldName}>
-                                <Input onFocus={() => handleFieldFocus(fieldName)}
-                                    onBlur={() => handleFieldFocus(null)} autoComplete="off" />
+
+                            <Form.Item key={column_name} name={column_name}>
+                                <Select onChange={(value) => handleSelectChange(value, column_name)} key={column_name}
+                                    onFocus={() => handleFieldFocus(column_name)}
+                                    onBlur={() => handleFieldFocus(null)}
+                                >
+                                    {props.dataselect[column_name]?.map((option) => (
+                                       <Select.Option key={option.CODIGO} value={option.CODIGO}>
+                                       {option.NOMBRE}
+                                   </Select.Option>
+                                        
+                                    ))}
+                                </Select>
                             </Form.Item>
                             <div
-                                className={`placeholder ${selectedField === fieldName ||
+                                className={`placeholder ${selectedField === column_name ||
                                     (props.initialValues
-                                        ? props.initialValues[fieldName] != null
+                                        ? props.initialValues[column_name] != null
                                         : false)
                                     ? "active"
                                     : ""
                                     }`}
                                 style={{
-                                    ...(props.initialValues[fieldName] === null ?
+                                    ...(props.initialValues[column_name] === null ?
                                         {
                                             width: "45%",
                                             overflow: "hidden",
@@ -125,7 +139,81 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
 
                                 }}
                             >
-                                {fieldName}
+                                {column_name}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            )
+
+        
+            }else if (data_type === "integer" || data_type=== 'numeric'){
+            return (
+                <div className="form-container">
+                    {/* Primera columna */}
+                    <div className="form-column">
+                        <div className="form-field">
+                            <Form.Item key={column_name} name={column_name}>
+                                <Input onFocus={() => handleFieldFocus(column_name)}
+                                    onBlur={() => handleFieldFocus(null)} autoComplete="off" type="number" />
+                            </Form.Item>
+                            <div
+                                className={`placeholder ${selectedField === column_name ||
+                                    (props.initialValues
+                                        ? props.initialValues[column_name] != null
+                                        : false)
+                                    ? "active"
+                                    : ""
+                                    }`}
+                                style={{
+                                    ...(props.initialValues[column_name] === null ?
+                                        {
+                                            width: "45%",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            whiteSpace: "nowrap"
+                                        } : { width: "40%" })
+
+                                }}
+                            >
+                                {column_name}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            );
+        } else if (data_type === "character varying"){
+            return (
+                <div className="form-container">
+                    {/* Primera columna */}
+                    <div className="form-column">
+                        <div className="form-field">
+                            <Form.Item key={column_name} name={column_name}>
+                                <Input onFocus={() => handleFieldFocus(column_name)}
+                                    onBlur={() => handleFieldFocus(null)} autoComplete="off" />
+                            </Form.Item>
+                            <div
+                                className={`placeholder ${selectedField === column_name ||
+                                    (props.initialValues
+                                        ? props.initialValues[column_name] != null
+                                        : false)
+                                    ? "active"
+                                    : ""
+                                    }`}
+                                style={{
+                                    ...(props.initialValues[column_name] === null ?
+                                        {
+                                            width: "45%",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            whiteSpace: "nowrap"
+                                        } : { width: "40%" })
+
+                                }}
+                            >
+                                {column_name}
                             </div>
 
                         </div>

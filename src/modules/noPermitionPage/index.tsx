@@ -3,6 +3,7 @@ import { Card, Row, Col } from "antd";
 import { withPrincipal } from "../../utils/components/content";
 
 import "../../utils/assets/noPermitionPage/noPermitionPage.css";
+import { QueryBuilders } from "@/utils/orm/queryBuilders";
 
 const mainImageNoPermissionPage = (
     <svg width="172" height="149" viewBox="0 0 172 149" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -29,6 +30,12 @@ const mainImageNoPermissionPage = (
     </svg>
 )
 
+
+// const query = new QueryBuilders('NAME_TABLE');
+// const results = await query
+// .select('*')
+// .schema('SCHEMA_NAME')
+// .get()
 
 const NoPermissionPage: React.FC = () => {
     return(
