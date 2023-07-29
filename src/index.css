@@ -206,8 +206,67 @@ input, p, select, span, textarea {
   fill: var(--mid-gray) !important;
 }
 
+/*formulario*/
+.dark-theme .form-field .placeholder.active {
+  background-color: var(--dark-black-blue) !important;
+}
+.dark-theme .ant-picker {
+  background: var(--dark-black-blue) !important;
+}
+.dark-theme .ant-picker input {
+  color: white !important;
+}
+.dark-theme .ant-picker-dropdown .ant-picker-panel-container {
+  background: var(--dark-blue-gray);
+}
+.dark-theme .ant-picker-dropdown .ant-picker-panel-container th {
+  color: white;
+}
+
+/*menu interno*/
+.dark-theme ul#mi-lista>li:hover, .dark-theme ul#mi-lista li.changes-color {
+  background-color: var(--dark-black-blue) !important;
+  color: white !important;
+}
+
+/*Tablas*/
+.dark-theme .ant-table-wrapper .ant-table-tbody >tr.ant-table-row:hover>th, .dark-theme .ant-table-wrapper .ant-table-tbody >tr.ant-table-row:hover>td, .dark-theme .ant-table-wrapper .ant-table-tbody >tr >th.ant-table-cell-row-hover>td.ant-table-cell-row-hover {
+  background: var(--dark-blue-gray) !important;
+}
+.dark-theme .ant-table-wrapper .ant-table-tbody >tr.ant-table-row-selected >th, .dark-theme .ant-table-wrapper .ant-table-tbody >tr.ant-table-row-selected >td {
+  background: var(--dark-blue-gray) !important;
+}
+.dark-theme .ant-checkbox .ant-checkbox-inner {
+  background: var(--dark-black-blue);
+}
+span.ant-checkbox.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: var(--mid-blue);
+}
+.dark-theme .ant-table-title {
+  border-radius: 0 !important;
+}
+.dark-theme .ant-table-wrapper .ant-table-tbody>tr.ant-table-placeholder:hover>th, .dark-theme .ant-table-wrapper .ant-table-tbody>tr.ant-table-placeholder:hover>td, .dark-theme .ant-table-wrapper .ant-table-tbody>tr.ant-table-placeholder {
+  background: #fff0 !important;
+}
+.dark-theme .ant-table-cell .ant-empty-description {
+  color: white;
+}
+
 #mi-lista>li:hover {
   background: var(--mid-gray);
+}
+
+ul#mi-lista li {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.titulo-mein {
+  /*margin-left: -8px;*/
+  margin-right: -8px;
+  margin-bottom: 10px;
+  padding: 10px 0;
 }
 
 .anticon svg {

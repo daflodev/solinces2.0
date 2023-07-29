@@ -173,7 +173,16 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
     
                 break;
 
-
+            case 'sesion':
+                //TODO: consult periodo_academico
+                answerQuery = await query
+                    .select('sesion.*')
+                    .schema(schema)
+                    .join('sede_usuario', '"FK_TUSUARIO"', 'sesion."FK_TUSUARIO"')
+                    .where('sede_usuario."FK_TSEDE"', '=', currentCampus?.value)
+                    .limit(20)
+                    .get()
+                break;
             default:
 
                     if(table){

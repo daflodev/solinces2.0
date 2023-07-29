@@ -47,11 +47,13 @@ import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimien
 
 import MembreteComponent from "../../utils/components/membrete";
 import { SideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHook";
+import { useEvaluationViewHook } from './components/hooks/useEvaluationViewHook';
+
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
 type ColumnTypes = Exclude<EditableTableProps[], undefined>;
-const { Sider, Content } = Layout;
+
 
 const Settings: React.FC = () => {
   //funciones y estado del custom hooks personalizado
@@ -87,6 +89,13 @@ const Settings: React.FC = () => {
     handleCloseSecondaryTable,
     tableGridWidth,
   }: any = SideOptionsManagerHook();
+
+
+  const {
+    isOnEvaluationView,
+    setCurrentOptionName
+  }: any = useEvaluationViewHook()
+
 
   const { currentRol } = sessionInformationStore(
     (state) => ({
@@ -625,11 +634,9 @@ const Settings: React.FC = () => {
             title={() => {
               return (
                 <>
-                  <Row className="titulo-act">{selectedItem.nombre}</Row>
-                  <Row className="p-iconos" gutter={[16, 16]}>
-                    {selectedItem &&
-                    !selectedItem?.nombre?.startsWith("THISTORY_") &&
-                    !(selectedItem?.nombre == "TSESION") ? (
+                  <Row className="ttitulo-central">{selectedItem.nombre}</Row>
+                  <Row className="tbotones-central">
+                    {selectedItem && (!selectedItem?.nombre?.startsWith('THISTORY_') && !(selectedItem?.nombre == 'TSESION')) ? (
                       <div
                         className="mostrarOcultarForm"
                         onClick={() => {
@@ -669,110 +676,106 @@ const Settings: React.FC = () => {
   return (
     <>
       {contextHolder}
-
       <div>
         <Card className="card-container">
-          <Layout>
-            <Row gutter={[16, 16]}>
-              <Col xs={24} md={2} lg={6} xl={4}>
-                <Sider style={{ background: "transparent" }}>
-                  <Row>
-                    <Col span={2}>
+          <div className="row justify-content-center">
+            <div className="col-12">
+              <Row gutter={[16, 16]}>
+                <Col span="4">
+                  <Row className="titulo-mein">
+                    <Col span="2">
                       <div className="iconConfiguration">
                         {<SettingOutlined />}
                       </div>
                     </Col>
-                    <Col span={10}>
+                    <Col xs={24} md={22}>
                       <div className="configuration">
                         {params?.option ? (params?.option).toUpperCase() : null}
                       </div>
                     </Col>
                   </Row>
+                  <Row gutter={[16, 16]}>
+                    <Col span={24}>
+                      {settingOptions ? (
+                        <ul id="mi-lista">
+                          {/* @ts-ignore */}
+                          {settingOptions?.map((item: any) => (
+                            // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+                            <li
+                              key={`${item.nombre}_${item.key}`}
+                              onClick={() => {
+                                handleSelect(item, isOnEvaluationView)
+                                setCurrentOptionName(item?.nombre)
+                              }}
+                            >
+                              {item.nombre}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <Spin tip="" size="large" />
+                      )}
+                    </Col>
+                  </Row>
+                </Col>
+                <Col
+                  xs={24}
+                  md={
+                    visibleForm
+                      ? 16
+                      : isSecondaryTableOpen
+                      ? tableGridWidth
+                      : 20
+                  }
+                >
+                  <Card className="card-body">
+                    {selectedItem && renderContentManager()}
+                  </Card>
+                </Col>
+                {visibleForm ? (
+                  <Col md={4}  className="card-agregar">
+                    <Card
+                      className="justify-content-center align-items-center "
+                      title={
+                        <>
+                          <Row gutter={[16, 16]}>
+                            <Col xs={12} md={10}>
+                              <div className="titleForm">Agregar</div>
+                            </Col>
+                            <Col xs={12} md={12}>
+                              <div className="closeCardForm">
+                                <CloseOutlined
+                                  onClick={() => {
+                                    handleMostrarForm();
+                                  }}
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </>
+                      }
+                    >
+                      <FormAdd
+                        setTitleState={setDataTable}
+                        keyValues={inputFilter}
+                        selectItem={selectedItem}
+                        FKGroupData={fkGroup}
+                        handleSubmit={handleSubmit}
+                        itemsInformation={itemsColumnsInformation}
+                      />
+                    </Card>
+                  </Col>
+                ) : null}
 
-                  {settingOptions ? (
-                    <ul id="mi-lista">
-                      {/* @ts-ignore */}
-                      {settingOptions?.map((item: any) => (
-                        // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-                        <li
-                          key={`${item.nombre}_${item.key}`}
-                          onClick={() => handleSelect(item)}
-                        >
-                          {item.nombre}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <Spin tip="" size="large" />
-                  )}
-                </Sider>
-              </Col>
-              <Col xs={24} md={24} lg={18} xl={20}>
-                <Layout>
-                  <Content style={{ margin: "16px" }}>
-                    <Row gutter={[16, 16]}>
-                      <Col
-                        xs={24}
-                        md={
-                          visibleForm
-                            ? 20
-                            : isSecondaryTableOpen
-                            ? tableGridWidth
-                            : 24
-                        }
-                      >
-                        <Card className="card-body">
-                          {selectedItem && renderContentManager()}
-                        </Card>
-                      </Col>
-                      {visibleForm ? (
-                        <Col md={4}>
-                          <Card
-                            className="justify-content-center align-items-center "
-                            title={
-                              <>
-                                <Row gutter={[16, 16]}>
-                                  <Col xs={12} md={10}>
-                                    <div className="titleForm">Agregar</div>
-                                  </Col>
-                                  <Col xs={12} md={12}>
-                                    <div className="closeCardForm">
-                                      <CloseOutlined
-                                        onClick={() => {
-                                          handleMostrarForm();
-                                        }}
-                                      />
-                                    </div>
-                                  </Col>
-                                </Row>
-                              </>
-                            }
-                          >
-                            <FormAdd
-                              setTitleState={setDataTable}
-                              keyValues={inputFilter}
-                              selectItem={selectedItem}
-                              FKGroupData={fkGroup}
-                              handleSubmit={handleSubmit}
-                              itemsInformation={itemsColumnsInformation}
-                            />
-                          </Card>
-                        </Col>
-                      ) : null}
-
-                      {isSecondaryTableOpen
-                        ? secondaryTableComponentRender
-                        : null}
-                    </Row>
-                  </Content>
-                </Layout>
-              </Col>
-            </Row>
-          </Layout>
+                {isSecondaryTableOpen ? secondaryTableComponentRender : null}
+              </Row>
+            </div>
+          </div>
         </Card>
       </div>
     </>
   );
 };
+
 
 export default withPrincipal(Settings);
