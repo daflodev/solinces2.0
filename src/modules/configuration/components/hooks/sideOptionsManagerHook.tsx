@@ -266,7 +266,7 @@ export const SideOptionsManagerHook = () => {
         <>
           {contextHolderInfra}
 
-          <Col md={12}>
+          <Col md={8}>
             <Card
               style={{ width: "100%" }}
               title="Tsede_infraestructura_fisica"
@@ -297,7 +297,7 @@ export const SideOptionsManagerHook = () => {
         <>
           {contextHolderTecnology}
 
-          <Col md={12}>
+          <Col md={8}>
             <Card
               style={{ width: "100%" }}
               title="Tsede_informatica"
@@ -323,7 +323,7 @@ export const SideOptionsManagerHook = () => {
       const useSedePerifericos = (
         <>
           {contextHolderPerifericos}
-          <Col md={12}>
+          <Col md={8}>
             <Card
               style={{ width: "100%" }}
               title="Tperifericos_medios"
@@ -355,7 +355,7 @@ export const SideOptionsManagerHook = () => {
      
       const tPerido = (
         <>
-          <Col md={12}>
+          <Col md={8}>
             <Card
               style={{ width: "100%" }}
               title="Periodo_academico_config"

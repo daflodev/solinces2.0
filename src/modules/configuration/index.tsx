@@ -50,10 +50,10 @@ import { SideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHoo
 import { useEvaluationViewHook } from './components/hooks/useEvaluationViewHook';
 
 
+
 type EditableTableProps = Parameters<typeof Table>[0];
 
 type ColumnTypes = Exclude<EditableTableProps[], undefined>;
-
 
 const Settings: React.FC = () => {
   //funciones y estado del custom hooks personalizado
@@ -89,7 +89,6 @@ const Settings: React.FC = () => {
     handleCloseSecondaryTable,
     tableGridWidth,
   }: any = SideOptionsManagerHook();
-
 
   const {
     isOnEvaluationView,
