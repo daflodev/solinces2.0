@@ -336,7 +336,7 @@ const HeaderComponent = () => {
           </div>
 
           <div className="frame-61-Lnk">
-            <div className="frame-54-Utx">
+            <div className="frame-54-Utx tcompo-insti">
               {/* TODO: remplazar el asset que viene a continuacion por uno default */}
               <img
                 className= "rectangle-25-dWx"

@@ -6,11 +6,21 @@ import "../../utils/assets/styles/testing.css";
 import { useEffect } from "react";
 
 import { CloseOutlined, SettingOutlined } from "@ant-design/icons";
-import { Card, Col, Popconfirm, Row, Space, Spin, Table } from "antd";
+import {
+  Card,
+  Col,
+  Layout,
+  // Menu,
+  Popconfirm,
+  Row,
+  Space,
+  Spin,
+  Table,
+} from "antd";
 
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
-import { shallow } from 'zustand/shallow'
+import { shallow } from "zustand/shallow";
 import { sessionInformationStore } from "../../store/userInformationStore";
 import {
   MinusOutlined,
@@ -21,6 +31,9 @@ import {
   sedeInfraEstructuraFisicaIcon,
   sedeJornada,
   sedeNivel,
+  sedeTecnologicaIcon,
+  perifericosMediosIcon,
+  TperiodoConfig,
 } from "../../utils/assets/icon/iconManager";
 import { withPrincipal } from "../../utils/components/content";
 import { EditableCell } from "../../utils/components/editablecells";
@@ -35,7 +48,8 @@ import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimien
 import MembreteComponent from "../../utils/components/membrete";
 import { SideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHook";
 import { useEvaluationViewHook } from './components/hooks/useEvaluationViewHook';
-import { QualificationOptionComponent } from "./components/qualificationOption";
+
+
 
 type EditableTableProps = Parameters<typeof Table>[0];
 
@@ -80,6 +94,7 @@ const Settings: React.FC = () => {
     isOnEvaluationView,
     setCurrentOptionName
   }: any = useEvaluationViewHook()
+
 
   const { currentRol } = sessionInformationStore(
     (state) => ({
@@ -129,12 +144,10 @@ const Settings: React.FC = () => {
   };
 
   const renderContentManager = () => {
-
-    if(isOnEvaluationView){
-      return(<QualificationOptionComponent optionToRender={selectedItem?.nombre}/>)
-    }
-
-    if (currentRol != "SUPER_ADMINISTRADOR" && selectedItem?.nombre == "TESTABLECIMIENTO") {
+    if (
+      currentRol != "SUPER_ADMINISTRADOR" &&
+      selectedItem?.nombre == "TESTABLECIMIENTO"
+    ) {
       return (
         <FormEstablecimiento
           setTitleState={setDataTable}
@@ -154,18 +167,29 @@ const Settings: React.FC = () => {
   };
 
   const iconOptionsManager = (rol, selectedTable, selectedTableInformation) => {
+    const rolesToShowuseFuncionarioPermission = [
+      "SUPER_ADMINISTRADOR",
+      "DIRECTOR_ENTE_TERRITORIAL",
+      "JEFE_SISTEMA_ENTE_TERRITORIAL",
+      "JEFE_AREA_PLANEACION",
+      "JEFE_AREA_COBERTURA",
+      "RECTOR",
+    ];
 
-    const rolesToShowuseFuncionarioPermission = ['SUPER_ADMINISTRADOR', 'DIRECTOR_ENTE_TERRITORIAL', 'JEFE_SISTEMA_ENTE_TERRITORIAL', 'JEFE_AREA_PLANEACION', 'JEFE_AREA_COBERTURA', 'RECTOR'];
+    const keyTable = selectedItem ? selectedItem.key_table : "";
+    const keyDelete = `PK_T${keyTable?.toUpperCase()}`;
 
-    let result = (<>
-      {" "}
-      <Popconfirm
-        title="seguro desea eliminar?"
-        onConfirm={() => handleDelete(selectedTableInformation.key)}
-      >
-        <div className="iconDelete">{deleteIcon}</div>
-      </Popconfirm>
-    </>);
+    let result = (
+      <>
+        {" "}
+        <Popconfirm
+          title="seguro desea eliminar?"
+          onConfirm={() => handleDelete(selectedTableInformation[keyDelete])}
+        >
+          <div className="iconDelete">{deleteIcon}</div>
+        </Popconfirm>
+      </>
+    );
 
     switch (selectedTable) {
       case "TSEDE":
@@ -209,6 +233,128 @@ const Settings: React.FC = () => {
                 {sedeInfraEstructuraFisicaIcon}
               </div>
 
+              <div
+                onClick={() =>
+                  handleOpenSecondaryTable(
+                    selectedTableInformation,
+                    "useSedeTecnology"
+                  )
+                }
+                style={{ cursor: "pointer" }}
+              >
+                {sedeTecnologicaIcon}
+              </div>
+
+              <div
+                onClick={() =>
+                  handleOpenSecondaryTable(
+                    selectedTableInformation,
+                    "useSedePerifericos"
+                  )
+                }
+                style={{ cursor: "pointer" }}
+              >
+                {perifericosMediosIcon}
+              </div>
+
+              <Popconfirm
+                title="seguro desea eliminar?"
+                onConfirm={() =>
+                  handleDelete(selectedTableInformation[keyDelete])
+                }
+              >
+                <div className="iconDelete">{deleteIcon}</div>
+              </Popconfirm>
+            </>
+          );
+        }
+
+        break;
+
+      case "TPERIODO_ACADEMICO":
+        if (rol == "RECTOR") {
+          result = (
+            <>
+            <div
+            onClick={() => {
+              if (visibleForm) {
+                handleMostrarForm();
+              }
+              handleOpenSecondaryTable(
+                selectedTableInformation,
+                "useTperiodo"
+              );
+            }}
+            style={{ cursor: "pointer" }}
+          >
+            {TperiodoConfig}
+          </div>
+
+          <Popconfirm
+                title="seguro desea eliminar?"
+                onConfirm={() =>
+                  handleDelete(selectedTableInformation[keyDelete])
+                }
+              >
+                <div className="iconDelete">{deleteIcon}</div>
+              </Popconfirm>
+            </>
+          )
+          
+        }
+        break;
+      case "TFUNCIONARIO":
+        if (rolesToShowuseFuncionarioPermission.includes(rol)) {
+          result = (
+            <>
+              <div
+                onClick={() => {
+                  if (visibleForm) {
+                    handleMostrarForm();
+                  }
+                  handleOpenSecondaryTable(
+                    selectedTableInformation,
+                    "useFuncionarioPermission"
+                  );
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                {funcionarioPermisoIcon}
+              </div>
+
+              <Popconfirm
+                title="seguro desea eliminar?"
+                onConfirm={() =>
+                  handleDelete(selectedTableInformation[keyDelete])
+                }
+              >
+                <div className="iconDelete">{deleteIcon}</div>
+              </Popconfirm>
+            </>
+          );
+        }
+
+        break;
+
+      case "TPADRE":
+        if (rolesToShowuseFuncionarioPermission.includes(rol)) {
+          result = (
+            <>
+              <div
+                onClick={() => {
+                  if (visibleForm) {
+                    handleMostrarForm();
+                  }
+                  handleOpenSecondaryTable(
+                    selectedTableInformation,
+                    "useFuncionarioPermission"
+                  );
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                {funcionarioPermisoIcon}
+              </div>
+
               <Popconfirm
                 title="seguro desea eliminar?"
                 onConfirm={() => handleDelete(selectedTableInformation.key)}
@@ -221,85 +367,71 @@ const Settings: React.FC = () => {
 
         break;
 
-      case 'TFUNCIONARIO':
+      case "TESTUDIANTE":
+        if (rolesToShowuseFuncionarioPermission.includes(rol)) {
+          result = (
+            <>
+              <div
+                onClick={() => {
+                  if (visibleForm) {
+                    handleMostrarForm();
+                  }
+                  handleOpenSecondaryTable(
+                    selectedTableInformation,
+                    "useFuncionarioPermission"
+                  );
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                {funcionarioPermisoIcon}
+              </div>
 
-        if(rolesToShowuseFuncionarioPermission.includes(rol)){
-          result = (<>
-            <div
-              onClick={() => {
-                if(visibleForm){
-                  handleMostrarForm()
+              <Popconfirm
+                title="seguro desea eliminar?"
+                onConfirm={() =>
+                  handleDelete(selectedTableInformation[keyDelete])
                 }
-                handleOpenSecondaryTable(selectedTableInformation, 'useFuncionarioPermission')
-              }}
-              style={{ cursor: "pointer" }}
-            >
-              {funcionarioPermisoIcon}
-            </div>
-  
-            <Popconfirm
-              title="seguro desea eliminar?"
-              onConfirm={() => handleDelete(selectedTableInformation.key)}
-            >
-              <div className="iconDelete">{deleteIcon}</div>
-            </Popconfirm>
-          </>)
+              >
+                <div className="iconDelete">{deleteIcon}</div>
+              </Popconfirm>
+            </>
+          );
         }
 
         break;
 
-        case 'TPADRE':
-
-          if(rolesToShowuseFuncionarioPermission.includes(rol)){
-            result = (<>
+      case "TUSUARIO":
+        if (rolesToShowuseFuncionarioPermission.includes(rol)) {
+          result = (
+            <>
               <div
                 onClick={() => {
-                  if(visibleForm){
-                    handleMostrarForm()
+                  if (visibleForm) {
+                    handleMostrarForm();
                   }
-                  handleOpenSecondaryTable(selectedTableInformation, 'useFuncionarioPermission')
+                  handleOpenSecondaryTable(
+                    selectedTableInformation,
+                    "useFuncionarioPermission"
+                  );
                 }}
                 style={{ cursor: "pointer" }}
               >
                 {funcionarioPermisoIcon}
               </div>
-    
-              <Popconfirm
-                title="seguro desea eliminar?"
-                onConfirm={() => handleDelete(selectedTableInformation.key)}
-              >
-                <div className="iconDelete">{deleteIcon}</div>
-              </Popconfirm>
-            </>)
-          }
-          
-          break;
 
-        case 'TESTUDIANTE':
-          if(rolesToShowuseFuncionarioPermission.includes(rol)){
-            result = (<>
-              <div
-                onClick={() => {
-                  if(visibleForm){
-                    handleMostrarForm()
-                  }
-                  handleOpenSecondaryTable(selectedTableInformation, 'useFuncionarioPermission')
-                }}
-                style={{ cursor: "pointer" }}
-              >
-                {funcionarioPermisoIcon}
-              </div>
-    
               <Popconfirm
                 title="seguro desea eliminar?"
-                onConfirm={() => handleDelete(selectedTableInformation.key)}
+                onConfirm={() =>
+                  handleDelete(selectedTableInformation[keyDelete])
+                }
               >
                 <div className="iconDelete">{deleteIcon}</div>
               </Popconfirm>
-            </>)
-          }
-          
-          break;
+            </>
+          );
+        }
+
+        break;
 
       default:
         result = (
@@ -307,14 +439,16 @@ const Settings: React.FC = () => {
             {" "}
             <Popconfirm
               title="seguro desea eliminar?"
-              onConfirm={() => handleDelete(selectedTableInformation.key)}
+              onConfirm={() =>
+                handleDelete(selectedTableInformation[keyDelete])
+              }
             >
               <div className="iconDelete">{deleteIcon}</div>
             </Popconfirm>
           </>
         );
         break;
-    };
+    }
 
     return result;
   };
@@ -325,7 +459,7 @@ const Settings: React.FC = () => {
 
     const result: any[] = keys.map((item) => {
       const ifSelected = item.startsWith("FK_");
-      
+
       if (ifSelected) {
         const options = filterSelectOnColumnGenerator(
           item,
@@ -377,33 +511,33 @@ const Settings: React.FC = () => {
     });
 
     {
-      selectedItem && (!selectedItem?.nombre?.startsWith('THISTORY_') && !(selectedItem?.nombre == 'TSESION')) 
-      ?
-        result.push({
-          title: "operacion",
-          dataIndex: "operation",
-          align: "center",
-          width: 150,
-          render: (_, record: { key: React.Key }) => (
-            <>
-              {settingOptions?.length >= 1 ? (
-                <>
-                  <Space size="middle" className="boton">
-                    {iconOptionsManager(
-                      currentRol,
-                      selectedItem?.nombre,
-                      record,
-                    )}
-                  </Space>
-                </>
-              ) : null}
+      selectedItem &&
+      !selectedItem?.nombre?.startsWith("THISTORY_") &&
+      !(selectedItem?.nombre == "TSESION")
+        ? result.push({
+            title: "operacion",
+            dataIndex: "operation",
+            align: "center",
+            width: 250,
 
-            </>
-          ),
-        }) 
-      : 
-        null
-    };
+            render: (_, record: { key: React.Key }) => (
+              <>
+                {settingOptions?.length >= 1 ? (
+                  <>
+                    <Space size="middle" className="boton">
+                      {iconOptionsManager(
+                        currentRol,
+                        selectedItem?.nombre,
+                        record
+                      )}
+                    </Space>
+                  </>
+                ) : null}
+              </>
+            ),
+          })
+        : null;
+    }
 
     return result;
   };
@@ -435,7 +569,11 @@ const Settings: React.FC = () => {
       ...col,
       onCell: (record: any) => ({
         record,
-        editable: (!selectedItem?.nombre?.startsWith('THISTORY_') && !(selectedItem?.nombre == 'TSESION')) ? col.editable : false ,
+        editable:
+          !selectedItem?.nombre?.startsWith("THISTORY_") &&
+          !(selectedItem?.nombre == "TSESION")
+            ? col.editable
+            : false,
         dataIndex: col.dataIndex,
         title: col.title,
         render: col.render,
@@ -455,7 +593,7 @@ const Settings: React.FC = () => {
 
   useEffect(() => {
     handleCloseSecondaryTable();
-    setCurrentOptionName(selectedItem?.nombre);
+    localStorage.setItem("campus", selectedItem?.key_table);
   }, [selectedItem]);
 
   // console.log(selectedItem)
@@ -495,8 +633,8 @@ const Settings: React.FC = () => {
             title={() => {
               return (
                 <>
-                  <Row>{selectedItem.nombre}</Row>
-                  <Row gutter={[16, 16]}>
+                  <Row className="ttitulo-central">{selectedItem.nombre}</Row>
+                  <Row className="tbotones-central">
                     {selectedItem && (!selectedItem?.nombre?.startsWith('THISTORY_') && !(selectedItem?.nombre == 'TSESION')) ? (
                       <div
                         className="mostrarOcultarForm"
@@ -533,7 +671,7 @@ const Settings: React.FC = () => {
       </div>
     </>
   );
-  
+
   return (
     <>
       {contextHolder}
@@ -543,7 +681,7 @@ const Settings: React.FC = () => {
             <div className="col-12">
               <Row gutter={[16, 16]}>
                 <Col span="4">
-                  <Row gutter={[16, 16]}>
+                  <Row className="titulo-mein">
                     <Col span="2">
                       <div className="iconConfiguration">
                         {<SettingOutlined />}
@@ -583,7 +721,7 @@ const Settings: React.FC = () => {
                   xs={24}
                   md={
                     visibleForm
-                      ? 14
+                      ? 16
                       : isSecondaryTableOpen
                       ? tableGridWidth
                       : 20
@@ -594,7 +732,7 @@ const Settings: React.FC = () => {
                   </Card>
                 </Col>
                 {visibleForm ? (
-                  <Col md={4}>
+                  <Col md={4}  className="card-agregar">
                     <Card
                       className="justify-content-center align-items-center "
                       title={
@@ -637,5 +775,6 @@ const Settings: React.FC = () => {
     </>
   );
 };
+
 
 export default withPrincipal(Settings);

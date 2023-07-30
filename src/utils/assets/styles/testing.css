@@ -179,10 +179,10 @@ tr.ant-table-row-selected.editable-row {
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
-    /* overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis; */
     padding: 0 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .iconConfiguration {
@@ -355,4 +355,22 @@ td.ant-table-cell:last-child {
     border-radius: 6px;
     transition: all 0.3s;
     line-height: 1;
+}
+
+.ttitulo-central {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 37px;
+    margin-top: 3px;
+}
+
+.tbotones-central {
+    margin-left: -8px;
+    margin-right: -8px;
+    gap: 16px;
+    margin-bottom: 4px;
+}
+
+.tbotones-central .iconDelete svg {
+    height: 21px;
 }

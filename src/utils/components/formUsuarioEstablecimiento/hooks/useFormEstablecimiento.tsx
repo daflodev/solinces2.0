@@ -64,7 +64,7 @@ export const useFormEstablecimiento = () => {
     ? JSON.parse(tokenInformation)
     : null;
 
-  const {currentInstitution } = sessionInformationStore(
+  const { currentInstitution } = sessionInformationStore(
     (state) => ({
       currentInstitution: state.currentInstitution,
     }),
@@ -84,7 +84,7 @@ export const useFormEstablecimiento = () => {
 
     const getDataTable = await apiGetThunksAsync(getdata).then(
       (response: any) => {
-        const { getdata} = response;
+        const { getdata } = response;
 
         // const filterColumnsInformation: any = filtrarJsonArray(
         //   columnsInformation,
@@ -223,7 +223,7 @@ export const useFormEstablecimiento = () => {
                 "Uno o mas campos de valores unicos ya se encuentran registrado.",
               duration: 2,
             });
-           
+
           } else {
             messageApi.open({
               type: "error",
@@ -249,7 +249,7 @@ export const useFormEstablecimiento = () => {
   };
 
   return {
-    
+
     apiGet,
     initialValues,
     setInitialValue,
