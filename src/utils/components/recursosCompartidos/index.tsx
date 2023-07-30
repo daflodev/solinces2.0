@@ -1,17 +1,19 @@
 import { Button, Col, Input, Row, Table, message } from "antd";
-import { LinkOutlined, CloudUploadOutlined } from '@ant-design/icons';
+import { CloudUploadOutlined } from '@ant-design/icons';
 import { useEffect, useRef, useState } from "react";
 import { calificationStore } from "@/store/calificationStore";
 import {shallow} from "zustand/shallow";
 import { QueryBuilders } from "@/utils/orm/queryBuilders";
 import { sessionInformationStore } from "@/store/userInformationStore";
 import { ApiServicesMembrete } from "@/utils/services/api/services";
-import { linkIcon } from "@/utils/assets/icon/iconManager";
+import { deleteIcon, linkIcon, pdfIcon, uploadIcon } from "@/utils/assets/icon/iconManager";
 
 export const RecursosCompartidos = () => {
 
   const currentDate = new Date();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [input, setInput] = useState(true);
+
 
    // @ts-ignore
    const { currentAsignature,currentGrade,currentGroup, currentEvaluationPeriod } =
@@ -72,12 +74,6 @@ export const RecursosCompartidos = () => {
     console.log(event.target.files[0], 'archivo')
     inputUrl = event.target.files[0]
   };
-
-  // const convertirFecha = (fechaHoraISO: string): string => {
-  //   const fecha = new Date(fechaHoraISO);
-  //   const fechaFormateada = fecha.toISOString().split('T')[0];
-  //   return fechaFormateada;
-  // }
 
   const saveData = async () => {
 
@@ -161,11 +157,62 @@ export const RecursosCompartidos = () => {
                     .schema('ACADEMICO_COL0')
                     .orderBy("id", "desc")
                     .get()
-    setData(getdata)
+    const parseData = transformJsonArray(getdata)
+    setData(parseData)
   }
 
   const createUrl = async () => {
     saveArchive(inputUrl, inputUrl)
+  }
+
+  const obtenerExtension = (url: any) => {
+    if(!url){
+      return 'url'
+    }
+    const partes = url.split('.');
+    if (partes.length > 1) {
+      console.log(partes[partes.length - 1])
+      return partes[partes.length - 1];
+    } else {
+      return 'url';
+    }
+  }
+
+  const select_type = (params: any) => {
+    const type: any = {
+      pdf: pdfIcon,
+      url: linkIcon,
+      defauld: linkIcon,
+    };
+
+    let extencion = obtenerExtension(params)
+    let validate: any = type[extencion] ?? type["defauld"];
+    return validate;
+  };
+
+  const  transformJsonArray = (inputArray) => {
+  
+    const transformedArray = inputArray.map((item) => {
+      const currentDate = new Date(item.date);
+      // 
+      return {
+        name: (
+          <div style={{ display: 'flex' }}>
+            <div style={{ width: '20px', marginRight: '15px' }}> {select_type(item.url)} </div> 
+            <div>  {item.name} </div>
+            {/* <Col span={20}>  {input ? <span style={{ marginLeft:'10px' }}>{...item.name} </span> : <Input {...item.name} />} </Col> */}
+          </div>
+        ),
+        description: (
+          <>
+            <Input onChange={onChangeDescription} onPressEnter={createUrl} defaultValue={item.description} bordered={false} />
+          </>
+        ),
+        date: currentDate.toLocaleDateString(),
+      };
+    });
+  
+    return transformedArray;
   }
 
   const addColum = () =>{
@@ -173,8 +220,8 @@ export const RecursosCompartidos = () => {
     const column : any = {
       name: (
         <Row justify="start">
-         <Col span={3}> <LinkOutlined style={{ marginTop: '10px' }} /> </Col> 
-         <Col span={20}> <Input onChange={onChangeUrl} placeholder="Ingresar URL" /> </Col> 
+         <Col span={3}> <div > {linkIcon} </div> </Col> 
+         <Col span={18}> <Input onChange={onChangeUrl} placeholder="Ingresar URL" /> </Col> 
         </Row>
       ),
       description: (
@@ -197,11 +244,19 @@ export const RecursosCompartidos = () => {
         </Row>
       ),
       description: (
-        <>
           <Input onChange={onChangeDescription} onPressEnter={saveData} placeholder="Descripcion" />
-        </>
       ),
-      date: currentDate.toLocaleDateString(),
+      date: (
+        <Row >
+          <Col className="gutter-row" span={12}>
+              {currentDate.toLocaleDateString()}
+          </Col>
+          <Col className="gutter-row" span={4}>
+          <span>{deleteIcon}</span>
+          </Col>
+                   
+        </Row>
+        ),
     }
     setData([column, ...data]);
   }
@@ -221,7 +276,7 @@ export const RecursosCompartidos = () => {
         <br/>
         <Row gutter={2}>
           <Col span={1}>
-            <div onClick={addColumUpload} style={{ cursor:'pointer', width: '20px' }} ><CloudUploadOutlined /></div>
+            <div onClick={addColumUpload} style={{ cursor:'pointer', width: '20px' }} >{uploadIcon}</div>
           </Col>
           <Col span={1}>
             <div onClick={addColum} style={{ cursor:'pointer', width: '20px' }} >{linkIcon}</div> 
@@ -235,3 +290,4 @@ export const RecursosCompartidos = () => {
     </div>
     )
 }
+// 
