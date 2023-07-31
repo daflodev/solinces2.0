@@ -100,7 +100,10 @@ export const SideOptionsManagerHook = () => {
     dataSeelectPeriodo,
     columInfoPeriodo,
     colunmFieldPeriodo,
-    FKConsultManager
+    FKConsultManager,
+    fkGroup, 
+    combinedObject, 
+    FKConsultManagerFKTFormatoACT
 
   } = useFormTperiodo();
 
@@ -136,6 +139,7 @@ export const SideOptionsManagerHook = () => {
     setItems(null);
     setRollOptions(null);
   };
+  
 
   const handleOpenSecondaryTable = async (record, nameSideOption) => {
     console.log(record)
@@ -188,6 +192,8 @@ export const SideOptionsManagerHook = () => {
         setCurrentRowInformation(record);
         periodoFKData()
         FKConsultManager(['FK_TESCALA','FK_TFORMATO_CALIFICACION'], record)
+        FKConsultManagerFKTFormatoACT(['FK_TFORMATO_CALIFICACION'])
+      
 
         break;
       case "useFuncionarioPermission":
@@ -205,6 +211,7 @@ export const SideOptionsManagerHook = () => {
     }
   };
 
+  // console.log(combinedObject)
   useEffect(() => {
     if (dataSede) {
       const useSedeJornadaComponent = (
@@ -368,6 +375,7 @@ export const SideOptionsManagerHook = () => {
                 handleFormSubmit={handleSubmitPeriodo}
                 columnInfo={colunmFieldPeriodo}
                 record={currentRowInformation.PK_TPERIODO_ACADEMICO}
+                dataSelectFormatoTE={combinedObject}
               />
             </Card>
           </Col>
