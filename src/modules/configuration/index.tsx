@@ -48,6 +48,7 @@ import FormEstablecimiento from "../../utils/components/formUsuarioEstablecimien
 import MembreteComponent from "../../utils/components/membrete";
 import { SideOptionsManagerHook } from "./components/hooks/sideOptionsManagerHook";
 import { useEvaluationViewHook } from './components/hooks/useEvaluationViewHook';
+import { QualificationOptionComponent } from "./components/qualificationOption";
 
 
 
@@ -144,10 +145,12 @@ const Settings: React.FC = () => {
   };
 
   const renderContentManager = () => {
-    if (
-      currentRol != "SUPER_ADMINISTRADOR" &&
-      selectedItem?.nombre == "TESTABLECIMIENTO"
-    ) {
+
+    if(isOnEvaluationView){
+      return(<QualificationOptionComponent optionToRender={selectedItem?.nombre}/>)
+    }
+
+    if (currentRol != "SUPER_ADMINISTRADOR" && selectedItem?.nombre == "TESTABLECIMIENTO") {
       return (
         <FormEstablecimiento
           setTitleState={setDataTable}
@@ -165,6 +168,7 @@ const Settings: React.FC = () => {
 
     return vanillaTable;
   };
+
 
   const iconOptionsManager = (rol, selectedTable, selectedTableInformation) => {
     const rolesToShowuseFuncionarioPermission = [
