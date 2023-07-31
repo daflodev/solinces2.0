@@ -50,43 +50,30 @@ export const useFormTperiodo = () => {
   ];
 
   const apiGetFK = async (tablePrincipal: any, key_table: any) => {
-    // const prevData = {
-    //   base: "",
-    //   schema: parserTokenInformation?.dataSchema[0],
-    // };
 
-    // const getdata = changeKey(prevData, "base", nameTable);
-
-    // const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
-    //   //@ts-ignore
-    //   const { getdata } = response;
-
-    //   const res = getdata;
-    //   return res;
-    // });
     console.log(tablePrincipal);
 
-     let getDataTable
+
     const query = new QueryBuilders(tablePrincipal);
     // console.log(tablePrincipal)
     if (tablePrincipal === "escala") {
-      getDataTable = await query
+      const getDataTable = await query
         .select(["*"])
         .schema(parserTokenInformation?.dataSchema[0])
         .where(
           `${tablePrincipal}."FK_TPERIODO_ACADEMICO"`,
-          "=",
-          key_table?.PK_TPERIODO_ACADEMICO
+          "=", key_table?.PK_TPERIODO_ACADEMICO
         )
+
         // .limit(10)
         .get();
       // console.log(getDataTable);
       return getDataTable;
     }
     if (tablePrincipal === "formato_calificacion") {
-      getDataTable = await query
+      const getDataTable = await query
         .select(
-          'formato_calificacion."PK_TFORMATO_CALIFICACION", formato_calificacion."CODIGO", formato_calificacion."NOMBRE"'
+          ' DISTINCT formato_calificacion."PK_TFORMATO_CALIFICACION", formato_calificacion."CODIGO", formato_calificacion."NOMBRE"'
         )
         .schema(parserTokenInformation?.dataSchema[0])
         .join(
@@ -95,82 +82,74 @@ export const useFormTperiodo = () => {
           'formato_calificacion."PK_TFORMATO_CALIFICACION"'
         )
         .get()
-        
-
-
-      
-
-
-
       return getDataTable;
 
     }
   };
 
-const apiGetFKTFormatoACT = async (tablePrincipal: any) => {
-  const query = new QueryBuilders(tablePrincipal);
-  let getDataTable
-  if (tablePrincipal === "formato_calificacion") {
-    getDataTable = await query
-      .select(
-        'formato_calificacion."PK_TFORMATO_CALIFICACION", formato_calificacion."CODIGO", formato_calificacion."NOMBRE"'
-      )
-      .schema(parserTokenInformation?.dataSchema[0])
-      .join(
-        "periodo_academico_config",
-        '"FK_TFORMATO_CALIFICACION_ACT"',
-        'formato_calificacion."PK_TFORMATO_CALIFICACION"'
-      )
-      .get()
-    return getDataTable;
+  const apiGetFKTFormatoACT = async (tablePrincipal: any) => {
+    const query = new QueryBuilders(tablePrincipal);
+    let getDataTable
+    if (tablePrincipal === "formato_calificacion") {
+      getDataTable = await query
+        .select(
+          ' DISTINCT formato_calificacion."PK_TFORMATO_CALIFICACION", formato_calificacion."CODIGO", formato_calificacion."NOMBRE"'
+        )
+        .schema(parserTokenInformation?.dataSchema[0])
+        .join(
+          "periodo_academico_config",
+          '"FK_TFORMATO_CALIFICACION_ACT"',
+          'formato_calificacion."PK_TFORMATO_CALIFICACION"'
+        )
+        .get()
+      return getDataTable;
 
-  }
-};
- //Grupo de informacion par ala FK
- const [fkGroupTFormatoACT, setFkGroupTFormatoACT] = useState({});
-
-
-const FKConsultManagerFKTFormatoACT = (FKNameList: any) => {
-  let answer = {};
-
-  FKNameList.map((name) => {
-    const tableName = name;
-    console.log(tableName, "table name");
-    if (tableName.startsWith("FK_TF")) {
-      console.log(tableName, "table name");
-      const parserTablename = tableName.replace("FK_T", "");
-      console.log(parserTablename, "parse table");
-      apiGetFKTFormatoACT(parserTablename.toLowerCase())
-        .then((response) => {
-          const res = response;
-          answer = {
-            ...answer,
-            [name]: res,
-          };
-        })
-        .then(() => {
-          setFkGroupTFormatoACT({
-            ...fkGroupTFormatoACT,
-            ...answer,
-          });
-        })
-        .catch((e) => {
-          // const pre = {
-          //   [name]: []
-          // }
-
-          // setFkGroup({
-          //   ... fkGroup,
-          //   ...pre
-          // })
-
-          console.log(` error en ${name}: `, e);
-        });
     }
-  });
-  console.log(answer, "answer")
-  return answer;
-};
+  };
+  //Grupo de informacion par ala FK
+  const [fkGroupTFormatoACT, setFkGroupTFormatoACT] = useState({});
+
+
+  const FKConsultManagerFKTFormatoACT = (FKNameList: any) => {
+    let answer = {};
+
+    FKNameList.map((name) => {
+      const tableName = name;
+      //  ` console.log(tableName, "table name")`;
+      if (tableName.startsWith("FK_TF")) {
+        // console.log(tableName, "table name");
+        const parserTablename = tableName.replace("FK_T", "");
+        // console.log(parserTablename, "parse table");
+        apiGetFKTFormatoACT(parserTablename.toLowerCase())
+          .then((response) => {
+            const res = response;
+            answer = {
+              ...answer,
+              [name]: res,
+            };
+          })
+          .then(() => {
+            setFkGroupTFormatoACT({
+              ...fkGroupTFormatoACT,
+              ...answer,
+            });
+          })
+          .catch((e) => {
+            // const pre = {
+            //   [name]: []
+            // }
+
+            // setFkGroup({
+            //   ... fkGroup,
+            //   ...pre
+            // })
+
+            console.log(` error en ${name}: `, e);
+          });
+      }
+    });
+    return answer;
+  };
 
   //Grupo de informacion par ala FK
   const [fkGroup, setFkGroup] = useState({});
@@ -180,11 +159,11 @@ const FKConsultManagerFKTFormatoACT = (FKNameList: any) => {
 
     FKNameList.map((name) => {
       const tableName = name;
-      console.log(tableName, "table name");
+      // console.log(tableName, "table name");
       if (tableName.startsWith("FK_TE") || tableName.startsWith("FK_TF")) {
-        console.log(tableName, "table name");
+        // console.log(tableName, "table name");
         const parserTablename = tableName.replace("FK_T", "");
-        console.log(parserTablename, "parse table");
+        // console.log(parserTablename, "parse table");
         apiGetFK(parserTablename.toLowerCase(), key_table)
           .then((response) => {
             const res = response;
@@ -213,7 +192,6 @@ const FKConsultManagerFKTFormatoACT = (FKNameList: any) => {
           });
       }
     });
-    console.log(answer)
     return answer;
   };
 
@@ -384,37 +362,35 @@ const FKConsultManagerFKTFormatoACT = (FKNameList: any) => {
     );
   };
 
-console.log(fkGroup, "fkgroup")
-console.log(fkGroupTFormatoACT, "fk_groupACT")
 
 
 
-  let combinedObject = {};
 
-  // Iterar sobre las propiedades del objeto data
-  for (const property in fkGroup) {
-    if (fkGroup.hasOwnProperty(property)) {
-      // Renombrar la propiedad si es "FK_TFORMATO_CALIFICACION"
-      const newPropertyName = property === "FK_TFORMATO_CALIFICACION" ? "FK_TFORMATO_CALIFICACION_DEF" : property;
-
-      // Obtener el arreglo de objetos correspondiente a la propiedad actual
-      const array = fkGroup[property];
-
-      // Asignar los objetos al objeto combinado usando el operador de propagación
-      combinedObject = {
-        ...combinedObject,
-        [newPropertyName]: array
-      };
+  const cambiarNombreLlave = (objeto, nombreActual, nombreNuevo) => {
+    if (objeto.hasOwnProperty(nombreActual)) {
+      objeto[nombreNuevo] = objeto[nombreActual];
+      delete objeto[nombreActual];
     }
-  }
+  };
+
+  const combinarObjetos = (obj1, obj2) => {
+    // Copiar el contenido de obj2 en obj1
+    for (let prop in obj2) {
+      if (obj2.hasOwnProperty(prop)) {
+        obj1[prop] = obj2[prop];
+      }
+    }
+    return obj1;
+  };
 
 
+  cambiarNombreLlave(fkGroup, 'FK_TFORMATO_CALIFICACION', 'FK_TFORMATO_CALIFICACION_DEF');
+  cambiarNombreLlave(fkGroupTFormatoACT, 'FK_TFORMATO_CALIFICACION', 'FK_TFORMATO_CALIFICACION_ACT');
 
+  let combinedObject = combinarObjetos(fkGroup, fkGroupTFormatoACT);
 
-
-
-
-  
+  // console.log(combinedObject);
+  console.log(fkGroup)
 
   const handleSubmitPeriodo = async (
     values: any,
@@ -483,7 +459,7 @@ console.log(fkGroupTFormatoACT, "fk_groupACT")
       // If values are not empty, perform the update operation
       await updateForm
         .update(values)
-        .where('periodo_academico_config."FK_TPERIODO_ACADEMICO"', "=", record)
+        .where('"FK_TPERIODO_ACADEMICO"', "=", record)
         .schema(parserTokenInformation?.dataSchema[0])
         .save()
         .then((response) => {
@@ -545,8 +521,9 @@ console.log(fkGroupTFormatoACT, "fk_groupACT")
     colunmFieldPeriodo,
     FKConsultManager,
     fkGroup,
-    combinedObject, 
-    FKConsultManagerFKTFormatoACT
+    fkGroupTFormatoACT,
+    combinedObject,
+    FKConsultManagerFKTFormatoACT,
     // getFK
   };
 };

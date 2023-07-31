@@ -102,6 +102,7 @@ export const SideOptionsManagerHook = () => {
     colunmFieldPeriodo,
     FKConsultManager,
     fkGroup, 
+    fkGroupTFormatoACT,
     combinedObject, 
     FKConsultManagerFKTFormatoACT
 
@@ -357,7 +358,7 @@ export const SideOptionsManagerHook = () => {
     if (
       dataTperiodo &&
       optionTableSelected === "useTperiodo" &&
-      colunmFieldPeriodo
+      colunmFieldPeriodo && fkGroup && fkGroupTFormatoACT
     ) {
      
       const tPerido = (
@@ -375,7 +376,7 @@ export const SideOptionsManagerHook = () => {
                 handleFormSubmit={handleSubmitPeriodo}
                 columnInfo={colunmFieldPeriodo}
                 record={currentRowInformation.PK_TPERIODO_ACADEMICO}
-                dataSelectFormatoTE={combinedObject}
+                dataSelectFormatoTE={fkGroup}
               />
             </Card>
           </Col>
