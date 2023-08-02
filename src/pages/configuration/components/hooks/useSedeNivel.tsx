@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import message from "antd/es/message";
 import { apiGetThunksAsyncSedeNivel, apiPostThunksAsyncSedeNivel } from "@/services/api/thunks";
 interface DataItem {

@@ -13,7 +13,6 @@ import { useSedePerifericos } from "./usePerifericosMedios";
 import { useFormTperiodo } from "./useTperiodoAcademico";
 import SedeInfraEstructuraFisica from "@/components/formSedeInfra";
 import { useJournySede } from "./useSedeJornada";
-// import { useTperiodo } from "./useTperiodoAcademico"
 
 export const SideOptionsManagerHook = () => {
   const [optionTableSelected, setOptionTableSelected] = useState("");

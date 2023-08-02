@@ -661,6 +661,7 @@ const wordIcon = (
   </svg>
 )
 
+<<<<<<< HEAD:src/assets/icon/iconManager.tsx
 
 const subjectRegistration = (<svg width="24" height="17" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M4.875 13.5C4.57663 13.5 4.29048 13.6185 4.0795 13.8295C3.86853 14.0405 3.75 14.3266 3.75 14.625C3.75 15.0392 3.41421 15.375 3 15.375C2.58579 15.375 2.25 15.0392 2.25 14.625C2.25 13.9288 2.52656 13.2611 3.01884 12.7688C3.51113 12.2766 4.17881 12 4.875 12H15C15.4142 12 15.75 12.3358 15.75 12.75C15.75 13.1642 15.4142 13.5 15 13.5H4.875Z" fill="#141B47"/>
@@ -670,6 +671,8 @@ const subjectRegistration = (<svg width="24" height="17" viewBox="0 0 18 18" fil
 </svg>
 )
 
+=======
+>>>>>>> 6d91b67d98a1969523663cb3416442bab1b64bd8:src/utils/assets/icon/iconManager.tsx
 export {
   MinusOutlined,
   PlusOutlined,
@@ -700,5 +703,8 @@ export {
   excelIcon,
   powerPointIcon,
   wordIcon,
+<<<<<<< HEAD:src/assets/icon/iconManager.tsx
   subjectRegistration,
+=======
+>>>>>>> 6d91b67d98a1969523663cb3416442bab1b64bd8:src/utils/assets/icon/iconManager.tsx
 };

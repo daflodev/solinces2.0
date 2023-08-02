@@ -1,5 +1,5 @@
 import { Col, Form, Input, InputNumber, Layout, Row, Select } from "antd";
-import { saveIcon } from "../../assets/icon/iconManager";
+import { saveIcon } from "@/assets/icon/iconManager.tsx";
 import { useState } from "react";
 
 interface infraProps {
