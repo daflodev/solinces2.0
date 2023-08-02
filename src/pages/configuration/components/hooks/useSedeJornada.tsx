@@ -1,9 +1,6 @@
 import { useState } from "react";
-import {
-  apiGetThunksAsyncSedeJornada,
-  apiPostThunksAsyncSedeJornada,
-} from "@/services/api/thunks";
 import message from "antd/es/message";
+import { apiGetThunksAsyncSedeJornada, apiPostThunksAsyncSedeJornada } from "@/services/api/thunks";
 interface DataItem {
   PK_TJORNADA: any;
   NOMBRE: any;

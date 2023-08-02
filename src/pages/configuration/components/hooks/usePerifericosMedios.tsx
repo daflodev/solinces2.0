@@ -1,17 +1,11 @@
 import { useState } from "react";
-import {
-    apiFKThunksAsyncSedeInfra,
-    apiGetThunksAsyncSedeInfra,
-    apiGetThunksAsyncSedePeripherals,
-    apiPostThunksAsyncPeripherals,
 
-    // apiPostThunksAsyncSedeInfra
-    apiPutSedePeripherals,
-} from "@/services/api/thunks";
 import { Form, message } from "antd";
 
 import _ from "lodash";
+import { apiFKThunksAsyncSedeInfra } from "@/services/api/thunks";
 import { QueryBuilders } from "@/services/orm/queryBuilders";
+
 
 export const useSedePerifericos = () => {
     const tokenInformation = localStorage.getItem("user_token_information");
@@ -69,7 +63,7 @@ export const useSedePerifericos = () => {
 
         const preData = Object.values(getDataTable);
         const filteredData = preData.filter(
-            (obj) =>
+            (obj: any) =>
                 obj.column_name !== "FK_TSEDE" &&
                 obj.column_name !== "AUTHOR_RC" &&
                 obj.column_name !== "CLIENTS_RC"

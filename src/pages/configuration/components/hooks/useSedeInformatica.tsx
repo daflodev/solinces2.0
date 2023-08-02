@@ -1,14 +1,11 @@
 import { useState } from "react";
-import {
-  apiFKThunksAsyncSedeInfra,
-  apiGetThunksAsyncSedeTecnology,
-  apiPostThunksAsyncSedeTecnology,
-  apiPutSedeTecnology,
-} from "@/services/api/thunks";
+
 import { Form, message } from "antd";
 
 import _ from "lodash";
+import { apiFKThunksAsyncSedeInfra } from "@/services/api/thunks";
 import { QueryBuilders } from "@/services/orm/queryBuilders";
+
 
 export const useSedeTecnology = () => {
   //data table for items list FK_TLV
@@ -77,7 +74,7 @@ export const useSedeTecnology = () => {
       .columninfo();
 
     const preData = Object.values(getDataTable)
-    const filteredData = preData.filter((obj) => obj.column_name !== "FK_TSEDE" && obj.column_name !== "AUTHOR_RC" && obj.column_name !== "CLIENTS_RC");
+    const filteredData = preData.filter((obj: any) => obj.column_name !== "FK_TSEDE" && obj.column_name !== "AUTHOR_RC" && obj.column_name !== "CLIENTS_RC");
 
     // console.log(filteredData, "COLUMN_INFO")
     setColumnFieldTecnology(filteredData)
@@ -215,46 +212,46 @@ export const useSedeTecnology = () => {
         .where('"FK_TSEDE"', '=', record)
         .schema(parserTokenInformation?.dataSchema[0])
         .save()
-        .then((response) => {
-          // console.log(response)
-          let isSuccess = false;
+          .then((response) => {
+            // console.log(response)
+            let isSuccess = false;
 
-          for (const key in response) {
-            if (Object.hasOwnProperty.call(response, key)) {
-              const value = response[key];
-              // console.log(`${key}: ${value}`);
+            for (const key in response) {
+              if (Object.hasOwnProperty.call(response, key)) {
+                const value = response[key];
+                // console.log(`${key}: ${value}`);
 
-              if (key === 'message' && value === 'Success') {
-                isSuccess = true;
-                break;
+                if (key === 'message' && value === 'Success') {
+                  isSuccess = true;
+                  break;
+                }
               }
             }
-          }
 
-          if (isSuccess) {
-            // console.log('La solicitud fue exitosa.');
-            messageApi.open({
-              type: "success",
-              content: "se ha modificado la infraestructura tecnologia a la sede",
-            });
+            if (isSuccess) {
+              // console.log('La solicitud fue exitosa.');
+              messageApi.open({
+                type: "success",
+                content: "se ha modificado la infraestructura tecnologia a la sede",
+              });
 
-            setTimeout(() => {
-              cerrarTable();
-            }, 2000);
-          } else {
-            // console.log('La solicitud no fue exitosa.');
-            messageApi.open({
-              type: "error",
-              content:
-                "no se pudo hacer editar la infraestructura  tecnologia de la sede",
-            });
-            setTimeout(() => {
-              cerrarTable();
-            }, 2000);
-          }
+              setTimeout(() => {
+                cerrarTable();
+              }, 2000);
+            } else {
+              // console.log('La solicitud no fue exitosa.');
+              messageApi.open({
+                type: "error",
+                content:
+                  "no se pudo hacer editar la infraestructura  tecnologia de la sede",
+              });
+              setTimeout(() => {
+                cerrarTable();
+              }, 2000);
+            }
 
 
-        })
+          })
 
 
       // console.log(results);
