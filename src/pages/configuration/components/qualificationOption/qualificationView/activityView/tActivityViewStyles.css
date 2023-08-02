@@ -6,7 +6,7 @@
 }
 
 .activity_container .menu_activity_view .ant-input-affix-wrapper-focused{
-    border: 0px !important;
+    box-shadow: 0 0 0 0 #ffffff;
 }
 
 .activity_container .menu_activity_view .ant-input-affix-wrapper-lg{
@@ -16,7 +16,7 @@
 }
 
 .activity_container .menu_activity_view .ant-input-affix-wrapper-lg .ant-input{
-    width: 300px;
+    width: 220px;
 }
 
 .activity_container .menu_activity_view .ant-input-affix-wrapper-lg:hover{

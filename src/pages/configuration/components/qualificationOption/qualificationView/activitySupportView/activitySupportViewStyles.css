@@ -1,0 +1,65 @@
+.activity_support_container{
+    
+}
+
+.activity_support_container .activity_support_title{
+    font-weight: 600;
+    font-size: 2rem;
+    line-height: 33px;
+}
+
+.activity_support_container .search_input_header .ant-input-affix-wrapper-focused{
+    box-shadow: 0 0 0 0 #ffffff;
+}
+
+.activity_support_container .search_input_header .ant-input-affix-wrapper-lg{
+    border: 0px;
+    background-color: var(--bg-color);
+    padding: 0;
+}
+
+.activity_support_container .search_input_header .ant-input-affix-wrapper-lg .ant-input{
+    width: 220px;
+}
+
+.activity_support_container .search_input_header .ant-input-affix-wrapper-lg:hover{
+    border: 0px;
+}
+
+.activity_support_container .search_input_header .ant-input-affix-wrapper-lg .ant-input{
+    background-color: var(--bg-color);
+    margin-left: 10px;
+    color: var(--font-color)
+}
+
+.activity_support_container .search_input_header .ant-input-affix-wrapper-lg .ant-input::placeholder{
+    color: var(--high-gray);
+}
+
+.activity_support_container .column_value_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.activity_support_container .column_value_container .column_value_container_score{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 20px;
+    background-color: chartreuse;
+    color: white;
+    border-radius: 4px;
+    margin-left: 14px;
+    margin-right: 14px;
+}
+
+.activity_support_container .activity_support_header_icon svg:hover path{
+    fill: var(--font-color-activity-section);
+}
+
+.activity_support_container .activity_support_table_name{
+    max-height: calc(93vh - 20rem);
+    overflow: auto;
+}

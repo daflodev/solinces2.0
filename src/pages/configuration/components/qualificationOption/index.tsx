@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { SelectCalificationComponent } from '@/components/selectCalification';
 import TActivityView from './qualificationView/activityView/tActivityView';
 import { RecursosCompartidos } from "@/components/recursosCompartidos";
+import ActivitySupportViewComp from './qualificationView/activitySupportView/activitySupportViewComp';
 
 interface QualificationOptionComponentInterface{
     optionToRender: string;
@@ -26,6 +27,10 @@ export const QualificationOptionComponent: React.FC<QualificationOptionComponent
             
             case 'TRECURSO_COMPARTIDO':
                 setCurrentOptionSelectedRender(<RecursosCompartidos/>)
+                break;
+
+            case 'TACTIVIDAD_SOPORTE':
+                setCurrentOptionSelectedRender(<ActivitySupportViewComp/>)
                 break;
         
             default:

@@ -34,10 +34,7 @@ import {
   sedeTecnologicaIcon,
   perifericosMediosIcon,
   TperiodoConfig,
-<<<<<<< HEAD:src/pages/configuration/index.tsx
   subjectRegistration,
-=======
->>>>>>> 6d91b67d98a1969523663cb3416442bab1b64bd8:src/modules/configuration/index.tsx
 } from "@/assets/icon/iconManager";
 import { withPrincipal } from "@/components/content";
 import { EditableCell } from "@/components/editablecells";
@@ -150,13 +147,8 @@ const Settings: React.FC = () => {
 
   const renderContentManager = () => {
 
-<<<<<<< HEAD:src/pages/configuration/index.tsx
-    if (isOnEvaluationView) {
-      return (<QualificationOptionComponent optionToRender={selectedItem?.nombre} />)
-=======
     if(isOnEvaluationView){
       return(<QualificationOptionComponent optionToRender={selectedItem?.nombre}/>)
->>>>>>> 6d91b67d98a1969523663cb3416442bab1b64bd8:src/modules/configuration/index.tsx
     }
 
     if (currentRol != "SUPER_ADMINISTRADOR" && selectedItem?.nombre == "TESTABLECIMIENTO") {
@@ -821,6 +813,5 @@ const Settings: React.FC = () => {
     </>
   );
 };
-
 
 export default withPrincipal(Settings);
