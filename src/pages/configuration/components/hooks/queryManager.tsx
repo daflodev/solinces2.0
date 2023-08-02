@@ -215,6 +215,16 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                     .get()
                 break;
 
+            case 'mensaje_promocion':
+                //TODO: consult mensaje_promocion
+                answerQuery = await query
+                    .select('mensaje_promocion.*')
+                    .schema(schema)
+                    .where('"FK_TESTABLECIMIENTO"', '=', currentInstitution?.value)
+                    .limit(20)
+                    .get()
+                break;
+
             // SEDE
             case 'funcionario':
                 //TODO: consult funcionario
@@ -223,6 +233,17 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                     .schema(schema)
                     .join('sede_usuario', '"FK_TUSUARIO"', 'funcionario."FK_TUSUARIO"')
                     .where('sede_usuario."FK_TSEDE"', '=', currentCampus?.value)
+                    .limit(20)
+                    .get()
+                break;
+
+            case 'calendario_detalle':
+                //TODO: consult calendario_detalle
+                answerQuery = await query
+                    .select('calendario_detalle.*')
+                    .schema(schema)
+                    .join('calendario', '"PK_TCALENDARIO"', 'calendario_detalle."PK_TCALENDARIO_DETALLE"')
+                    .where('calendario."FK_TSEDE"', '=', currentCampus?.value)
                     .limit(20)
                     .get()
                 break;
@@ -447,6 +468,68 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                         .limit(20)
                         .get()
                     break;
+
+                case 'sede_convenio':
+                    //TODO: consult sede_convenio
+                    answerQuery = await query
+                        .select('sede_convenio.*')
+                        .schema(schema)
+                        .where('"FK_TPERIODO_ORIGEN"', '=', currentAcademicYear)
+                        .limit(20)
+                        .get()
+                    break;
+
+                case 'traslado_estudiante':
+                    //TODO: consult traslado_estudiante
+                    answerQuery = await query
+                        .select('traslado_estudiante.*')
+                        .schema(schema)
+                        .where('"FK_TGRUPO_ORIGEN"', '=', currentAcademicYear)
+                        .limit(20)
+                        .get()
+                    break;
+
+                // case 'INSCRIPCIONES':
+                //     //TODO: consult Inscripcion
+                //     answerQuery = await query
+                //         .select('matricula.*')
+                //         .schema(schema)
+                //         .join('lista_valor', '"PK_TLISTA_VALOR"', 'matricula."FK_TLV_TIPO_MATRICULA"')
+                //         .join('grupo', '"PK_TGRUPO"', 'matricula."FK_TGRUPO"')
+                //         .join('grado', '"PK_TGRADO"', 'grupo."FK_TGRADO"')
+                //         .where('lista_valor."NOMBRE"', '=', 'Inscripcion')
+                        // .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
+                //         .limit(20)
+                //         .get()
+                //     break;
+
+                // case 'INSCRIPCIONES':
+                //     //TODO: consult Traslado
+                //     answerQuery = await query
+                //         .select('matricula.*')
+                //         .schema(schema)
+                //         .join('lista_valor', '"PK_TLISTA_VALOR"', 'matricula."FK_TLV_TIPO_MATRICULA"')
+                //         .join('grupo', '"PK_TGRUPO"', 'matricula."FK_TGRUPO"')
+                //         .join('grado', '"PK_TGRADO"', 'grupo."FK_TGRADO"')
+                //         .where('lista_valor."NOMBRE"', '=', 'Traslado')
+                        // .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
+                //         .limit(20)
+                //         .get()
+                //     break;
+
+                // case 'INSCRIPCIONES':
+                //     //TODO: consult Prematricula
+                //     answerQuery = await query
+                //         .select('matricula.*')
+                //         .schema(schema)
+                //         .join('lista_valor', '"PK_TLISTA_VALOR"', 'matricula."FK_TLV_TIPO_MATRICULA"')
+                //         .join('grupo', '"PK_TGRUPO"', 'matricula."FK_TGRUPO"')
+                //         .join('grado', '"PK_TGRADO"', 'grupo."FK_TGRADO"')
+                //         .where('lista_valor."NOMBRE"', '=', 'Prematricula')
+                //         // .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
+                //         .limit(20)
+                //         .get()
+                //     break;
 
             default:
 
