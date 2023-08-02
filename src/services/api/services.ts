@@ -1,6 +1,10 @@
+import { environment } from "@/enviroments/enviroment";
 import axios from "axios";
+
+const API_URL = environment.API_TEST;
+
 export const ApiServicesThunks = async (data: any) => {
-  const url = "https://apisolinces.colombiaevaluadora.co/base/";
+  const url = `${API_URL}/base/`;
   const resp = await axios.post(url, data).then((response) => {
     return response;
   });
@@ -8,7 +12,7 @@ export const ApiServicesThunks = async (data: any) => {
 };
 
 export const ApiSedeInfra = async (data: any) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/infrastructure_headquarters/${data}`;
+  const url = `${API_URL}/infrastructure_headquarters/${data}`;
 
   const resp = await axios.get(url).then((response) => {
     return response;
@@ -17,7 +21,7 @@ export const ApiSedeInfra = async (data: any) => {
 };
 
 export const ApiSedeInfraPost = async (data) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/infrastructure_headquarters/`;
+  const url = `${API_URL}/infrastructure_headquarters/`;
 
   const resp = await axios
     .post(url,data )
@@ -27,7 +31,7 @@ export const ApiSedeInfraPost = async (data) => {
   return resp;
 };
 export const ApiSedeAsyncInfraPut = async (FK_TSEDE, data) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/infrastructure_headquarters/${FK_TSEDE}`;
+  const url = `${API_URL}/infrastructure_headquarters/${FK_TSEDE}`;
 
   const resp = axios
     .put(url,data)
@@ -38,7 +42,7 @@ export const ApiSedeAsyncInfraPut = async (FK_TSEDE, data) => {
 };
 
 export const ApiSedeInfraFK = async (data) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/value_list/`;
+  const url = `${API_URL}/value_list/`;
 
   const resp = await axios
     .post(url,data )
@@ -50,7 +54,7 @@ export const ApiSedeInfraFK = async (data) => {
 };
 
 export const ApiSedePeripherls = async (data: any) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/mid_peripherals_headquarters/${data}`;
+  const url = `${API_URL}/mid_peripherals_headquarters/${data}`;
 
   const resp = await axios.get(url).then((response) => {
     return response;
@@ -59,7 +63,7 @@ export const ApiSedePeripherls = async (data: any) => {
 };
 
 export const ApiSedePeripherlsPost = async (data) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/mid_peripherals_headquarters`;
+  const url = `${API_URL}/mid_peripherals_headquarters`;
 
   const resp = await axios
     .post(url,data )
@@ -70,7 +74,7 @@ export const ApiSedePeripherlsPost = async (data) => {
 };
 
 export const ApiSedeAsyncPeripheralsPut = async (FK_TSEDE, data) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/mid_peripherals_headquarters/${FK_TSEDE}`;
+  const url = `${API_URL}/mid_peripherals_headquarters/${FK_TSEDE}`;
 
   const resp = axios
     .put(url,data)
@@ -81,7 +85,7 @@ export const ApiSedeAsyncPeripheralsPut = async (FK_TSEDE, data) => {
 };
 
 export const ApiSedeTecnology = async (data: any) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/computing_headquarters/${data}`;
+  const url = `${API_URL}/computing_headquarters/${data}`;
 
   const resp = await axios.get(url).then((response) => {
     return response;
@@ -92,7 +96,7 @@ export const ApiSedeTecnology = async (data: any) => {
 // mid_peripherals_headquarters
 
 export const ApiSedeTecnologyPost = async (data) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/computing_headquarters`;
+  const url = `${API_URL}/computing_headquarters`;
 
   const resp = await axios
     .post(url,data )
@@ -103,7 +107,7 @@ export const ApiSedeTecnologyPost = async (data) => {
 };
 
 export const ApiSedeAsyncTecnologyPut = async (FK_TSEDE, data) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/computing_headquarters/${FK_TSEDE}`;
+  const url = `${API_URL}/computing_headquarters/${FK_TSEDE}`;
 
   const resp = axios
     .put(url,data)
@@ -114,7 +118,7 @@ export const ApiSedeAsyncTecnologyPut = async (FK_TSEDE, data) => {
 };
 
 export const ApiSedeJornada = async (data: any) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/journy_sede/${data}`;
+  const url = `${API_URL}/journy_sede/${data}`;
   const resp = await axios.get(url).then((response) => {
     return response;
   });
@@ -122,7 +126,7 @@ export const ApiSedeJornada = async (data: any) => {
 };
 
 export const ApiSedeJornadaPost = async (data) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/journy_sede/`;
+  const url = `${API_URL}/journy_sede/`;
   const resp = await axios
     .post(url,data )
     .then((response) => {
@@ -132,7 +136,7 @@ export const ApiSedeJornadaPost = async (data) => {
 };
 
 export const ApiSedeNivel = async (data: any) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/level_sede/${data}`;
+  const url = `${API_URL}/level_sede/${data}`;
   const resp = await axios.get(url).then((response) => {
     return response;
   });
@@ -140,7 +144,7 @@ export const ApiSedeNivel = async (data: any) => {
 };
 
 export const ApiSedeNivelPost = async (data) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/level_sede/`;
+  const url = `${API_URL}/level_sede/`;
   const resp = await axios
     .post(url,data )
     .then((response) => {
@@ -150,7 +154,7 @@ export const ApiSedeNivelPost = async (data) => {
 };
 
 export const ApiServicesThunksMainMenu = async () => {
-  const url = "https://apisolinces.colombiaevaluadora.co/menu/";
+  const url = `${API_URL}/menu/`;
   const resp = await axios.get(url).then((response) => {
     return response;
   });
@@ -158,7 +162,7 @@ export const ApiServicesThunksMainMenu = async () => {
 };
 
 export const ApiServicesThunksMainMenuOptionsItem = async (data: any) => {
-  const url = "https://apisolinces.colombiaevaluadora.co/menu_kids/";
+  const url = `${API_URL}/menu_kids/`;
   const resp = await axios.post(url, data).then((response) => {
     return response;
   });
@@ -171,7 +175,7 @@ export const ApiServicesPasswordChange = async (data: any) => {
     : null;
   const user = parserTokenInformation?.sub;
   const url =
-    "https://auth.colombiaevaluadora.edu.co/auth/admin/realms/solinces/users/" +
+    environment.API_AUTH +
     user;
   const resp = await axios.put(url, data).then((response) => {
     return response;
@@ -179,39 +183,39 @@ export const ApiServicesPasswordChange = async (data: any) => {
   return resp;
 };
 export const ApiServicesGetPermissionOptions = async (data: any) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/menu_list/`;
+  const url = `${API_URL}/menu_list/`;
   const resp = await axios.post(url, data).then((response) => {
     return response;
   });
   return resp;
 };
 export const ApiServicesUpdatePermissionOptions = async (data: any) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/menu_list/post/`;
+  const url = `${API_URL}/menu_list/post/`;
   const resp = await axios.post(url, data).then((response) => {
     return response;
   });
   return resp;
 };
 export const ApiServicesGetAllRoles = async () => {
-  const url = `https://apisolinces.colombiaevaluadora.co/rols/`;
+  const url = `${API_URL}/rols/`;
   const resp = await axios.get(url);
   return resp;
 };
 export const ApiServicesGetUserRoles = async (data: any) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/officer_rols/${data}`;
+  const url = `${API_URL}/officer_rols/${data}`;
   const resp = await axios.get(url);
   return resp;
 };
 export const ApiServicesUpdateUserRoles = async (data: any) => {
-  const url = `https://apisolinces.colombiaevaluadora.co/officer_rols`;
+  const url = `${API_URL}/officer_rols`;
   const resp = await axios.post(url, data).then((response) => {
     return response;
   });
   return resp;
 };
 export const ApiServicesMembrete = async (data: any) => {
-    // const url = "https://apisolinces.colombiaevaluadora.co/upload_file/";
-    const url = "http://localhost:3001/upload_file/";
+    // const url = "${API_URL}/upload_file/";
+    const url = `${API_URL}/upload_file/`;
     const formData = new FormData();
     formData.append('file', data.file);
     formData.append('idsede', data.idsede);
