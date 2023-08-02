@@ -1,9 +1,6 @@
 import { useState } from "react";
-import {
-  apiGetThunksAsyncSedeNivel,
-  apiPostThunksAsyncSedeNivel,
-} from "@/services/api/thunks";
 import message from "antd/es/message";
+import { apiGetThunksAsyncSedeNivel, apiPostThunksAsyncSedeNivel } from "@/services/api/thunks";
 interface DataItem {
   PK_TNIVEL_ENSENANZA: any;
   NOMBRE: any;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useJournySede } from "./useSedeJornada";
+
 import { TFuncionarioTPermissionGetDataHook } from "../optionsRender/tfuncionario_tpermitidos/tfuncionarioTpermitidosHook";
 import { FuncionarioPermissionComponent } from "../optionsRender/tfuncionario_tpermitidos/tfuncionario_tpermitidos";
 
@@ -12,7 +12,7 @@ import { useSedeTecnology } from "./useSedeInformatica";
 import { useSedePerifericos } from "./usePerifericosMedios";
 import { useFormTperiodo } from "./useTperiodoAcademico";
 import SedeInfraEstructuraFisica from "@/components/formSedeInfra";
-// import { useTperiodo } from "./useTperiodoAcademico"
+import { useJournySede } from "./useSedeJornada";
 
 export const SideOptionsManagerHook = () => {
   const [optionTableSelected, setOptionTableSelected] = useState("");
@@ -100,9 +100,17 @@ export const SideOptionsManagerHook = () => {
     dataSeelectPeriodo,
     columInfoPeriodo,
     colunmFieldPeriodo,
-    FKConsultManager
-
+    FKConsultManager,
+    fkGroup,
+    fkGroupTFormatoACT,
+    combinedObject,
+    FKConsultManagerFKTFormatoACT, contextHolderPeriodo,
   } = useFormTperiodo();
+
+
+  // const { handleTransferChange,
+  //   subjectsData,
+  //   enrolledSubjects, } = useTransferMatricula()
 
   // const {PostData} = useTperiodo
   // const {onFieldChange, onFinish}=useSedeInfra()
@@ -149,7 +157,7 @@ export const SideOptionsManagerHook = () => {
 
         break;
       case "useSedeNivel":
-        setTableGridWidth(16);
+        setTableGridWidth(12);
         nivelSedeGetData(record);
 
         break;
@@ -187,7 +195,9 @@ export const SideOptionsManagerHook = () => {
         setOptionTableSelected("useTperiodo");
         setCurrentRowInformation(record);
         periodoFKData()
-        FKConsultManager(['FK_TESCALA','FK_TFORMATO_CALIFICACION'], record)
+        FKConsultManager(['FK_TESCALA', 'FK_TFORMATO_CALIFICACION'], record)
+        FKConsultManagerFKTFormatoACT(['FK_TFORMATO_CALIFICACION'])
+
 
         break;
       case "useFuncionarioPermission":
@@ -198,6 +208,14 @@ export const SideOptionsManagerHook = () => {
           record.FK_TUSUARIO ? record?.FK_TUSUARIO : record?.PK_TUSUARIO
         );
         break;
+
+      case "useTransferMatricula":
+        setOptionTableSelected("useTransferMatricula");
+        setCurrentRowInformation(record.PK_TMATRICULA);
+        setTableGridWidth(10);
+
+        break;
+
 
       default:
         setIsSecondaryTableOpen(false);
@@ -350,11 +368,12 @@ export const SideOptionsManagerHook = () => {
     if (
       dataTperiodo &&
       optionTableSelected === "useTperiodo" &&
-      colunmFieldPeriodo
+      colunmFieldPeriodo && fkGroup && fkGroupTFormatoACT
     ) {
-     
+
       const tPerido = (
         <>
+          {contextHolderPeriodo}
           <Col md={8}>
             <Card
               style={{ width: "100%" }}
@@ -368,6 +387,7 @@ export const SideOptionsManagerHook = () => {
                 handleFormSubmit={handleSubmitPeriodo}
                 columnInfo={colunmFieldPeriodo}
                 record={currentRowInformation.PK_TPERIODO_ACADEMICO}
+                dataSelectFormatoTE={fkGroup}
               />
             </Card>
           </Col>
@@ -403,6 +423,32 @@ export const SideOptionsManagerHook = () => {
 
       setSecondaryTableComponentRender(useFuncionarioPermissionComponent);
     }
+
+    // if (subjectsData && optionTableSelected=== "useTransferMatricula") {
+
+    //   const useTransferMatricula = (
+    //     <>
+    //       {/* {contextHolderPerifericos} */}
+    //       <Col md={8}>
+    //         <Card
+    //           style={{ width: "100%" }}
+    //           title="Asignaturas matriculas"
+    //           extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
+    //         >
+              
+      
+    //   <TransferComponent
+    //     subjects={subjectsData}
+    //     enrolledSubjects={enrolledSubjects}
+    //     onTransferChange={handleTransferChange}
+    //   />
+    
+    //         </Card>
+    //       </Col>
+    //     </>
+    //   );
+    //   setSecondaryTableComponentRender(useTransferMatricula);
+    // }
   }, [
     dataSede,
     dataSedeNivel,

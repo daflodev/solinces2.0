@@ -12,6 +12,8 @@ export const RecursosCompartidos = () => {
 
   const currentDate = new Date();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [input, setInput] = useState(true);
+
 
    // @ts-ignore
    const { currentAsignature,currentGrade,currentGroup, currentEvaluationPeriod } =

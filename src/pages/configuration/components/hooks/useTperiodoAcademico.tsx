@@ -1,12 +1,13 @@
 import { message } from "antd";
 import { useEffect, useState } from "react";
+;
+import _ from "lodash";
 import { apiFKThunksAsyncSedeInfra } from "@/services/api/thunks";
 import { QueryBuilders } from "@/services/orm/queryBuilders";
-import _ from "lodash";
 // import { sessionInformationStore } from "@/store/userInformationStore";
 // import shallow from "zustand/shallow";
 export const useFormTperiodo = () => {
-  const [messageApi, contextHolder] = message.useMessage();
+  const [messageApi, contextHolderPeriodo] = message.useMessage();
 
   // const [itemsColumnsInformation, setItemsColumnsInformation] = useState([]);
 
@@ -36,20 +37,6 @@ export const useFormTperiodo = () => {
     ? JSON.parse(tokenInformation)
     : null;
 
-  // const { currentInstitution, currentAcademicPeriod } = sessionInformationStore(
-  //   (state) => ({
-  //     currentInstitution: state.currentInstitution,
-  //     currentAcademicPeriod:state.currentAcademicPeriod
-  //   }),
-  //   shallow
-  // );
-
-  // const query = new QueryBuilders('periodo_academico_config');
-  // const results = await query.select(['*'])
-  //                            .where('periodo_academico_config."FK_TPERIODO_ACADEMICO"', '=', 1392)
-  //                            .schema(`${schema}`)
-  //                            .get();
-
   const fkTlvCategoria = [
     "'CRITERIO_AREA'",
     "'CRITERIO_DESEMPENO'",
@@ -63,76 +50,107 @@ export const useFormTperiodo = () => {
     "'MODO_REDONDEAR'",
   ];
 
-  const apiGetFK = async (fkNames: any, key_table) => {
-    // const prevData = {
-    //   base: "",
-    //   schema: parserTokenInformation?.dataSchema[0],
-    // };
+  const apiGetFK = async (tablePrincipal: any, key_table: any) => {
 
-    // const getdata = changeKey(prevData, "base", nameTable);
+    console.log(tablePrincipal);
 
-    // const getDataTable = await apiGetThunksAsync(getdata).then((response) => {
-    //   //@ts-ignore
-    //   const { getdata } = response;
 
-    //   const res = getdata;
-    //   return res;
-    // });
-console.log(fkNames)
-    const query = new QueryBuilders(fkNames);
-    // console.log(fkNames)
-    if (fkNames === "escala") {
+    const query = new QueryBuilders(tablePrincipal);
+    // console.log(tablePrincipal)
+    if (tablePrincipal === "escala") {
       const getDataTable = await query
         .select(["*"])
         .schema(parserTokenInformation?.dataSchema[0])
         .where(
-          `${fkNames}."FK_TPERIODO_ACADEMICO"`,
-          "=",
-          key_table?.PK_TPERIODO_ACADEMICO
+          `${tablePrincipal}."FK_TPERIODO_ACADEMICO"`,
+          "=", key_table?.PK_TPERIODO_ACADEMICO
         )
+
         // .limit(10)
         .get();
       // console.log(getDataTable);
       return getDataTable;
-    } if (fkNames === "formato_calificacion") {
-      const getDataTable = await query
-      .select('formato_calificacion."PK_TFORMATO_CALIFICACION", formato_calificacion."CODIGO", formato_calificacion."NOMBRE"')
-        .schema(parserTokenInformation?.dataSchema[0])
-        .join('periodo_academico_config','"FK_TFORMATO_CALIFICACION_DEF"' , 
-        'formato_calificacion."PK_TFORMATO_CALIFICACION"')
-        .get();
-
-
-        // select('sesion.*')
-        // .schema(schema)
-        // .join('sede_usuario', '"FK_TUSUARIO"', 'sesion."FK_TUSUARIO"')
-        // .where('sede_usuario."FK_TSEDE"', '=', currentCampus?.value)
-        // .limit(20)
-        // .get()
-
-
-
-      
-        // const query = new QueryBuilders('formato_calificacion');
-        // const results = await query.select(['*'])
-        //                            .join('periodo_academico_config', '"FK_TFORMATO_CALIFICACION_ACT"', 'formato_calificacion."PK_TFORMATO_CALIFICACION"')
-        //                            .schema(`${schema}`)
-        //                            .get();
-      
-      
-        //  .where(
-      //    `${fkNames}."FK_TPERIODO_ACADEMICO"`,
-      //    "=",
-      //    key_table?.PK_TPERIODO_ACADEMICO
-      //  )
-      // .limit(10)
-
-      // console.log(getDataTable);
-      return getDataTable;
     }
+    if (tablePrincipal === "formato_calificacion") {
+      const getDataTable = await query
+        .select(
+          ' DISTINCT formato_calificacion."PK_TFORMATO_CALIFICACION", formato_calificacion."CODIGO", formato_calificacion."NOMBRE"'
+        )
+        .schema(parserTokenInformation?.dataSchema[0])
+        .join(
+          "periodo_academico_config",
+          '"FK_TFORMATO_CALIFICACION_DEF"',
+          'formato_calificacion."PK_TFORMATO_CALIFICACION"'
+        )
+        .get()
+      return getDataTable;
 
+    }
   };
 
+  const apiGetFKTFormatoACT = async (tablePrincipal: any) => {
+    const query = new QueryBuilders(tablePrincipal);
+    let getDataTable
+    if (tablePrincipal === "formato_calificacion") {
+      getDataTable = await query
+        .select(
+          ' DISTINCT formato_calificacion."PK_TFORMATO_CALIFICACION", formato_calificacion."CODIGO", formato_calificacion."NOMBRE"'
+        )
+        .schema(parserTokenInformation?.dataSchema[0])
+        .join(
+          "periodo_academico_config",
+          '"FK_TFORMATO_CALIFICACION_ACT"',
+          'formato_calificacion."PK_TFORMATO_CALIFICACION"'
+        )
+        .get()
+      return getDataTable;
+
+    }
+  };
+  //Grupo de informacion par ala FK
+  const [fkGroupTFormatoACT, setFkGroupTFormatoACT] = useState({});
+
+
+  const FKConsultManagerFKTFormatoACT = (FKNameList: any) => {
+    let answer = {};
+
+    FKNameList.map((name) => {
+      const tableName = name;
+      //  ` console.log(tableName, "table name")`;
+      if (tableName.startsWith("FK_TF")) {
+        // console.log(tableName, "table name");
+        const parserTablename = tableName.replace("FK_T", "");
+        // console.log(parserTablename, "parse table");
+        apiGetFKTFormatoACT(parserTablename.toLowerCase())
+          .then((response) => {
+            const res = response;
+            answer = {
+              ...answer,
+              [name]: res,
+            };
+          })
+          .then(() => {
+            setFkGroupTFormatoACT({
+              ...fkGroupTFormatoACT,
+              ...answer,
+            });
+          })
+          .catch((e) => {
+            // const pre = {
+            //   [name]: []
+            // }
+
+            // setFkGroup({
+            //   ... fkGroup,
+            //   ...pre
+            // })
+
+            console.log(` error en ${name}: `, e);
+          });
+      }
+    });
+    return answer;
+  };
 
   //Grupo de informacion par ala FK
   const [fkGroup, setFkGroup] = useState({});
@@ -141,16 +159,15 @@ console.log(fkNames)
     let answer = {};
 
     FKNameList.map((name) => {
-      let tableName = name
-
+      const tableName = name;
+      // console.log(tableName, "table name");
       if (tableName.startsWith("FK_TE") || tableName.startsWith("FK_TF")) {
-        console.log(tableName, "table name")
+        // console.log(tableName, "table name");
         const parserTablename = tableName.replace("FK_T", "");
-        console.log(parserTablename, "parse table")
+        // console.log(parserTablename, "parse table");
         apiGetFK(parserTablename.toLowerCase(), key_table)
           .then((response) => {
             const res = response;
-
             answer = {
               ...answer,
               [name]: res,
@@ -178,6 +195,8 @@ console.log(fkNames)
     });
     return answer;
   };
+
+
 
 
 
@@ -226,7 +245,7 @@ console.log(fkNames)
 
     const preData = Object.values(getDataTable);
     const filteredData = preData.filter(
-      (obj) =>
+      (obj: any) =>
         obj.column_name !== "FK_TPERIODO_ACADEMICO" &&
         obj.column_name !== "AUTHOR_RC" &&
         obj.column_name !== "CLIENTS_RC"
@@ -286,17 +305,15 @@ console.log(fkNames)
       FK_TFORMATO_CALIFICACION_DEF: preData.FK_TFORMATO_CALIFICACION_DEF
         ? preData.FK_TFORMATO_CALIFICACION_DEF
         : null,
-      FK_TESCALA: preData.FK_TESCALA
-        ? preData.FK_TESCALA
-        : null,
+      FK_TESCALA: preData.FK_TESCALA ? preData.FK_TESCALA : null,
       FK_TLV_CALCULO_DEFINITIVA: preData.FK_TLV_CALCULO_DEFINITIVA
         ? preData.FK_TLV_CALCULO_DEFINITIVA
         : null,
       FK_TLV_CALCULO_DESCRIPTOR: preData.FK_TLV_CALCULO_DESCRIPTOR
         ? preData.FK_TLV_CALCULO_DESCRIPTOR
         : null,
-      FK_TLV_CRITERIO_AREA: preData.CALIFICAR_CRITERIOS
-        ? preData.CALIFICAR_CRITERIOS
+      FK_TLV_CRITERIO_AREA: preData.FK_TLV_CRITERIO_AREA
+        ? preData.FK_TLV_CRITERIO_AREA
         : null,
       FK_TLV_CRITERIO_DESEMPENO: preData.FK_TLV_CRITERIO_DESEMPENO
         ? preData.FK_TLV_CRITERIO_DESEMPENO
@@ -342,32 +359,64 @@ console.log(fkNames)
 
   const isValuesEmpty = () => {
     return Object.values(initialValuesPeriodo).every(
-      (value) => value === null || value === undefined || value === ''
+      (value) => value === null || value === undefined || value === ""
     );
   };
 
-  const handleSubmitPeriodo = async (values: any, cerrarTable: any, record: any) => {
 
 
 
+
+  const cambiarNombreLlave = (objeto, nombreActual, nombreNuevo) => {
+    if (objeto.hasOwnProperty(nombreActual)) {
+      objeto[nombreNuevo] = objeto[nombreActual];
+      delete objeto[nombreActual];
+    }
+  };
+
+  const combinarObjetos = (obj1, obj2) => {
+    // Copiar el contenido de obj2 en obj1
+    for (let prop in obj2) {
+      if (obj2.hasOwnProperty(prop)) {
+        obj1[prop] = obj2[prop];
+      }
+    }
+    return obj1;
+  };
+
+
+  cambiarNombreLlave(fkGroup, 'FK_TFORMATO_CALIFICACION', 'FK_TFORMATO_CALIFICACION_DEF');
+  cambiarNombreLlave(fkGroupTFormatoACT, 'FK_TFORMATO_CALIFICACION', 'FK_TFORMATO_CALIFICACION_ACT');
+
+  let combinedObject = combinarObjetos(fkGroup, fkGroupTFormatoACT);
+
+  // console.log(combinedObject);
+  console.log(fkGroup)
+
+  const handleSubmitPeriodo = async (
+    values: any,
+    cerrarTable: any,
+    record: any
+  ) => {
     for (const llave in values) {
       if (values.hasOwnProperty(llave)) {
         if (values[llave] === null) {
-          delete values[llave]
+          delete values[llave];
         }
       }
     }
 
-    values["FK_TPERIODO_ACADEMICO"] = record
+    values["FK_TPERIODO_ACADEMICO"] = record;
     // console.log(values)
-
-    const updateForm = new QueryBuilders("periodo_academico_config")
+    console.log(values);
+    const updateForm = new QueryBuilders("periodo_academico_config");
     if (isValuesEmpty()) {
       await updateForm
         .create(values)
         .schema(parserTokenInformation?.dataSchema[0])
-        .save().then((response) => {
-          // console.log(response)
+        .save()
+        .then((response) => {
+          console.log(response)
           let isSuccess = false;
 
           for (const key in response) {
@@ -375,7 +424,7 @@ console.log(fkNames)
               const value = response[key];
               // console.log(`${key}: ${value}`);
 
-              if (key === 'message' && value === 'Success') {
+              if (key === "message" && value === "Success") {
                 isSuccess = true;
                 break;
               }
@@ -386,7 +435,8 @@ console.log(fkNames)
             // console.log('La solicitud fue exitosa.');
             messageApi.open({
               type: "success",
-              content: "se ha modificado la infraestructura tecnologia a la sede",
+              content:
+                "se ha modificado la infraestructura tecnologia a la sede",
             });
 
             setTimeout(() => {
@@ -403,28 +453,27 @@ console.log(fkNames)
               cerrarTable();
             }, 2000);
           }
-
-
-        })
+        });
       // console.log(results);
       setInitialValuePeriodo(values);
     } else {
       // If values are not empty, perform the update operation
       await updateForm
         .update(values)
-        .where('periodo_academico_config."FK_TPERIODO_ACADEMICO"', "=", record)
+        .where('"FK_TPERIODO_ACADEMICO"', "=", record)
         .schema(parserTokenInformation?.dataSchema[0])
         .save()
         .then((response) => {
-          // console.log(response)
+          console.log(response)
           let isSuccess = false;
 
           for (const key in response) {
             if (Object.hasOwnProperty.call(response, key)) {
               const value = response[key];
+              console.log(value, "value")
               // console.log(`${key}: ${value}`);
 
-              if (key === 'message' && value === 'Success') {
+              if (key === "message" && value === "Success") {
                 isSuccess = true;
                 break;
               }
@@ -435,7 +484,8 @@ console.log(fkNames)
             // console.log('La solicitud fue exitosa.');
             messageApi.open({
               type: "success",
-              content: "se ha modificado la infraestructura tecnologia a la sede",
+              content:
+                "se ha modificado informacion general del periodo academico",
             });
 
             setTimeout(() => {
@@ -443,20 +493,21 @@ console.log(fkNames)
             }, 2000);
             // } else {
             //   console.log('La solicitud no fue exitosa.');
+            
+          }else{
             messageApi.open({
               type: "error",
               content:
-                "no se pudo hacer editar la infraestructura  tecnologia de la sede",
+                "no se pudo hacer modificar informacon general del periodo academico",
             });
             setTimeout(() => {
               cerrarTable();
             }, 2000);
           }
-
-
-        })
+        });
 
       // console.log(results);
+
       setInitialValuePeriodo(values);
     }
   };
@@ -470,10 +521,14 @@ console.log(fkNames)
     resultadoPeriodo,
     dataTperiodo,
     handleSubmitPeriodo,
-    contextHolder,
+    contextHolderPeriodo,
     columInfoPeriodo,
     colunmFieldPeriodo,
-    FKConsultManager
+    FKConsultManager,
+    fkGroup,
+    fkGroupTFormatoACT,
+    combinedObject,
+    FKConsultManagerFKTFormatoACT,
     // getFK
   };
 };

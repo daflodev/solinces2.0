@@ -34,6 +34,10 @@ import {
   sedeTecnologicaIcon,
   perifericosMediosIcon,
   TperiodoConfig,
+<<<<<<< HEAD:src/pages/configuration/index.tsx
+  subjectRegistration,
+=======
+>>>>>>> 6d91b67d98a1969523663cb3416442bab1b64bd8:src/modules/configuration/index.tsx
 } from "@/assets/icon/iconManager";
 import { withPrincipal } from "@/components/content";
 import { EditableCell } from "@/components/editablecells";
@@ -146,8 +150,13 @@ const Settings: React.FC = () => {
 
   const renderContentManager = () => {
 
+<<<<<<< HEAD:src/pages/configuration/index.tsx
+    if (isOnEvaluationView) {
+      return (<QualificationOptionComponent optionToRender={selectedItem?.nombre} />)
+=======
     if(isOnEvaluationView){
       return(<QualificationOptionComponent optionToRender={selectedItem?.nombre}/>)
+>>>>>>> 6d91b67d98a1969523663cb3416442bab1b64bd8:src/modules/configuration/index.tsx
     }
 
     if (currentRol != "SUPER_ADMINISTRADOR" && selectedItem?.nombre == "TESTABLECIMIENTO") {
@@ -279,22 +288,22 @@ const Settings: React.FC = () => {
         if (rol == "RECTOR") {
           result = (
             <>
-            <div
-            onClick={() => {
-              if (visibleForm) {
-                handleMostrarForm();
-              }
-              handleOpenSecondaryTable(
-                selectedTableInformation,
-                "useTperiodo"
-              );
-            }}
-            style={{ cursor: "pointer" }}
-          >
-            {TperiodoConfig}
-          </div>
+              <div
+                onClick={() => {
+                  if (visibleForm) {
+                    handleMostrarForm();
+                  }
+                  handleOpenSecondaryTable(
+                    selectedTableInformation,
+                    "useTperiodo"
+                  );
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                {TperiodoConfig}
+              </div>
 
-          <Popconfirm
+              <Popconfirm
                 title="seguro desea eliminar?"
                 onConfirm={() =>
                   handleDelete(selectedTableInformation[keyDelete])
@@ -304,7 +313,40 @@ const Settings: React.FC = () => {
               </Popconfirm>
             </>
           )
-          
+
+        }
+        break;
+
+      case "TMATRICULA":
+        if (rolesToShowuseFuncionarioPermission.includes(rol)) {
+          result = (
+            <>
+              <div
+                onClick={() => {
+                  if (visibleForm) {
+                    handleMostrarForm();
+                  }
+                  handleOpenSecondaryTable(
+                    selectedTableInformation,
+                    "useTransferMatricula"
+                  );
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                {subjectRegistration}
+              </div>
+
+              <Popconfirm
+                title="seguro desea eliminar?"
+                onConfirm={() =>
+                  handleDelete(selectedTableInformation[keyDelete])
+                }
+              >
+                <div className="iconDelete">{deleteIcon}</div>
+              </Popconfirm>
+            </>
+          )
+
         }
         break;
       case "TFUNCIONARIO":
@@ -516,30 +558,30 @@ const Settings: React.FC = () => {
 
     {
       selectedItem &&
-      !selectedItem?.nombre?.startsWith("THISTORY_") &&
-      !(selectedItem?.nombre == "TSESION")
+        !selectedItem?.nombre?.startsWith("THISTORY_") &&
+        !(selectedItem?.nombre == "TSESION")
         ? result.push({
-            title: "operacion",
-            dataIndex: "operation",
-            align: "center",
-            width: 250,
+          title: "operacion",
+          dataIndex: "operation",
+          align: "center",
+          width: 250,
 
-            render: (_, record: { key: React.Key }) => (
-              <>
-                {settingOptions?.length >= 1 ? (
-                  <>
-                    <Space size="middle" className="boton">
-                      {iconOptionsManager(
-                        currentRol,
-                        selectedItem?.nombre,
-                        record
-                      )}
-                    </Space>
-                  </>
-                ) : null}
-              </>
-            ),
-          })
+          render: (_, record: { key: React.Key }) => (
+            <>
+              {settingOptions?.length >= 1 ? (
+                <>
+                  <Space size="middle" className="boton">
+                    {iconOptionsManager(
+                      currentRol,
+                      selectedItem?.nombre,
+                      record
+                    )}
+                  </Space>
+                </>
+              ) : null}
+            </>
+          ),
+        })
         : null;
     }
 
@@ -575,7 +617,7 @@ const Settings: React.FC = () => {
         record,
         editable:
           !selectedItem?.nombre?.startsWith("THISTORY_") &&
-          !(selectedItem?.nombre == "TSESION")
+            !(selectedItem?.nombre == "TSESION")
             ? col.editable
             : false,
         dataIndex: col.dataIndex,
@@ -727,8 +769,8 @@ const Settings: React.FC = () => {
                     visibleForm
                       ? 16
                       : isSecondaryTableOpen
-                      ? tableGridWidth
-                      : 20
+                        ? tableGridWidth
+                        : 20
                   }
                 >
                   <Card className="card-body">
@@ -736,7 +778,7 @@ const Settings: React.FC = () => {
                   </Card>
                 </Col>
                 {visibleForm ? (
-                  <Col md={4}  className="card-agregar">
+                  <Col md={4} className="card-agregar">
                     <Card
                       className="justify-content-center align-items-center "
                       title={
