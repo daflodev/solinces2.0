@@ -200,8 +200,8 @@ export const mainHook = () =>{
         setInitialValuesUser(null)
 
         await apiPostPasswordChange(getdata)
-        .then((response) => {
-            if (response.success == "OK") {
+        .then((response: any) => {
+            if (response?.success == "OK") {
 
                 messageApi.open({
                     type: 'success',

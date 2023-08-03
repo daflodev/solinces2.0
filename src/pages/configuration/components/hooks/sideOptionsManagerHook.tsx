@@ -13,6 +13,8 @@ import { useSedePerifericos } from "./usePerifericosMedios";
 import { useFormTperiodo } from "./useTperiodoAcademico";
 import SedeInfraEstructuraFisica from "@/components/formSedeInfra";
 import { useJournySede } from "./useSedeJornada";
+import useTransferData from "./useTRansferMatricula";
+import TransferMatri from "@/components/transferMatricula/transferMatricula";
 
 export const SideOptionsManagerHook = () => {
   const [optionTableSelected, setOptionTableSelected] = useState("");
@@ -103,14 +105,12 @@ export const SideOptionsManagerHook = () => {
     FKConsultManager,
     fkGroup,
     fkGroupTFormatoACT,
-    combinedObject,
+    // combinedObject,
     FKConsultManagerFKTFormatoACT, contextHolderPeriodo,
   } = useFormTperiodo();
 
 
-  // const { handleTransferChange,
-  //   subjectsData,
-  //   enrolledSubjects, } = useTransferMatricula()
+  const { mockData, targetKeys, handleChange, setMockData } = useTransferData();
 
   // const {PostData} = useTperiodo
   // const {onFieldChange, onFinish}=useSedeInfra()
@@ -139,14 +139,14 @@ export const SideOptionsManagerHook = () => {
     setDataSedeTecnology(null);
     setDataSedePerifericos(null);
     setIsSecondaryTableOpen(false);
-
+    setMockData([])
     //permission view close status
     setItems(null);
     setRollOptions(null);
   };
 
   const handleOpenSecondaryTable = async (record, nameSideOption) => {
-    console.log(record)
+    // console.log(record)
     handleCloseSecondaryTable();
     setIsSecondaryTableOpen(true);
 
@@ -211,7 +211,7 @@ export const SideOptionsManagerHook = () => {
 
       case "useTransferMatricula":
         setOptionTableSelected("useTransferMatricula");
-        setCurrentRowInformation(record.PK_TMATRICULA);
+        // setCurrentRowInformation(record.PK_TMATRICULA);
         setTableGridWidth(10);
 
         break;
@@ -424,31 +424,30 @@ export const SideOptionsManagerHook = () => {
       setSecondaryTableComponentRender(useFuncionarioPermissionComponent);
     }
 
-    // if (subjectsData && optionTableSelected=== "useTransferMatricula") {
+    if (mockData && optionTableSelected === "useTransferMatricula") {
 
-    //   const useTransferMatricula = (
-    //     <>
-    //       {/* {contextHolderPerifericos} */}
-    //       <Col md={8}>
-    //         <Card
-    //           style={{ width: "100%" }}
-    //           title="Asignaturas matriculas"
-    //           extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
-    //         >
-              
-      
-    //   <TransferComponent
-    //     subjects={subjectsData}
-    //     enrolledSubjects={enrolledSubjects}
-    //     onTransferChange={handleTransferChange}
-    //   />
-    
-    //         </Card>
-    //       </Col>
-    //     </>
-    //   );
-    //   setSecondaryTableComponentRender(useTransferMatricula);
-    // }
+      const useTransferMatricula = (
+        <>
+          {/* {contextHolderPerifericos} */}
+          <Col md={8}>
+            <Card
+              style={{ width: "100%" }}
+              // title={["Asignaturas matriculas"]}
+              extra={<div onClick={handleCloseSecondaryTable}>{equisIcon}</div>}
+            >
+
+
+              <TransferMatri
+                dataSource={mockData}
+                targetKeys={targetKeys}
+                handleChange={(newTargetKeys, direction) => handleChange(newTargetKeys, direction)} />
+
+            </Card>
+          </Col>
+        </>
+      );
+      setSecondaryTableComponentRender(useTransferMatricula);
+    }
   }, [
     dataSede,
     dataSedeNivel,

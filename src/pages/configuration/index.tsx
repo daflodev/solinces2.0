@@ -9,7 +9,7 @@ import { CloseOutlined, SettingOutlined } from "@ant-design/icons";
 import {
   Card,
   Col,
-  Layout,
+  // Layout,
   // Menu,
   Popconfirm,
   Row,
@@ -35,6 +35,7 @@ import {
   perifericosMediosIcon,
   TperiodoConfig,
   subjectRegistration,
+  documentAnexo,
 } from "@/assets/icon/iconManager";
 import { withPrincipal } from "@/components/content";
 import { EditableCell } from "@/components/editablecells";
@@ -310,7 +311,7 @@ const Settings: React.FC = () => {
         break;
 
       case "TMATRICULA":
-        if (rolesToShowuseFuncionarioPermission.includes(rol)) {
+        if (rol == "RECTOR") {
           result = (
             <>
               <div
@@ -326,6 +327,20 @@ const Settings: React.FC = () => {
                 style={{ cursor: "pointer" }}
               >
                 {subjectRegistration}
+              </div>
+              <div
+                onClick={() => {
+                  if (visibleForm) {
+                    handleMostrarForm();
+                  }
+                  handleOpenSecondaryTable(
+                    selectedTableInformation,
+                    "useDocumentAnexo"
+                  );
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                {documentAnexo}
               </div>
 
               <Popconfirm

@@ -8,13 +8,9 @@ interface RecordType {
     chosen: boolean;
 }
 
-interface TransferData {
-    dataSource: RecordType[];
-    targetKeys: string[];
-    handleChange: (newTargetKeys: string[], direction: TransferDirection) => void;
-}
 
-const useTransferData = (): TransferData => {
+
+const useTransferData = () => {
     const [mockData, setMockData] = useState<RecordType[]>([]);
     const [targetKeys, setTargetKeys] = useState<string[]>([]);
 
@@ -25,14 +21,14 @@ const useTransferData = (): TransferData => {
         const availableSubjects: RecordType[] = [
             {
                 key: '1',
-                title: 'Asignatura 1',
-                description: 'Descripción de la asignatura 1',
+                title: 'Biologia ',
+                description: 'Descripción de la Biologia ',
                 chosen: false,
             },
             {
                 key: '2',
-                title: 'Asignatura 2',
-                description: 'Descripción de la asignatura 2',
+                title: 'Matematicas ',
+                description: 'Descripción de la Matematicas ',
                 chosen: false,
             },
             // Agrega más asignaturas disponibles si es necesario
@@ -42,14 +38,14 @@ const useTransferData = (): TransferData => {
         const enrolledSubjects: RecordType[] = [
             {
                 key: '3',
-                title: 'Asignatura 3',
-                description: 'Descripción de la asignatura 3',
+                title: 'Solciales ',
+                description: 'Descripción de la Solciales ',
                 chosen: true,
             },
             {
                 key: '4',
-                title: 'Asignatura 4',
-                description: 'Descripción de la asignatura 4',
+                title: 'Castellano',
+                description: 'Descripción de la Castellano',
                 chosen: true,
             },
             // Agrega más asignaturas matriculadas si es necesario
@@ -86,7 +82,7 @@ const useTransferData = (): TransferData => {
         }
     };
 
-    return { dataSource: mockData, targetKeys, handleChange };
+    return { mockData, targetKeys, handleChange, setMockData };
 };
 
 export default useTransferData;
