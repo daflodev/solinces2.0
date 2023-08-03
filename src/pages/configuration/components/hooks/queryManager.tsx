@@ -10,7 +10,7 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
     currentAcademicYear = currentAcademicYear ?? localStorage.getItem('currentAcademicYear');
     let columnInfoData: any;
 
-    console.log('tabla selected: ', table)
+    //console.log('tabla selected: ', table)
 
     if(table && table != 'FINALES'){
         const querycolumn = new QueryBuilders(table);

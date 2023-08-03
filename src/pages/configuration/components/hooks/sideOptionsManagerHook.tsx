@@ -103,7 +103,6 @@ export const SideOptionsManagerHook = () => {
     FKConsultManager,
     fkGroup,
     fkGroupTFormatoACT,
-    //combinedObject,
     FKConsultManagerFKTFormatoACT, contextHolderPeriodo,
   } = useFormTperiodo();
 
