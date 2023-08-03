@@ -88,11 +88,18 @@ export const RecursosCompartidos = () => {
 
     await ApiServicesMembrete(data)
         .then((response) => {
+            // setImageUrl(response.data.data.URLS3)
+            console.log(response.data.response.url, '---')
             saveArchive(response.data.response.nombre,'', response.data.response.id)
+            // message.destroy()
+            // saveArchive(response.data.data.nombre,response.data.data.URLS3)
+            // message.success('enviado')
+          
         })
         .catch(() => {
             message.success('error')
         });
+
   }
 
   const saveArchive = (name: string, url: any, id?: any) => {
@@ -126,7 +133,10 @@ export const RecursosCompartidos = () => {
       .schema('ACADEMICO_COL0')
       .save()
       getData()
+
     }
+
+    
   }
 
   const formatearFecha = (fecha: Date): string =>{
