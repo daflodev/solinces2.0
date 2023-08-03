@@ -6,6 +6,7 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
     let answerQuery: any;
     const query = new QueryBuilders(table);
     // const currentAcademicYear = localStorage.getItem('currentAcademicYear')
+
     currentAcademicYear = currentAcademicYear ?? localStorage.getItem('currentAcademicYear');
     let columnInfoData: any;
 
@@ -16,7 +17,9 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                         .columninfo()
     }    
 
-    if(currentRol != "SUPER_ADMINISTRADOR"){
+    if(currentRol != "SUPER_ADMINISTRADOR" && 
+        (currentCampus?.value != undefined && currentInstitution?.value != undefined && currentAcademicYear != undefined)
+    ){
         switch (table) {
             case 'estudiante':
 
@@ -489,47 +492,50 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                         .get()
                     break;
 
-                // case 'INSCRIPCIONES':
-                //     //TODO: consult Inscripcion
-                //     answerQuery = await query
-                //         .select('matricula.*')
-                //         .schema(schema)
-                //         .join('lista_valor', '"PK_TLISTA_VALOR"', 'matricula."FK_TLV_TIPO_MATRICULA"')
-                //         .join('grupo', '"PK_TGRUPO"', 'matricula."FK_TGRUPO"')
-                //         .join('grado', '"PK_TGRADO"', 'grupo."FK_TGRADO"')
-                //         .where('lista_valor."NOMBRE"', '=', 'Inscripcion')
-                //         .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
-                //         .limit(20)
-                //         .get()
-                //     break;
+                case 'INSCRIPCIONES':
+                    //TODO: consult Inscripcion
+                    let query2 = new QueryBuilders('matricula');
+                    answerQuery = await query2
+                        .select('matricula.*')
+                        .schema(schema)
+                        .join('lista_valor', '"PK_TLISTA_VALOR"', 'matricula."FK_TLV_TIPO_MATRICULA"')
+                        .join('grupo', '"PK_TGRUPO"', 'matricula."FK_TGRUPO"')
+                        .join('grado', '"PK_TGRADO"', 'grupo."FK_TGRADO"')
+                        .where('lista_valor."NOMBRE"', '=', 'Inscripcion')
+                        .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
+                        .limit(20)
+                        .get()
+                    break;
 
-                // case 'TRASLADOS':
-                //     //TODO: consult Traslado
-                //     answerQuery = await query
-                //         .select('matricula.*')
-                //         .schema(schema)
-                //         .join('lista_valor', '"PK_TLISTA_VALOR"', 'matricula."FK_TLV_TIPO_MATRICULA"')
-                //         .join('grupo', '"PK_TGRUPO"', 'matricula."FK_TGRUPO"')
-                //         .join('grado', '"PK_TGRADO"', 'grupo."FK_TGRADO"')
-                //         .where('lista_valor."NOMBRE"', '=', 'Traslado')
-                //         .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
-                //         .limit(20)
-                //         .get()
-                //     break;
+                case 'TRASLADOS':
+                    //TODO: consult Traslado
+                    let query3 = new QueryBuilders('matricula');
+                    answerQuery = await query3
+                        .select('matricula.*')
+                        .schema(schema)
+                        .join('lista_valor', '"PK_TLISTA_VALOR"', 'matricula."FK_TLV_TIPO_MATRICULA"')
+                        .join('grupo', '"PK_TGRUPO"', 'matricula."FK_TGRUPO"')
+                        .join('grado', '"PK_TGRADO"', 'grupo."FK_TGRADO"')
+                        .where('lista_valor."NOMBRE"', '=', 'Traslado')
+                        .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
+                        .limit(20)
+                        .get()
+                    break;
 
-                // case 'PREMATRICULAS':
-                //     //TODO: consult Prematricula
-                //     answerQuery = await query
-                //         .select('matricula.*')
-                //         .schema(schema)
-                //         .join('lista_valor', '"PK_TLISTA_VALOR"', 'matricula."FK_TLV_TIPO_MATRICULA"')
-                //         .join('grupo', '"PK_TGRUPO"', 'matricula."FK_TGRUPO"')
-                //         .join('grado', '"PK_TGRADO"', 'grupo."FK_TGRADO"')
-                //         .where('lista_valor."NOMBRE"', '=', 'Prematricula')
-                //         // .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
-                //         .limit(20)
-                //         .get()
-                //     break;
+                case 'PREMATRICULAS':
+                    //TODO: consult Prematricula
+                    let query4 = new QueryBuilders('matricula');
+                    answerQuery = await query4
+                        .select('matricula.*')
+                        .schema(schema)
+                        .join('lista_valor', '"PK_TLISTA_VALOR"', 'matricula."FK_TLV_TIPO_MATRICULA"')
+                        .join('grupo', '"PK_TGRUPO"', 'matricula."FK_TGRUPO"')
+                        .join('grado', '"PK_TGRADO"', 'grupo."FK_TGRADO"')
+                        .where('lista_valor."NOMBRE"', '=', 'Prematricula')
+                        .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
+                        .limit(20)
+                        .get()
+                    break;
 
             default:
 
