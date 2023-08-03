@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { SelectCalificationComponent } from '@/components/selectCalification';
 import TActivityView from './qualificationView/activityView/tActivityView';
-import { RecursosCompartidos } from "@/components/recursosCompartidos";
+import RecursosCompartidoPage from "@/components/recursosCompartidos/recursos";
 
 interface QualificationOptionComponentInterface{
     optionToRender: string;
@@ -25,7 +25,7 @@ export const QualificationOptionComponent: React.FC<QualificationOptionComponent
                 break;
             
             case 'TRECURSO_COMPARTIDO':
-                setCurrentOptionSelectedRender(<RecursosCompartidos/>)
+                setCurrentOptionSelectedRender(<RecursosCompartidoPage/>)
                 break;
         
             default:
