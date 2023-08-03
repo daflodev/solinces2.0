@@ -17,6 +17,7 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
     }    
 
     if(currentRol != "SUPER_ADMINISTRADOR"){
+        console.log(table, "++++++++++++");
         switch (table) {
             case 'estudiante':
 
@@ -498,12 +499,12 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                 //         .join('grupo', '"PK_TGRUPO"', 'matricula."FK_TGRUPO"')
                 //         .join('grado', '"PK_TGRADO"', 'grupo."FK_TGRADO"')
                 //         .where('lista_valor."NOMBRE"', '=', 'Inscripcion')
-                        // .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
+                //         .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
                 //         .limit(20)
                 //         .get()
                 //     break;
 
-                // case 'INSCRIPCIONES':
+                // case 'TRASLADOS':
                 //     //TODO: consult Traslado
                 //     answerQuery = await query
                 //         .select('matricula.*')
@@ -512,12 +513,12 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                 //         .join('grupo', '"PK_TGRUPO"', 'matricula."FK_TGRUPO"')
                 //         .join('grado', '"PK_TGRADO"', 'grupo."FK_TGRADO"')
                 //         .where('lista_valor."NOMBRE"', '=', 'Traslado')
-                        // .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
+                //         .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
                 //         .limit(20)
                 //         .get()
                 //     break;
 
-                // case 'INSCRIPCIONES':
+                // case 'PREMATRICULAS':
                 //     //TODO: consult Prematricula
                 //     answerQuery = await query
                 //         .select('matricula.*')
