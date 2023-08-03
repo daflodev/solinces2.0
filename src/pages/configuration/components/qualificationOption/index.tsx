@@ -11,7 +11,10 @@ interface QualificationOptionComponentInterface{
 
 export const QualificationOptionComponent: React.FC<QualificationOptionComponentInterface> = (props) => {
 
-    const { optionToRender, vanillaTable } = props;
+    const { 
+        optionToRender, 
+        //vanillaTable 
+    } = props;
 
     const [currentOptionSelectedRender, setCurrentOptionSelectedRender] = useState(<span>{optionToRender}...</span>);
 
@@ -32,9 +35,9 @@ export const QualificationOptionComponent: React.FC<QualificationOptionComponent
                 setCurrentOptionSelectedRender(<ActivitySupportViewComp/>)
                 break;
 
-            case 'TLOGRO':
-                setCurrentOptionSelectedRender(vanillaTable);
-                break;
+            // case 'TLOGRO':
+            //     setCurrentOptionSelectedRender(vanillaTable);
+            //     break;
         
             default:
                 setCurrentOptionSelectedRender(<span>nothing to show...</span>)

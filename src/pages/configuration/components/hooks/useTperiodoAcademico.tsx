@@ -1,5 +1,5 @@
 import { message } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 ;
 import _ from "lodash";
 import { apiFKThunksAsyncSedeInfra } from "@/services/api/thunks";
@@ -19,18 +19,18 @@ export const useFormTperiodo = () => {
   const [dataSeelectPeriodo, setDataSelectPeriodo] = useState<any>();
   const [colunmFieldPeriodo, setColumnFieldPeriodo] = useState<any>([]);
 
-  function changeKey(
-    json: Record<string, any>,
-    llaveActual: string,
-    nuevaLlave: string
-  ): Record<string, any> {
-    // eslint-disable-next-line no-prototype-builtins
-    if (json.hasOwnProperty(llaveActual)) {
-      json[nuevaLlave] = json[llaveActual];
-      delete json[llaveActual];
-    }
-    return json;
-  }
+  // function changeKey(
+  //   json: Record<string, any>,
+  //   llaveActual: string,
+  //   nuevaLlave: string
+  // ): Record<string, any> {
+  //   // eslint-disable-next-line no-prototype-builtins
+  //   if (json.hasOwnProperty(llaveActual)) {
+  //     json[nuevaLlave] = json[llaveActual];
+  //     delete json[llaveActual];
+  //   }
+  //   return json;
+  // }
 
   const tokenInformation = localStorage.getItem("user_token_information");
   const parserTokenInformation: any | null = tokenInformation
@@ -404,8 +404,7 @@ export const useFormTperiodo = () => {
     }
 
     values["FK_TPERIODO_ACADEMICO"] = record;
-    // console.log(values)
-    console.log(values);
+
     const updateForm = new QueryBuilders("periodo_academico_config");
     if (isValuesEmpty()) {
       await updateForm
@@ -413,7 +412,6 @@ export const useFormTperiodo = () => {
         .schema(parserTokenInformation?.dataSchema[0])
         .save()
         .then((response) => {
-          console.log(response)
           let isSuccess = false;
 
           for (const key in response) {
@@ -461,14 +459,11 @@ export const useFormTperiodo = () => {
         .schema(parserTokenInformation?.dataSchema[0])
         .save()
         .then((response) => {
-          console.log(response)
           let isSuccess = false;
 
           for (const key in response) {
             if (Object.hasOwnProperty.call(response, key)) {
               const value = response[key];
-              console.log(value, "value")
-              // console.log(`${key}: ${value}`);
 
               if (key === "message" && value === "Success") {
                 isSuccess = true;

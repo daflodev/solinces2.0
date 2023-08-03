@@ -156,22 +156,22 @@ const TActivityView: React.FC = () => {
     ];
 
     //TODO: modelo de objeto recibido de la DB
-    const testObject ={
-      matriculaID: 'key del usuario',
-      userFullName: 'nombre del usuario',
-      scoreInformation: [
-        {
-          activityKey: 'llave de la actividad',
-          activityName: 'nombre de la actividad',
-          activityCategory: 'categoria de la actividad',
-          scoreBase: 'base de la nota',
-          scoreValue: 'valor de la calificacion, si no tiene nota enviar null',
-          isApproved: 'booleano para indicar si la nota esta aprovada',
-          finalPercent: 'procentaje de valor en la nota final',
-          pendingFileView: 'booleano o valor que indique si falta archivo por visualizar',
-        }
-      ]
-    }
+    // const testObject ={
+    //   matriculaID: 'key del usuario',
+    //   userFullName: 'nombre del usuario',
+    //   scoreInformation: [
+    //     {
+    //       activityKey: 'llave de la actividad',
+    //       activityName: 'nombre de la actividad',
+    //       activityCategory: 'categoria de la actividad',
+    //       scoreBase: 'base de la nota',
+    //       scoreValue: 'valor de la calificacion, si no tiene nota enviar null',
+    //       isApproved: 'booleano para indicar si la nota esta aprovada',
+    //       finalPercent: 'procentaje de valor en la nota final',
+    //       pendingFileView: 'booleano o valor que indique si falta archivo por visualizar',
+    //     }
+    //   ]
+    // }
 
     //TODO: se describen los elementos minimos a considerar, la estrutura debe replantearce al coonectar a al DB
     //TODO: sin embargo, lo mostrado aocntinuacion seria lo minimo de informacion reuerida para construir el componente

@@ -963,17 +963,14 @@ export const UseSettigns = () => {
 
             handleSelect(formatedOptions[0]);
           } else {
-            console.log("por algun motivo ninguna opcion es visible");
             navigate("/no_permission");
           }
         } else {
-          console.log("las opciones estan vacias");
           navigate("/no_permission");
         }
       })
-      .catch((error) => {
+      .catch(() => {
 
-        console.log("catch response: ", error);
         navigate("/no_permission");
       });
   };

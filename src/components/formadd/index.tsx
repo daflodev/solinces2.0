@@ -143,7 +143,6 @@ const FormAdd = ({
 
       if (columnName.startsWith("FK_")) {
         const data = optionsManager(FKGroupData[columnName], columnName);
-        // console.log(columnName, 'fkselect')
 
         const selectConditions = AvalibleSelecteManager(columnName, currentRol, currentAcademicPeriod, currentCampus, currentInstitution, currentAcademicYear);
 

@@ -1,4 +1,4 @@
-import { Col, Form, Input, InputNumber, Layout, Row, Select } from "antd";
+import { Col, Form, Input, Layout, Row, Select } from "antd";
 import { saveIcon } from "@/assets/icon/iconManager.tsx";
 import { useState } from "react";
 
@@ -27,7 +27,6 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
     const [selectedValues, setSelectedValues] = useState({});
 
     const handleSelectChange = (value, field) => {
-        // console.log(field);
         setSelectedValues((prevSelectedValues) => ({
             selectedValues,
             ...prevSelectedValues,
@@ -39,13 +38,14 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
         props.handleFormSubmit?.(values, props.onClick, props.record);
     };
 
-    // console.log(props.dataselect)
-    // console.log(props.dataFKT)
-
     const formItems = props.columnInfo?.map((fieldName) => {
-        // console.log(props.dataselect[fieldName])
-        const { column_name, data_type, longitud, numeric_precision } = fieldName;
-        // console.log(column_name)
+
+        const { 
+            column_name, data_type, 
+            //longitud, 
+            //numeric_precision 
+        } = fieldName;
+
         if (column_name.startsWith("FK_TLV_")) {
             return (
                 <div className="form-container">

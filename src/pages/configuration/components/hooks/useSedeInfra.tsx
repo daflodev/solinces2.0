@@ -37,7 +37,6 @@ export const useSedeInfra = () => {
       setDataSelect(predata);
       return predata;
     } catch (error) {
-      console.log("catch response: ", error);
       return null;
     }
   };
@@ -75,7 +74,6 @@ export const useSedeInfra = () => {
       const preData =  Object.values(getDataTable)
       const filteredData = preData.filter((obj: any) => obj.column_name !== "FK_TSEDE" && obj.column_name !== "AUTHOR_RC" && obj.column_name !== "CLIENTS_RC");
 
-    console.log(filteredData, "COLUMN_INFO")
     setColumnField(filteredData)
   }
 
@@ -91,7 +89,6 @@ export const useSedeInfra = () => {
       .schema(parserTokenInformation?.dataSchema[0])
       .get();
     const preData = getDataTable[0]
-    console.log(preData)
     setDataSedeInfra(preData)
     // console.log(preData)
     setInitialValues({

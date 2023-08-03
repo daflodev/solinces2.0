@@ -1,6 +1,6 @@
-import { Input, Table, Tooltip, Col, Row, Select } from 'antd';
+import { Tooltip, Col, Row, Select } from 'antd';
 import "./activitySupportDetailsStyles.css";
-import { assignedActivitySupportIcon, qualificationActivitySupportIcon, receivedActivitySupportIcon, searchIcon } from '@/assets/icon/iconManager';
+import { assignedActivitySupportIcon, qualificationActivitySupportIcon, receivedActivitySupportIcon } from '@/assets/icon/iconManager';
 
 import { ActivitySupportDetailsHooks } from './activitySupportDetailsHooks';
 

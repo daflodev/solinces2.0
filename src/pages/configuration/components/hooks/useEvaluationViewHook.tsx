@@ -5,7 +5,7 @@ export const useEvaluationViewHook  = () =>{
     const optionsFromEvaluationView = ['tfinales', 'tinformes', 'tactividad_soporte', 'trecurso_compartido', 'tlogro', 'tasistencia', 'tactividad'];
 
     const [isOnEvaluationView, setIsOnEvaluationView] = useState(false);
-    const [currentOptionName, setCurrentOptionName] = useState(null);
+    const [currentOptionName, setCurrentOptionName] = useState<any>(null);
 
     function verifyIsValidOption(validOptions, currentOption) {
         

@@ -348,12 +348,11 @@ export const TFuncionarioTPermissionGetDataHook  = (data?: any, rolesToAdd?: any
                         setAllowedMenuOptions(allowedData);
                         setNotAllowedMenuOptions(notAllowedData);
                     }
-                ).catch((error) => {
+                ).catch(() => {
                     //TODO: Manejo de log de errores
 
                     setAllowedMenuOptions([]);
                     setNotAllowedMenuOptions([]);
-                    console.log('paso un error: ', error);
                 });
             }());
         }
@@ -364,7 +363,6 @@ export const TFuncionarioTPermissionGetDataHook  = (data?: any, rolesToAdd?: any
 
         if(currentTableCampusSelected == "usuario" && userID && !firstLoad){
             firstLoad = true;
-            console.log(userID,"USER ID")
             getUserCampus(userID);
         }
 

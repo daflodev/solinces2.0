@@ -1,5 +1,5 @@
-import { Button, Transfer } from 'antd';
-import type { TransferListProps, TransferDirection } from 'antd/es/transfer';
+import { Transfer } from 'antd';
+import type { TransferDirection } from 'antd/es/transfer';
 
 interface TransferComponentProps {
   // Propiedades que quieras recibir desde el componente padre

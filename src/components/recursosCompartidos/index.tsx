@@ -12,7 +12,7 @@ export const RecursosCompartidos = () => {
 
   const currentDate = new Date();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [input, setInput] = useState(true);
+  //const [input, setInput] = useState(true);
 
 
    // @ts-ignore
@@ -71,7 +71,6 @@ export const RecursosCompartidos = () => {
   };
 
   const onChange = (event: any) => {
-    console.log(event.target.files[0], 'archivo')
     inputUrl = event.target.files[0]
   };
 
@@ -161,7 +160,6 @@ export const RecursosCompartidos = () => {
     }
     const partes = url.split('.');
     if (partes.length > 1) {
-      console.log(partes[partes.length - 1])
       return partes[partes.length - 1];
     } else {
       return 'url';

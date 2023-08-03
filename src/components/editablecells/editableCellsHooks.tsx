@@ -38,15 +38,11 @@ export const EditableCellsHooks = (fkGroup, title) => {
         reBuilName = 'PK_TLISTA_VALOR'
       }
 
-      // console.log("rebuild name: ", reBuilName)
-  
       const options = data.map((item) => {
         return({
           value: item[reBuilName], label: item.NOMBRE
         })
       }) 
-
-      // console.log("options: ", options)
 
       return options;
     };
