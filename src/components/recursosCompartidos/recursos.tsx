@@ -328,7 +328,7 @@ const RecursosCompartidoPage: React.FC = () => {
         const editable = isEditing(record);
         return record.key == null ? (
            <Typography.Link disabled={editingKey !== ''}>
-              <Popconfirm title="eliminar dato?" onConfirm={() => deleteItemData(record.key)}>
+              <Popconfirm title="Eliminar dato ?" onConfirm={() => deleteItemData(record.key)}>
               <span>{deleteIcon}</span>
               </Popconfirm>
           </Typography.Link>
@@ -337,7 +337,7 @@ const RecursosCompartidoPage: React.FC = () => {
             <Typography.Link onClick={() => save(record.key)} style={{ marginRight: 8 }}>
               Save
             </Typography.Link>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+            <Popconfirm title="Cancelar?" onConfirm={cancel}>
               <a>Cancel</a>
             </Popconfirm>
           </span>
