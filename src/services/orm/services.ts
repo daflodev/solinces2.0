@@ -1,5 +1,5 @@
 import axios from "axios";
-import { removeNullAndEmptyKeys } from "../../utils/utils.tsx";
+import { removeNullAndEmptyKeys } from "../../utils/utils";
 import { environment } from "@/enviroments/enviroment.ts";
 
 const API_URL = environment.API_TEST;

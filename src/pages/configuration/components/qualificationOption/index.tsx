@@ -6,19 +6,18 @@ import ActivitySupportViewComp from './qualificationView/activitySupportView/act
 
 interface QualificationOptionComponentInterface{
     optionToRender: string;
+    vanillaTable: any;
 }
 
 export const QualificationOptionComponent: React.FC<QualificationOptionComponentInterface> = (props) => {
 
-    const { optionToRender } = props;
-    console.log('from the principal: ', optionToRender)
+    const { optionToRender, vanillaTable } = props;
 
     const [currentOptionSelectedRender, setCurrentOptionSelectedRender] = useState(<span>{optionToRender}...</span>);
 
     useEffect(() => {
 
         //TODO: switch case para controlar el elemento a renderizar.
-        console.log('a change: ', optionToRender)
 
         switch (optionToRender) {
             case 'TACTIVIDAD':
@@ -31,6 +30,10 @@ export const QualificationOptionComponent: React.FC<QualificationOptionComponent
 
             case 'TACTIVIDAD_SOPORTE':
                 setCurrentOptionSelectedRender(<ActivitySupportViewComp/>)
+                break;
+
+            case 'TLOGRO':
+                setCurrentOptionSelectedRender(vanillaTable);
                 break;
         
             default:

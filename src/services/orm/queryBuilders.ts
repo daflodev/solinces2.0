@@ -1,4 +1,4 @@
-import { apiPostThunksAsync } from "./thunks.ts";
+import { apiPostThunksAsync } from "./thunks";
 
 interface QueryCondition {
   field: string;

@@ -1,4 +1,4 @@
-import { ApiServicesThunksORM } from "./services.ts";
+import { ApiServicesThunksORM } from "./services";
 
 
 export const apiPostThunksAsync = async (data: any) => {

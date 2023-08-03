@@ -148,7 +148,7 @@ const Settings: React.FC = () => {
   const renderContentManager = () => {
 
     if(isOnEvaluationView){
-      return(<QualificationOptionComponent optionToRender={selectedItem?.nombre}/>)
+      return(<QualificationOptionComponent vanillaTable={vanillaTable} optionToRender={selectedItem?.nombre}/>)
     }
 
     if (currentRol != "SUPER_ADMINISTRADOR" && selectedItem?.nombre == "TESTABLECIMIENTO") {
@@ -167,7 +167,9 @@ const Settings: React.FC = () => {
       return <MembreteComponent />;
     }
 
-    return vanillaTable;
+    const answer = vanillaTable;
+
+    return answer;
   };
 
 
@@ -631,6 +633,7 @@ const Settings: React.FC = () => {
 
   useEffect(() => {
     handleCloseSecondaryTable();
+    setCurrentOptionName(selectedItem?.nombre)
     localStorage.setItem("campus", selectedItem?.key_table);
   }, [selectedItem]);
 

@@ -22,7 +22,7 @@ import {
   ApiSedeInfraPost,
   ApiSedePeripherlsPost,
   ApiSedeTecnology
-} from "./services.ts";
+} from "./services";
 
 export const apiGetThunksAsync = async (data: any) => {
   const resp = await ApiServicesThunks(data)

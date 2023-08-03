@@ -46,7 +46,7 @@ export const ActivitySupportDetailsHooks = () => {
             <Col span={12} xxl={12} xl={11} lg={24} className='activity_cards'>
             <div style={{border: '1px solid var(--mid-gray)', borderRadius: '8px'}}>
             <Row>
-                <Col span={24} style={{backgroundColor: 'var(--low-gray)', padding:'10px'}}>
+                <Col span={24} style={{backgroundColor: 'var(--bg-container)', padding:'10px'}}>
                     <Row>
                         <Col span={2} xxl={2} xl={4} className='activity_cards_exclamation_icon'>
                             {alertExclamationIcon}

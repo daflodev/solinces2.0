@@ -390,9 +390,6 @@ export const useFormTperiodo = () => {
 
   let combinedObject = combinarObjetos(fkGroup, fkGroupTFormatoACT);
 
-  // console.log(combinedObject);
-  console.log(fkGroup)
-
   const handleSubmitPeriodo = async (
     values: any,
     cerrarTable: any,

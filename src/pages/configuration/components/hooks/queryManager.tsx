@@ -9,6 +9,8 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
     currentAcademicYear = currentAcademicYear ?? localStorage.getItem('currentAcademicYear');
     let columnInfoData: any;
 
+    console.log('tabla selected: ', table)
+
     if(table){
         const querycolumn = new QueryBuilders(table);
         columnInfoData = await querycolumn
@@ -183,6 +185,12 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                     .limit(20)
                     .get()
                 break;
+
+            case 'FINALES':
+                console.log('here!!!!!!!')
+                answerQuery = [];
+                break;
+
             default:
 
                     if(table){

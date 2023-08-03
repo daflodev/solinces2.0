@@ -4,7 +4,7 @@ import { assignedActivitySupportIcon, qualificationActivitySupportIcon, received
 
 import { ActivitySupportDetailsHooks } from './activitySupportDetailsHooks';
 
-import icon_four from "@/utils/assets/nav/images/rectangle-25.png";
+import icon_four from "@/assets/nav/images/rectangle-25.png";
 const ActivitySupportDetails: React.FC = () => {
 
     const { cardActivityGenerator } = ActivitySupportDetailsHooks();

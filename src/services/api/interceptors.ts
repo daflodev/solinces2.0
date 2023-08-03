@@ -1,8 +1,8 @@
 import axios from "axios";
 
-import { getUser, login } from "../helper/auth-helper.ts";
+import { getUser, login } from "../helper/auth-helper";
 
-import { sessionInformationStore } from '../../store/userInformationStore.ts';
+import { sessionInformationStore } from '../../store/userInformationStore';
 import { shallow } from 'zustand/shallow';
 
 const loginMethod = () => {
