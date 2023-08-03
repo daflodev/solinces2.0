@@ -1,4 +1,4 @@
-import { Col, Form, Input, InputNumber, Layout, Row, Select } from "antd";
+import { Col, Form, Input, Layout, Row, Select } from "antd";
 import { saveIcon } from "@/assets/icon/iconManager.tsx";
 import { useState } from "react";
 
@@ -44,7 +44,7 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
 
     const formItems = props.columnInfo?.map((fieldName) => {
         // console.log(props.dataselect[fieldName])
-        const { column_name, data_type, longitud, numeric_precision } = fieldName;
+        const { column_name, data_type } = fieldName;
         // console.log(column_name)
         if (column_name.startsWith("FK_TLV_")) {
             return (

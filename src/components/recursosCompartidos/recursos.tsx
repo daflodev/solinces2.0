@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';
 import { QueryBuilders } from '@/services/orm/queryBuilders';
 import { linkIcon, pdfIcon } from '@/assets/icon/iconManager';
@@ -11,7 +11,6 @@ interface Item {
   nameFile: string;
 }
 
-const originData: Item[] = [];
 
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   editing: boolean;
@@ -62,9 +61,6 @@ const RecursosCompartidoPage: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
   const [editingKey, setEditingKey] = useState('');
 
-  let inputUrl: any
-  let inputDescripcion = ''
-
   //   
 
   const isEditing = (record: Item) => record.key === editingKey;
@@ -78,9 +74,9 @@ const RecursosCompartidoPage: React.FC = () => {
     setEditingKey('');
   };
 
-  const onChangeDescription = (e: any) => {
-    inputDescripcion = e.target.value;
-  }
+  // const onChangeDescription = (e: any) => {
+  //   inputDescripcion = e.target.value;
+  // }
 
   const obtenerExtension = (url: any) => {
     if(!url){
@@ -107,9 +103,9 @@ const RecursosCompartidoPage: React.FC = () => {
     return validate;
   };
 
-  const createUrl = async () => {
-    // saveArchive(inputUrl, inputUrl)
-  }
+  // const createUrl = async () => {
+  //   // saveArchive(inputUrl, inputUrl)
+  // }
 
 
   const  transformJsonArray = (inputArray) => {
@@ -231,9 +227,9 @@ const RecursosCompartidoPage: React.FC = () => {
     };
   });
 
-  useState(() => {
+  useEffect(() => {
     getData()
-  },[])
+  }, [])
 
   return (
     <Form form={form} component={false}>
