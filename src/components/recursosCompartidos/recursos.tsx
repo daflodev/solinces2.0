@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Button, Col, Form, Input, InputNumber, Popconfirm, Row, Table, Typography, message } from 'antd';
+import { Button, Col, Form, Input, Popconfirm, Row, Table, Typography, message } from 'antd';
 import { QueryBuilders } from '@/services/orm/queryBuilders';
 import { deleteIcon, linkIcon, pdfIcon, uploadIcon } from '@/assets/icon/iconManager';
 import { CloudUploadOutlined } from '@ant-design/icons';
@@ -7,6 +7,8 @@ import { ApiServicesMembrete } from '@/services/api/services';
 import { sessionInformationStore } from '@/store/userInformationStore';
 import {shallow} from "zustand/shallow";
 import { select_type } from '@/utils/utils';
+import { EditOutlined } from '@ant-design/icons';
+
 
 
 interface Item {
@@ -287,6 +289,19 @@ const RecursosCompartidoPage: React.FC = () => {
     }
   };
 
+  const deleteItemData = async (id: any) => {
+    console.log(id)
+    const querycolumn = new QueryBuilders('recurso_compartido');
+     const result = await querycolumn
+      .where('"PK_TRECURSO_COMPARTIDO"' , '=', id)
+      .schema('ACADEMICO_COL0')
+      .delete()
+    
+      if(result){
+        await getData()
+      }
+  }
+
   const columns = [
     {
       title: 'Nombre de recurso',
@@ -311,7 +326,13 @@ const RecursosCompartidoPage: React.FC = () => {
       dataIndex: 'operation',
       render: (_: any, record: Item) => {
         const editable = isEditing(record);
-        return editable ? (
+        return record.key == null ? (
+           <Typography.Link disabled={editingKey !== ''}>
+              <Popconfirm title="eliminar dato?" onConfirm={() => deleteItemData(record.key)}>
+              <span>{deleteIcon}</span>
+              </Popconfirm>
+          </Typography.Link>
+          ) : editable ? (
           <span>
             <Typography.Link onClick={() => save(record.key)} style={{ marginRight: 8 }}>
               Save
@@ -321,9 +342,21 @@ const RecursosCompartidoPage: React.FC = () => {
             </Popconfirm>
           </span>
         ) : (
-          <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
-            Edit
-          </Typography.Link>
+          <Row>
+            <Col span={6}>
+              <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
+                <EditOutlined />
+              </Typography.Link>
+            </Col>
+            <Col span={10}>
+              <Typography.Link disabled={editingKey !== ''}>
+                  <Popconfirm title="eliminar dato?" onConfirm={() => deleteItemData(record.key)}>
+                  <span>{deleteIcon}</span>
+                  </Popconfirm>
+              </Typography.Link>
+            </Col>
+          </Row>
+          
         );
       },
     },
@@ -360,6 +393,8 @@ const RecursosCompartidoPage: React.FC = () => {
         </>
       ),
       date: currentDate.toLocaleDateString(),
+      operacion: (<>jjj</>)
+
     }
     setData([column, ...data]);
   }
@@ -396,9 +431,7 @@ const RecursosCompartidoPage: React.FC = () => {
           dataSource={data}
           columns={mergedColumns}
           rowClassName="editable-row"
-          pagination={{
-            onChange: cancel,
-          }}
+          pagination={false}
         />
       </Form>
     </div>
