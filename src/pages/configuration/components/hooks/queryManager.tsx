@@ -17,7 +17,6 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
     }    
 
     if(currentRol != "SUPER_ADMINISTRADOR"){
-        console.log(table, "++++++++++++");
         switch (table) {
             case 'estudiante':
 
