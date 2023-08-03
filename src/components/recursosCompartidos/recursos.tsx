@@ -6,6 +6,7 @@ import { CloudUploadOutlined } from '@ant-design/icons';
 import { ApiServicesMembrete } from '@/services/api/services';
 import { sessionInformationStore } from '@/store/userInformationStore';
 import {shallow} from "zustand/shallow";
+import { select_type } from '@/utils/utils';
 
 
 interface Item {
@@ -13,6 +14,7 @@ interface Item {
   name: string;
   description: number;
   date: string;
+  url:string;
   nameFile: string;
 }
 
@@ -37,9 +39,8 @@ const EditableCell: React.FC<EditableCellProps> = ({
   children,
   ...restProps
 }) => {
-  console.log(record)
   const inputNode = inputType === 'file' ? <div style={{ display: 'flex' }}>
-  <div style={{ width: '20px', marginRight: '15px' }}> fff</div> 
+  <div style={{ width: '20px', marginRight: '15px' }}> <>{select_type(record.url)}</></div> 
   <Input defaultValue={record.nameFile} />
   {/* <Col span={20}>  {input ? <span style={{ marginLeft:'10px' }}>{...item.name} </span> : <Input {...item.name} />} </Col> */}
 </div> : <Input />;
@@ -99,31 +100,6 @@ const RecursosCompartidoPage: React.FC = () => {
   const onChangeDescription = (e: any) => {
     inputDescripcion = e.target.value;
   }
-
-  const obtenerExtension = (url: any) => {
-    if(!url){
-      return 'url'
-    }
-    const partes = url.split('.');
-    if (partes.length > 1) {
-      console.log(partes[partes.length - 1])
-      return partes[partes.length - 1];
-    } else {
-      return 'url';
-    }
-  }
-
-  const select_type = (params: any) => {
-    const type: any = {
-      pdf: pdfIcon,
-      url: linkIcon,
-      defauld: linkIcon,
-    };
-
-    let extencion = obtenerExtension(params)
-    let validate: any = type[extencion] ?? type["defauld"];
-    return validate;
-  };
 
   const createUrl = async () => {
     saveArchive(inputUrl, inputUrl)
@@ -257,7 +233,7 @@ const RecursosCompartidoPage: React.FC = () => {
         ),
         description: item.description,
         date: currentDate.toLocaleDateString(),
-        ico : ( <>{select_type(item.url)}</> ),
+        url : item.url,
         nameFile: item.name
       };
     });
@@ -300,7 +276,7 @@ const RecursosCompartidoPage: React.FC = () => {
       .where('"PK_TRECURSO_COMPARTIDO"' , '=', key.toString())
       .schema('ACADEMICO_COL0')
       .save()
-      
+
       if(result){
         setEditingKey('');
         await getData()
