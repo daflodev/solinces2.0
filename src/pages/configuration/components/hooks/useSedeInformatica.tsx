@@ -45,7 +45,6 @@ export const useSedeTecnology = () => {
 
       return predata;
     } catch (error) {
-      console.log("catch response: ", error);
       return null;
     }
   };

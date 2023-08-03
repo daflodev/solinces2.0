@@ -29,7 +29,6 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
     const [selectedValues, setSelectedValues] = useState({});
 
     const handleSelectChange = (value, field) => {
-        // console.log(field);
         setSelectedValues((prevSelectedValues) => ({
             selectedValues,
             ...prevSelectedValues,
@@ -40,9 +39,6 @@ const SedeInfraEstructuraFisica: React.FC<infraProps> = (props) => {
     const onFinish = (values) => {
         props.handleFormSubmit?.(values, props.onClick, props.record);
     };
-
-    // console.log(props.dataselect)
-    // console.log(props.dataFKT)
 
     const formItems = props.columnInfo?.map((fieldName) => {
         // console.log(props.dataselect[fieldName])

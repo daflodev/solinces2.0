@@ -74,11 +74,11 @@ const useTransferData = () => {
 
         // Mostrar la data transferida en la consola
         if (direction === 'right') {
-            const dataToRight = mockData.filter((subject) => newTargetKeys.includes(subject.key));
-            console.log('Data Transferida hacia la derecha:', dataToRight);
+            //const dataToRight = mockData.filter((subject) => newTargetKeys.includes(subject.key));
+            // console.log('Data Transferida hacia la derecha:', dataToRight);
         } else {
-            const dataToLeft = mockData.filter((subject) => !newTargetKeys.includes(subject.key));
-            console.log('Data Transferida hacia la izquierda:', dataToLeft);
+            //const dataToLeft = mockData.filter((subject) => !newTargetKeys.includes(subject.key));
+            //console.log('Data Transferida hacia la izquierda:', dataToLeft);
         }
     };
 

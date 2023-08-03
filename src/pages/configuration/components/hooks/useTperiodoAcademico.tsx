@@ -390,9 +390,6 @@ export const useFormTperiodo = () => {
 
   let combinedObject = combinarObjetos(fkGroup, fkGroupTFormatoACT);
 
-  // console.log(combinedObject);
-  // console.log(fkGroup)
-
   const handleSubmitPeriodo = async (
     values: any,
     cerrarTable: any,
@@ -407,8 +404,7 @@ export const useFormTperiodo = () => {
     }
 
     values["FK_TPERIODO_ACADEMICO"] = record;
-    // console.log(values)
-    console.log(values);
+
     const updateForm = new QueryBuilders("periodo_academico_config");
     if (isValuesEmpty()) {
       await updateForm
@@ -416,7 +412,6 @@ export const useFormTperiodo = () => {
         .schema(parserTokenInformation?.dataSchema[0])
         .save()
         .then((response) => {
-          console.log(response)
           let isSuccess = false;
 
           for (const key in response) {
@@ -464,14 +459,11 @@ export const useFormTperiodo = () => {
         .schema(parserTokenInformation?.dataSchema[0])
         .save()
         .then((response) => {
-          console.log(response)
           let isSuccess = false;
 
           for (const key in response) {
             if (Object.hasOwnProperty.call(response, key)) {
               const value = response[key];
-              console.log(value, "value")
-              // console.log(`${key}: ${value}`);
 
               if (key === "message" && value === "Success") {
                 isSuccess = true;

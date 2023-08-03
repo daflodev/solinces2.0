@@ -36,13 +36,10 @@ export const UseSelectCalification = () => {
 
   const { updateValueCalification } = calificationStore();
 
-  const onChange = (
-    // value: (string | number)[], 
-    selectedOptions: any
-  ) => {
-    if (selectedOptions.length == 3) {
-      // console.log(selectedOptions[2].value,'currentGroup', value)
-      updateValueCalification({ element: 'currentGroup', value: selectedOptions[2].value })
+  const onChange = (value: (string | number)[], selectedOptions: any) => {
+    value
+    if(selectedOptions.length == 3){
+      updateValueCalification({ element: 'currentGroup', value: selectedOptions[2].value})
     }
   };
 
@@ -78,9 +75,8 @@ export const UseSelectCalification = () => {
     const targetOption = selectedOptions[selectedOptions.length - 1];
     if (targetOption.position == '1') {
       await getGrades(targetOption.value)
-        .then((data) => {
-          updateValueCalification({ element: 'currentAsignature', value: targetOption.value })
-          // console.log(targetOption.value,'currentAsignature')
+      .then((data) => {
+          updateValueCalification({ element: 'currentAsignature', value: targetOption.value})
 
           targetOption.children = data
           setOptions([...options]);

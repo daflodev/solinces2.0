@@ -22,7 +22,7 @@ import {
   ApiSedeInfraPost,
   ApiSedePeripherlsPost,
   ApiSedeTecnology
-} from "./services.ts";
+} from "./services";
 
 export const apiGetThunksAsync = async (data: any) => {
   const resp = await ApiServicesThunks(data)
@@ -307,12 +307,12 @@ export const apiGetThunksMenuItemsOptionsAsync = async (data: any) => {
 
 export const apiPostPasswordChange = async (data: any) => {
   const resp = await ApiServicesPasswordChange(data)
-    // .then((response) => {
-    //   // console.log('respuesta cambio contraseña: ', response)
-    // })
-    // .catch((error) => {
-    //   return error.response;
-    // });
+    .then(() => {
+      // console.log('respuesta cambio contraseña: ', response)
+    })
+    .catch((error) => {
+      return error.response;
+    });
 
   return resp;
 };

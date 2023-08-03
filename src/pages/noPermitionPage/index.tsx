@@ -3,7 +3,6 @@ import { Card, Row, Col } from "antd";
 import { withPrincipal } from "@/components/content";
 
 import "@/assets/noPermitionPage/noPermitionPage.css";
-// import { QueryBuilders } from "@/services/orm/queryBuilders";
 import TransferMatri from "@/components/transferMatricula/transferMatricula";
 import useTransferMatricula from "../configuration/components/hooks/useTRansferMatricula";
 import Upload from "antd/es/upload/Upload";

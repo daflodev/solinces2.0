@@ -233,14 +233,13 @@ export const useFormEstablecimiento = () => {
           }
         }
       })
-      .catch((error) => {
+      .catch(() => {
         messageApi.open({
           type: "error",
           content: "Ocurrio un error inesperado, intentelo mas tarde.",
           duration: 2,
         });
 
-        console.log(error);
       })
       .finally(() => {
         setTimeout(() => close(), 2500);

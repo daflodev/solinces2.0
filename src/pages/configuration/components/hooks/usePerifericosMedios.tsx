@@ -34,7 +34,6 @@ export const useSedePerifericos = () => {
 
             return predata;
         } catch (error) {
-            console.log("catch response: ", error);
             return null;
         }
     };
@@ -82,7 +81,6 @@ export const useSedePerifericos = () => {
             .schema(parserTokenInformation?.dataSchema[0])
             .get();
         const preData = getDataTable[0];
-        console.log(preData);
         setDataSedePerifericos(preData);
         setInitialValuesPerifericos({
             FK_TLV_ALCANCE_EMISORA: preData.FK_TLV_ALCANCE_EMISORA

@@ -166,14 +166,13 @@ export const mainHook = () =>{
                 }
             }
         })
-        .catch((error)=>{
+        .catch(()=>{
             messageApi.open({
                 type: 'error',
                 content: 'Ocurrio un error inesperado, intentelo mas tarde.',
                 duration: 2
             });
 
-            console.log(error)
         })
         .finally(() => {
 
@@ -231,14 +230,13 @@ export const mainHook = () =>{
                 }
             }
         })
-        .catch((error)=>{
+        .catch(()=>{
             messageApi.open({
                 type: 'error',
                 content: 'Ocurrio un error inesperado, intentelo mas tarde.',
                 duration: 2
             });
 
-            console.log(error)
         })
         .finally(() => {
 

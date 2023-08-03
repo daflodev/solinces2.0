@@ -2,11 +2,16 @@ import { useState } from 'react';
 import { Input, Table, Tag, Col, Row } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
-import { alertExclamationIcon, attachFileIcon, deleteIcon, duplicateIcon, editIcon, massiveScoreIcon, PlusOutlined } from '@/assets/icon/iconManager';
+import { searchIcon, 
+        alertExclamationIcon, 
+        attachFileIcon, 
+        deleteIcon, 
+        duplicateIcon, 
+        editIcon, 
+        massiveScoreIcon, 
+        PlusOutlined } from '@/assets/icon/iconManager';
 
-import "./testingStyles.css";
-import { searchIcon } from '@/assets/icon/iconManager';
-
+import "./tActivityViewStyles.css";
 const TActivityView: React.FC = () => {
 
   const toGenerateHeadIcons = (titleValue) =>{

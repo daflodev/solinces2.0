@@ -4,7 +4,9 @@ import interceptor from '@/services/api/interceptors';
 
 function App() {
   const intercep = interceptor();
-  console.log(intercep, 'activo')
+  
+  intercep
+  
   return (
     <>
         {<AppRouter/>}
