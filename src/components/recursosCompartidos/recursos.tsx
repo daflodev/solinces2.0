@@ -21,7 +21,7 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   editing: boolean;
   dataIndex: string;
   title: any;
-  inputType: 'number' | 'text';
+  inputType: 'file' | 'text';
   record: Item;
   index: number;
   children: React.ReactNode;
@@ -37,7 +37,12 @@ const EditableCell: React.FC<EditableCellProps> = ({
   children,
   ...restProps
 }) => {
-  const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
+  console.log(record)
+  const inputNode = inputType === 'file' ? <div style={{ display: 'flex' }}>
+  <div style={{ width: '20px', marginRight: '15px' }}> fff</div> 
+  <Input defaultValue={record.nameFile} />
+  {/* <Col span={20}>  {input ? <span style={{ marginLeft:'10px' }}>{...item.name} </span> : <Input {...item.name} />} </Col> */}
+</div> : <Input />;
 
   return (
     <td {...restProps}>
@@ -243,10 +248,17 @@ const RecursosCompartidoPage: React.FC = () => {
       // 
       return {
         key: item.id,
-        name: item.name,
+        name: (
+          <div style={{ display: 'flex' }}>
+            <div style={{ width: '20px', marginRight: '15px' }}> {select_type(item.url)} </div> 
+            <div>  {item.name} </div>
+            {/* <Col span={20}>  {input ? <span style={{ marginLeft:'10px' }}>{...item.name} </span> : <Input {...item.name} />} </Col> */}
+          </div>
+        ),
         description: item.description,
         date: currentDate.toLocaleDateString(),
         ico : ( <>{select_type(item.url)}</> ),
+        nameFile: item.name
       };
     });
   
@@ -280,7 +292,7 @@ const RecursosCompartidoPage: React.FC = () => {
     try {
       const row = (await form.validateFields()) as Item;
       const querycolumn = new QueryBuilders('recurso_compartido');
-      querycolumn
+     const result = await querycolumn
       .update({
         'nombre': row.name,
         'descripcion': row.description,
@@ -288,33 +300,18 @@ const RecursosCompartidoPage: React.FC = () => {
       .where('"PK_TRECURSO_COMPARTIDO"' , '=', key.toString())
       .schema('ACADEMICO_COL0')
       .save()
-
-      const newData = [...data];
-      const index = newData.findIndex((item) => key === item.key);
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        });
-        setData(newData);
+      
+      if(result){
         setEditingKey('');
-      } else {
-        newData.push(row);
-        setData(newData);
-        setEditingKey('');
+        await getData()
       }
+     
     } catch (errInfo) {
       console.log('Validate Failed:', errInfo);
     }
   };
 
   const columns = [
-    {
-        title: '',
-        dataIndex: 'ico',
-        width: '5%',
-      },
     {
       title: 'Nombre de recurso',
       dataIndex: 'name',
@@ -364,7 +361,7 @@ const RecursosCompartidoPage: React.FC = () => {
       ...col,
       onCell: (record: Item) => ({
         record,
-        inputType: col.dataIndex === 'age' ? 'number' : 'text',
+        inputType: col.dataIndex === 'name' ? 'file' : 'text',
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),
