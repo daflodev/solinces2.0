@@ -1,7 +1,12 @@
-import { useState, useEffect } from 'react';
-import { Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';
+import { useState, useEffect, useRef } from 'react';
+import { Button, Col, Form, Input, InputNumber, Popconfirm, Row, Table, Typography, message } from 'antd';
 import { QueryBuilders } from '@/services/orm/queryBuilders';
-import { linkIcon, pdfIcon } from '@/assets/icon/iconManager';
+import { deleteIcon, linkIcon, pdfIcon, uploadIcon } from '@/assets/icon/iconManager';
+import { CloudUploadOutlined } from '@ant-design/icons';
+import { ApiServicesMembrete } from '@/services/api/services';
+import { sessionInformationStore } from '@/store/userInformationStore';
+import {shallow} from "zustand/shallow";
+
 
 interface Item {
   key: string;
@@ -60,7 +65,12 @@ const RecursosCompartidoPage: React.FC = () => {
   const [form] = Form.useForm();
   const [data, setData] = useState<any[]>([]);
   const [editingKey, setEditingKey] = useState('');
+  const currentDate = new Date();
+  
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
+  let inputUrl: any
+  let inputDescripcion = ''
   //   
 
   const isEditing = (record: Item) => record.key === editingKey;
@@ -70,13 +80,20 @@ const RecursosCompartidoPage: React.FC = () => {
     setEditingKey(record.key);
   };
 
+  const { currentCampus } = sessionInformationStore(
+    (state) => ({
+        currentCampus: state.currentCampus
+    }),
+    shallow
+);
+
   const cancel = () => {
     setEditingKey('');
   };
 
-  // const onChangeDescription = (e: any) => {
-  //   inputDescripcion = e.target.value;
-  // }
+  const onChangeDescription = (e: any) => {
+    inputDescripcion = e.target.value;
+  }
 
   const obtenerExtension = (url: any) => {
     if(!url){
@@ -103,10 +120,121 @@ const RecursosCompartidoPage: React.FC = () => {
     return validate;
   };
 
-  // const createUrl = async () => {
-  //   // saveArchive(inputUrl, inputUrl)
-  // }
+  const createUrl = async () => {
+    saveArchive(inputUrl, inputUrl)
+  }
+  const onChangeUrl = (e: any) => {
+    inputUrl = e.target.value;
+  }
 
+  const limitarTexto = (texto: string): string => {
+    if (texto.length <= 30) {
+      return texto;
+    } else {
+      return texto.slice(0, 30);
+    }
+  }
+
+  const saveArchive = (name: string, url: any, id?: any) => {
+    const querycolumn = new QueryBuilders('recurso_compartido');
+    if(id){
+      querycolumn
+      .create({
+        'fk_tasignatura': 3007,
+        'fk_tgrupo': 3486,
+        'fecha_creacion': formatearFecha(currentDate),
+        'fecha_publicacion': formatearFecha(currentDate),
+        'nombre': limitarTexto(name),
+        'descripcion': limitarTexto(inputDescripcion),
+        'fk_tarchivo': id
+      })
+      .schema('ACADEMICO_COL0')
+      .save()
+      getData()
+
+    }else{
+      querycolumn
+      .create({
+        'fk_tasignatura': 3007,
+        'fk_tgrupo': 3486,
+        'fecha_creacion': formatearFecha(currentDate),
+        'fecha_publicacion': formatearFecha(currentDate),
+        'nombre': limitarTexto(name),
+        'descripcion': limitarTexto(inputDescripcion),
+        'url_recurso_externo': url,
+      })
+      .schema('ACADEMICO_COL0')
+      .save()
+      getData()
+
+    }
+    
+  }
+
+  const onChange = (event: any) => {
+    console.log(event.target.files[0], 'archivo')
+    inputUrl = event.target.files[0]
+  };
+
+  const saveData = async () => {
+
+    const data: object = {
+        file: inputUrl,
+        descripcion: inputDescripcion,
+        idsede: currentCampus?.value,
+        etiqueta: 'recurso'
+    }
+
+    message.loading('cargando...')
+
+    await ApiServicesMembrete(data)
+        .then((response) => {
+            // setImageUrl(response.data.data.URLS3)
+            console.log(response.data.response.url, '---')
+            saveArchive(response.data.response.nombre,'', response.data.response.id)
+            // message.destroy()
+            // saveArchive(response.data.data.nombre,response.data.data.URLS3)
+            // message.success('enviado')
+          
+        })
+        .catch(() => {
+            message.success('error')
+        });
+
+  }
+
+  const handleButtonClick = () => {
+    if (fileInputRef.current) {
+    fileInputRef.current.click();
+    }
+  };
+
+  const addColumUpload = () =>{
+
+    const column : any = {
+      name: (
+        <Row justify="center">
+          <input style={{ display: 'none' }} ref={fileInputRef} type="file" onChange={onChange} />
+          <Button onClick={handleButtonClick} type="primary" shape="round" icon={<CloudUploadOutlined />} size={'large'}/> 
+        </Row>
+      ),
+      description: (
+          <Input onChange={onChangeDescription} onPressEnter={saveData} placeholder="Descripcion" />
+      ),
+      date: (
+        <Row >
+          <Col className="gutter-row" span={12}>
+              {currentDate.toLocaleDateString()}
+          </Col>
+          <Col className="gutter-row" span={4}>
+          <span>{deleteIcon}</span>
+          </Col>
+                   
+        </Row>
+        ),
+    }
+    setData([column, ...data]);
+  }
 
   const  transformJsonArray = (inputArray) => {
   
@@ -135,14 +263,31 @@ const RecursosCompartidoPage: React.FC = () => {
                             '"FECHA_CREACION" AS date'])
                     .schema('ACADEMICO_COL0')
                     .orderBy("id", "desc")
+                    .limit(20)
                     .get()
     const parseData = transformJsonArray(getdata)
     setData(parseData)
   }
 
+  const formatearFecha = (fecha: Date): string =>{
+    const year = fecha.getFullYear();
+    const month = String(fecha.getMonth() + 1).padStart(2, '0');
+    const day = String(fecha.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   const save = async (key: React.Key) => {
     try {
       const row = (await form.validateFields()) as Item;
+      const querycolumn = new QueryBuilders('recurso_compartido');
+      querycolumn
+      .update({
+        'nombre': row.name,
+        'descripcion': row.description,
+      })
+      .where('"PK_TRECURSO_COMPARTIDO"' , '=', key.toString())
+      .schema('ACADEMICO_COL0')
+      .save()
 
       const newData = [...data];
       const index = newData.findIndex((item) => key === item.key);
@@ -186,7 +331,7 @@ const RecursosCompartidoPage: React.FC = () => {
       title: 'Fecha de publicacion',
       dataIndex: 'date',
       width: '20%',
-      editable: true,
+      editable: false,
     },
     {
       title: '',
@@ -227,27 +372,63 @@ const RecursosCompartidoPage: React.FC = () => {
     };
   });
 
+  const addColum = () =>{
+
+    const column : any = {
+      name: (
+        <Row justify="start">
+         <Col span={3}> <div > {linkIcon} </div> </Col> 
+         <Col span={18}> <Input onChange={onChangeUrl} placeholder="Ingresar URL" /> </Col> 
+        </Row>
+      ),
+      description: (
+        <>
+          <Input onChange={onChangeDescription} onPressEnter={createUrl} placeholder="Descripcion" />
+        </>
+      ),
+      date: currentDate.toLocaleDateString(),
+    }
+    setData([column, ...data]);
+  }
+  
+
   useEffect(() => {
     getData()
   }, [])
 
   return (
-    <Form form={form} component={false}>
-      <Table
-        components={{
-          body: {
-            cell: EditableCell,
-          },
-        }}
-        bordered
-        dataSource={data}
-        columns={mergedColumns}
-        rowClassName="editable-row"
-        pagination={{
-          onChange: cancel,
-        }}
-      />
-    </Form>
+    <div className='activity_container'>
+        <span className='activity_container_title'>
+            trecurso_compartido
+        </span>
+        <br/>
+        {/* {currentAsignature} - {currentGrade} - {currentGroup} - {currentEvaluationPeriod} */}
+        <br/>
+        <Row gutter={2}>
+          <Col span={1}>
+            <div onClick={addColumUpload} style={{ cursor:'pointer', width: '20px' }} >{uploadIcon}</div>
+          </Col>
+          <Col span={1}>
+            <div onClick={addColum} style={{ cursor:'pointer', width: '20px' }} >{linkIcon}</div> 
+          </Col>
+        </Row>
+      <Form form={form} component={false}>
+        <Table
+          components={{
+            body: {
+              cell: EditableCell,
+            },
+          }}
+          bordered
+          dataSource={data}
+          columns={mergedColumns}
+          rowClassName="editable-row"
+          pagination={{
+            onChange: cancel,
+          }}
+        />
+      </Form>
+    </div>
   );
 };
 
