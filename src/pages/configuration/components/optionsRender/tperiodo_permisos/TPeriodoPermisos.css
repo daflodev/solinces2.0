@@ -1,0 +1,23 @@
+.container{
+    width: 800px;
+    height: 400px;
+    top: 27px;
+    left: 849px;
+    padding: 20px 15px 20px 15px;
+    border-radius: 8px;
+    gap: 14px;
+}
+
+.tittle {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.collapse{
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    font: Poppins;
+}
+

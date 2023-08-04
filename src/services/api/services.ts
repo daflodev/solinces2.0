@@ -180,8 +180,8 @@ export const ApiServicesGetAllRoles = async () => {
   const resp = await axios.get(url);
   return resp;
 };
-export const ApiServicesGetUserRoles = async (data: any) => {
-  const url = `${API_URL}/officer_rols/${data}`;
+export const ApiServicesGetUserRoles = async (userId, sedeId) => {
+  const url = `${API_URL}/officer_rols/${userId}/${sedeId}`;
   const resp = await axios.get(url);
   return resp;
 };

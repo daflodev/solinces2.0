@@ -264,7 +264,7 @@ export const apiGetThunksMainMenuAsync = async (data: any) => {
   const resp = await ApiServicesThunksMainMenu()
     .then((response) => {
       
-      const getdata = response.data.results.map((d:any, i:any) => ({
+      const getdata = response.data.resp.response.map((d:any, i:any) => ({
         ...d,
         key: i,
       }));
@@ -367,10 +367,10 @@ export const apiGetAllRoles = async () => {
     }
 };
 
-export const apiGetUserRoles = async (id: any) => {
+export const apiGetUserRoles = async (userId, sedeId) => {
   
   try {
-    const {data} = await ApiServicesGetUserRoles(id)
+    const {data} = await ApiServicesGetUserRoles(userId,sedeId)
     return data;
   } catch (error) {
     //TODO: manejo de erroes.

@@ -360,17 +360,17 @@ export async function QueryManager(table: string, currentRol: any, currentAcadem
                     .get()
                 break;
 
-            case 'recurso_compartido':
-                //TODO: consult recurso_compartido
-                answerQuery = await query
-                    .select('recurso_compartido.*')
-                    .schema(schema)
-                    .join('grupo', '"PK_TGRUPO"', 'recurso_compartido."FK_TGRUPO"')
-                    .join('grado', '"PK_TGRADO"', 'grupo."FK_TGRADO"')
-                    .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
-                    .limit(20)
-                    .get()
-                break;
+            // case 'recurso_compartido':
+            //     //TODO: consult recurso_compartido
+            //     answerQuery = await query
+            //         .select('recurso_compartido.*')
+            //         .schema(schema)
+            //         .join('grupo', '"PK_TGRUPO"', 'recurso_compartido."FK_TGRUPO"')
+            //         .join('grado', '"PK_TGRADO"', 'grupo."FK_TGRADO"')
+            //         .where('grado."FK_TPERIODO_ACADEMICO"', '=', currentAcademicYear)
+            //         .limit(20)
+            //         .get()
+            //     break;
 
             case 'logro':
                 //TODO: consult logro

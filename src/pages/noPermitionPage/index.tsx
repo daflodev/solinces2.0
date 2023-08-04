@@ -5,7 +5,7 @@ import { withPrincipal } from "@/components/content";
 import "@/assets/noPermitionPage/noPermitionPage.css";
 import TransferMatri from "@/components/transferMatricula/transferMatricula";
 import useTransferMatricula from "../configuration/components/hooks/useTRansferMatricula";
-import Upload from "antd/es/upload/Upload";
+// import Upload from "antd/es/upload/Upload";
 import UploadDocument from "@/components/uploadDocument/uploadDocument";
 
 const mainImageNoPermissionPage = (

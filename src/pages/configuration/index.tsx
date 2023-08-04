@@ -35,6 +35,7 @@ import {
   TperiodoConfig,
   subjectRegistration,
   documentAnexo,
+  periodoPermiso
 } from "@/assets/icon/iconManager";
 import { withPrincipal } from "@/components/content";
 import { EditableCell } from "@/components/editablecells";
@@ -486,6 +487,39 @@ const Settings: React.FC = () => {
         }
 
         break;
+
+        case "TPERIODO_EVALUACION":
+          if (rolesToShowuseFuncionarioPermission.includes(rol)) {
+            result = (
+              <>
+                <div
+                  onClick={() => {
+                    if (visibleForm) {
+                      handleMostrarForm();
+                    }
+                    handleOpenSecondaryTable(
+                      selectedTableInformation,
+                      "TPeriodoPermisos"
+                    );
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  {periodoPermiso}
+                </div>
+  
+                <Popconfirm
+                  title="seguro desea eliminar?"
+                  onConfirm={() =>
+                    handleDelete(selectedTableInformation[keyDelete])
+                  }
+                >
+                  <div className="iconDelete">{deleteIcon}</div>
+                </Popconfirm>
+              </>
+            );
+          }
+  
+          break;
 
       default:
         result = (

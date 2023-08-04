@@ -1,11 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
-import { Button, Col, Form, Input, InputNumber, Popconfirm, Row, Table, Typography, message } from 'antd';
+import { Button, Col, Form, Input, Popconfirm, Row, Table, Tooltip, Typography, message } from 'antd';
 import { QueryBuilders } from '@/services/orm/queryBuilders';
-import { deleteIcon, linkIcon, pdfIcon, uploadIcon } from '@/assets/icon/iconManager';
+import { closetIcon, deleteIcon, editIcon, linkIcon, saveIcon, uploadIcon } from '@/assets/icon/iconManager';
 import { CloudUploadOutlined } from '@ant-design/icons';
 import { ApiServicesMembrete } from '@/services/api/services';
 import { sessionInformationStore } from '@/store/userInformationStore';
 import {shallow} from "zustand/shallow";
+import { select_type } from '@/utils/utils';
+import { calificationStore } from '@/store/calificationStore';
+
 
 
 interface Item {
@@ -13,6 +16,7 @@ interface Item {
   name: string;
   description: number;
   date: string;
+  url:string;
   nameFile: string;
 }
 
@@ -21,7 +25,7 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   editing: boolean;
   dataIndex: string;
   title: any;
-  inputType: 'number' | 'text';
+  inputType: 'file' | 'text';
   record: Item;
   index: number;
   children: React.ReactNode;
@@ -37,7 +41,11 @@ const EditableCell: React.FC<EditableCellProps> = ({
   children,
   ...restProps
 }) => {
-  const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
+  const inputNode = inputType === 'file' ? <div style={{ display: 'flex' }}>
+  <div style={{ width: '20px', marginRight: '15px' }}> <>{select_type(record.url)}</></div> 
+  <Input defaultValue={record.nameFile} />
+  {/* <Col span={20}>  {input ? <span style={{ marginLeft:'10px' }}>{...item.name} </span> : <Input {...item.name} />} </Col> */}
+</div> : <Input />;
 
   return (
     <td {...restProps}>
@@ -66,6 +74,9 @@ const RecursosCompartidoPage: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
   const [editingKey, setEditingKey] = useState('');
   const currentDate = new Date();
+
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+
   
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -79,6 +90,18 @@ const RecursosCompartidoPage: React.FC = () => {
     form.setFieldsValue({ name: '', age: '', address: '', ...record });
     setEditingKey(record.key);
   };
+
+  // @ts-ignore
+  const { currentAsignature,currentGrade,currentGroup, currentEvaluationPeriod } =
+  calificationStore(
+      (state) => ({
+      currentAsignature: state.currentAsignature,
+      currentGrade: state.currentGrade,
+      currentGroup: state.currentGroup,
+      currentEvaluationPeriod: state.currentEvaluationPeriod,
+      }),
+      shallow
+  );
 
   const { currentCampus } = sessionInformationStore(
     (state) => ({
@@ -95,31 +118,6 @@ const RecursosCompartidoPage: React.FC = () => {
     inputDescripcion = e.target.value;
   }
 
-  const obtenerExtension = (url: any) => {
-    if(!url){
-      return 'url'
-    }
-    const partes = url.split('.');
-    if (partes.length > 1) {
-      console.log(partes[partes.length - 1])
-      return partes[partes.length - 1];
-    } else {
-      return 'url';
-    }
-  }
-
-  const select_type = (params: any) => {
-    const type: any = {
-      pdf: pdfIcon,
-      url: linkIcon,
-      defauld: linkIcon,
-    };
-
-    let extencion = obtenerExtension(params)
-    let validate: any = type[extencion] ?? type["defauld"];
-    return validate;
-  };
-
   const createUrl = async () => {
     saveArchive(inputUrl, inputUrl)
   }
@@ -135,13 +133,14 @@ const RecursosCompartidoPage: React.FC = () => {
     }
   }
 
-  const saveArchive = (name: string, url: any, id?: any) => {
+  const saveArchive = async (name: string, url: any, id?: any) => {
     const querycolumn = new QueryBuilders('recurso_compartido');
     if(id){
-      querycolumn
+      // currentAsignature, currentGroup
+      const result: any = querycolumn
       .create({
-        'fk_tasignatura': 3007,
-        'fk_tgrupo': 3486,
+        'fk_tasignatura': currentAsignature,
+        'fk_tgrupo': currentGroup,
         'fecha_creacion': formatearFecha(currentDate),
         'fecha_publicacion': formatearFecha(currentDate),
         'nombre': limitarTexto(name),
@@ -150,13 +149,17 @@ const RecursosCompartidoPage: React.FC = () => {
       })
       .schema('ACADEMICO_COL0')
       .save()
-      getData()
+
+      if(result){
+        setEditingKey('');
+        await getData()
+      }
 
     }else{
-      querycolumn
+      const result: any = querycolumn
       .create({
-        'fk_tasignatura': 3007,
-        'fk_tgrupo': 3486,
+        'fk_tasignatura': currentAsignature,
+        'fk_tgrupo': currentGroup,
         'fecha_creacion': formatearFecha(currentDate),
         'fecha_publicacion': formatearFecha(currentDate),
         'nombre': limitarTexto(name),
@@ -165,7 +168,11 @@ const RecursosCompartidoPage: React.FC = () => {
       })
       .schema('ACADEMICO_COL0')
       .save()
-      getData()
+
+      if(result){
+        setEditingKey('');
+        await getData()
+      }
 
     }
     
@@ -221,17 +228,7 @@ const RecursosCompartidoPage: React.FC = () => {
       description: (
           <Input onChange={onChangeDescription} onPressEnter={saveData} placeholder="Descripcion" />
       ),
-      date: (
-        <Row >
-          <Col className="gutter-row" span={12}>
-              {currentDate.toLocaleDateString()}
-          </Col>
-          <Col className="gutter-row" span={4}>
-          <span>{deleteIcon}</span>
-          </Col>
-                   
-        </Row>
-        ),
+      date: currentDate.toLocaleDateString()
     }
     setData([column, ...data]);
   }
@@ -243,15 +240,24 @@ const RecursosCompartidoPage: React.FC = () => {
       // 
       return {
         key: item.id,
-        name: item.name,
+        name: (
+          <div style={{ display: 'flex' }}>
+            <div style={{ width: '20px', marginRight: '15px' }}> {select_type(item.url)} </div> 
+            <div>  {item.name} </div>
+            {/* <Col span={20}>  {input ? <span style={{ marginLeft:'10px' }}>{...item.name} </span> : <Input {...item.name} />} </Col> */}
+          </div>
+        ),
         description: item.description,
         date: currentDate.toLocaleDateString(),
-        ico : ( <>{select_type(item.url)}</> ),
+        url : item.url,
+        nameFile: item.name
       };
     });
   
     return transformedArray;
   }
+
+  {/* {currentAsignature} - {currentGrade} - {currentGroup} - {currentEvaluationPeriod} */}
 
   const getData = async () => {
     const querycolumn = new QueryBuilders('recurso_compartido');
@@ -262,6 +268,8 @@ const RecursosCompartidoPage: React.FC = () => {
                             'CASE WHEN "URL_RECURSO_EXTERNO" IS NOT NULL THEN "URL_RECURSO_EXTERNO" ELSE (SELECT "URLS3" FROM "ACADEMICO_COL0"."TARCHIVO" WHERE "PK_TARCHIVO" = "FK_TARCHIVO") END AS url',
                             '"FECHA_CREACION" AS date'])
                     .schema('ACADEMICO_COL0')
+                    .where('"FK_TASIGNATURA"', '=', currentAsignature)
+                    .where('"FK_TGRUPO"', '=', currentGroup)
                     .orderBy("id", "desc")
                     .limit(20)
                     .get()
@@ -280,7 +288,7 @@ const RecursosCompartidoPage: React.FC = () => {
     try {
       const row = (await form.validateFields()) as Item;
       const querycolumn = new QueryBuilders('recurso_compartido');
-      querycolumn
+     const result = await querycolumn
       .update({
         'nombre': row.name,
         'descripcion': row.description,
@@ -289,36 +297,34 @@ const RecursosCompartidoPage: React.FC = () => {
       .schema('ACADEMICO_COL0')
       .save()
 
-      const newData = [...data];
-      const index = newData.findIndex((item) => key === item.key);
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        });
-        setData(newData);
+      if(result){
         setEditingKey('');
-      } else {
-        newData.push(row);
-        setData(newData);
-        setEditingKey('');
+        await getData()
       }
+     
     } catch (errInfo) {
       console.log('Validate Failed:', errInfo);
     }
   };
 
+  const deleteItemData = async () => {
+    console.log(selectedRowKeys, 'delete')
+    const querycolumn = new QueryBuilders('recurso_compartido');
+     const result = await querycolumn
+      .whereIn('"PK_TRECURSO_COMPARTIDO"' , selectedRowKeys)
+      .schema('ACADEMICO_COL0')
+      .delete()
+    
+      if(result){
+        await getData()
+      }
+  }
+
   const columns = [
-    {
-        title: '',
-        dataIndex: 'ico',
-        width: '5%',
-      },
     {
       title: 'Nombre de recurso',
       dataIndex: 'name',
-      width: '30%',
+      width: '35%',
       editable: true,
     },
     {
@@ -335,22 +341,42 @@ const RecursosCompartidoPage: React.FC = () => {
     },
     {
       title: '',
+      width: '10%',
       dataIndex: 'operation',
       render: (_: any, record: Item) => {
         const editable = isEditing(record);
-        return editable ? (
+        return record.key == null ? (
+           <Typography.Link disabled={editingKey !== ''}>
+              <Popconfirm title="Eliminar dato ?" onConfirm={() => deleteItemData()}>
+              <span>{deleteIcon}</span>
+              </Popconfirm>
+          </Typography.Link>
+          ) : editable ? (
           <span>
+            <Tooltip title="Guardar">
             <Typography.Link onClick={() => save(record.key)} style={{ marginRight: 8 }}>
-              Save
+              {saveIcon}
             </Typography.Link>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <a>Cancel</a>
+            </Tooltip>
+            <Tooltip title="Cancelar">
+            <Popconfirm style={{ marginLeft: '10px', cursor: 'pointer' }} title="Cancelar?" onConfirm={cancel}>
+              {closetIcon}
             </Popconfirm>
+            </Tooltip>
+
           </span>
         ) : (
-          <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
-            Edit
-          </Typography.Link>
+          <Row>
+            <Col span={6}>
+            <Tooltip title="Editar">
+              <Typography.Link style={{ marginLeft: '10px' }} disabled={editingKey !== ''} onClick={() => edit(record)}>
+                {editIcon}
+              </Typography.Link>
+            </Tooltip>
+            </Col>
+            
+          </Row>
+          
         );
       },
     },
@@ -364,7 +390,7 @@ const RecursosCompartidoPage: React.FC = () => {
       ...col,
       onCell: (record: Item) => ({
         record,
-        inputType: col.dataIndex === 'age' ? 'number' : 'text',
+        inputType: col.dataIndex === 'name' ? 'file' : 'text',
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),
@@ -386,15 +412,25 @@ const RecursosCompartidoPage: React.FC = () => {
           <Input onChange={onChangeDescription} onPressEnter={createUrl} placeholder="Descripcion" />
         </>
       ),
-      date: currentDate.toLocaleDateString(),
+      date: currentDate.toLocaleDateString()
+
     }
     setData([column, ...data]);
   }
+
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
   
 
   useEffect(() => {
     getData()
-  }, [])
+  }, [ currentGroup ])
 
   return (
     <div className='activity_container'>
@@ -402,14 +438,22 @@ const RecursosCompartidoPage: React.FC = () => {
             trecurso_compartido
         </span>
         <br/>
-        {/* {currentAsignature} - {currentGrade} - {currentGroup} - {currentEvaluationPeriod} */}
         <br/>
         <Row gutter={2}>
           <Col span={1}>
-            <div onClick={addColumUpload} style={{ cursor:'pointer', width: '20px' }} >{uploadIcon}</div>
+            <Tooltip title="Subir archivo">
+             <div onClick={addColumUpload} style={{ cursor:'pointer', width: '20px' }} >{uploadIcon}</div>
+            </Tooltip>
           </Col>
           <Col span={1}>
-            <div onClick={addColum} style={{ cursor:'pointer', width: '20px' }} >{linkIcon}</div> 
+            <Tooltip title="Subir Url">
+              <div onClick={addColum} style={{ cursor:'pointer', width: '20px' }} >{linkIcon}</div> 
+            </Tooltip>
+          </Col>
+          <Col span={1}>
+            <Tooltip title="Eliminar">
+              <div onClick={deleteItemData} style={{ cursor:'pointer', width: '20px' }} >{deleteIcon}</div> 
+            </Tooltip>
           </Col>
         </Row>
       <Form form={form} component={false}>
@@ -419,13 +463,12 @@ const RecursosCompartidoPage: React.FC = () => {
               cell: EditableCell,
             },
           }}
-          bordered
+          // bordered
           dataSource={data}
           columns={mergedColumns}
           rowClassName="editable-row"
-          pagination={{
-            onChange: cancel,
-          }}
+          pagination={false}
+          rowSelection={rowSelection}
         />
       </Form>
     </div>

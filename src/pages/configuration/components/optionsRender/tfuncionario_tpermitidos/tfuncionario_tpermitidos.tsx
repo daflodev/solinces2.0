@@ -80,6 +80,9 @@ const FuncionarioPermissionComponent = (props: funcionarioPermissionProps)=>{
                 </Col>
             </Row>
             <Row className='tpermitidos'>
+            <span className='funcionario_permission_container_title'>
+                    Sede
+                </span>
                 {currentTableCampusSelected == "usuario" ? 
                     (
                     userCampus != null ?
@@ -139,6 +142,9 @@ const FuncionarioPermissionComponent = (props: funcionarioPermissionProps)=>{
                     <Spin tip="" size="small" />
                     )
                     : null}
+                    <span className='funcionario_permission_container_title'>
+                    Rol
+                </span>
                 <Col span={8} offset={currentTableCampusSelected == "usuario" ? 2 : 0}>
                     <Select
                         className='funcionario_permission_Select'
