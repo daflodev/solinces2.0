@@ -230,7 +230,7 @@ export const SideOptionsManagerHook = () => {
 
       case "TPeriodoPermisos":
         setTableGridWidth(12);
-        functionPeriodoPermisos()
+        functionPeriodoPermisos(record)
         setOptionTableSelected("TPeriodoPermisos");
         setdataPeriodoPermisos(["periodo"])
       
@@ -494,6 +494,7 @@ export const SideOptionsManagerHook = () => {
     dataTperiodo,
     colunmFieldPeriodo,
     dataSeelectPeriodo,
+    dataPeriodoPermisos
   ]);
 
   return {

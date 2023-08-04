@@ -69,7 +69,7 @@ export const TFuncionarioTPermissionGetDataHook  = (data?: any, rolesToAdd?: any
 
         apiGetUserRoles(userId, sedeId)
         .then((response: any) => {
-            const processedData = dataDigestor(response.data);
+            const processedData = dataDigestor(response);
 
             const findDuplicateRol = () => {
                 const foundKeys = {};
@@ -100,7 +100,7 @@ export const TFuncionarioTPermissionGetDataHook  = (data?: any, rolesToAdd?: any
 
         apiGetAllRoles()
         .then((response: any) => {
-            const processedData = dataDigestor(response.data);
+            const processedData = dataDigestor(response);
 
             const alreadyIdRoles =  alreadyAddedRoles.map(objet => objet.value);
 
