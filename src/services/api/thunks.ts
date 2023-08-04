@@ -132,7 +132,7 @@ const resp = await ApiSedeInfraFK(data)
 
 return resp;
 };
-
+ 
 // thunks sede infraestructura
 
 export const apiPostThunksAsyncSedeInfra = async (data: any) => {
