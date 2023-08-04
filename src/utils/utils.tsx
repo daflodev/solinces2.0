@@ -10,6 +10,7 @@ import * as Yup from "yup";
 import type { InputRef } from "antd";
 
 import type { FormInstance } from "antd/es/form";
+import { linkIcon, pdfIcon } from "@/assets/icon/iconManager";
 
 function useJwtTool(token: any) {
   const myDecodedToken = decodeToken(token);
@@ -46,6 +47,32 @@ const removeNullAndEmptyKeys = (json: any): any => {
   return result;
 }
 
+const obtenerExtension = (url: any) => {
+  if(!url){
+    return 'url'
+  }
+  const partes = url.split('.');
+  if (partes.length > 1) {
+    console.log(partes[partes.length - 1])
+    return partes[partes.length - 1];
+  } else {
+    return 'url';
+  }
+}
+
+
+const select_type = (params: any) => {
+  const type: any = {
+    pdf: pdfIcon,
+    url: linkIcon,
+    defauld: linkIcon,
+  };
+
+  let extencion = obtenerExtension(params)
+  let validate: any = type[extencion] ?? type["defauld"];
+  return validate;
+};
+
 export {
   alterSwal,
   formik,
@@ -55,4 +82,5 @@ export {
   Yup,
   getUserToken,
   removeNullAndEmptyKeys,
+  select_type,
 };

@@ -4,7 +4,7 @@ import { ApiServicesThunksORM } from "./services";
 export const apiPostThunksAsync = async (data: any) => {
     const resp = await ApiServicesThunksORM(data)
       .then((response) => {
-        const getdata = response.data.data;
+        const getdata = response.data;
         return getdata;
       })
       .catch((error) => {

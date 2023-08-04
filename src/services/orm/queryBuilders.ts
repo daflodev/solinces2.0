@@ -54,6 +54,14 @@ class QueryBuilders {
     };
   }
 
+  private formatValue(value: string | number): string {
+    if (typeof value === 'string') {
+      return `'${value}'`;
+    } else {
+      return value.toString();
+    }
+  }
+  
   select(fields: string | string[]): QueryBuilders {
     this.query.select = Array.isArray(fields) ? fields.join(', ') : fields;
     return this;
@@ -68,6 +76,12 @@ class QueryBuilders {
     this.query.where.push({ field, operator, value });
     return this;
   }
+
+  whereIn(field: string, values: any[]): QueryBuilders {
+    const formattedValues = values.map((value) => this.formatValue(value)).join(', ');
+    this.query.where.push({ field, operator: 'IN', value: `(${formattedValues})` });
+    return this;
+  }  
 
   orderBy(field: string, direction: 'asc' | 'desc' = 'asc'): QueryBuilders {
     this.query.orderBy = { field, direction };

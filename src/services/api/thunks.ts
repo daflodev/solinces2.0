@@ -264,7 +264,7 @@ export const apiGetThunksMainMenuAsync = async (data: any) => {
   const resp = await ApiServicesThunksMainMenu()
     .then((response) => {
       
-      const getdata = response.data.results.map((d:any, i:any) => ({
+      const getdata = response.data.resp.response.map((d:any, i:any) => ({
         ...d,
         key: i,
       }));

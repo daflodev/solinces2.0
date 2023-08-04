@@ -3,8 +3,6 @@ import { Card, Row, Col } from "antd";
 import { withPrincipal } from "@/components/content";
 
 import "@/assets/noPermitionPage/noPermitionPage.css";
-import TransferMatri from "@/components/transferMatricula/transferMatricula";
-import useTransferMatricula from "../configuration/components/hooks/useTRansferMatricula";
 
 const mainImageNoPermissionPage = (
     <svg width="172" height="149" viewBox="0 0 172 149" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -41,7 +39,8 @@ const mainImageNoPermissionPage = (
 const NoPermissionPage: React.FC = () => {
 
 
-    const { dataSource, targetKeys, handleChange } = useTransferMatricula();    return (
+    // const { dataSource, targetKeys, handleChange } = useTransferMatricula();  
+      return (
         <div>
             <Card className="card-container">
                 <div className="no-permission-sub-container">
@@ -57,9 +56,9 @@ const NoPermissionPage: React.FC = () => {
                     </Row>
                 </div>
 
-                <TransferMatri dataSource={dataSource}
+                {/* <TransferMatri dataSource={dataSource}
                  targetKeys={targetKeys} 
-                 handleChange={(newTargetKeys, direction) => handleChange(newTargetKeys, direction)}/>
+                 handleChange={(newTargetKeys, direction) => handleChange(newTargetKeys, direction)}/> */}
             </Card>
         </div>
     )
