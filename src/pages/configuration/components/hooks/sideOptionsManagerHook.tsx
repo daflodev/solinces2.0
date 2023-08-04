@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 import { TFuncionarioTPermissionGetDataHook } from "../optionsRender/tfuncionario_tpermitidos/tfuncionarioTpermitidosHook";
 import { FuncionarioPermissionComponent } from "../optionsRender/tfuncionario_tpermitidos/tfuncionario_tpermitidos";
+import {TPeriodoPermissionGetDataHook} from "../optionsRender/tperiodo_permisos/tperiodo_permisosHook";
+import TPeriodoPermisos from "../optionsRender/tperiodo_permisos/TPeriodoPermisos";
 
 import MyForm from "@/components/tableCheckbox/tableChecBox";
 import { Card, Col, Spin } from "antd";
@@ -13,6 +15,10 @@ import { useSedePerifericos } from "./usePerifericosMedios";
 import { useFormTperiodo } from "./useTperiodoAcademico";
 import SedeInfraEstructuraFisica from "@/components/formSedeInfra";
 import { useJournySede } from "./useSedeJornada";
+
+import { shallow } from "zustand/shallow";
+
+import { sessionInformationStore } from "@/store/userInformationStore";
 
 export const SideOptionsManagerHook = () => {
   const [optionTableSelected, setOptionTableSelected] = useState("");
@@ -106,10 +112,19 @@ export const SideOptionsManagerHook = () => {
     FKConsultManagerFKTFormatoACT, contextHolderPeriodo,
   } = useFormTperiodo();
 
+  const {
+    functionPeriodoPermisos,
+    dataPeriodoPermisos,
+    setdataPeriodoPermisos
+  }  = TPeriodoPermissionGetDataHook()
 
   // const { handleTransferChange,
   //   subjectsData,
   //   enrolledSubjects, } = useTransferMatricula()
+  const { currentCampus } = sessionInformationStore(
+    (state) => ({
+      currentCampus: state.currentCampus,
+    }), shallow);
 
   // const {PostData} = useTperiodo
   // const {onFieldChange, onFinish}=useSedeInfra()
@@ -203,9 +218,7 @@ export const SideOptionsManagerHook = () => {
         setOptionTableSelected("useFuncionarioPermission");
         setCurrentRowInformation(record);
         setTableGridWidth(10);
-        getUserRoles(
-          record.FK_TUSUARIO ? record?.FK_TUSUARIO : record?.PK_TUSUARIO
-        );
+        getUserRoles(record.FK_TUSUARIO ? record?.FK_TUSUARIO : record?.PK_TUSUARIO, currentCampus?.value);
         break;
 
       case "useTransferMatricula":
@@ -214,6 +227,14 @@ export const SideOptionsManagerHook = () => {
         setTableGridWidth(10);
 
         break;
+
+      case "TPeriodoPermisos":
+        setTableGridWidth(12);
+        functionPeriodoPermisos()
+        setOptionTableSelected("TPeriodoPermisos");
+        setdataPeriodoPermisos(["periodo"])
+      
+      break;
 
 
       default:
@@ -359,6 +380,15 @@ export const SideOptionsManagerHook = () => {
         </>
       );
       setSecondaryTableComponentRender(useSedePerifericos);
+    }
+
+    if (dataPeriodoPermisos && optionTableSelected === "TPeriodoPermisos") {
+
+      const componentePeriodoPermisos = (
+        <TPeriodoPermisos/>
+      )
+      setSecondaryTableComponentRender(componentePeriodoPermisos)
+
     }
     // console.log(dataTperiodo);
     // console.log(colunmFieldPeriodo);

@@ -65,9 +65,9 @@ export const TFuncionarioTPermissionGetDataHook  = (data?: any, rolesToAdd?: any
         return answer;
     };
 
-    const getUserRoles = async (userId) => {
+    const getUserRoles = async (userId, sedeId) => {
 
-        apiGetUserRoles(userId)
+        apiGetUserRoles(userId, sedeId)
         .then((response: any) => {
             const processedData = dataDigestor(response.data);
 
@@ -119,6 +119,7 @@ export const TFuncionarioTPermissionGetDataHook  = (data?: any, rolesToAdd?: any
         .catch(() => {
             //TODO: Manejo de log de errores
         });
+        
     }
 
     const proccesInformationCampus = (userCampusData: any) => {
@@ -202,19 +203,18 @@ export const TFuncionarioTPermissionGetDataHook  = (data?: any, rolesToAdd?: any
 
     const addItemCampus = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
 
-        setIsCampusSelectedToAddValueAvailable(true)
+        /* setIsCampusSelectedToAddValueAvailable(true)
 
-        /* const prepareValueCampusToAdd =[
+        const prepareValueCampusToAdd =[
             {
                 FK_TSEDE: currentTableCampusSelected == "usuario" ? selectedCampus : currentCampus?.value,
-                FK_TROL: name?.value,
                 FK_TUSUARIO: userID,
                 TLV_ESTADO: "ACTIVO",
                 BOOLEAN_FIELD: true
             }
-            ]; */
+            ];
 
-    /*    try {
+    try {
 
             apiUpdateUserRoles(prepareValueCampusToAdd).then(
                 (answer)=>{
@@ -222,21 +222,21 @@ export const TFuncionarioTPermissionGetDataHook  = (data?: any, rolesToAdd?: any
                     if(answer?.status != 402 && answer?.status != 400){
                         setMainSelectStatus(true);
                         e.preventDefault();
-                        setItems([...items, name || `New item ${index++}`]);
+                        setItems([...userCampus, nameCampus || `New item ${index++}`]);
                         setTimeout(() => {
                         inputRef.current?.focus();
                         }, 0);
                     }
                     
                     setName(null);
-                    setRolSelectedToAddValue(null);
-                    setIsRolSelectedToAddValueAvailable(false)
+                    setCampusSelectedToAddValue(null);
+                    setIsCampusSelectedToAddValueAvailable(false)
                 }
             );
             
         } catch (error) {
 
-            setIsRolSelectedToAddValueAvailable(false)
+            setIsCampusSelectedToAddValueAvailable(false)
             //TODO: includes error a¡manager
         } */
 
