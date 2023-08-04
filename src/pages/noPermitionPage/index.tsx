@@ -3,7 +3,6 @@ import { Card, Row, Col } from "antd";
 import { withPrincipal } from "@/components/content";
 
 import "@/assets/noPermitionPage/noPermitionPage.css";
-import useTransferMatricula from "../configuration/components/hooks/useTRansferMatricula";
 
 const mainImageNoPermissionPage = (
     <svg width="172" height="149" viewBox="0 0 172 149" fill="none" xmlns="http://www.w3.org/2000/svg">
