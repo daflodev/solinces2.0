@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 
-export const TPeriodoPermissionGetDataHook  = (data?: any) =>{
+export const TPeriodoPermissionGetDataHook  = () =>{
     const [dataPeriodoPermisos, setdataPeriodoPermisos] = useState<any>(null);
 
     const functionPeriodoPermisos = (dataPrueba) => {
