@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 
 export const TPeriodoPermissionGetDataHook  = (data?: any) =>{
-    const [dataPeriodoPermisos, setdataPeriodoPermisos] = useState<any>(data ? data : null);
+    const [dataPeriodoPermisos, setdataPeriodoPermisos] = useState<any>(null);
 
-    const functionPeriodoPermisos = () => {
+    const functionPeriodoPermisos = (dataPrueba) => {
 
-        setdataPeriodoPermisos([])
+        setdataPeriodoPermisos(dataPrueba)
 
     }
     

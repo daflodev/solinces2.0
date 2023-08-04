@@ -108,14 +108,7 @@ const TPeriodoPermisos: React.FC = () => {
   
   return (
     <div className ="container">
-      <Row>
-      <Col span={23}>
       <span className = "tittle">tperiodo_permiso</span>
-      </Col>
-      <Col span={1}>
-        {equisIcon}
-      </Col>
-    </Row>
       <div className = "collapse">
       <Collapse accordion
         bordered={false}
