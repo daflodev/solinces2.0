@@ -367,10 +367,10 @@ export const apiGetAllRoles = async () => {
     }
 };
 
-export const apiGetUserRoles = async (id: any) => {
+export const apiGetUserRoles = async (userId, sedeId) => {
   
   try {
-    const {data} = await ApiServicesGetUserRoles(id)
+    const {data} = await ApiServicesGetUserRoles(userId,sedeId)
     return data;
   } catch (error) {
     //TODO: manejo de erroes.
