@@ -1,11 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
-import { Button, Col, Form, Input, InputNumber, Popconfirm, Row, Table, Typography, message } from 'antd';
+import { Button, Col, Form, Input, Popconfirm, Row, Table, Typography, message } from 'antd';
 import { QueryBuilders } from '@/services/orm/queryBuilders';
 import { deleteIcon, linkIcon, pdfIcon, uploadIcon } from '@/assets/icon/iconManager';
 import { CloudUploadOutlined } from '@ant-design/icons';
 import { ApiServicesMembrete } from '@/services/api/services';
 import { sessionInformationStore } from '@/store/userInformationStore';
 import {shallow} from "zustand/shallow";
+import { select_type } from '@/utils/utils';
+import { EditOutlined } from '@ant-design/icons';
+
 
 
 interface Item {
@@ -13,6 +16,7 @@ interface Item {
   name: string;
   description: number;
   date: string;
+  url:string;
   nameFile: string;
 }
 
@@ -21,7 +25,7 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   editing: boolean;
   dataIndex: string;
   title: any;
-  inputType: 'number' | 'text';
+  inputType: 'file' | 'text';
   record: Item;
   index: number;
   children: React.ReactNode;
@@ -37,7 +41,11 @@ const EditableCell: React.FC<EditableCellProps> = ({
   children,
   ...restProps
 }) => {
-  const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
+  const inputNode = inputType === 'file' ? <div style={{ display: 'flex' }}>
+  <div style={{ width: '20px', marginRight: '15px' }}> <>{select_type(record.url)}</></div> 
+  <Input defaultValue={record.nameFile} />
+  {/* <Col span={20}>  {input ? <span style={{ marginLeft:'10px' }}>{...item.name} </span> : <Input {...item.name} />} </Col> */}
+</div> : <Input />;
 
   return (
     <td {...restProps}>
@@ -94,31 +102,6 @@ const RecursosCompartidoPage: React.FC = () => {
   const onChangeDescription = (e: any) => {
     inputDescripcion = e.target.value;
   }
-
-  const obtenerExtension = (url: any) => {
-    if(!url){
-      return 'url'
-    }
-    const partes = url.split('.');
-    if (partes.length > 1) {
-      console.log(partes[partes.length - 1])
-      return partes[partes.length - 1];
-    } else {
-      return 'url';
-    }
-  }
-
-  const select_type = (params: any) => {
-    const type: any = {
-      pdf: pdfIcon,
-      url: linkIcon,
-      defauld: linkIcon,
-    };
-
-    let extencion = obtenerExtension(params)
-    let validate: any = type[extencion] ?? type["defauld"];
-    return validate;
-  };
 
   const createUrl = async () => {
     saveArchive(inputUrl, inputUrl)
@@ -243,10 +226,17 @@ const RecursosCompartidoPage: React.FC = () => {
       // 
       return {
         key: item.id,
-        name: item.name,
+        name: (
+          <div style={{ display: 'flex' }}>
+            <div style={{ width: '20px', marginRight: '15px' }}> {select_type(item.url)} </div> 
+            <div>  {item.name} </div>
+            {/* <Col span={20}>  {input ? <span style={{ marginLeft:'10px' }}>{...item.name} </span> : <Input {...item.name} />} </Col> */}
+          </div>
+        ),
         description: item.description,
         date: currentDate.toLocaleDateString(),
-        ico : ( <>{select_type(item.url)}</> ),
+        url : item.url,
+        nameFile: item.name
       };
     });
   
@@ -280,7 +270,7 @@ const RecursosCompartidoPage: React.FC = () => {
     try {
       const row = (await form.validateFields()) as Item;
       const querycolumn = new QueryBuilders('recurso_compartido');
-      querycolumn
+     const result = await querycolumn
       .update({
         'nombre': row.name,
         'descripcion': row.description,
@@ -289,32 +279,30 @@ const RecursosCompartidoPage: React.FC = () => {
       .schema('ACADEMICO_COL0')
       .save()
 
-      const newData = [...data];
-      const index = newData.findIndex((item) => key === item.key);
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        });
-        setData(newData);
+      if(result){
         setEditingKey('');
-      } else {
-        newData.push(row);
-        setData(newData);
-        setEditingKey('');
+        await getData()
       }
+     
     } catch (errInfo) {
       console.log('Validate Failed:', errInfo);
     }
   };
 
+  const deleteItemData = async (id: any) => {
+    console.log(id)
+    const querycolumn = new QueryBuilders('recurso_compartido');
+     const result = await querycolumn
+      .where('"PK_TRECURSO_COMPARTIDO"' , '=', id)
+      .schema('ACADEMICO_COL0')
+      .delete()
+    
+      if(result){
+        await getData()
+      }
+  }
+
   const columns = [
-    {
-        title: '',
-        dataIndex: 'ico',
-        width: '5%',
-      },
     {
       title: 'Nombre de recurso',
       dataIndex: 'name',
@@ -338,19 +326,37 @@ const RecursosCompartidoPage: React.FC = () => {
       dataIndex: 'operation',
       render: (_: any, record: Item) => {
         const editable = isEditing(record);
-        return editable ? (
+        return record.key == null ? (
+           <Typography.Link disabled={editingKey !== ''}>
+              <Popconfirm title="Eliminar dato ?" onConfirm={() => deleteItemData(record.key)}>
+              <span>{deleteIcon}</span>
+              </Popconfirm>
+          </Typography.Link>
+          ) : editable ? (
           <span>
             <Typography.Link onClick={() => save(record.key)} style={{ marginRight: 8 }}>
               Save
             </Typography.Link>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+            <Popconfirm title="Cancelar?" onConfirm={cancel}>
               <a>Cancel</a>
             </Popconfirm>
           </span>
         ) : (
-          <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
-            Edit
-          </Typography.Link>
+          <Row>
+            <Col span={6}>
+              <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
+                <EditOutlined />
+              </Typography.Link>
+            </Col>
+            <Col span={10}>
+              <Typography.Link disabled={editingKey !== ''}>
+                  <Popconfirm title="eliminar dato?" onConfirm={() => deleteItemData(record.key)}>
+                  <span>{deleteIcon}</span>
+                  </Popconfirm>
+              </Typography.Link>
+            </Col>
+          </Row>
+          
         );
       },
     },
@@ -364,7 +370,7 @@ const RecursosCompartidoPage: React.FC = () => {
       ...col,
       onCell: (record: Item) => ({
         record,
-        inputType: col.dataIndex === 'age' ? 'number' : 'text',
+        inputType: col.dataIndex === 'name' ? 'file' : 'text',
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),
@@ -387,6 +393,8 @@ const RecursosCompartidoPage: React.FC = () => {
         </>
       ),
       date: currentDate.toLocaleDateString(),
+      operacion: (<>jjj</>)
+
     }
     setData([column, ...data]);
   }
@@ -423,9 +431,7 @@ const RecursosCompartidoPage: React.FC = () => {
           dataSource={data}
           columns={mergedColumns}
           rowClassName="editable-row"
-          pagination={{
-            onChange: cancel,
-          }}
+          pagination={false}
         />
       </Form>
     </div>
