@@ -26,6 +26,16 @@ export function AvalibleSelecteManager(selectName: string, currentRol: any, curr
                 
                 break;
 
+
+                case 'FK_TSEDE':
+
+                answer = {
+                    defaultValue: currentCampus?.value,
+                    isDisable: true
+                }
+                
+                break;
+
             default:
                 answer = {
                     defaultValue: null,

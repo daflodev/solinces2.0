@@ -795,5 +795,7 @@ export {
   receivedActivitySupportIcon,
   qualificationActivitySupportIcon,
   unknownIcon,
-  testFileIcon, periodoPermiso,
+  testFileIcon,
+  closetIcon,
+  periodoPermiso
 };
