@@ -7,7 +7,7 @@ import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { TableRowSelection } from 'antd/es/table/interface';
 import { useState } from 'react';
-import { MinusOutlined,PlusOutlined,equisIcon,saveIcon } from '@/assets/icon/iconManager';
+import { MinusOutlined,PlusOutlined,saveIcon } from '@/assets/icon/iconManager';
 
 const TPeriodoPermisos: React.FC = () => {
 
@@ -79,7 +79,7 @@ const TPeriodoPermisos: React.FC = () => {
         key: 'odd',
         text: 'Select Odd Row',
         onSelect: (changeableRowKeys) => {
-          let newSelectedRowKeys = [];
+          let newSelectedRowKeys: any[] = [];
           newSelectedRowKeys = changeableRowKeys.filter((_, index) => {
             if (index % 2 !== 0) {
               return false;
@@ -93,7 +93,7 @@ const TPeriodoPermisos: React.FC = () => {
         key: 'even',
         text: 'Select Even Row',
         onSelect: (changeableRowKeys) => {
-          let newSelectedRowKeys = [];
+          let newSelectedRowKeys: any[] = [];
           newSelectedRowKeys = changeableRowKeys.filter((_, index) => {
             if (index % 2 !== 0) {
               return true;
@@ -108,14 +108,7 @@ const TPeriodoPermisos: React.FC = () => {
   
   return (
     <div className ="container">
-      <Row>
-      <Col span={23}>
       <span className = "tittle">tperiodo_permiso</span>
-      </Col>
-      <Col span={1}>
-        {equisIcon}
-      </Col>
-    </Row>
       <div className = "collapse">
       <Collapse accordion
         bordered={false}
