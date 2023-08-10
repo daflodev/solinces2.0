@@ -48,8 +48,11 @@ const NoPermissionPage: React.FC = () => {
         <>
           <div>
             <Card className="card-container">
-                <div className="no-permission-sub-container">
-                    <Row>
+                <div 
+                    //className="no-permission-sub-container"
+                    style={{height:'80vh', width:'100%', overflow: 'auto', display: 'flex', justifyContent:'center', alignItems:'center'}}
+                    >
+                    {/* <Row>
                         <Col span={24} offset={10}>
                             {mainImageNoPermissionPage}
                         </Col>
@@ -58,7 +61,8 @@ const NoPermissionPage: React.FC = () => {
                                 Lo sentimos, pero no está autorizado para acceder a esta página.
                             </p>
                         </Col>
-                    </Row>
+                    </Row> */}
+                <iframe style={{ border: '0px', width: '100%', height: '100%' }} src="http://localhost:4046/"></iframe>
                 </div>
 
                 <TransferMatri

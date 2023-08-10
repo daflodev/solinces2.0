@@ -1,7 +1,7 @@
 import { environment } from "@/enviroments/enviroment";
 import axios from "axios";
 
-const API_URL = environment.API_TEST;
+const API_URL = environment.API_URL;
 
 export const ApiServicesThunks = async (data: any) => {
   const url = `${API_URL}/base/`;
