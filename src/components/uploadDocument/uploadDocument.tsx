@@ -1,5 +1,9 @@
 import { Upload, Button, List } from 'antd';
-import { UploadOutlined, FileImageOutlined, FilePdfOutlined, FileWordOutlined, FileExcelOutlined, FileTextOutlined } from '@ant-design/icons';
+import {
+  UploadOutlined, FileImageOutlined, FilePdfOutlined, FileWordOutlined, 
+  // FileExcelOutlined,
+  FileTextOutlined
+} from '@ant-design/icons';
 import { useState } from 'react';
 import { iconPdf } from '@/assets/icon/iconManager';
 
@@ -26,7 +30,7 @@ const UploadDocument = () => {
 
   const getIcon = fileName => {
     const extension = fileName.split('.').pop().toLowerCase();
-  
+
     switch (extension) {
       case 'jpg':
       case 'jpeg':
@@ -36,14 +40,14 @@ const UploadDocument = () => {
       case 'pdf':
         return iconPdf;
       case 'doc':
-      case 'docx':   
-      return <FileWordOutlined />;
+      case 'docx':
+        return <FileWordOutlined />;
       case 'ppt':
       case 'pptx':
         return <FilePdfOutlined />
-    //   case 'xls':
-    //   case 'xlsx':
-    //  return <FileExcelOutlined/>
+      //   case 'xls':
+      //   case 'xlsx':
+      //  return <FileExcelOutlined/>
       case 'txt':
         return <FileTextOutlined />;
       default:
@@ -66,11 +70,11 @@ const UploadDocument = () => {
         bordered
         dataSource={fileList}
         renderItem={(item: any) => (
-            <List.Item className="listDocument">
-              {getIcon(item?.name)}
-              <span className='nameDocument'>{item?.name}</span>
-            </List.Item>
-          )}
+          <List.Item className="listDocument">
+            {getIcon(item?.name)}
+            <span className='nameDocument'>{item?.name}</span>
+          </List.Item>
+        )}
       />
     </div>
   );

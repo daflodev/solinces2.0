@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 
-import { 
+import {
   footerMenuImage,
   searchIcon,
-  getIcon } from "./menu-icons.tsx";
+  getIcon
+} from "./menu-icons.tsx";
 
 import { GetMenu } from "./hooks/getMenu.tsx";
 
@@ -13,7 +14,7 @@ import "./styles/menu-items-styles.css";
 import { Input, Menu, Spin } from "antd";
 
 
-function getItem(label:any, key:any, icon:any, disabled = false) {
+function getItem(label: any, key: any, icon: any, disabled = false) {
   return {
     key,
     icon,
@@ -22,38 +23,47 @@ function getItem(label:any, key:any, icon:any, disabled = false) {
   };
 }
 
-function dataSourceDigestor(dataSource:any) {
-    const items:any = [];
+function dataSourceDigestor(dataSource: any) {
+  const items: any = [];
 
-    dataSource.map((data:any) =>{
+  dataSource.map((data: any) => {
 
-      const icon:any = getIcon(data.ICONO);
-      
-      if(data.VISIBLE && data.VISIBLE === "S"){
+    const icon: any = getIcon(data.ICONO);
 
-        if(data.ESTADO && data.ESTADO === "A"){
+    if (data.VISIBLE && data.VISIBLE === "S") {
+
+      if (data.ESTADO && data.ESTADO === "A") {
+        if (data.NOMBRE === "FORO") {
+          const item = getItem(
+            <Link key={data?.URL} to={"/test"}>{data?.NOMBRE}</Link>,
+            data.CODIGO,
+            <Link key={data.URL} to={"/test"}>{icon?.svg}</Link>)
+          items.push(item);
+        } else {
           const url = data?.URL ? `/layout/${data?.URL}` : '/miurl';
           const item = getItem(
-            <Link key={data?.URL} to={url}>{data?.NOMBRE}</Link>, 
-            data.CODIGO, 
+            <Link key={data?.URL} to={url}>{data?.NOMBRE}</Link>,
+            data.CODIGO,
             <Link key={data.URL} to={url}>{icon?.svg}</Link>)
-  
-          items.push(item);
-        }else{
-          const item = getItem(
-            data?.NOMBRE, 
-            data?.CODIGO, 
-            icon?.svg,
-            true
-            )
-  
+
           items.push(item);
         }
+
+      } else {
+        const item = getItem(
+          data?.NOMBRE,
+          data?.CODIGO,
+          icon?.svg,
+          true
+        )
+
+        items.push(item);
       }
+    }
 
-    })
+  })
 
-    return items;
+  return items;
 }
 
 const MenuItems = () => {
@@ -64,43 +74,43 @@ const MenuItems = () => {
 
   useEffect(() => {
 
-    if(dataSource){
+    if (dataSource) {
       const menuData = dataSourceDigestor(dataSource)
 
       setMenuItems(<Menu
-              style={{
-                  width: 256,
-                  boxShadow: "0 0 0 0 white",
-                  backgroundColor: "var(--bg-color)"
-              }}
-              items={menuData}
-          />)
+        style={{
+          width: 256,
+          boxShadow: "0 0 0 0 white",
+          backgroundColor: "var(--bg-color)"
+        }}
+        items={menuData}
+      />)
     }
 
   }, [dataSource])
 
-  return(
+  return (
     <>
       <div className="menu-search-bar">
         <Input size="large" placeholder="Buscar" prefix={searchIcon} />
       </div>
 
-      <br/>
+      <br />
 
       <div className="menu-options">
-      {
-        dataSource && dataSource.length == 0 ?
-          <div className="loading-menu-content">
-            <Spin tip="Loading" size="large"/>
-          </div>
-          :
-          menuItems
-      }
-        
+        {
+          dataSource && dataSource.length == 0 ?
+            <div className="loading-menu-content">
+              <Spin tip="Loading" size="large" />
+            </div>
+            :
+            menuItems
+        }
+
       </div>
 
       <div className="footer-menu-image">
-        <img src={footerMenuImage}/>
+        <img src={footerMenuImage} />
       </div>
     </>
   )
