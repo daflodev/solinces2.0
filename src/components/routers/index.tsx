@@ -12,9 +12,7 @@ const AppRouter = () => {
             <Routes>
                 <Route path="/no_permission" element={<NoPermissionPage/>} />
                 <Route path="/test" element={<IframeForo/>} />
-
                 <Route path="/layout/:option" element={<Settings/>} />
-                
                 <Route path="/" element={<LoadPages/>} />
             </Routes>
         </Router>
