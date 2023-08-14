@@ -46,6 +46,26 @@ export const ApiSedeInfraFK = async (data) => {
   return resp;
 };
 
+export const loginFaseOne = async () => {
+  const url = `http://201.219.216.217:4042/api/v1/auth/token/`;
+
+  const headers = {
+      "api-key": 'LjHQH2MA.ufs0pVGkji3ciFeW7aE743bQ5pSJsFnM'
+  };
+
+  const resp = await axios.post(url, 
+    {
+    "username": "1003230591",
+    "password": "hola$$12"
+    },{
+      headers: headers
+    }
+    ).then((response) => {
+    return response;
+  });
+  return resp;
+};
+
 export const ApiSedePeripherls = async (data: any) => {
   const url = `${API_URL}/mid_peripherals_headquarters/${data}`;
 

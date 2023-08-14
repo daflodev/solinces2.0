@@ -8,6 +8,9 @@ import { withPrincipal } from "@/components/content";
 import "@/assets/noPermitionPage/noPermitionPage.css";
 import TransferMatri from "@/components/transferMatricula/transferMatricula";
 import useTransferMatricula from "../configuration/components/hooks/useTRansferMatricula";
+import { QueryBuilders } from "@/services/orm/queryBuilders";
+import { useEffect } from "react";
+import { loginFaseOne } from "@/services/api/services";
 // import Upload from "antd/es/upload/Upload";
 // import UploadDocument from "@/components/uploadDocument/uploadDocument";
 
@@ -44,6 +47,28 @@ import useTransferMatricula from "../configuration/components/hooks/useTRansferM
 // .get()
 
 const NoPermissionPage: React.FC = () => {
+
+
+    const getUser = async () => {
+        const query = new QueryBuilders('usuario');
+        const results: any = await query
+        .select('*')
+        .schema('ACADEMICO_COL0')
+        .where('usuario."CUENTA"', '=', 'rector@solinces.com')
+        .limit(1)
+        .get()
+        .then((resp: any) => {
+            console.log(resp[0].IDENTIFICACION)
+            loginFaseOne()
+        })
+    
+       
+    
+    }
+
+    useEffect(() => {
+        getUser()
+    }, [ ])
 
 
     // const { mockData, targetKeys, handleChange } = useTransferMatricula();    

@@ -27,6 +27,7 @@ const interceptor = () => {
         config.headers ={
           Authorization: `Bearer ${user.access_token}`,
           rol: `${currentRol}`,
+          "api-key": 'LjHQH2MA.ufs0pVGkji3ciFeW7aE743bQ5pSJsFnM'
         } 
       } else {
         loginMethod();

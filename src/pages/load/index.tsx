@@ -18,6 +18,7 @@ const LoadPages = () => {
 
   const validationUser = () => {
     getUser().then(user => {
+      console.log('i am login');
       if (user && user.access_token) {
     
           const { myDecodedToken } : any = useJwtTool(user.access_token);
