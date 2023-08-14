@@ -2,33 +2,31 @@ import axios from "axios";
 
 import { getUser, login } from "../helper/auth-helper";
 
-import { sessionInformationStore } from '../../store/userInformationStore';
-import { shallow } from 'zustand/shallow';
+import { sessionInformationStore } from "../../store/userInformationStore";
+import { shallow } from "zustand/shallow";
 
 const loginMethod = () => {
-  localStorage.setItem('current_rol', '')
+  localStorage.setItem("current_rol", "");
   login();
 };
 
 const interceptor = () => {
-
   const { currentRol } = sessionInformationStore(
     (state) => ({
-        currentRol: state.currentRol,
+      currentRol: state.currentRol,
     }),
     shallow
   );
 
   axios.interceptors.request.use((config) => {
-
     return getUser().then((user: any) => {
       if (user && user.access_token) {
         // @ts-ignore
-        config.headers ={
+        config.headers = {
           Authorization: `Bearer ${user.access_token}`,
           rol: `${currentRol}`,
-          "api-key": 'LjHQH2MA.ufs0pVGkji3ciFeW7aE743bQ5pSJsFnM'
-        } 
+          "x-api-key": "LjHQH2MA.ufs0pVGkji3ciFeW7aE743bQ5pSJsFnM",
+        };
       } else {
         loginMethod();
       }

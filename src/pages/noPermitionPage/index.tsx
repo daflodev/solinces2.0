@@ -1,16 +1,20 @@
-import { Card,
+import {
+    Card,
     //  Row, Col 
-    } 
-     from "antd";
+}
+    from "antd";
 
 import { withPrincipal } from "@/components/content";
 
 import "@/assets/noPermitionPage/noPermitionPage.css";
-import TransferMatri from "@/components/transferMatricula/transferMatricula";
-import useTransferMatricula from "../configuration/components/hooks/useTRansferMatricula";
-import { QueryBuilders } from "@/services/orm/queryBuilders";
 import { useEffect } from "react";
 import { loginFaseOne } from "@/services/api/services";
+import { QueryBuilders } from "@/services/orm/queryBuilders";
+// import TransferMatri from "@/components/transferMatricula/transferMatricula";
+// import useTransferMatricula from "../configuration/components/hooks/useTRansferMatricula";
+// import { QueryBuilders } from "@/services/orm/queryBuilders";
+// import { useEffect } from "react";
+// import { loginFaseOne } from "@/services/api/services";
 // import Upload from "antd/es/upload/Upload";
 // import UploadDocument from "@/components/uploadDocument/uploadDocument";
 
@@ -52,35 +56,40 @@ const NoPermissionPage: React.FC = () => {
     const getUser = async () => {
         const query = new QueryBuilders('usuario');
         const results: any = await query
-        .select('*')
-        .schema('ACADEMICO_COL0')
-        .where('usuario."CUENTA"', '=', 'rector@solinces.com')
-        .limit(1)
-        .get()
-        .then((resp: any) => {
-            console.log(resp[0].IDENTIFICACION)
-            loginFaseOne()
-        })
-    
-       
-    
+            .select('*')
+            .schema('ACADEMICO_COL0')
+            .where('usuario."CUENTA"', '=', 'rector@solinces.com')
+            .limit(1)
+            .get()
+            .then((resp: any) => {
+                console.log(resp[0].IDENTIFICACION)
+                loginFaseOne().then((resp: any) => {
+                    console.log(resp)
+                    localStorage.setItem("accesToken", resp.data.data.access)
+                })
+            })
+
     }
 
     useEffect(() => {
         getUser()
-    }, [ ])
+    }, [])
 
 
-    // const { mockData, targetKeys, handleChange } = useTransferMatricula();    
+    // const { mockData, targetKeys, handleChange } = useTransferMatricula();  
+
+    // const tokenF1 = localStorage.getItem("accesToken")
+    // console.log(tokenF1)
+
     return (
         <>
-          <div>
-            <Card className="card-container">
-                <div 
-                    //className="no-permission-sub-container"
-                    style={{height:'80vh', width:'100%', overflow: 'auto', display: 'flex', justifyContent:'center', alignItems:'center'}}
+            <div>
+                <Card className="card-container">
+                    <div
+                        //className="no-permission-sub-container"
+                        style={{ height: '80vh', width: '100%', overflow: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                     >
-                    {/* <Row>
+                        {/* <Row>
                         <Col span={24} offset={10}>
                             {mainImageNoPermissionPage}
                         </Col>
@@ -90,18 +99,18 @@ const NoPermissionPage: React.FC = () => {
                             </p>
                         </Col>
                     </Row> */}
-                {/* <iframe style={{ border: '0px', width: '100%', height: '100%' }} src="http://localhost:4046/monitoreo/director-grupo"></iframe> */}
-                </div>
+                        {/* <iframe style={{ border: '0px', width: '100%', height: '100%' }} src={`http://localhost:4046/initial/${tokenF1}/agenda/agenda-actividades`}></iframe> */}
+                    </div>
 
-                {/* <TransferMatri
+                    {/* <TransferMatri
                 dataSource={mockData}
                 targetKeys={targetKeys}
                 handleChange={(newTargetKeys, direction) => handleChange(newTargetKeys, direction)} /> */}
-            </Card>
-        </div  >
-       
+                </Card>
+            </div  >
+
         </>
-    
+
     )
 };
 
