@@ -19,34 +19,34 @@ const LoadPages = () => {
 
   const { updateValue } = sessionInformationStore();
 
-  const { currentRol } = sessionInformationStore(
-    (state) => ({
-      currentRol: state.currentRol,
-    }), shallow);
+  // const { currentRol } = sessionInformationStore(
+  //   (state) => ({
+  //     currentRol: state.currentRol,
+  //   }), shallow);
 
 
-  console.log(currentRol)
-  const tokenInformation = localStorage.getItem('user_token_information');
-      const parserTokenInformation: any | null = tokenInformation ? JSON.parse(tokenInformation) : null;
+  // console.log(currentRol)
+  // const tokenInformation = localStorage.getItem('user_token_information');
+  // const parserTokenInformation: any | null = tokenInformation ? JSON.parse(tokenInformation) : null;
 
-  const getUserF1 = async () => {
-    const query = new QueryBuilders('usuario');
-    const results: any = await query
-      .select('*')
-      .schema(parserTokenInformation)
-      .where('usuario."CUENTA"', '=', currentRol)
-      .limit(1)
-      .get()
-      .then((resp: any) => {
-        console.log(resp[0].IDENTIFICACION)
-        loginFaseOne().then((resp: any) => {
-          console.log(resp)
-          console.log(resp.data.data.access, 'token')
-          localStorage.setItem("accesToken", resp.data.data.access)
-        })
-      })
+  // const getUserF1 = async () => {
+  //   const query = new QueryBuilders('usuario');
+  //   const results: any = await query
+  //     .select('*')
+  //     .schema(parserTokenInformation?.dataSchema[0])
+  //     .where('usuario."CUENTA"', '=', currentRol)
+  //     .limit(1)
+  //     .get()
+  //     .then((resp: any) => {
+  //       console.log(resp[0].IDENTIFICACION)
+  //       loginFaseOne().then((resp: any) => {
+  //         console.log(resp)
+  //         console.log(resp.data.data.access, 'token')
+  //         localStorage.setItem("accesToken", resp.data.data.access)
+  //       })
+  //     })
 
-  }
+  // }
 
 
 
@@ -98,7 +98,7 @@ const LoadPages = () => {
               console.error("Error al llamar al endpoint:", error);
             });
         }
-        await getUserF1()
+        // await getUserF1()
         navigate("/layout/configuracion");
 
       } else {

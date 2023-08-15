@@ -12,6 +12,7 @@ import { GetMenu } from "./hooks/getMenu.tsx";
 
 import "./styles/menu-items-styles.css";
 import { Input, Menu, Spin } from "antd";
+import Item from "antd/es/list/Item";
 
 
 function getItem(label: any, key: any, icon: any, disabled = false) {
@@ -62,6 +63,34 @@ function dataSourceDigestor(dataSource: any) {
     }
 
   })
+  // Agregar los ITEM de solinces FASE 1
+  const ItemsFase1 = [
+    {
+      label: "MONITOREO",
+      url: "/MONITOREO",
+    },
+    {
+      label: "GESTOR-ACTIVIDADES",
+      url: "/GESTOR-ACTIVIDADES",
+    },
+    {
+      label: "PLANILLA-ACTIVIDADES",
+      url: "/PLANILLA-ACTIVIDADES",
+    },
+    {
+      label: "AGENDA",
+      url: "/AGENDA",
+    },
+  ];
+
+  ItemsFase1.forEach(newItem => {
+    const item = getItem(
+      <Link key={newItem.url} to={newItem.url}>{newItem.label}</Link>,
+      newItem.url,
+      <Link key={newItem.url} to={newItem.url}>{''}</Link>
+    );
+    items.push(item);
+  });
 
   return items;
 }

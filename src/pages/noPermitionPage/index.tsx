@@ -10,6 +10,8 @@ import "@/assets/noPermitionPage/noPermitionPage.css";
 import { useEffect } from "react";
 import { loginFaseOne } from "@/services/api/services";
 import { QueryBuilders } from "@/services/orm/queryBuilders";
+import shallow from "zustand/shallow";
+import { sessionInformationStore } from "@/store/userInformationStore";
 // import TransferMatri from "@/components/transferMatricula/transferMatricula";
 // import useTransferMatricula from "../configuration/components/hooks/useTRansferMatricula";
 // import { QueryBuilders } from "@/services/orm/queryBuilders";
@@ -52,34 +54,52 @@ import { QueryBuilders } from "@/services/orm/queryBuilders";
 
 const NoPermissionPage: React.FC = () => {
 
+    const { currentRol } = sessionInformationStore(
+        (state) => ({
+          currentRol: state.currentRol,
+        }), shallow);
+    
+    
+      console.log(currentRol)
+      const tokenInformation = localStorage.getItem('user_token_information');
+      const parserTokenInformation: any | null = tokenInformation ? JSON.parse(tokenInformation) : null;
 
     const getUser = async () => {
         const query = new QueryBuilders('usuario');
         const results: any = await query
             .select('*')
-            .schema('ACADEMICO_COL0')
-            .where('usuario."CUENTA"', '=', 'rector@solinces.com')
+            .schema(parserTokenInformation.dataSchema[0])
+            .where('usuario."CUENTA"', '=', parserTokenInformation.preferred_username)
             .limit(1)
             .get()
-            .then((resp: any) => {
-                console.log(resp[0].IDENTIFICACION)
-                loginFaseOne().then((resp: any) => {
-                    console.log(resp)
-                    localStorage.setItem("accesToken", resp.data.data.access)
+            .then(async (resp: any) => {
+                console.log(resp[0].CUENTA)
+                await loginFaseOne().then((resp: any) => {
+                    const parseResp =JSON.parse(resp)
+                    console.log(parseResp)
+                    localStorage.setItem("type_user", parseResp.data.type_user)
+                    localStorage.setItem("accesToken", parseResp.data.access)
                 })
+                
+               
             })
 
     }
+
+    
 
     useEffect(() => {
         getUser()
     }, [])
 
 
-    // const { mockData, targetKeys, handleChange } = useTransferMatricula();  
 
-    // const tokenF1 = localStorage.getItem("accesToken")
-    // console.log(tokenF1)
+
+    // const { mockData, targetKeys, handleChange } = useTransferMatricula();  
+const type_user = localStorage.getItem("type_user")
+console.log(type_user)
+    const tokenF1 = localStorage.getItem("accesToken")
+    console.log(tokenF1)
 
     return (
         <>
@@ -99,7 +119,10 @@ const NoPermissionPage: React.FC = () => {
                             </p>
                         </Col>
                     </Row> */}
-                        {/* <iframe style={{ border: '0px', width: '100%', height: '100%' }} src={`http://localhost:4046/initial/${tokenF1}/agenda/agenda-actividades`}></iframe> */}
+                        <iframe style={{ border: '0px', width: '100%', height: '100%' }}
+                         src={`http://localhost:4046/initial/${tokenF1}/agenda/gestor-actividades/${type_user}`}>
+
+                         </iframe>
                     </div>
 
                     {/* <TransferMatri

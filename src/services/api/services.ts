@@ -47,14 +47,26 @@ export const ApiSedeInfraFK = async (data) => {
 };
 
 export const loginFaseOne = async () => {
+  const myHeaders = new Headers();
+  myHeaders.append("x-api-key", "LjHQH2MA.ufs0pVGkji3ciFeW7aE743bQ5pSJsFnM");
+  myHeaders.append("Content-Type", "application/json");
+
+  const data = JSON.stringify({
+    username: "rector@solinces.com",
+    password: "hola$$12",
+  });
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: data,
+  };
   const url = `http://201.219.216.217:4042/api/v1/auth/token/`;
 
-  const hh = {
-    username: "10002",
-    password: "10002",
-  };
-  const resp = await axios.post(url, hh).then((response) => {
-    return response;
+  
+
+  const resp = await fetch(url, requestOptions).then((response) => {
+    return response.text();
   });
   return resp;
 };
