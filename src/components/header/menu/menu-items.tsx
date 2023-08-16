@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 
 import {
   footerMenuImage,
@@ -13,6 +13,7 @@ import { GetMenu } from "./hooks/getMenu.tsx";
 import "./styles/menu-items-styles.css";
 import { Input, Menu, Spin } from "antd";
 import Item from "antd/es/list/Item";
+// import { Redirect } from "react-router-dom";
 
 
 function getItem(label: any, key: any, icon: any, disabled = false) {
@@ -23,6 +24,7 @@ function getItem(label: any, key: any, icon: any, disabled = false) {
     disabled
   };
 }
+
 
 function dataSourceDigestor(dataSource: any) {
   const items: any = [];
@@ -82,6 +84,12 @@ function dataSourceDigestor(dataSource: any) {
       url: "/AGENDA",
     },
   ];
+
+  // const onClick= (nameViews)=>{
+  //       // actualizar valor del zustand
+
+  //     <Redirect to={}/>
+  // }
 
   ItemsFase1.forEach(newItem => {
     const item = getItem(

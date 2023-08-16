@@ -1,16 +1,18 @@
 import { Spin } from 'antd';
-import axios from "axios";
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUser, login } from '@/services/helper/auth-helper';
 import { useJwtTool } from '../../utils/utils';
 import "./index.css";
-
-import { URL_BACKEND } from '@/utils/constants';
 import { sessionInformationStore } from "../../store/userInformationStore";
-import { QueryBuilders } from '@/services/orm/queryBuilders';
-import { loginFaseOne } from '@/services/api/services';
-import shallow from 'zustand/shallow';
+
+// import { URL_BACKEND } from '@/utils/constants';
+// import { QueryBuilders } from '@/services/orm/queryBuilders';
+// import { loginFaseOne } from '@/services/api/services';
+// import shallow from 'zustand/shallow';
+// import axios from "axios";
+
+import { environment } from '@/enviroments/enviroment';
 
 let sesion = false;
 
@@ -48,6 +50,36 @@ const LoadPages = () => {
 
   // }
 
+  const validationToken = () => {
+
+    const USER_TOKEN = environment.TOKEN_AUTH;
+    const { myDecodedToken }: any = useJwtTool(USER_TOKEN);
+
+    const localStorageCurrentRol = localStorage.getItem('current_rol');
+
+    if (localStorageCurrentRol && localStorageCurrentRol.length > 0) {
+      updateValue({
+        element: "currentRol",
+        value: localStorageCurrentRol
+      })
+    } else {
+
+      localStorage.setItem('current_rol', myDecodedToken?.rol[0])
+      updateValue({
+        element: "currentRol",
+        value: myDecodedToken?.rol[0]
+      })
+    }
+
+    // save token in local store
+    localStorage.setItem("tk_sesion", USER_TOKEN);
+
+    localStorage.setItem("user_token_information", JSON.stringify(myDecodedToken))
+
+    navigate("/layout/configuracion");
+
+  }
+
 
 
   const validationUser = () => {
@@ -79,25 +111,25 @@ const LoadPages = () => {
         localStorage.setItem("user_token_information", JSON.stringify(myDecodedToken))
 
         // login, session record in db
-        if (sesion == false) {
-          sesion = true;
+        // if (sesion == false) {
+        //   sesion = true;
 
-          axios
-            .post(URL_BACKEND + "/sesion", null, {
-              headers: {
-                "Authorization": "Bearer " + user.access_token,
-              }
-            })
-            .then((response) => {
-              sesion = true;
-              localStorage.setItem('pk_sesion', response.data.pk_sesion);
-              console.log("Respuesta del endpoint:", response.data);
-            })
-            .catch((error) => {
-              sesion = false;
-              console.error("Error al llamar al endpoint:", error);
-            });
-        }
+        //   axios
+        //     .post(URL_BACKEND + "/sesion", null, {
+        //       headers: {
+        //         "Authorization": "Bearer " + user.access_token,
+        //       }
+        //     })
+        //     .then((response) => {
+        //       sesion = true;
+        //       localStorage.setItem('pk_sesion', response.data.pk_sesion);
+        //       console.log("Respuesta del endpoint:", response.data);
+        //     })
+        //     .catch((error) => {
+        //       sesion = false;
+        //       console.error("Error al llamar al endpoint:", error);
+        //     });
+        // }
         // await getUserF1()
         navigate("/layout/configuracion");
 
@@ -109,7 +141,8 @@ const LoadPages = () => {
   }
 
   useEffect(() => {
-    validationUser()
+    // validationUser()
+    validationToken()
 
   }, [])
 

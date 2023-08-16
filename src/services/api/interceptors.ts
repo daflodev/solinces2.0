@@ -4,6 +4,7 @@ import { getUser, login } from "../helper/auth-helper";
 
 import { sessionInformationStore } from "../../store/userInformationStore";
 import { shallow } from "zustand/shallow";
+import { environment } from "@/enviroments/enviroment";
 
 const loginMethod = () => {
   localStorage.setItem("current_rol", "");
@@ -20,10 +21,13 @@ const interceptor = () => {
 
   axios.interceptors.request.use((config) => {
     return getUser().then((user: any) => {
-      if (user && user.access_token) {
+      const TOKEN = environment.TOKEN_AUTH;
+      if (TOKEN) {
+        // if (user && user.access_token) {
         // @ts-ignore
         config.headers = {
-          Authorization: `Bearer ${user.access_token}`,
+          // Authorization: `Bearer ${user.access_token}`,
+          Authorization: `Bearer ${TOKEN}`,
           rol: `${currentRol}`,
           "x-api-key": "LjHQH2MA.ufs0pVGkji3ciFeW7aE743bQ5pSJsFnM",
         };

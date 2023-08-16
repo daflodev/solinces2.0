@@ -46,13 +46,13 @@ export const ApiSedeInfraFK = async (data) => {
   return resp;
 };
 
-export const loginFaseOne = async () => {
+export const loginFaseOne = async (userName: string) => {
   const myHeaders = new Headers();
   myHeaders.append("x-api-key", "LjHQH2MA.ufs0pVGkji3ciFeW7aE743bQ5pSJsFnM");
   myHeaders.append("Content-Type", "application/json");
 
   const data = JSON.stringify({
-    username: "rector@solinces.com",
+    username: userName,
     password: "hola$$12",
   });
 
