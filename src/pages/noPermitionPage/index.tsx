@@ -60,43 +60,6 @@ const NoPermissionPage: React.FC = () => {
         }), shallow);
 
 
-    // console.log(currentRol)
-    // const tokenInformation = localStorage.getItem('user_token_information');
-    // const parserTokenInformation: any | null = tokenInformation ? JSON.parse(tokenInformation) : null;
-
-    // const getUser = async () => {
-    //     // const query = new QueryBuilders('usuario');
-    //     // const results: any = await query
-    //     //     .select('*')
-    //     //     .schema(parserTokenInformation.dataSchema[0])
-    //     //     .where('usuario."CUENTA"', '=', parserTokenInformation.preferred_username)
-    //     //     .limit(1)
-    //     //     .get()
-    //     //     .then(async (resp: any) => {
-    //     //         console.log(resp[0].CUENTA)
-
-
-
-    //     // })
-
-    //     await loginFaseOne(parserTokenInformation.preferred_username).then((resp: any) => {
-    //         const parseResp = JSON.parse(resp)
-    //         console.log(parseResp)
-    //         localStorage.setItem("type_user", parseResp.data.type_user)
-    //         localStorage.setItem("accesToken", parseResp.data.access)
-    //     })
-
-    // }
-
-
-
-    // useEffect(() => {
-    //     getUser()
-    // }, [])
-
-
-
-
     // const { mockData, targetKeys, handleChange } = useTransferMatricula();  
     // const type_user = localStorage.getItem("type_user")
     // console.log(type_user)

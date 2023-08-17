@@ -12,10 +12,11 @@ const AppRouter = () => {
 
 
   
-const tokenF1 = localStorage.getItem("accesToken")
+// const tokenF1 = localStorage.getItem("accesToken")
+// console.log(tokenF1)
 
-let type_user = localStorage.getItem("type_user")
-console.log(type_user)
+// let type_user = localStorage.getItem("type_user")
+// console.log(type_user)
 
 
 
@@ -29,8 +30,8 @@ console.log(type_user)
 
 
                 {/*ROUTES PARA INGRESAR A FASE 1*/}
-                <Route path="/GESTOR-ACTIVIDADES" element={<PreloaderPage/>}/>
-                <Route path="/PLANILLA-ACTIVIDADES" element={<PreloaderPage/>}/>
+                <Route path="/:page" element={<PreloaderPage/>}/>
+
 
                 {/* <Route path="/GESTOR-ACTIVIDADES" element={<PreloaderPage/>}/>
 

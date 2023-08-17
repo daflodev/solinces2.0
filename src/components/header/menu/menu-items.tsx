@@ -28,29 +28,28 @@ function getItem(label: any, key: any, icon: any, disabled = false) {
 
 function dataSourceDigestor(dataSource: any) {
   const items: any = [];
+  const filteredData = dataSource.filter(data => data.NOMBRE !== "FORO" && data.NOMBRE !== "EOL");
+  filteredData.map((data: any) => {
 
-  dataSource.map((data: any) => {
+
+
 
     const icon: any = getIcon(data.ICONO);
 
     if (data.VISIBLE && data.VISIBLE === "S") {
 
       if (data.ESTADO && data.ESTADO === "A") {
-        if (data.NOMBRE === "FORO") {
-          const item = getItem(
-            <Link key={data?.URL} to={"/test"}>{data?.NOMBRE}</Link>,
-            data.CODIGO,
-            <Link key={data.URL} to={"/test"}>{icon?.svg}</Link>)
-          items.push(item);
-        } else {
-          const url = data?.URL ? `/layout/${data?.URL}` : '/miurl';
-          const item = getItem(
-            <Link key={data?.URL} to={url}>{data?.NOMBRE}</Link>,
-            data.CODIGO,
-            <Link key={data.URL} to={url}>{icon?.svg}</Link>)
-
-          items.push(item);
+        if (data.NOMBRE === "FORO" && data.NOMBRE === "EOL") {
+          return;
         }
+        const url = data?.URL ? `/layout/${data?.URL}` : '/miurl';
+        const item = getItem(
+          <Link key={data?.URL} to={url}>{data?.NOMBRE}</Link>,
+          data.CODIGO,
+          <Link key={data.URL} to={url}>{icon?.svg}</Link>)
+
+        items.push(item);
+
 
       } else {
         const item = getItem(

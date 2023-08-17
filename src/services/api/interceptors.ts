@@ -21,15 +21,15 @@ const interceptor = () => {
 
   axios.interceptors.request.use((config) => {
     return getUser().then((user: any) => {
-      const TOKEN = environment.TOKEN_AUTH;
-      if (TOKEN) {
-        // if (user && user.access_token) {
+     
+      
+        if (user && user.access_token) {
         // @ts-ignore
         config.headers = {
-          // Authorization: `Bearer ${user.access_token}`,
-          Authorization: `Bearer ${TOKEN}`,
+          Authorization: `Bearer ${user.access_token}`,
+          // Authorization: `Bearer ${TOKEN}`,
           rol: `${currentRol}`,
-          "x-api-key": "LjHQH2MA.ufs0pVGkji3ciFeW7aE743bQ5pSJsFnM",
+          // "x-api-key": "LjHQH2MA.ufs0pVGkji3ciFeW7aE743bQ5pSJsFnM",
         };
       } else {
         loginMethod();

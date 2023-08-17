@@ -50,35 +50,35 @@ const LoadPages = () => {
 
   // }
 
-  const validationToken = () => {
+  // const validationToken = () => {
 
-    const USER_TOKEN = environment.TOKEN_AUTH;
-    const { myDecodedToken }: any = useJwtTool(USER_TOKEN);
+  //   const USER_TOKEN = environment.TOKEN_AUTH;
+  //   const { myDecodedToken }: any = useJwtTool(USER_TOKEN);
 
-    const localStorageCurrentRol = localStorage.getItem('current_rol');
+  //   const localStorageCurrentRol = localStorage.getItem('current_rol');
 
-    if (localStorageCurrentRol && localStorageCurrentRol.length > 0) {
-      updateValue({
-        element: "currentRol",
-        value: localStorageCurrentRol
-      })
-    } else {
+  //   if (localStorageCurrentRol && localStorageCurrentRol.length > 0) {
+  //     updateValue({
+  //       element: "currentRol",
+  //       value: localStorageCurrentRol
+  //     })
+  //   } else {
 
-      localStorage.setItem('current_rol', myDecodedToken?.rol[0])
-      updateValue({
-        element: "currentRol",
-        value: myDecodedToken?.rol[0]
-      })
-    }
+  //     localStorage.setItem('current_rol', myDecodedToken?.rol[0])
+  //     updateValue({
+  //       element: "currentRol",
+  //       value: myDecodedToken?.rol[0]
+  //     })
+  //   }
 
-    // save token in local store
-    localStorage.setItem("tk_sesion", USER_TOKEN);
+  //   // save token in local store
+  //   localStorage.setItem("tk_sesion", USER_TOKEN);
 
-    localStorage.setItem("user_token_information", JSON.stringify(myDecodedToken))
+  //   localStorage.setItem("user_token_information", JSON.stringify(myDecodedToken))
 
-    navigate("/layout/configuracion");
+  //   navigate("/layout/configuracion");
 
-  }
+  // }
 
 
 
@@ -141,8 +141,8 @@ const LoadPages = () => {
   }
 
   useEffect(() => {
-    // validationUser()
-    validationToken()
+    validationUser()
+    // validationToken()
 
   }, [])
 

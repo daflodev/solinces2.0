@@ -5,14 +5,14 @@ import IframeGestor from "./IframeGestor";
 
 
 const PreloaderPage = () => {
-const {redirectPage}: any = useIframe()
+const {redirectPage, page}: any = useIframe()
 
-    const getUrl = redirectPage()
+    const getUrl = redirectPage(page)
 
     return (
         <Fragment>
-         <>{redirectPage}</>
-            <IframeGestor srcurl={redirectPage()}/>
+         {/* <>{getUrl}</> */}
+            <IframeGestor srcurl={redirectPage(page)}/>
         </Fragment>
     )
 }
