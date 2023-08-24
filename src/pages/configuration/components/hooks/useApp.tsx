@@ -393,7 +393,6 @@ export const UseSettigns = () => {
 
   //funcion que memoriza los datos para hacer el filtro por columnan
   const data = useMemo(() => {
-
     return dataTable?.filter((item) => {
       try {
         if (selectedItem && item) {

@@ -26,7 +26,7 @@ export const useIframe = () => {
 
         // })
 
-        await loginFaseOne(parserTokenInformation.preferred_username).then((resp: any) => {
+        await loginFaseOne().then((resp: any) => {
             const parseResp = JSON.parse(resp)
             console.log(parseResp)
             localStorage.setItem("type_user", parseResp.data.type_user)
@@ -55,19 +55,19 @@ export const useIframe = () => {
     console.log(page)
 
     const redirectPage = (page) => {
-        let urlElements = 'http://localhost:4046';
+        let urlElements = 'http://127.0.0.1:4046';
         switch (page) {
-            case "GESTOR-ACTIVIDADES":
+            case "gestor-actividades":
                 urlElements += `/initial/${tokenF1}/agenda/gestor-actividades/`
                 break;
-            case "PLANILLA-ACTIVIDADES":
+            case "planilla-actividades":
                 urlElements += `/initial/${tokenF1}/planilla/planilla-actividades/`
                 break;
-                case "MONITOREO":
+                case "monitoreo":
                 urlElements += `/initial/${tokenF1}/monitoreo/monitoreo/${type_user}`
                 break;
-                case "AGENDA":
-                urlElements += `/initial/${tokenF1}/agenda/agenda-actividades/${type_user}`
+                case "agenda":
+                urlElements += `/initial/${tokenF1}/agenda/agenda-actividades/`
                 break;
             default:
                 urlElements

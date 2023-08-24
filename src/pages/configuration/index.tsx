@@ -650,6 +650,7 @@ const Settings: React.FC = () => {
 
   //renderiza las propiedades de cada columna
   const columnS = columns.map((col) => {
+    console.log(col)
     if (!col.editable) {
       return col;
     }

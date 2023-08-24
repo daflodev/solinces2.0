@@ -1,7 +1,7 @@
 import { environment } from "@/enviroments/enviroment";
 import axios from "axios";
 
-const API_URL = environment.API_TEST;
+const API_URL = environment.API_URL;
 
 export const ApiServicesThunks = async (data: any) => {
   const url = `${API_URL}/base/`;
@@ -46,13 +46,13 @@ export const ApiSedeInfraFK = async (data) => {
   return resp;
 };
 
-export const loginFaseOne = async (userName: string) => {
+export const loginFaseOne = async () => {
   const myHeaders = new Headers();
   myHeaders.append("x-api-key", "LjHQH2MA.ufs0pVGkji3ciFeW7aE743bQ5pSJsFnM");
   myHeaders.append("Content-Type", "application/json");
 
   const data = JSON.stringify({
-    username: userName,
+    username: "jmolinamoron@gmail.com",
     password: "hola$$12",
   });
 
@@ -63,9 +63,8 @@ export const loginFaseOne = async (userName: string) => {
   };
   const url = `http://201.219.216.217:4042/api/v1/auth/token/`;
 
-  
-
   const resp = await fetch(url, requestOptions).then((response) => {
+    // console.log(response.text())
     return response.text();
   });
   return resp;
@@ -180,7 +179,7 @@ export const ApiServicesPasswordChange = async (data: any) => {
     ? JSON.parse(tokenInformation)
     : null;
   const user = parserTokenInformation?.sub;
-  const url = environment.API_AUTH + user;
+  const url = environment.API_URL + user;
   const resp = await axios.put(url, data).then((response) => {
     return response;
   });
@@ -236,3 +235,10 @@ export const ApiServicesMembrete = async (data: any) => {
     });
   return resp;
 };
+
+
+
+
+
+
+

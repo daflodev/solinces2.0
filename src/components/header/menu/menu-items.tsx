@@ -68,19 +68,19 @@ function dataSourceDigestor(dataSource: any) {
   const ItemsFase1 = [
     {
       label: "MONITOREO",
-      url: "/MONITOREO",
+      url: "/monitoreo",
     },
     {
       label: "GESTOR-ACTIVIDADES",
-      url: "/GESTOR-ACTIVIDADES",
+      url: "/gestor-actividades",
     },
     {
       label: "PLANILLA-ACTIVIDADES",
-      url: "/PLANILLA-ACTIVIDADES",
+      url: "/planilla-actividades",
     },
     {
       label: "AGENDA",
-      url: "/AGENDA",
+      url: "/agenda",
     },
   ];
 

@@ -39,7 +39,7 @@ const AppRouter = () => {
 
 
                 {/* <Route path="/PLANILLA-ACTIVIDADES" element={<IframeGestor  srcurl={`http://localhost:4046/initial/${tokenF1}/planilla/planilla-actividades/${type_user}`} />} /> */}
-                {/* <Route path="/AGENDA" element={<IframeGestor />} />
+                {/* <Route path="/agenda" element={<IframeGestor />} />
                 <Route path="/MONITOREO" element={<IframeGestor />} /> */}
             </Routes>
         </Router>
